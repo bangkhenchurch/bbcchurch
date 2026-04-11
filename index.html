@@ -8,13 +8,6 @@
 
 <body>
 
-<div class="lang-box">
-  <button onclick="setLang('th')">TH</button>
-  <button onclick="setLang('en')">EN</button>
-  <button onclick="setLang('id')">ID</button>
-  <button onclick="setLang('my')">MY</button>
-</div>
-
 <nav>
   <a href="index.html" data-lang="home"></a>
   <a href="about.html" data-lang="about"></a>
@@ -24,21 +17,51 @@
 </nav>
 
 <div class="container">
+
   <h1 data-lang="welcome"></h1>
-  <p>คริสต์จักรแบ๊บติสต์บางเขน</p>
+  <p>BangKhen Baptist Church</p>
 
   <div class="card">
     <img src="images/logo church.jpg" class="card-image">
     <h3 data-lang="word"></h3>
     <p data-lang="verse"></p>
   </div>
+
+</div>
+
+<!-- Flag Counter -->
+<div class="flag">
+<a href="https://info.flagcounter.com/KQe9">
+<img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
+</a>
 </div>
 
 <footer>
-  <img src="images/logo church.jpg" class="footer-logo">
-  © 2026 BangKhen Baptist Church Website
+<img src="images/logo church.jpg" class="footer-logo">
+© 2026 BangKhen Baptist Church Website
 </footer>
 
-<script src="script.js"></script>
+<script>
+const texts = {
+ th:{home:"หน้าแรก",about:"เกี่ยวกับเรา",schedule:"ตารางนมัสการ",news:"ข่าวสาร",contact:"ติดต่อ",welcome:"ยินดีต้อนรับ",word:"พระคำพระเจ้า",verse:"พระเจ้าทรงเป็นความรัก"},
+ en:{home:"Home",about:"About",schedule:"Schedule",news:"News",contact:"Contact",welcome:"Welcome",word:"Word of God",verse:"God is Love"},
+ id:{home:"Beranda",about:"Tentang",schedule:"Jadwal",news:"Berita",contact:"Kontak",welcome:"Selamat Datang",word:"Firman Tuhan",verse:"Tuhan adalah Kasih"},
+ my:{home:"ပင်မ",about:"အကြောင်း",schedule:"အချိန်ဇယား",news:"သတင်း",contact:"ဆက်သွယ်ရန်",welcome:"ကြိုဆိုပါသည်",word:"ဘုရားနှုတ်ကပတ်",verse:"ဘုရားသည် ချစ်ခြင်းဖြစ်သည်"}
+};
+
+function setLang(lang){
+ localStorage.setItem("lang",lang);
+ document.querySelectorAll("[data-lang]").forEach(el=>{
+  el.innerText = texts[lang][el.dataset.lang];
+ });
+}
+
+window.onload = ()=>{
+ let lang = navigator.language.slice(0,2);
+ if(!texts[lang]) lang="th";
+ setLang(lang);
+};
+</script>
+
 </body>
 </html>
