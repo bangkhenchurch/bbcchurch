@@ -14,61 +14,82 @@
     }
 
     .overlay {
-      background: rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.70);
       min-height: 100vh;
       padding: 20px;
     }
 
+    .container{
+      max-width: 900px;
+      margin: auto;
+    }
+
     header {
       text-align: center;
-      padding: 20px;
+      padding: 20px 10px;
     }
 
     header h1 {
       font-size: 2.2rem;
-      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    header p {
+      opacity: 0.8;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    section {
+      margin: 25px 0;
     }
 
     .card {
-      background: rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 12px;
-      margin: 15px 0;
+      background: rgba(255,255,255,0.10);
+      padding: 18px;
+      border-radius: 14px;
       backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    /* FLAG COUNTER STYLE (BLACK BOX FIX) */
+    h2 {
+      margin-bottom: 10px;
+      border-left: 4px solid gold;
+      padding-left: 10px;
+    }
+
     .flag {
       background: #000;
       padding: 10px;
       border-radius: 10px;
       display: inline-block;
-      margin: 10px 0;
-    }
-
-    .flag img {
-      max-width: 100%;
-      filter: contrast(1.2) brightness(1.1);
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 30px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .footer-logo {
-      width: 60px;
-      border-radius: 50%;
-      display: block;
-      margin: auto;
     }
 
     input, textarea {
       width: 100%;
       padding: 10px;
-      margin: 5px 0;
+      margin: 6px 0;
       border-radius: 8px;
       border: none;
     }
@@ -83,127 +104,107 @@
       cursor: pointer;
     }
 
-    nav {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
 
-    nav button {
-      width: auto;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
+    .footer-logo {
+      width: 60px;
+      border-radius: 50%;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
 <div class="overlay">
+  <div class="container">
 
-  <header>
-    <h1 data-lang="title">BangKhen Baptist Church</h1>
-    <p data-lang="subtitle">สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
-  </header>
+    <header>
+      <h1>BangKhen Baptist Church</h1>
+      <p>สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
+    </header>
 
-  <nav>
-    <button onclick="setLang('th')">TH</button>
-    <button onclick="setLang('en')">EN</button>
-  </nav>
+    <nav>
+      <a href="#worship">นมัสการ</a>
+      <a href="#news">ข่าวสาร</a>
+      <a href="#events">กิจกรรม</a>
+      <a href="#contact">ติดต่อ</a>
+    </nav>
 
-  <!-- FLAG COUNTER -->
-  <div class="flag">
-    <a href="https://info.flagcounter.com/KQe9">
-      <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
-    </a>
+    <!-- FLAG COUNTER -->
+    <section>
+      <div class="flag">
+        <a href="https://info.flagcounter.com/KQe9">
+          <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
+        </a>
+      </div>
+    </section>
+
+    <!-- WORSHIP -->
+    <section id="worship" class="card">
+      <h2>ตารางนมัสการ</h2>
+      <p>วันอาทิตย์: 09:00</p>
+      <p>วันพุธ: 19:00</p>
+    </section>
+
+    <!-- NEWS -->
+    <section id="news" class="card">
+      <h2>ประกาศข่าว</h2>
+      <p>📢 ยินดีต้อนรับทุกท่านสู่นมัสการพระเจ้า</p>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" class="card">
+      <h2>กิจกรรม</h2>
+      <div id="eventList"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="card">
+      <h2>ติดต่อเรา</h2>
+
+      <p>📞 02-5798764</p>
+      <p>📧 bbc_bangkok@gmail.com</p>
+
+      <form onsubmit="sendLine(event)">
+        <input id="name" placeholder="ชื่อ" required>
+        <input id="email" placeholder="email" required>
+        <textarea id="msg" placeholder="ข้อความ" required></textarea>
+        <button type="submit">ส่งข้อความ</button>
+      </form>
+    </section>
+
+    <footer>
+      <img src="logo church.jpg" class="footer-logo">
+      <div>© 2026 BangKhen Baptist Church Website</div>
+    </footer>
+
   </div>
-
-  <!-- WORSHIP SCHEDULE -->
-  <div class="card">
-    <h1 data-lang="worship_title">ตารางนมัสการ</h1>
-    <p>วันอาทิตย์: 09:00</p>
-    <p>วันพุธ: 19:00</p>
-  </div>
-
-  <!-- ANNOUNCEMENTS -->
-  <div class="card">
-    <h1>ประกาศข่าว</h1>
-    <p>📢 ยินดีต้อนรับทุกท่านสู่นมัสการพระเจ้า</p>
-  </div>
-
-  <!-- EVENTS -->
-  <div class="card">
-    <h1>กิจกรรมประจำเดือน</h1>
-    <div id="events"></div>
-  </div>
-
-  <!-- CONTACT FORM -->
-  <div class="card">
-    <h1 data-lang="contact_title">ติดต่อเรา</h1>
-
-    <p>📞 02-5798764</p>
-    <p>📧 bbc_bangkok@gmail.com</p>
-
-    <form onsubmit="sendLine(event)">
-      <input id="name" placeholder="ชื่อ" required>
-      <input id="email" placeholder="email" required>
-      <textarea id="msg" placeholder="ข้อความ" required></textarea>
-      <button type="submit" data-lang="send">ส่งข้อความ</button>
-    </form>
-  </div>
-
-  <footer>
-    <img src="logo church.jpg" class="footer-logo">
-    © 2026 BangKhen Baptist Church Website
-  </footer>
-
 </div>
 
 <script>
-
-// LANGUAGE SYSTEM
-const texts = {
-  th: {
-    title: "คริสต์จักรแบ๊บติสต์บางเขน",
-    subtitle: "สถานที่นมัสการและครอบครัวแห่งความเชื่อ",
-    contact_title: "ติดต่อเรา",
-    send: "ส่งข้อความ",
-    worship_title: "ตารางนมัสการ"
-  },
-  en: {
-    title: "BangKhen Baptist Church",
-    subtitle: "A place of worship and faith family",
-    contact_title: "Contact Us",
-    send: "Send Message",
-    worship_title: "Worship Schedule"
-  }
-};
-
-function setLang(lang) {
-  document.querySelectorAll('[data-lang]').forEach(el => {
-    const key = el.getAttribute('data-lang');
-    if(texts[lang][key]) el.innerText = texts[lang][key];
-  });
-}
-
-// LINE GROUP SEND (requires backend)
-function sendLine(event) {
-  event.preventDefault();
-
-  const data = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    msg: document.getElementById('msg').value
-  };
-
-  alert("ต้องเชื่อม Backend / LINE Messaging API เพื่อส่งเข้ากลุ่ม");
-
-  console.log(data);
-}
-
-// EVENTS (calendar-like)
 const events = [
   { date: "2026-04-15", text: "ค่ายเยาวชน" },
-  { date: "2026-04-25",
+  { date: "2026-04-25", text: "ประชุมอธิษฐาน" },
+  { date: "2026-05-01", text: "พิธีพิเศษ" }
+];
+
+const eventList = document.getElementById("eventList");
+events.forEach(e => {
+  const div = document.createElement("div");
+  div.innerHTML = `📅 ${e.date} - ${e.text}`;
+  eventList.appendChild(div);
+});
+
+function sendLine(e){
+  e.preventDefault();
+  alert("ต้องใช้ LINE Messaging API + Server เพื่อส่งเข้ากลุ่ม");
+}
+</script>
+
+</body>
+</html>
