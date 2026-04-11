@@ -5,29 +5,112 @@
   <title>ข่าวสาร - คริสต์จักรแบ๊บติสต์บางเขน</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- 🌐 Language Switch -->
+<div style="text-align:right; padding:10px;">
+  <button onclick="setLang('th')">ไทย</button>
+  <button onclick="setLang('en')">EN</button>
+  <button onclick="setLang('id')">ID</button>
+  <button onclick="setLang('my')">MY</button>
+</div>
+
 <nav>
-  <a href="index.html">หน้าแรก</a>
-  <a href="about.html">เกี่ยวกับเรา</a>
-  <a href="schedule.html">ตารางนมัสการ</a>
-  <a href="news.html">ข่าวสาร</a>
-  <a href="contact.html">ติดต่อ</a>
+  <a href="index.html" data-lang="home"></a>
+  <a href="about.html" data-lang="about"></a>
+  <a href="schedule.html" data-lang="schedule"></a>
+  <a href="news.html" data-lang="news"></a>
+  <a href="contact.html" data-lang="contact"></a>
 </nav>
 
 <div class="container">
-  <h1>ข่าวสาร</h1>
+
+  <!-- 🖼️ Logo -->
+  <img src="images/logo church.jpg" alt="church logo" style="width:120px; display:block; margin:auto;">
+
+  <h1 data-lang="news_title"></h1>
 
   <div class="card">
-    <img src="images/event.jpg" alt="กิจกรรม" class="card-image">
-    <h3>กิจกรรมพิเศษ</h3>
-    <p>มีงานนมัสการพิเศษวันอาทิตย์นี้ เชิญทุกท่านเข้าร่วม!</p>
+    <img src="images/event.jpg" alt="event" class="card-image">
+
+    <h3 data-lang="news_event_title"></h3>
+    <p data-lang="news_event_desc"></p>
   </div>
+
 </div>
 
 <footer>
   © 2026 BangKhen Baptist Church Website
 </footer>
+
+<script>
+const texts = {
+  th: {
+    home: "หน้าแรก",
+    about: "เกี่ยวกับเรา",
+    schedule: "ตารางนมัสการ",
+    news: "ข่าวสาร",
+    contact: "ติดต่อ",
+
+    news_title: "ข่าวสาร",
+    news_event_title: "กิจกรรมพิเศษ",
+    news_event_desc: "มีงานนมัสการพิเศษวันอาทิตย์นี้ เชิญทุกท่านเข้าร่วม!"
+  },
+
+  en: {
+    home: "Home",
+    about: "About Us",
+    schedule: "Schedule",
+    news: "News",
+    contact: "Contact",
+
+    news_title: "News",
+    news_event_title: "Special Event",
+    news_event_desc: "Special worship service this Sunday. Everyone is welcome!"
+  },
+
+  id: {
+    home: "Beranda",
+    about: "Tentang Kami",
+    schedule: "Jadwal",
+    news: "Berita",
+    contact: "Kontak",
+
+    news_title: "Berita",
+    news_event_title: "Acara Khusus",
+    news_event_desc: "Ibadah khusus hari Minggu ini. Semua dipersilakan!"
+  },
+
+  my: {
+    home: "ပင်မစာမျက်နှာ",
+    about: "အကြောင်း",
+    schedule: "အချိန်ဇယား",
+    news: "သတင်း",
+    contact: "ဆက်သွယ်ရန်",
+
+    news_title: "သတင်း",
+    news_event_title: "အထူးအစီအစဉ်",
+    news_event_desc: "တနင်္ဂနွေနေ့ အထူးဝတ်ပြုမှုသို့ ဖိတ်ခေါ်ပါသည်။"
+  }
+};
+
+// เปลี่ยนภาษา
+function setLang(lang){
+  localStorage.setItem("lang", lang);
+
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+    el.innerText = texts[lang][key];
+  });
+}
+
+// โหลดภาษาอัตโนมัติ
+window.onload = () => {
+  let lang = localStorage.getItem("lang") || "th";
+  setLang(lang);
+};
+</script>
 
 </body>
 </html>
