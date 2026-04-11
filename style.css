@@ -2,16 +2,14 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   color: #2c3e50;
-  background: linear-gradient(135deg, #e3f2fd, #f4f6f9, #e8f5e9);
-  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd, #f4f6f9);
 }
 
-/* NAV */
+/* Navbar */
 nav {
-  background: rgba(44, 62, 80, 0.95);
+  background: #1f3b57;
   padding: 15px;
   text-align: center;
-  backdrop-filter: blur(8px);
 }
 
 nav a {
@@ -25,30 +23,29 @@ nav a:hover {
   color: #1abc9c;
 }
 
-/* CONTAINER */
+/* container */
 .container {
   padding: 40px;
   text-align: center;
 }
 
-/* CARD */
+/* card */
 .card {
   background: white;
   padding: 20px;
   margin: 20px auto;
   max-width: 650px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* IMAGE */
+/* image */
 .card-image {
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 15px;
 }
 
-/* FORM */
+/* form */
 form {
   display: flex;
   flex-direction: column;
@@ -57,17 +54,16 @@ form {
 
 input, textarea {
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 button {
   padding: 10px;
   border: none;
-  border-radius: 6px;
   background: #1abc9c;
   color: white;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -75,41 +71,24 @@ button:hover {
   background: #16a085;
 }
 
-/* LANGUAGE BUTTON */
-.lang-box {
-  text-align: right;
-  padding: 10px;
-}
-
-.lang-box button {
-  margin-left: 5px;
-  background: #2c3e50;
-}
-
-/* FOOTER */
+/* footer */
 footer {
-  background: #2c3e50;
+  background: #1f3b57;
   color: white;
   text-align: center;
   padding: 15px;
   margin-top: 40px;
 }
 
-/* LOGO FOOTER */
-.footer-logo {
-  width: 40px;
-  display: block;
-  margin: 10px auto 5px;
+/* flag */
+.flag {
+  text-align: center;
+  margin-top: 20px;
 }
 
-/* MOBILE */
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-
-  nav a {
-    display: block;
-    margin: 10px 0;
-  }
+/* logo footer */
+.footer-logo {
+  width: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
 }
