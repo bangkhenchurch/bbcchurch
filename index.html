@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BangKhen Baptist Church</title>
 
   <style>
@@ -14,7 +14,7 @@
     }
 
     .overlay {
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       min-height: 100vh;
       padding: 20px;
     }
@@ -24,174 +24,186 @@
       padding: 20px;
     }
 
-    header img {
-      width: 120px;
-      border-radius: 50%;
-    }
-
-    h1, h2 {
-      text-align: center;
+    header h1 {
+      font-size: 2.2rem;
+      letter-spacing: 1px;
     }
 
     .card {
       background: rgba(255,255,255,0.1);
       padding: 15px;
-      margin: 15px 0;
       border-radius: 12px;
+      margin: 15px 0;
       backdrop-filter: blur(6px);
     }
 
+    /* FLAG COUNTER STYLE (BLACK BOX FIX) */
     .flag {
-      text-align: center;
-      margin: 20px 0;
+      background: #000;
+      padding: 10px;
+      border-radius: 10px;
+      display: inline-block;
+      margin: 10px 0;
+    }
+
+    .flag img {
+      max-width: 100%;
+      filter: contrast(1.2) brightness(1.1);
     }
 
     footer {
       text-align: center;
       padding: 20px;
       margin-top: 30px;
-      background: rgba(0,0,0,0.7);
+      border-top: 1px solid rgba(255,255,255,0.2);
     }
 
-    footer img {
+    .footer-logo {
       width: 60px;
       border-radius: 50%;
+      display: block;
+      margin: auto;
     }
 
     input, textarea {
       width: 100%;
       padding: 10px;
-      margin-top: 8px;
+      margin: 5px 0;
       border-radius: 8px;
       border: none;
     }
 
     button {
-      margin-top: 10px;
       padding: 10px;
       width: 100%;
-      background: #00c2ff;
       border: none;
       border-radius: 8px;
-      cursor: pointer;
-      color: #fff;
+      background: gold;
       font-weight: bold;
+      cursor: pointer;
     }
 
     nav {
-      text-align: center;
-      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
     }
 
     nav button {
       width: auto;
-      margin: 5px;
-      padding: 8px 15px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
     }
   </style>
 </head>
-
 <body>
+
 <div class="overlay">
 
-<header>
-  <img src="logo church.jpg" alt="logo">
-  <h1 data-lang="title">BangKhen Baptist Church</h1>
-</header>
+  <header>
+    <h1 data-lang="title">BangKhen Baptist Church</h1>
+    <p data-lang="subtitle">สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
+  </header>
 
-<!-- Language -->
-<nav>
-  <button onclick="setLang('th')">ไทย</button>
-  <button onclick="setLang('en')">EN</button>
-</nav>
+  <nav>
+    <button onclick="setLang('th')">TH</button>
+    <button onclick="setLang('en')">EN</button>
+  </nav>
 
-<!-- Worship Schedule -->
-<div class="card">
-  <h2 data-lang="worship">ตารางนมัสการ</h2>
-  <p>วันอาทิตย์: 09:00</p>
-  <p>วันพุธ: 19:00</p>
-</div>
+  <!-- FLAG COUNTER -->
+  <div class="flag">
+    <a href="https://info.flagcounter.com/KQe9">
+      <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
+    </a>
+  </div>
 
-<!-- News -->
-<div class="card">
-  <h2 data-lang="news">ประกาศข่าว</h2>
-  <p>📢 ยินดีต้อนรับทุกท่านเข้าสู่คริสตจักร</p>
-</div>
+  <!-- WORSHIP SCHEDULE -->
+  <div class="card">
+    <h1 data-lang="worship_title">ตารางนมัสการ</h1>
+    <p>วันอาทิตย์: 09:00</p>
+    <p>วันพุธ: 19:00</p>
+  </div>
 
-<!-- Events -->
-<div class="card">
-  <h2 data-lang="events">กิจกรรม</h2>
-  <p>ระบบกิจกรรมจะดึงจากปฏิทิน (Google Calendar / API)</p>
-</div>
+  <!-- ANNOUNCEMENTS -->
+  <div class="card">
+    <h1>ประกาศข่าว</h1>
+    <p>📢 ยินดีต้อนรับทุกท่านสู่นมัสการพระเจ้า</p>
+  </div>
 
-<!-- Contact -->
-<div class="card">
-  <h2 data-lang="contact_title">ติดต่อเรา</h2>
+  <!-- EVENTS -->
+  <div class="card">
+    <h1>กิจกรรมประจำเดือน</h1>
+    <div id="events"></div>
+  </div>
 
-  <p>📞 02-5798764</p>
-  <p>📧 bbc_bangkok@gmail.com</p>
+  <!-- CONTACT FORM -->
+  <div class="card">
+    <h1 data-lang="contact_title">ติดต่อเรา</h1>
 
-  <form onsubmit="sendLine(event)">
-    <input id="name" placeholder="ชื่อ" required>
-    <input id="email" placeholder="email" required>
-    <textarea id="msg" placeholder="ข้อความ" required></textarea>
-    <button type="submit" data-lang="send">ส่งข้อความ</button>
-  </form>
-</div>
+    <p>📞 02-5798764</p>
+    <p>📧 bbc_bangkok@gmail.com</p>
 
-<!-- Flag Counter -->
-<div class="flag">
-<a href="https://info.flagcounter.com/KQe9">
-<img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
-</a>
-</div>
+    <form onsubmit="sendLine(event)">
+      <input id="name" placeholder="ชื่อ" required>
+      <input id="email" placeholder="email" required>
+      <textarea id="msg" placeholder="ข้อความ" required></textarea>
+      <button type="submit" data-lang="send">ส่งข้อความ</button>
+    </form>
+  </div>
 
-<footer>
-  <img src="logo church.jpg" class="footer-logo">
-  <p>© 2026 BangKhen Baptist Church Website</p>
-</footer>
+  <footer>
+    <img src="logo church.jpg" class="footer-logo">
+    © 2026 BangKhen Baptist Church Website
+  </footer>
 
 </div>
 
 <script>
-const translations = {
+
+// LANGUAGE SYSTEM
+const texts = {
   th: {
-    title: "คริสตจักรแบ๊บติสต์บางเขน",
-    worship: "ตารางนมัสการ",
-    news: "ประกาศข่าว",
-    events: "กิจกรรม",
+    title: "คริสต์จักรแบ๊บติสต์บางเขน",
+    subtitle: "สถานที่นมัสการและครอบครัวแห่งความเชื่อ",
     contact_title: "ติดต่อเรา",
-    send: "ส่งข้อความ"
+    send: "ส่งข้อความ",
+    worship_title: "ตารางนมัสการ"
   },
   en: {
     title: "BangKhen Baptist Church",
-    worship: "Worship Schedule",
-    news: "News",
-    events: "Events",
+    subtitle: "A place of worship and faith family",
     contact_title: "Contact Us",
-    send: "Send"
+    send: "Send Message",
+    worship_title: "Worship Schedule"
   }
 };
 
 function setLang(lang) {
   document.querySelectorAll('[data-lang]').forEach(el => {
-    el.innerText = translations[lang][el.getAttribute('data-lang')];
+    const key = el.getAttribute('data-lang');
+    if(texts[lang][key]) el.innerText = texts[lang][key];
   });
 }
 
-// LINE Messaging API (ต้องใช้ backend)
-function sendLine(e) {
-  e.preventDefault();
+// LINE GROUP SEND (requires backend)
+function sendLine(event) {
+  event.preventDefault();
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const msg = document.getElementById('msg').value;
+  const data = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    msg: document.getElementById('msg').value
+  };
 
-  const text = `📩 ข้อความจากเว็บไซต์\nชื่อ: ${name}\nEmail: ${email}\nข้อความ: ${msg}`;
+  alert("ต้องเชื่อม Backend / LINE Messaging API เพื่อส่งเข้ากลุ่ม");
 
-  alert("ต้องเชื่อม Backend เพื่อส่งเข้า LINE Group ผ่าน Messaging API\n\n" + text);
+  console.log(data);
 }
-</script>
 
-</body>
-</html>
+// EVENTS (calendar-like)
+const events = [
+  { date: "2026-04-15", text: "ค่ายเยาวชน" },
+  { date: "2026-04-25",
