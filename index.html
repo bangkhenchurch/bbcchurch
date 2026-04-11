@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BangKhen Baptist Church</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('church-bg.jpg') center/cover fixed;
+      color: #fff;
+    }
+
+    .overlay {
+      background: rgba(0,0,0,0.6);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header img {
+      width: 120px;
+      border-radius: 50%;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+    }
+
+    .flag {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      background: rgba(0,0,0,0.7);
+    }
+
+    footer img {
+      width: 60px;
+      border-radius: 50%;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      background: #00c2ff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav button {
+      width: auto;
+      margin: 5px;
+      padding: 8px 15px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="overlay">
+
+<header>
+  <img src="logo church.jpg" alt="logo">
+  <h1 data-lang="title">BangKhen Baptist Church</h1>
+</header>
+
+<!-- Language -->
+<nav>
+  <button onclick="setLang('th')">ไทย</button>
+  <button onclick="setLang('en')">EN</button>
+</nav>
+
+<!-- Worship Schedule -->
+<div class="card">
+  <h2 data-lang="worship">ตารางนมัสการ</h2>
+  <p>วันอาทิตย์: 09:00</p>
+  <p>วันพุธ: 19:00</p>
+</div>
+
+<!-- News -->
+<div class="card">
+  <h2 data-lang="news">ประกาศข่าว</h2>
+  <p>📢 ยินดีต้อนรับทุกท่านเข้าสู่คริสตจักร</p>
+</div>
+
+<!-- Events -->
+<div class="card">
+  <h2 data-lang="events">กิจกรรม</h2>
+  <p>ระบบกิจกรรมจะดึงจากปฏิทิน (Google Calendar / API)</p>
+</div>
+
+<!-- Contact -->
+<div class="card">
+  <h2 data-lang="contact_title">ติดต่อเรา</h2>
+
+  <p>📞 02-5798764</p>
+  <p>📧 bbc_bangkok@gmail.com</p>
+
+  <form onsubmit="sendLine(event)">
+    <input id="name" placeholder="ชื่อ" required>
+    <input id="email" placeholder="email" required>
+    <textarea id="msg" placeholder="ข้อความ" required></textarea>
+    <button type="submit" data-lang="send">ส่งข้อความ</button>
+  </form>
+</div>
+
+<!-- Flag Counter -->
+<div class="flag">
+<a href="https://info.flagcounter.com/KQe9">
+<img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" />
+</a>
+</div>
+
+<footer>
+  <img src="logo church.jpg" class="footer-logo">
+  <p>© 2026 BangKhen Baptist Church Website</p>
+</footer>
+
+</div>
+
+<script>
+const translations = {
+  th: {
+    title: "คริสตจักรแบ๊บติสต์บางเขน",
+    worship: "ตารางนมัสการ",
+    news: "ประกาศข่าว",
+    events: "กิจกรรม",
+    contact_title: "ติดต่อเรา",
+    send: "ส่งข้อความ"
+  },
+  en: {
+    title: "BangKhen Baptist Church",
+    worship: "Worship Schedule",
+    news: "News",
+    events: "Events",
+    contact_title: "Contact Us",
+    send: "Send"
+  }
+};
+
+function setLang(lang) {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.innerText = translations[lang][el.getAttribute('data-lang')];
+  });
+}
+
+// LINE Messaging API (ต้องใช้ backend)
+function sendLine(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const msg = document.getElementById('msg').value;
+
+  const text = `📩 ข้อความจากเว็บไซต์\nชื่อ: ${name}\nEmail: ${email}\nข้อความ: ${msg}`;
+
+  alert("ต้องเชื่อม Backend เพื่อส่งเข้า LINE Group ผ่าน Messaging API\n\n" + text);
+}
+</script>
+
+</body>
+</html>
