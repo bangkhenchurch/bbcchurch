@@ -5,35 +5,127 @@
   <title>ติดต่อ - คริสต์จักรแบ๊บติสต์บางเขน</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- 🌐 Language -->
+<div style="text-align:right; padding:10px;">
+  <button onclick="setLang('th')">ไทย</button>
+  <button onclick="setLang('en')">EN</button>
+  <button onclick="setLang('id')">ID</button>
+  <button onclick="setLang('my')">MY</button>
+</div>
+
 <nav>
-  <a href="index.html">หน้าแรก</a>
-  <a href="about.html">เกี่ยวกับเรา</a>
-  <a href="schedule.html">ตารางนมัสการ</a>
-  <a href="news.html">ข่าวสาร</a>
-  <a href="contact.html">ติดต่อ</a>
+  <a href="index.html" data-lang="home"></a>
+  <a href="about.html" data-lang="about"></a>
+  <a href="schedule.html" data-lang="schedule"></a>
+  <a href="news.html" data-lang="news"></a>
+  <a href="contact.html" data-lang="contact"></a>
 </nav>
 
 <div class="container">
-  <h1>ติดต่อเรา</h1>
+
+  <!-- 🖼️ Logo -->
+  <img src="images/logo church.jpg" alt="church logo" style="width:120px; display:block; margin:auto;">
+
+  <h1 data-lang="contact_title"></h1>
 
   <div class="card">
-    <p>โทร: 099-999-9999</p>
-    <p>Email: church@email.com</p>
 
-    <form>
-      <input type="text" placeholder="ชื่อของคุณ" required>
-      <input type="email" placeholder="อีเมล" required>
-      <textarea placeholder="ข้อความ" rows="5" required></textarea>
-      <button type="submit">ส่งข้อความ</button>
+    <p>📞 02-5798764</p>
+    <p>📧 bbc_bangkok@gmail.com</p>
+
+    <form onsubmit="sendToLine(event)">
+      <input type="text" id="name" placeholder="ชื่อของคุณ" required>
+      <input type="email" id="email" placeholder="อีเมล" required>
+      <textarea id="message" placeholder="ข้อความ" rows="5" required></textarea>
+
+      <button type="submit" data-lang="send"></button>
     </form>
+
   </div>
 </div>
 
 <footer>
   © 2026 BangKhen Baptist Church Website
 </footer>
+
+<script>
+const texts = {
+  th: {
+    home: "หน้าแรก",
+    about: "เกี่ยวกับเรา",
+    schedule: "ตารางนมัสการ",
+    news: "ข่าวสาร",
+    contact: "ติดต่อ",
+    contact_title: "ติดต่อเรา",
+    send: "ส่งข้อความ"
+  },
+  en: {
+    home: "Home",
+    about: "About Us",
+    schedule: "Schedule",
+    news: "News",
+    contact: "Contact",
+    contact_title: "Contact Us",
+    send: "Send Message"
+  },
+  id: {
+    home: "Beranda",
+    about: "Tentang Kami",
+    schedule: "Jadwal",
+    news: "Berita",
+    contact: "Kontak",
+    contact_title: "Hubungi Kami",
+    send: "Kirim"
+  },
+  my: {
+    home: "ပင်မစာမျက်နှာ",
+    about: "အကြောင်း",
+    schedule: "အချိန်ဇယား",
+    news: "သတင်း",
+    contact: "ဆက်သွယ်ရန်",
+    contact_title: "ဆက်သွယ်ရန်",
+    send: "ပို့ရန်"
+  }
+};
+
+// เปลี่ยนภาษา
+function setLang(lang){
+  localStorage.setItem("lang", lang);
+
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+    el.innerText = texts[lang][key];
+  });
+}
+
+// ส่งไป LINE OA
+function sendToLine(e){
+  e.preventDefault();
+
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let message = document.getElementById("message").value;
+
+  let text = 
+`📌 ข้อความจากเว็บไซต์คริสตจักร
+ชื่อ: ${name}
+อีเมล: ${email}
+ข้อความ: ${message}`;
+
+  let url = "https://lin.ee/nBhkWUu?text=" + encodeURIComponent(text);
+
+  window.open(url, "_blank");
+}
+
+// โหลดภาษาเริ่มต้น
+window.onload = () => {
+  let lang = localStorage.getItem("lang") || "th";
+  setLang(lang);
+};
+</script>
 
 </body>
 </html>
