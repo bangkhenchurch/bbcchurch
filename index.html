@@ -25,17 +25,30 @@
       line-height: 1.6;
     }
 
-    /* คอนเทนเนอร์หลักขยายกว้างเต็มจอสำหรับ Mobile */
+    /* คอนเทนเนอร์หลักขยายกว้างเต็มจอสำหรับ Mobile View */
     .main-wrapper {
       width: 100%;
-      max-width: 600px; 
+      max-width: 600px; /* ขนาดที่เหมาะสมสำหรับ Mobile */
       padding: 15px;
     }
 
-    /* Header */
+    /* ====== HEADER SECTION (จุดที่ 1: โลโก้ส่วนหัว) ====== */
     header {
       text-align: center;
-      padding: 40px 0 20px;
+      padding: 50px 0 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-logo {
+      width: 100px; /* ปรับขนาดโลโก้ส่วนหัวตามต้องการ */
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%; /* ทำให้โลโก้เป็นวงกลม */
+      border: 3px solid #ffcc00; /* ขอบสีทอง */
+      margin-bottom: 15px;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
     }
 
     header h1 {
@@ -123,7 +136,7 @@
       border: 0;
     }
 
-    /* Contact Form */
+    /* Contact Form & Social */
     .input-group {
       margin-bottom: 12px;
     }
@@ -166,12 +179,55 @@
       padding: 10px 0 20px;
     }
 
+    /* ====== SOCIAL MEDIA SECTION (จุดที่ 3: โลโก้ตรง @bangkhen) ====== */
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #2a2a2a;
+      padding: 10px 15px;
+      border-radius: 15px;
+      border: 1px solid #333;
+      margin-top: 15px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+    
+    .social-link:hover {
+      background: #333;
+      border-color: #ffcc00;
+    }
+
+    .social-logo {
+      width: 30px; /* ขนาดโลโก้เล็กตรงชื่อบัญชี */
+      height: 30px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid #ffcc00;
+    }
+
+    /* ====== FOOTER SECTION (จุดที่ 2: โลโก้ส่วนท้าย) ====== */
     footer {
       text-align: center;
       padding: 40px 0;
       color: #555;
       font-size: 0.85rem;
       border-top: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-logo {
+      width: 60px; /* ขนาดโลโก้ส่วนท้าย */
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.6; /* ทำให้ดูจางลงเล็กน้อย */
+      margin-bottom: 10px;
+      border: 1px solid #555;
     }
 
     /* เพิ่มความลื่นไหลในการ Scroll */
@@ -185,6 +241,7 @@
 
 <div class="main-wrapper">
   <header>
+    <img src="logo.png" alt="โลโก้คริสตจักรแบ๊บติสต์บางเขน" class="header-logo" onerror="this.src='https://via.placeholder.com/100?text=LOGO'">
     <h1>BangKhen<br>Baptist Church</h1>
     <p>สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
   </header>
@@ -246,6 +303,11 @@
     <div style="margin-bottom: 15px; font-size: 0.9rem;">
       <p>📞 โทร: 02-579-8764</p>
       <p>📧 อีเมล: bbc_bangkok@gmail.com</p>
+      
+      <a href="#" class="social-link">
+        <img src="logo.png" alt="โลโก้เล็ก" class="social-logo" onerror="this.src='https://via.placeholder.com/30?text=L'">
+        <span>ติดตามเราได้ที่: <strong>@bangkhen</strong></span>
+      </a>
     </div>
     <form>
       <div class="input-group">
@@ -262,6 +324,7 @@
   </div>
 
   <footer>
+    <img src="logo.png" alt="โลโก้ส่วนท้าย" class="footer-logo" onerror="this.src='https://via.placeholder.com/60?text=LOGO'">
     <p>© 2026 BangKhen Baptist Church Website</p>
     <p style="font-size: 0.75rem; margin-top: 5px;">Bangkok, Thailand</p>
   </footer>
