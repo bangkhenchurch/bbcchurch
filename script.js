@@ -61,30 +61,49 @@ const texts = {
   }
 };
 
-// ตรวจภาษาเครื่อง
-function detectLang() {
-  const sys = navigator.language || navigator.userLanguage;
+/**
+ * 1. ตรวจสอบภาษาที่ควรใช้ (Priority: Storage > System > Default)
+ */
+function getTargetLang() {
+  const saved = localStorage.getItem("lang");
+  if (saved) return saved;
 
-  if (sys.includes("th")) return "th";
-  if (sys.includes("id")) return "id";
-  if (sys.includes("my")) return "my";
-  return "en";
+  const sys = navigator.language || navigator.userLanguage;
+  const langKey = sys.split('-')[0]; // ตัดค่าเช่น 'en-US' ให้เหลือแค่ 'en'
+
+  return texts[langKey] ? langKey : "en"; // ถ้าไม่มีในลิสต์ให้ใช้ภาษาอังกฤษ
 }
 
-// set language
+/**
+ * 2. ฟังก์ชันเปลี่ยนภาษา พร้อมอัปเดต UI
+ */
 function setLang(lang) {
+  // บันทึกค่าลง Storage
   localStorage.setItem("lang", lang);
+  
+  // อัปเดต Attribute 'lang' ของ HTML (ช่วยเรื่อง SEO และ Screen Reader)
+  document.documentElement.lang = lang;
 
   document.querySelectorAll("[data-lang]").forEach(el => {
     const key = el.getAttribute("data-lang");
-    if (texts[lang] && texts[lang][key]) {
-      el.innerText = texts[lang][key];
+    
+    // ค้นหาข้อความ (Fallback ไปที่ภาษาอังกฤษถ้าหาคีย์ในภาษานั้นไม่เจอ)
+    const translation = (texts[lang] && texts[lang][key]) || texts['en'][key];
+    
+    if (translation) {
+      // ถ้าเป็น Input หรือ Textarea ให้เปลี่ยน placeholder แทน
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+        el.placeholder = translation;
+      } else {
+        el.innerText = translation;
+      }
     }
   });
 }
 
-// load
-window.onload = () => {
-  const lang = localStorage.getItem("lang") || detectLang();
-  setLang(lang);
-};
+/**
+ * 3. เริ่มทำงานเมื่อ DOM โหลดเสร็จ (เร็วกว่า window.onload)
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  setLang(getTargetLang());
+});
