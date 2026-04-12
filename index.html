@@ -5,50 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BangKhen Baptist Church</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Kanit', sans-serif; /* แนะนำให้ใช้ Font Kanit จะดูทันสมัยขึ้น */
+      font-family: 'Kanit', sans-serif;
     }
 
     body {
-      background: #121212; /* พื้นหลังเข้มตามรูป */
-      color: #fff;
+      background: #121212; /* พื้นหลังสีเข้มตามตัวอย่าง */
+      color: #ffffff;
       display: flex;
       justify-content: center;
+      line-height: 1.6;
     }
 
-    /* คอนเทนเนอร์หลักขยายกว้างขึ้น */
+    /* คอนเทนเนอร์หลักขยายกว้างเต็มจอสำหรับ Mobile */
     .main-wrapper {
       width: 100%;
-      max-width: 600px; /* ขนาดที่เหมาะสมสำหรับ Mobile View */
-      padding: 20px;
+      max-width: 600px; 
+      padding: 15px;
     }
 
+    /* Header */
     header {
       text-align: center;
-      padding: 40px 0;
+      padding: 40px 0 20px;
     }
 
     header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      line-height: 1.2;
     }
 
     header p {
-      color: #aaa;
+      color: #888;
       font-size: 0.9rem;
     }
 
-    /* เมนูนำทางแบบปุ่ม */
+    /* Navigation */
     nav {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     nav a {
@@ -56,71 +64,119 @@
       text-decoration: none;
       padding: 8px 16px;
       background: #2a2a2a;
-      border-radius: 20px;
-      font-size: 14px;
+      border-radius: 25px;
+      font-size: 13px;
       border: 1px solid #333;
+      transition: 0.3s;
     }
 
-    /* ส่วนแสดงผลแบบแถวเดียว (ทำให้ไม่แบ่งซ้ายขวา) */
-    .row-display {
-      display: flex;
-      flex-direction: column; /* เรียงจากบนลงล่าง */
-      gap: 15px;
+    nav a:hover {
+      background: #ffcc00;
+      color: #000;
     }
 
-    /* การ์ดนาฬิกาและตัวนับแบบเต็มความกว้าง */
-    .stats-container {
-      display: grid;
-      grid-template-columns: 1fr; /* ขยายเต็มหน้าจอ */
-      gap: 15px;
-    }
-
+    /* Card Styling */
     .card {
       background: #1e1e1e;
-      padding: 20px;
-      border-radius: 15px;
+      padding: 22px;
+      border-radius: 20px;
+      margin-bottom: 15px;
       border: 1px solid #2a2a2a;
+      width: 100%;
     }
 
-    /* สไตล์สีเหลืองตามรูป */
-    h2, .highlight {
+    h2 {
       color: #ffcc00; 
-      margin-bottom: 10px;
-      border-left: 4px solid #ffcc00;
+      margin-bottom: 12px;
+      border-left: 5px solid #ffcc00;
       padding-left: 12px;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
     }
 
+    /* Clock Section */
     .clock-card {
       text-align: center;
-      border: 1px solid #443300;
-      background: linear-gradient(to bottom, #1e1e1e, #181818);
+      background: linear-gradient(145deg, #1e1e1e, #141414);
+      border: 1px solid #443a00;
     }
 
     .clock-time {
-      font-size: 2.5rem;
+      font-size: 3rem;
       font-weight: bold;
       color: #ffcc00;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
     }
 
-    .visitor-card {
+    /* Map Section */
+    .map-container {
+      width: 100%;
+      height: 280px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-top: 15px;
+      border: 1px solid #333;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Contact Form */
+    .input-group {
+      margin-bottom: 12px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #2a2a2a;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #ffcc00;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #ffcc00;
+      color: #000;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e6b800;
+    }
+
+    .visitor-center {
       display: flex;
       justify-content: center;
-      align-items: center;
-      background: #2a2a2a;
-    }
-
-    .info-text {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      padding: 10px 0 20px;
     }
 
     footer {
       text-align: center;
-      margin-top: 50px;
-      padding: 20px;
-      color: #666;
+      padding: 40px 0;
+      color: #555;
+      font-size: 0.85rem;
+      border-top: 1px solid #222;
+    }
+
+    /* เพิ่มความลื่นไหลในการ Scroll */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -134,57 +190,94 @@
   </header>
 
   <nav>
-    <a href="#">นมัสการ</a>
-    <a href="#">ข่าวสาร</a>
-    <a href="#">กิจกรรม</a>
-    <a href="#">แผนที่</a>
-    <a href="#">ติดต่อเรา</a>
+    <a href="#worship">นมัสการ</a>
+    <a href="#news">ข่าวสาร</a>
+    <a href="#events">กิจกรรม</a>
+    <a href="#map">แผนที่</a>
+    <a href="#contact">ติดต่อเรา</a>
   </nav>
 
-  <div class="row-display">
-    <div class="card clock-card">
-      <div class="clock-time" id="clock">00:00:00</div>
-      <p style="color: #666; font-size: 0.8rem;">เวลาปัจจุบัน</p>
-    </div>
+  <div class="card clock-card">
+    <div class="clock-time" id="clock">00:00:00</div>
+    <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">เวลาปัจจุบัน</p>
+  </div>
 
-    <div class="card visitor-card">
-      <a href="https://info.flagcounter.com/KQe9">
-        <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
-      </a>
-    </div>
+  <div class="visitor-center">
+    <a href="https://info.flagcounter.com/KQe9">
+      <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter">
+    </a>
+  </div>
 
-    <div class="card">
-      <h2 class="highlight">ตารางนมัสการ</h2>
-      <div class="info-text">
-        <p style="color: #ffcc00; font-weight: bold;">วันอาทิตย์</p>
-        <p>🕒 09:30 - 10:45 น. | พิธีนมัสการ</p>
-        <p>👥 10:45 - 12:00 น. | แยกกลุ่มศึกษาพระคัมภีร์ตามวัย</p>
+  <div id="worship" class="card">
+    <h2>ตารางนมัสการ</h2>
+    <div style="margin-top: 10px;">
+      <p style="color: #ffcc00; font-weight: 600;">วันอาทิตย์</p>
+      <p>🕘 09:30 - 10:45 น. | พิธีนมัสการ</p>
+      <p>👥 10:45 - 12:00 น. | แยกกลุ่มศึกษาพระคัมภีร์ตามวัย</p>
+    </div>
+  </div>
+
+  <div id="news" class="card">
+    <h2>ประกาศข่าว</h2>
+    <p>📢 ยินดีต้อนรับทุกท่านสู่คริสตจักรแบ๊บติสต์บางเขน สถานที่แห่งความรักและความอบอุ่นในพระเจ้า</p>
+  </div>
+
+  <div id="events" class="card">
+    <h2>กิจกรรมคริสตจักร</h2>
+    <p>📅 30 พฤษภาคม - 2 มิถุนายน 2026<br>ค่ายคริสตจักรประจำปี ณ ศุภาลัยป่าสักรีสอร์ท จ.สระบุรี</p>
+  </div>
+
+  <div id="map" class="card">
+    <h2>แผนที่เดินทาง</h2>
+    <p style="font-size: 0.9rem; margin-bottom: 10px;">
+      📍 <strong>ที่อยู่:</strong> คริสต์จักรแบ๊บติสต์บางเขน <br>
+      เขตบางเขน กรุงเทพมหานคร
+    </p>
+    <div class="map-container">
+      <iframe src="https://maps.app.goo.gl/cmHiJo7tqiHUhdHw9?g_st=ac"></iframe>
+    </div>
+    <p style="font-size: 0.8rem; color: #666; margin-top: 10px; text-align: center;">
+      (คลิกแผนที่เพื่อเปิดนำทางในแอป Google Maps)
+    </p>
+  </div>
+
+  <div id="contact" class="card">
+    <h2>ติดต่อเรา</h2>
+    <div style="margin-bottom: 15px; font-size: 0.9rem;">
+      <p>📞 โทร: 02-579-8764</p>
+      <p>📧 อีเมล: bbc_bangkok@gmail.com</p>
+    </div>
+    <form>
+      <div class="input-group">
+        <input type="text" placeholder="ชื่อของคุณ" required>
       </div>
-    </div>
-
-    <div class="card">
-      <h2 class="highlight">ประกาศข่าว</h2>
-      <p class="info-text">📢 ยินดีต้อนรับทุกท่านสู่ครอบครัวของพระเจ้า หากท่านกำลังมองหาสถานที่นมัสการ เชิญมาร่วมเป็นส่วนหนึ่งกับเรา</p>
-    </div>
-
-    <div class="card">
-      <h2 class="highlight">กิจกรรมคริสตจักร</h2>
-      <p class="info-text">📅 30 พฤษภาคม - 2 มิถุนายน 2026<br>ค่ายคริสตจักรประจำปี ณ ศุภาลัยป่าสักรีสอร์ท จ.สระบุรี</p>
-    </div>
+      <div class="input-group">
+        <input type="email" placeholder="อีเมล" required>
+      </div>
+      <div class="input-group">
+        <textarea rows="3" placeholder="ข้อความที่ต้องการติดต่อ..."></textarea>
+      </div>
+      <button type="submit">ส่งข้อมูล</button>
+    </form>
   </div>
 
   <footer>
     <p>© 2026 BangKhen Baptist Church Website</p>
+    <p style="font-size: 0.75rem; margin-top: 5px;">Bangkok, Thailand</p>
   </footer>
 </div>
 
 <script>
+  // ฟังก์ชันอัปเดตนาฬิกาแบบ Real-time
   function updateClock() {
     const now = new Date();
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    const clockElement = document.getElementById('clock');
+    if (clockElement) {
+      clockElement.textContent = `${h}:${m}:${s}`;
+    }
   }
   setInterval(updateClock, 1000);
   updateClock();
