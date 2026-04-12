@@ -6,319 +6,188 @@
   <title>BangKhen Baptist Church</title>
 
   <style>
-    /* สไตล์พื้นฐาน */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Kanit', sans-serif; /* แนะนำให้ใช้ Font Kanit จะดูทันสมัยขึ้น */
     }
 
     body {
-      /* ใส่ภาพพื้นหลังโบสถ์ของคุณที่นี่ */
-      background: #2c2c2c url('church-bg.jpg') center/cover fixed; 
+      background: #121212; /* พื้นหลังเข้มตามรูป */
       color: #fff;
-      line-height: 1.6;
+      display: flex;
+      justify-content: center;
     }
 
-    /* เลเยอร์สีดำโปร่งแสงทับพื้นหลัง */
-    .overlay {
-      background: rgba(0, 0, 0, 0.75);
-      min-height: 100vh;
-      padding-bottom: 50px;
+    /* คอนเทนเนอร์หลักขยายกว้างขึ้น */
+    .main-wrapper {
+      width: 100%;
+      max-width: 600px; /* ขนาดที่เหมาะสมสำหรับ Mobile View */
+      padding: 20px;
     }
 
-    .container {
-      max-width: 1200px; /* ขยายความกว้างสูงสุด */
-      margin: auto;
-      padding: 0 20px;
-    }
-
-    /* ส่วนหัว */
     header {
       text-align: center;
-      padding: 60px 20px 40px;
+      padding: 40px 0;
     }
 
     header h1 {
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       margin-bottom: 10px;
-      color: #fff;
     }
 
     header p {
-      font-size: 1.2rem;
-      color: #ccc;
+      color: #aaa;
+      font-size: 0.9rem;
     }
 
-    /* เมนูนำทาง */
+    /* เมนูนำทางแบบปุ่ม */
     nav {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      position: sticky;
-      top: 10px;
-      z-index: 1000;
-      padding: 15px;
       margin-bottom: 30px;
     }
 
     nav a {
       color: #fff;
       text-decoration: none;
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 30px;
-      font-size: 15px;
-      transition: 0.3s;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    nav a:hover {
-      background: #ffd700;
-      color: #000;
-      transform: translateY(-3px);
-    }
-
-    /* การจัดวางแบบ Grid สำหรับเนื้อหา */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr; /* แบ่งซ้ายใหญ่ ขวาเล็ก */
-      gap: 25px;
-    }
-
-    @media (max-width: 900px) {
-      .content-grid {
-        grid-template-columns: 1fr; /* มือถือให้เรียงต่อกัน */
-      }
-    }
-
-    /* สไตล์การ์ด */
-    .card {
-      background: rgba(255, 255, 255, 0.07);
-      padding: 30px;
+      padding: 8px 16px;
+      background: #2a2a2a;
       border-radius: 20px;
-      backdrop-filter: blur(10px);
-      margin-bottom: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      font-size: 14px;
+      border: 1px solid #333;
     }
 
-    h2 {
-      margin-bottom: 20px;
-      font-size: 1.5rem;
-      border-left: 5px solid #ffd700;
-      padding-left: 15px;
-      color: #ffd700;
+    /* ส่วนแสดงผลแบบแถวเดียว (ทำให้ไม่แบ่งซ้ายขวา) */
+    .row-display {
+      display: flex;
+      flex-direction: column; /* เรียงจากบนลงล่าง */
+      gap: 15px;
     }
 
-    /* นาฬิกา */
-    .clock-frame {
-      text-align: center;
-      background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
-      border: 1px solid rgba(255,215,0,0.3);
+    /* การ์ดนาฬิกาและตัวนับแบบเต็มความกว้าง */
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr; /* ขยายเต็มหน้าจอ */
+      gap: 15px;
     }
 
-    .clock {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #ffd700;
-      text-shadow: 0 0 20px rgba(255,215,0,0.5);
-    }
-
-    /* แผนที่ */
-    .map-frame {
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
       border-radius: 15px;
-      overflow: hidden;
-      height: 350px;
-      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
     }
 
-    /* ฟอร์มติดต่อ */
-    input, textarea {
-      width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
+    /* สไตล์สีเหลืองตามรูป */
+    h2, .highlight {
+      color: #ffcc00; 
+      margin-bottom: 10px;
+      border-left: 4px solid #ffcc00;
+      padding-left: 12px;
+      font-size: 1.2rem;
     }
 
-    button {
-      padding: 15px;
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      background: #ffd700;
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background: #ffea00;
-      box-shadow: 0 0 15px rgba(255,215,0,0.4);
-    }
-
-    /* ตัวนับคนเข้าชม */
-    .visitor-counter {
+    .clock-card {
       text-align: center;
-      margin: 20px 0;
+      border: 1px solid #443300;
+      background: linear-gradient(to bottom, #1e1e1e, #181818);
+    }
+
+    .clock-time {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    .visitor-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #2a2a2a;
+    }
+
+    .info-text {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
     footer {
       text-align: center;
-      padding: 40px 20px;
-      opacity: 0.7;
-    }
-
-    .footer-logo {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      border: 2px solid #ffd700;
+      margin-top: 50px;
+      padding: 20px;
+      color: #666;
     }
   </style>
 </head>
 
 <body>
 
-<div class="overlay">
-  <div class="container">
+<div class="main-wrapper">
+  <header>
+    <h1>BangKhen<br>Baptist Church</h1>
+    <p>สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
+  </header>
 
-    <header>
-      <h1>BangKhen Baptist Church</h1>
-      <p>สถานที่นมัสการและครอบครัวแห่งความเชื่อ</p>
-    </header>
+  <nav>
+    <a href="#">นมัสการ</a>
+    <a href="#">ข่าวสาร</a>
+    <a href="#">กิจกรรม</a>
+    <a href="#">แผนที่</a>
+    <a href="#">ติดต่อเรา</a>
+  </nav>
 
-    <nav>
-      <a href="#worship">นมัสการ</a>
-      <a href="#news">ข่าวสาร</a>
-      <a href="#events">กิจกรรม</a>
-      <a href="#map">แผนที่</a>
-      <a href="#contact">ติดต่อเรา</a>
-    </nav>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
-      <section class="card clock-frame" style="margin: 0;">
-        <div class="clock" id="clock">00:00:00</div>
-        <div style="color: #ffd700; font-size: 0.9rem;">เวลาปัจจุบัน</div>
-      </section>
-
-      <section class="card" style="margin: 0; display: flex; align-items: center; justify-content: center;">
-        <div class="visitor-counter">
-          <a href="https://info.flagcounter.com/KQe9">
-            <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
-          </a>
-        </div>
-      </section>
+  <div class="row-display">
+    <div class="card clock-card">
+      <div class="clock-time" id="clock">00:00:00</div>
+      <p style="color: #666; font-size: 0.8rem;">เวลาปัจจุบัน</p>
     </div>
 
-    <div class="content-grid">
-      
-      <div class="main-content">
-        <section id="worship" class="card">
-          <h2>ตารางนมัสการ</h2>
-          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-            <div>
-              <h3 style="color: #ffd700;">วันอาทิตย์</h3>
-              <p>🕘 09:30 - 10:45 น. | พิธีนมัสการ</p>
-              <p>👥 10:45 - 12:00 น. | แยกกลุ่มศึกษาพระคัมภีร์ตามวัย</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="news" class="card">
-          <h2>ประกาศข่าว</h2>
-          <p>📢 ยินดีต้อนรับทุกท่านสู่ครอบครัวของพระเจ้า หากท่านกำลังมองหาสถานที่นมัสการ เชิญมาร่วมเป็นส่วนหนึ่งกับเรา</p>
-        </section>
-
-        <section id="events" class="card">
-          <h2>กิจกรรมคริสตจักร</h2>
-          <div id="eventList">
-            </div>
-        </section>
-      </div>
-
-      <div class="side-content">
-        <section id="map" class="card">
-          <h2>แผนที่เดินทาง</h2>
-          <div class="map-frame">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.743452655478!2d100.5849826!3d13.854388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d0000000000%3A0x0!2zQmFuZ2toZW4gQmFwdGlzdCBDaHVyY2g!5e0!3m2!1sth!2sth!4v1700000000000" 
-              width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
-            </iframe>
-          </div>
-          <p style="margin-top:10px; font-size: 0.8rem; opacity: 0.7;">📍 ซอยพหลโยธิน (ระบุเลขซอยถ้ามี), บางเขน, กรุงเทพฯ</p>
-        </section>
-
-        <section id="contact" class="card">
-          <h2>ติดต่อเรา</h2>
-          <p>📞 02-579-8764</p>
-          <p>📧 bbc_bangkok@gmail.com</p>
-          <form onsubmit="sendLine(event)">
-            <input id="name" placeholder="ชื่อผู้ติดต่อ" required>
-            <input id="email" type="email" placeholder="อีเมล" required>
-            <textarea id="msg" rows="3" placeholder="ข้อความที่ต้องการสอบถาม..." required></textarea>
-            <button type="submit">ส่งข้อความ</button>
-          </form>
-        </section>
-      </div>
-
+    <div class="card visitor-card">
+      <a href="https://info.flagcounter.com/KQe9">
+        <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+      </a>
     </div>
 
-    <footer>
-      <img src="logo church.jpg" alt="Church Logo" class="footer-logo" onerror="this.src='https://via.placeholder.com/80?text=BBC'">
-      <p>© 2026 BangKhen Baptist Church</p>
-      <p style="font-size: 0.8rem; margin-top: 5px;">"พระเจ้าคือความรัก"</p>
-    </footer>
+    <div class="card">
+      <h2 class="highlight">ตารางนมัสการ</h2>
+      <div class="info-text">
+        <p style="color: #ffcc00; font-weight: bold;">วันอาทิตย์</p>
+        <p>🕒 09:30 - 10:45 น. | พิธีนมัสการ</p>
+        <p>👥 10:45 - 12:00 น. | แยกกลุ่มศึกษาพระคัมภีร์ตามวัย</p>
+      </div>
+    </div>
 
+    <div class="card">
+      <h2 class="highlight">ประกาศข่าว</h2>
+      <p class="info-text">📢 ยินดีต้อนรับทุกท่านสู่ครอบครัวของพระเจ้า หากท่านกำลังมองหาสถานที่นมัสการ เชิญมาร่วมเป็นส่วนหนึ่งกับเรา</p>
+    </div>
+
+    <div class="card">
+      <h2 class="highlight">กิจกรรมคริสตจักร</h2>
+      <p class="info-text">📅 30 พฤษภาคม - 2 มิถุนายน 2026<br>ค่ายคริสตจักรประจำปี ณ ศุภาลัยป่าสักรีสอร์ท จ.สระบุรี</p>
+    </div>
   </div>
+
+  <footer>
+    <p>© 2026 BangKhen Baptist Church Website</p>
+  </footer>
 </div>
 
 <script>
-  // รายการกิจกรรม
-  const events = [
-    { date: "30 พฤษภาคม - 2 มิถุนายน 2026", text: "ค่ายคริสตจักรประจำปี ณ ศุภาลัยป่าสักรีสอร์ท จ.สระบุรี" },
-    { date: "ทุกวันพุธ 19:00 น.", text: "กลุ่มอธิษฐานออนไลน์ผ่าน Zoom" }
-  ];
-
-  const eventList = document.getElementById("eventList");
-  events.forEach(e => {
-    const div = document.createElement("div");
-    div.className = "event-item";
-    div.style.marginBottom = "15px";
-    div.style.padding = "10px";
-    div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
-    div.innerHTML = `<strong style="color:#ffd700;">📅 ${e.date}</strong><br>${e.text}`;
-    eventList.appendChild(div);
-  });
-
-  // ฟังก์ชันนาฬิกา
-  function updateClock(){
+  function updateClock() {
     const now = new Date();
-    const h = String(now.getHours()).padStart(2,'0');
-    const m = String(now.getMinutes()).padStart(2,'0');
-    const s = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById("clock").textContent = `${h}:${m}:${s}`;
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
   }
   setInterval(updateClock, 1000);
   updateClock();
-
-  // ฟังก์ชันส่งฟอร์ม (จำลอง)
-  function sendLine(e){
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    alert(`ขอบคุณคุณ ${name} ที่ติดต่อเรา เราจะตอบกลับท่านโดยเร็วที่สุด`);
-  }
 </script>
 
 </body>
