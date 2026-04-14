@@ -74,7 +74,7 @@ input, textarea {
   margin: 5px 0 15px;
 }
 
-/* ⭐ FIX CHECKBOX (สำคัญมาก) */
+/* CHECKBOX */
 .check-item {
   display: flex;
   align-items: center;
@@ -97,6 +97,27 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+/* ⭐ VISITOR CENTER (เพิ่มใหม่ให้สวย) */
+.visitor-center {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.visitor-box {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  text-align: center;
+  max-width: 350px;
+}
+
+.visitor-box img {
+  border-radius: 10px;
+  width: 100%;
 }
 
 </style>
@@ -164,7 +185,6 @@ button {
 
   <label>5. ความต้องการ</label>
 
-  <!-- ⭐ FIXED CHECKBOX ALIGN -->
   <label class="check-item">
     <input type="checkbox" name="request1">
     <span>ต้องการไปร่วมนมัสการพระเจ้าที่คริสตจักร</span>
@@ -181,7 +201,16 @@ button {
 
 </div>
 
-<!-- SCRIPT SEND -->
+<!-- ⭐ VISITOR STAT (คืนของเดิม + จัดกลาง + กรอบสวย) -->
+<div class="visitor-center">
+  <div class="visitor-box">
+    <a href="https://info.flagcounter.com/KQe9">
+      <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/flags_0/percent_0/">
+    </a>
+  </div>
+</div>
+
+<!-- SCRIPT -->
 <script>
 document.getElementById("contactForm").addEventListener("submit", async function(e) {
   e.preventDefault();
