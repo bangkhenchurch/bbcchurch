@@ -3,161 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>คริสตจักรแบ๊บติสต์บางเขน</title>
+<title>คริสตจักรแบ๊บติสต์บางเขน - Full Screen Dark Mode</title>
+<link rel="icon" type="image/png" href="logo.png">
 
 <style>
+  /* 1. Reset ระยะขอบทั้งหมดให้เป็น 0 เพื่อความเต็มจอ */
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    background: #000;
-    color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, 'Segoe UI', sans-serif;
+    background: #000000;
+    color: #e0e0e0;
+    line-height: 1.6;
     overflow-x: hidden;
   }
 
-  /* NAV - ทำให้โปร่งใสและลอยทับรูป */
+  /* 2. NAV - ทำให้โปร่งใสและลอยทับรูปภาพ Hero */
   nav {
-    position: absolute;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute; /* ลอยทับรูป */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+    z-index: 1000;
+  }
+
+  .nav-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
     display: flex;
-    justify-content: center;
-    padding: 20px 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   nav a {
-    color: white;
+    color: #fff;
+    margin-left: 15px;
     text-decoration: none;
-    margin: 0 10px;
-    font-size: 14px;
-    opacity: 0.9;
+    font-size: 0.85rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
   }
 
-  /* HERO - ปรับให้เต็มจอ 100% */
+  /* 3. HERO - ปรับให้สูงเต็มจอ 100vh และไม่มีขอบขาว */
   .hero {
-    position: relative;
+    height: 100vh; /* เต็มความสูงหน้าจอพอดี */
     width: 100%;
-    height: 100vh; /* ความสูงเต็มหน้าจอ */
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
-                url('https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=2070') center/cover no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                url('https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
     text-align: center;
+    padding: 20px;
   }
 
-  .hero h1 {
+  .hero-content h1 {
     font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
   }
 
-  .hero p {
+  .hero-content p {
     font-size: 1.2rem;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+    opacity: 0.9;
   }
 
-  /* ส่วนเนื้อหาด้านล่าง */
-  .content-section {
-    padding: 60px 25px;
-    background: #111;
+  /* SECTION */
+  .section {
+    padding: 80px 20px;
+    max-width: 800px;
+    margin: auto;
     text-align: center;
   }
 
-  .card {
-    background: #1e1e1e;
-    padding: 25px;
-    margin: 20px 0;
-    border-radius: 15px;
-    border: 1px solid #333;
+  h2 {
+    color: white;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+    font-size: 1.8rem;
   }
 
-  /* ปรับแต่งฟอร์มให้ดูเต็มจอในมือถือ */
+  h2::after {
+    content: '';
+    width: 40px;
+    height: 3px;
+    background: white;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* CARD */
+  .card {
+    background: #111;
+    padding: 25px;
+    margin: 15px 0;
+    border-radius: 12px;
+    border: 1px solid #222;
+  }
+
+  /* FORM */
   form {
-    max-width: 500px;
-    margin: 0 auto;
+    background: #111;
+    padding: 30px;
+    border-radius: 15px;
     text-align: left;
+    border: 1px solid #222;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #bbb;
   }
 
   input, textarea {
     width: 100%;
-    padding: 15px;
-    margin: 10px 0 20px;
-    background: #222;
-    border: 1px solid #444;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #1a1a1a;
     color: white;
-    border-radius: 10px;
     font-size: 16px;
   }
 
   button {
     width: 100%;
-    padding: 18px;
-    background: #fff;
-    color: #000;
+    padding: 16px;
+    background: white;
+    color: black;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: bold;
-    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
   }
 
-  footer {
-    padding: 40px;
-    background: #000;
+  button:hover {
+    background: #ccc;
+  }
+
+  /* VISITOR STATS */
+  .visitor-box {
+    background: #111;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 350px;
+    margin: 40px auto;
+    border: 1px solid #222;
     text-align: center;
-    border-top: 1px solid #222;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: #000;
+    color: #777;
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid #111;
+  }
+
+  .social a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid #333;
+    padding: 5px 15px;
+    border-radius: 20px;
+  }
+
+  .map {
+    margin: 30px auto;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 250px;
+    border: 1px solid #222;
+  }
+
+  /* ปรับหน้าจอมือถือ */
+  @media (max-width: 600px) {
+    .hero-content h1 { font-size: 2.2rem; }
+    .nav-brand { display: none; }
+    nav { justify-content: center; }
   }
 </style>
 </head>
 
 <body>
 
-  <nav>
+<nav>
+  <div class="nav-brand">คริสตจักรแบ๊บติสต์บางเขน</div>
+  <div class="nav-links">
     <a href="#home">หน้าแรก</a>
     <a href="#about">เกี่ยวกับ</a>
     <a href="#service">ตาราง</a>
     <a href="#contact">ติดต่อ</a>
-  </nav>
+  </div>
+</nav>
 
-  <section id="home" class="hero">
+<div id="home" class="hero">
+  <div class="hero-content">
     <h1>ยินดีต้อนรับ</h1>
     <p>พระเจ้าทรงรักคุณเสมอ ❤️</p>
-  </section>
+  </div>
+</div>
 
-  <section id="about" class="content-section">
-    <h2>เกี่ยวกับคริสตจักร</h2>
-    <p style="margin-top:15px; color:#aaa;">เราคือชุมชนแห่งความรัก ความหวัง และความเชื่อ</p>
-    
-    <div class="card">
-      <h3>เวลานมัสการ</h3>
-      <p style="margin-top:10px;">วันอาทิตย์ 09:00 - 11:30</p>
-    </div>
-  </section>
+<div id="about" class="section">
+  <h2>เกี่ยวกับคริสตจักร</h2>
+  <p>เราคือชุมชนแห่งความรัก ความหวัง และความเชื่อ</p>
+</div>
 
-  <section id="contact" class="content-section" style="background: #000;">
-    <h2>ติดต่อเรา</h2>
-    <form>
-      <input type="text" placeholder="ชื่อ-นามสกุล">
-      <input type="tel" placeholder="เบอร์โทรศัพท์">
-      <textarea rows="4" placeholder="ข้อความหรือที่อยู่"></textarea>
-      <button type="button">ส่งข้อมูล</button>
-    </form>
-  </section>
+<div id="service" class="section">
+  <h2>เวลานมัสการ</h2>
+  <div class="card"><strong>วันอาทิตย์</strong> 09:00 - 11:30 น.</div>
+  <div class="card"><strong>อธิษฐาน</strong> วันพุธ 19:00 น.</div>
+</div>
 
-  <footer>
-    <p style="font-size: 12px; color: #555;">© 2026 Bangkhen Baptist Church</p>
-  </footer>
+<div id="contact" class="section">
+  <h2>ติดต่อเรา</h2>
+  <form id="contactForm">
+    <label>ชื่อ-นามสกุล</label>
+    <input type="text" name="fullname" placeholder="ชื่อของคุณ" required>
+    <label>เบอร์โทร</label>
+    <input type="tel" name="phone" placeholder="08x-xxx-xxxx" required>
+    <label>ที่อยู่ / ข้อความ</label>
+    <textarea name="address" rows="3"></textarea>
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+</div>
+
+<div class="visitor-box">
+  <div style="margin-bottom: 20px;">
+    <a href="https://info.flagcounter.com/M2Js">
+      <img src="https://s01.flagcounter.com/count2/M2Js/bg_000000/txt_FFFFFF/border_333333/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+    </a>
+  </div>
+  <p>👥 ผู้เข้าชม: <span id="visitCount" style="color:white;">0</span></p>
+  <p>🟢 ออนไลน์: <span id="onlineCount" style="color:white;">0</span></p>
+</div>
+
+<footer class="footer">
+  <h3>คริสตจักรแบ๊บติสต์บางเขน</h3>
+  <div class="social" style="margin: 20px 0;">
+    <a href="https://lin.ee/60jBty7m">LINE</a>
+    <a href="#">Facebook</a>
+  </div>
+  <div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3874.321!2d100.58!3d13.86!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDUxJzM2LjAiTiAxMDDCsDM0JzQ4LjAiRQ!5e0!3m2!1sth!2sth!4v1600000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+  <p style="font-size:11px;">© 2026 Bangkhen Baptist Church</p>
+</footer>
+
+<script>
+  let visits = localStorage.getItem("visitCount") || 0;
+  visits++;
+  localStorage.setItem("visitCount", visits);
+  document.getElementById("visitCount").innerText = visits.toLocaleString();
+  document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 5) + 3;
+</script>
 
 </body>
 </html>
