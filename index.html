@@ -38,7 +38,7 @@ nav a {
 /* HERO */
 .hero {
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
+  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,9 +55,24 @@ nav a {
 .card {
   background: #111;
   padding: 20px;
-  margin: 10px auto;
+  margin: 15px auto;
   border-radius: 12px;
   max-width: 500px;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat-box {
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  min-width: 150px;
 }
 
 /* FORM */
@@ -87,24 +102,47 @@ button:hover {
   background: #1556c0;
 }
 
+/* FOOTER */
+footer {
+  background: #0b3d91;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
   <div>Church</div>
   <div>
     <a href="#home">Home</a>
+    <a href="#stats">Stats</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero" id="home">
   <h1>คริสตจักรแบ๊บติสต์บางเขน</h1>
 </div>
 
-<div class="section">
+<!-- STATS -->
+<div class="section" id="stats">
+  <h2>สถิติผู้เข้าชม</h2>
+
+  <div class="stats">
+    <div class="stat-box">👥 สมาชิก</div>
+    <div class="stat-box">📖 คำเทศนา</div>
+    <div class="stat-box">🌍 ผู้เข้าชม</div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section" id="contact">
 
   <div class="card">
     <h2>ติดต่อเรา</h2>
@@ -120,6 +158,12 @@ button:hover {
 
 </div>
 
+<!-- FOOTER -->
+<footer>
+  © 2026 Bangkhen Baptist Church | All rights reserved
+</footer>
+
+<!-- SCRIPT -->
 <script>
 document.getElementById("contactForm").addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -130,15 +174,21 @@ document.getElementById("contactForm").addEventListener("submit", async function
     message: document.getElementById("message").value
   };
 
-  const res = await fetch("https://YOUR-BACKEND-URL/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
+  try {
+    await fetch("https://YOUR-BACKEND-URL/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
 
-  alert("ส่งข้อความแล้ว");
+    alert("ส่งข้อความสำเร็จ");
+    document.getElementById("contactForm").reset();
+
+  } catch (error) {
+    alert("ส่งไม่สำเร็จ กรุณาลองใหม่");
+  }
 });
 </script>
 
