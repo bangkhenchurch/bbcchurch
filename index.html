@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>คริสตจักรแบ๊บติสต์บางเขน</title>
+<title>คริสตจักรแบ๊บติสต์บางเขน - Dark Mode</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
@@ -18,14 +18,14 @@
   body {
     margin: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, 'Segoe UI', sans-serif;
-    background: #f8f9fa;
-    color: #333;
+    background: #000000; /* พื้นหลังหน้าเว็บสีดำสนิท */
+    color: #e0e0e0; /* สีตัวอักษรหลัก (ขาวขุ่น) */
     line-height: 1.6;
   }
 
-  /* NAV - ปรับให้รองรับมือถือ */
+  /* NAV - ปรับเป็น Dark Mode */
   nav {
-    background: #0b3d91;
+    background: #1a1a1a; /* พื้นหลังเมนูสีเทาเข้ม */
     padding: 15px 5%;
     display: flex;
     justify-content: space-between;
@@ -33,11 +33,11 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5); /* เพิ่มเงาเข้ม */
   }
 
   .nav-brand {
-    color: white;
+    color: white; /* ชื่อแบรนด์สีขาว */
     font-weight: bold;
     font-size: 1.2rem;
   }
@@ -49,7 +49,7 @@
   }
 
   nav a {
-    color: white;
+    color: #ccc; /* ตัวอักษรลิงก์สีเทาอ่อน */
     margin: 5px 10px;
     text-decoration: none;
     font-size: 0.9rem;
@@ -57,14 +57,14 @@
   }
 
   nav a:hover {
-    color: #ffcc00;
+    color: white; /* สีเมื่อ Hover เป็นสีขาว */
   }
 
-  /* HERO - ปรับให้เต็มหน้าจอ (Full Height) */
+  /* HERO - ปรับ Overlay ให้เข้มขึ้น */
   .hero {
-    height: 100vh; /* เต็มความสูงหน้าจอ */
+    height: 100vh;
     width: 100%;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), /* เพิ่ม Overlay สีดำเข้ม */
                 url('https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
     display: flex;
     justify-content: center;
@@ -77,7 +77,7 @@
   .hero h1 {
     font-size: 3.5rem;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7); /* เพิ่มเงาตัวอักษรเข้ม */
   }
 
   .hero p {
@@ -93,7 +93,7 @@
   }
 
   h2 {
-    color: #0b3d91;
+    color: white; /* หัวข้อสีขาว */
     margin-bottom: 30px;
     position: relative;
     padding-bottom: 10px;
@@ -103,50 +103,63 @@
     content: '';
     width: 50px;
     height: 3px;
-    background: #0b3d91;
+    background: white; /* เส้นขีดล่างหัวข้อสีขาว */
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  /* CARD */
+  /* CARD - ปรับพื้นหลัง Card เป็นเทาเข้ม */
   .card {
-    background: white;
+    background: #1e1e1e; /* พื้นหลัง Card สีเทาเข้ม */
     padding: 25px;
     margin: 15px 0;
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3); /* เพิ่มเงาเข้ม */
     transition: transform 0.3s;
+    border: 1px solid #333; /* เพิ่มขอบเทาเข้ม */
   }
 
   .card:hover {
     transform: translateY(-5px);
   }
 
-  /* FORM */
+  strong {
+    color: white; /* เน้นตัวหนาสีขาว */
+  }
+
+  /* FORM - ปรับพื้นหลัง Form เป็นเทาเข้ม */
   form {
-    background: white;
+    background: #1e1e1e; /* พื้นหลัง Form สีเทาเข้ม */
     padding: 30px;
     border-radius: 20px;
     text-align: left;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* เพิ่มเงาเข้ม */
+    border: 1px solid #333; /* เพิ่มขอบเทาเข้ม */
   }
 
   label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #ccc; /* ป้ายกำกับสีเทาอ่อน */
   }
 
+  /* Inputs & Textareas - ปรับพื้นหลังเข้มและสีตัวอักษร */
   input, textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* ขอบสีเทา */
     border-radius: 8px;
-    font-size: 16px; /* ป้องกัน iOS ซูมเข้าตอนพิมพ์ */
+    font-size: 16px;
+    background-color: #2a2a2a; /* พื้นหลังช่องกรอกสีเทา */
+    color: white; /* สีตัวอักษรที่พิมพ์สีขาว */
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #777; /* สี Placeholder สีเทาเข้ม */
   }
 
   /* CHECKBOX */
@@ -156,20 +169,22 @@
     gap: 12px;
     margin-bottom: 15px;
     cursor: pointer;
+    color: #ccc; /* ตัวอักษรสีเทาอ่อน */
   }
 
   .check-item input {
     width: auto;
     margin: 0;
+    filter: invert(1); /* สลับสี Checkbox ให้เป็นสีขาว */
   }
 
-  /* BUTTON */
+  /* BUTTON - ปรับปุ่มให้เป็นสีเทาเข้มพร้อมขอบสีขาว */
   button {
     width: 100%;
     padding: 15px;
-    background: #0b3d91;
-    color: white;
-    border: none;
+    background: #1a1a1a; /* พื้นหลังปุ่มสีเทาเข้ม */
+    color: white; /* ตัวอักษรสีขาว */
+    border: 1px solid white; /* ขอบสีขาว */
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: bold;
@@ -178,23 +193,30 @@
   }
 
   button:hover {
-    background: #082d6b;
+    background: white; /* สีเมื่อ Hover เป็นสีขาว */
+    color: #1a1a1a; /* สีตัวอักษรเป็นสีเทาเข้ม */
   }
 
-  /* VISITOR STATS */
+  /* VISITOR STATS - ปรับพื้นหลังเข้ม */
   .visitor-box {
-    background: white;
+    background: #1e1e1e; /* พื้นหลังกล่องสีเทาเข้ม */
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* เพิ่มเงาเข้ม */
     max-width: 400px;
     margin: 40px auto;
+    border: 1px solid #333; /* เพิ่มขอบเทาเข้ม */
+    color: #ccc; /* ตัวอักษรสีเทาอ่อน */
   }
 
-  /* FOOTER */
+  .visitor-box hr {
+    border-top: 1px solid #333; /* เส้นขีดคั่นสีเทาเข้ม */
+  }
+
+  /* FOOTER - ปรับพื้นหลังเข้มและสีตัวอักษร */
   .footer {
-    background: #0b3d91;
-    color: white;
+    background: #1a1a1a; /* พื้นหลังท้ายเว็บสีเทาเข้ม */
+    color: #ccc; /* ตัวอักษรสีเทาอ่อน */
     text-align: center;
     padding: 60px 20px;
   }
@@ -207,24 +229,28 @@
     margin-bottom: 20px;
   }
 
+  .footer h3 {
+    color: white; /* หัวข้อสีขาว */
+  }
+
   .social {
     margin: 25px 0;
   }
 
   .social a {
-    color: white;
+    color: #ccc; /* สีลิงก์โซเชียลสีเทาอ่อน */
     margin: 0 15px;
     text-decoration: none;
     font-size: 1.1rem;
-    border: 1px solid white;
+    border: 1px solid #ccc; /* ขอบสีเทาอ่อน */
     padding: 8px 20px;
     border-radius: 25px;
     transition: 0.3s;
   }
 
   .social a:hover {
-    background: white;
-    color: #0b3d91;
+    background: white; /* สีเมื่อ Hover เป็นสีขาว */
+    color: #1a1a1a; /* สีตัวอักษรเป็นสีเทาเข้ม */
   }
 
   .map {
@@ -233,12 +259,13 @@
     border-radius: 15px;
     overflow: hidden;
     height: 300px;
+    border: 1px solid #444; /* เพิ่มขอบแผนที่สีเทา */
   }
 
   /* สำหรับหน้าจอเล็กมาก */
   @media (max-width: 600px) {
     .hero h1 { font-size: 2.5rem; }
-    .nav-brand { display: none; } /* ซ่อนชื่อยาวๆ ในแถบเมนูบนมือถือ */
+    .nav-brand { display: none; }
     nav { justify-content: center; }
   }
 </style>
@@ -318,12 +345,12 @@
 <div class="visitor-box">
   <div style="margin-bottom: 20px;">
     <a href="https://info.flagcounter.com/M2Js">
-      <img src="https://s01.flagcounter.com/count2/M2Js/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+      <img src="https://s01.flagcounter.com/count2/M2Js/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0" style="filter: invert(1); /* สลับสี Flag Counter */">
     </a>
   </div>
-  <hr style="border: 0; border-top: 1px solid #eee;">
-  <p>👥 ผู้เข้าชมทั้งหมด: <strong id="visitCount">0</strong></p>
-  <p>🟢 กำลังออนไลน์: <strong id="onlineCount">0</strong></p>
+  <hr style="border: 0;">
+  <p>👥 ผู้เข้าชมทั้งหมด: <strong id="visitCount" style="color:white;">0</strong></p>
+  <p>🟢 กำลังออนไลน์: <strong id="onlineCount" style="color:white;">0</strong></p>
 </div>
 
 <footer class="footer">
@@ -344,17 +371,15 @@
     </iframe>
   </div>
 
-  <p style="font-size:12px; opacity: 0.7; margin-top: 40px;">© 2026 Bangkhen Baptist Church. All Rights Reserved.</p>
+  <p style="font-size:12px; opacity: 0.5; margin-top: 40px;">© 2026 Bangkhen Baptist Church. All Rights Reserved.</p>
 </footer>
 
 <script>
-  // ตัวนับจำนวนเข้าชม (จำลองจาก LocalStorage)
   let visits = localStorage.getItem("visitCount") || 0;
   visits++;
   localStorage.setItem("visitCount", visits);
   document.getElementById("visitCount").innerText = visits.toLocaleString();
 
-  // ตัวเลขคนออนไลน์ (สุ่มเพื่อความสวยงาม)
   document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 5) + 3;
 </script>
 
