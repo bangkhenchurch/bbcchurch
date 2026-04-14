@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คริสตจักรแบ๊บติสต์บางเขน</title>
+<link rel="icon" type="image/png" href="logo.png">
+
+<style>
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  background: #0b3d91;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* SECTION */
+.section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+/* CARD */
+.card {
+  background: #111;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 12px;
+  background: #0b3d91;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1556c0;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div>Church</div>
+  <div>
+    <a href="#home">Home</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="hero" id="home">
+  <h1>คริสตจักรแบ๊บติสต์บางเขน</h1>
+</div>
+
+<div class="section">
+
+  <div class="card">
+    <h2>ติดต่อเรา</h2>
+
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="ชื่อ" required>
+      <input type="email" id="email" placeholder="อีเมล" required>
+      <textarea id="message" placeholder="ข้อความ" required></textarea>
+      <button type="submit">ส่งข้อความ</button>
+    </form>
+
+  </div>
+
+</div>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+  };
+
+  const res = await fetch("https://YOUR-BACKEND-URL/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  alert("ส่งข้อความแล้ว");
+});
+</script>
+
+</body>
+</html>
