@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คริสตจักรแบ๊บติสต์บางเขน</title>
+<link rel="icon" type="image/png" href="logo.png">
+
+<style>
+.visitor-center {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.visitor-center img {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+}
+
+/* NAVBAR */
+nav {
+  background: #0b3d91;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  height: 90vh;
+  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.hero h1 { font-size: 48px; }
+.hero p { font-size: 20px; }
+
+/* SECTION */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  margin: 10px;
+  padding: 20px;
+  width: 280px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* FORM */
+form {
+  max-width: 500px;
+  margin: auto;
+  text-align: left;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #0b3d91;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+  background: #0b3d91;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div style="display:flex; align-items:center;">
+    <img src="logo.png" style="width:40px; margin-right:10px;">
+    <span>คริสต์จักรแบ๊บติสต์บางเขน</span>
+  </div>
+  <div>
+    <a href="#">หน้าแรก</a>
+    <a href="#">เกี่ยวกับ</a>
+    <a href="#">ตารางนมัสการ</a>
+    <a href="#">ข่าวสาร</a>
+    <a href="#">ติดต่อ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h1>ยินดีต้อนรับ</h1>
+    <p>พระเจ้าทรงรักคุณเสมอ ❤️</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+  <h2>เกี่ยวกับคริสตจักร</h2>
+  <p>เราคือชุมชนแห่งความรัก ความหวัง และความเชื่อในพระเยซูคริสต์</p>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+  <h2>เวลานมัสการ</h2>
+  <div class="card-container">
+    <div class="card">
+      <h3>วันอาทิตย์</h3>
+      <p>09:00 - 11:30</p>
+    </div>
+    <div class="card">
+      <h3>อธิษฐาน</h3>
+      <p>วันพุธ 19:00</p>
+    </div>
+    <div class="card">
+      <h3>กลุ่มเซลล์</h3>
+      <p>ตามบ้านสมาชิก</p>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="section">
+  <h2>ข่าวสาร</h2>
+  <div class="card-container">
+    <div class="card">
+      <h3>ค่ายคริสตจักร</h3>
+      <p>ป่าสัก สระบุรี</p>
+    </div>
+    <div class="card">
+      <h3>ค่ายเยาวชน</h3>
+      <p>เติบโตในความเชื่อ</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT + FORM (ใหม่) -->
+<div class="section">
+  <h2>ติดต่อเรา / กรุณากรอกข้อมูล</h2>
+
+  <p>📍 คริสต์จักรแบ๊บติสต์บางเขน</p>
+  <p>2172/145-147 ซอยพหลโยธิน 36</p>
+  <p>กรุงเทพมหานคร 10900</p>
+  <p>📞 02-5798764</p>
+
+  <br>
+
+  <!-- FORM -->
+  <form id="contactForm">
+
+    <h3 style="text-align:center;">กรุณากรอกข้อมูล</h3>
+
+    <label>1. ชื่อ-นามสกุล</label>
+    <input type="text" name="fullname" required>
+
+    <label>2. เบอร์โทร</label>
+    <input type="tel" name="phone" required>
+
+    <label>3. ที่อยู่</label>
+    <textarea name="address"></textarea>
+
+    <label>4. ไอดีไลน์</label>
+    <input type="text" name="lineid">
+
+    <label>5. ความต้องการ</label><br>
+    <input type="checkbox" name="request1"> ต้องการไปร่วมนมัสการ<br>
+    <input type="checkbox" name="request2"> ต้องการศึกษาพระคัมภีร์ที่บ้าน<br><br>
+
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+</div>
+
+<!-- FLAG -->
+<div class="visitor-center">
+  <a href="https://info.flagcounter.com/KQe9">
+    <img src="https://s01.flagcounter.com/count2/KQe9/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.png" style="width:50px;"><br><br>
+  <p>© 2026 คริสตจักรแบ๊บติสต์บางเขน</p>
+</footer>
+
+<!-- JS SEND TO SERVER -->
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = {
+    fullname: this.fullname.value,
+    phone: this.phone.value,
+    address: this.address.value,
+    lineid: this.lineid.value,
+    request1: this.request1.checked,
+    request2: this.request2.checked
+  };
+
+  try {
+    const res = await fetch("http://localhost:3000/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("ส่งข้อมูลเรียบร้อย ✔");
+      this.reset();
+    } else {
+      alert("ส่งไม่สำเร็จ ❌");
+    }
+
+  } catch (err) {
+    alert("Server ไม่ตอบสนอง ❌");
+  }
+});
+</script>
+
+</body>
+</html>
