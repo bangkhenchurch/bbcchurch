@@ -366,6 +366,34 @@ function openQR(){
 }
 
 </script>
+<script>
 
+function register() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+  .then(user => {
+    document.getElementById("status").innerText = "✅ สมัครสำเร็จ";
+  })
+  .catch(err => {
+    document.getElementById("status").innerText = err.message;
+  });
+}
+
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+  .then(user => {
+    document.getElementById("status").innerText = "🎉 เข้าสู่ระบบสำเร็จ";
+  })
+  .catch(err => {
+    document.getElementById("status").innerText = err.message;
+  });
+}
+
+</script>
 </body>
 </html>
