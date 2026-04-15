@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const LINE_TOKEN = "YOUR_LINE_TOKEN";
+const LINE_TOKEN = "3VxTLRjbFLA6Agy0Z8srtRh6O6jZTO2YEx+zxhvfDlYYLx2ZcR2jymh/Lby85r3y0fe/uTLYOW4SJ98MNkh6Z0XnLFx1PcQibOBAdOpNohtObHX25m//ULk7+AWpwApTN13L1Fe1u7pEEM53JoqtFQdB04t89/1O/w1cDnyilFU=";
 
 // ส่งข้อมูลเข้า LINE
 app.post("/send", async (req, res) => {
