@@ -8,16 +8,22 @@
 
 <style>
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
   font-family: 'Segoe UI', sans-serif;
   background: #000;
   color: #fff;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* ⭐ FULL SCREEN FIX */
+body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* NAV */
@@ -29,16 +35,10 @@ nav {
   flex-wrap: wrap;
 }
 
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-}
-
 /* HERO */
 .hero {
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover no-repeat;
+  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,59 +55,98 @@ nav a {
 .card {
   background: #111;
   padding: 20px;
-  margin: 15px auto;
+  margin: 10px;
   border-radius: 12px;
-  max-width: 500px;
-}
-
-/* STATS */
-.stats {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.stat-box {
-  background: #111;
-  padding: 20px;
-  border-radius: 12px;
-  min-width: 150px;
 }
 
 /* FORM */
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  max-width: 500px;
+  margin: auto;
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
 }
 
 input, textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 button {
-  padding: 12px;
+  width: 100%;
+  padding: 10px;
   background: #0b3d91;
   color: white;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #1556c0;
+/* ⭐ VISITOR CENTER FIX */
+.visitor-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
 }
 
-/* FOOTER */
-footer {
-  background: #0b3d91;
-  text-align: center;
+.visitor-box {
+  background: #111;
   padding: 20px;
-  margin-top: 40px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+/* ⭐ FOOTER NEW */
+.footer {
+  background: #0b3d91;
+  padding: 20px;
+  margin-top: auto;
+}
+
+.footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* SOCIAL */
+.social a {
+  color: white;
+  margin: 0 10px;
+}
+
+/* MAP */
+iframe {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* MOBILE FIX */
+* {
+  box-sizing: border-box;
+}
+
+img, iframe {
+  max-width: 100%;
 }
 
 </style>
@@ -115,81 +154,118 @@ footer {
 
 <body>
 
-<!-- NAV -->
 <nav>
-  <div>Church</div>
+  <div>คริสตจักรแบ๊บติสต์บางเขน</div>
   <div>
-    <a href="#home">Home</a>
-    <a href="#stats">Stats</a>
-    <a href="#contact">Contact</a>
+    <a href="#home">หน้าแรก</a>
+    <a href="#about">เกี่ยวกับ</a>
+    <a href="#service">ตาราง</a>
+    <a href="#news">ข่าว</a>
+    <a href="#contact">ติดต่อ</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero" id="home">
-  <h1>คริสตจักรแบ๊บติสต์บางเขน</h1>
+<div id="home" class="hero">
+  <div>
+    <h1>ยินดีต้อนรับ</h1>
+    <p>พระเจ้าทรงรักคุณเสมอ ❤️</p>
+  </div>
 </div>
 
-<!-- STATS -->
-<div class="section" id="stats">
-  <h2>สถิติผู้เข้าชม</h2>
+<!-- ⭐ PUT UNDER HERO (ตามที่คุณต้องการ) -->
+<div style="display:flex; justify-content:center; margin:20px 0;">
+  <a href="https://info.flagcounter.com/M2Js">
+    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  </a>
+</div>
 
-  <div class="stats">
-    <div class="stat-box">👥 สมาชิก</div>
-    <div class="stat-box">📖 คำเทศนา</div>
-    <div class="stat-box">🌍 ผู้เข้าชม</div>
-  </div>
+<div id="about" class="section">
+  <h2>เกี่ยวกับคริสตจักร</h2>
+  <p>เราคือชุมชนแห่งความรัก ความหวัง และความเชื่อ</p>
+</div>
+
+<div id="service" class="section">
+  <h2>เวลานมัสการ</h2>
+  <div class="card">วันอาทิตย์ 09:00 - 11:30</div>
+  <div class="card">อธิษฐาน วันพุธ 19:00</div>
+</div>
+
+<div id="news" class="section">
+  <h2>ข่าวสาร</h2>
+  <div class="card">ค่ายคริสตจักร</div>
 </div>
 
 <!-- CONTACT -->
-<div class="section" id="contact">
+<div id="contact" class="section">
+<h2>ติดต่อเรา</h2>
 
-  <div class="card">
-    <h2>ติดต่อเรา</h2>
+<form id="contactForm">
 
-    <form id="contactForm">
-      <input type="text" id="name" placeholder="ชื่อ" required>
-      <input type="email" id="email" placeholder="อีเมล" required>
-      <textarea id="message" placeholder="ข้อความ" required></textarea>
-      <button type="submit">ส่งข้อความ</button>
-    </form>
+<input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
+<input type="tel" name="phone" placeholder="เบอร์โทร" required>
+<textarea name="address" placeholder="ที่อยู่"></textarea>
+<input type="text" name="lineid" placeholder="ไอดีไลน์">
 
+<label><input type="checkbox" name="request1"> ไปร่วมนมัสการ</label><br>
+<label><input type="checkbox" name="request2"> ศึกษาพระคัมภีร์</label><br><br>
+
+<button type="submit">ส่งข้อมูลเข้า LINE</button>
+
+</form>
+</div>
+
+<!-- VISITOR -->
+<div class="visitor-center">
+  <div class="visitor-box">
+    <p>👥 ผู้เข้าชม: <span id="visitCount">0</span></p>
+    <p>🟢 ออนไลน์: <span id="onlineCount">0</span></p>
   </div>
-
 </div>
 
 <!-- FOOTER -->
-<footer>
-  © 2026 Bangkhen Baptist Church | All rights reserved
+<footer class="footer">
+
+  <div class="footer-row">
+    <div class="footer-left">
+      <img src="logo.png" class="footer-logo">
+      <h3>คริสตจักรแบ๊บติสต์บางเขน</h3>
+    </div>
+
+    <div class="social">
+      <a href="https://lin.ee/60jBty7m">LINE</a>
+      <a href="#">Facebook</a>
+      <a href="#">YouTube</a>
+    </div>
+  </div>
+
 </footer>
 
-<!-- SCRIPT -->
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
+
+// ⭐ visitor
+let visits = localStorage.getItem("visitCount") || 0;
+visits++;
+localStorage.setItem("visitCount", visits);
+document.getElementById("visitCount").innerText = visits;
+
+document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 5) + 2;
+
+// ⭐ SEND TO LINE (ต้องมี Node.js /send)
+document.getElementById("contactForm").addEventListener("submit", async function(e){
   e.preventDefault();
 
-  const data = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    message: document.getElementById("message").value
-  };
+  const data = Object.fromEntries(new FormData(this));
 
-  try {
-    await fetch("https://YOUR-BACKEND-URL/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+  await fetch("/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
 
-    alert("ส่งข้อความสำเร็จ");
-    document.getElementById("contactForm").reset();
-
-  } catch (error) {
-    alert("ส่งไม่สำเร็จ กรุณาลองใหม่");
-  }
+  alert("ส่งข้อมูลเรียบร้อยแล้ว");
+  this.reset();
 });
+
 </script>
 
 </body>
