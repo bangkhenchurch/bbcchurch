@@ -6,9 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 🔐 ใส่ Token ใหม่ที่คุณจะ generate อีกครั้ง
 const LINE_TOKEN = "3VxTLRjbFLA6Agy0Z8srtRh6O6jZTO2YEx+zxhvfDlYYLx2ZcR2jymh/Lby85r3y0fe/uTLYOW4SJ98MNkh6Z0XnLFx1PcQibOBAdOpNohtObHX25m//ULk7+AWpwApTN13L1Fe1u7pEEM53JoqtFQdB04t89/1O/w1cDnyilFU=";
 
-// ส่งข้อมูลเข้า LINE
+// 🔐 ใส่ Group ID ของคุณ
+const GROUP_ID = "C32a6bb4b962262c82131209a6bc4fac4";
+
 app.post("/send", async (req, res) => {
   try {
     const msg = `
@@ -22,23 +25,31 @@ LINE: ${req.body.lineid}
 `;
 
     await axios.post(
-      "https://notify-api.line.me/api/notify",
-      new URLSearchParams({ message: msg }),
+      "https://api.line.me/v2/bot/message/push",
+      {
+        to: GROUP_ID,
+        messages: [
+          {
+            type: "text",
+            text: msg
+          }
+        ]
+      },
       {
         headers: {
-          Authorization: `Bearer ${LINE_TOKEN}`
+          Authorization: `Bearer ${LINE_TOKEN}`,
+          "Content-Type": "application/json"
         }
       }
     );
 
     res.send("ok");
   } catch (err) {
-    console.log(err);
+    console.log(err.response?.data || err.message);
     res.status(500).send("error");
   }
 });
 
-// เปิด server
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
