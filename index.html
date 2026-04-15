@@ -28,6 +28,9 @@ nav {
   top: 0;
   width: 100%;
   z-index: 999;
+
+  height: auto;
+  min-height: 60px;
 }
 
 nav a {
@@ -38,11 +41,13 @@ nav a {
 
 /* HERO */
 .hero {
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
+  min-height: 60vh;   /* ลดความสูง */
+  max-height: 500px;  /* กันไม่ให้ใหญ่เกิน */
+  background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 /* SECTION */
@@ -148,6 +153,14 @@ footer {
   right: 15px;
   font-size: 28px;
   cursor: pointer;
+}
+  html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>
 </head>
