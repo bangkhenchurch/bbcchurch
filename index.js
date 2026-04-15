@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 const LINE_TOKEN = "3VxTLRjbFLA6Agy0Z8srtRh6O6jZTO2YEx+zxhvfDlYYLx2ZcR2jymh/Lby85r3y0fe/uTLYOW4SJ98MNkh6Z0XnLFx1PcQibOBAdOpNohtObHX25m//ULk7+AWpwApTN13L1Fe1u7pEEM53JoqtFQdB04t89/1O/w1cDnyilFU=";
 const GROUP_ID = "C32a6bb4b962262c82131209a6bc4fac4";
 
-// ✅ หน้าเช็ค
+// ✅ หน้าเช็ค  
 app.get("/", (req, res) => {
   res.send("✅ BBC Church API is running");
 });
