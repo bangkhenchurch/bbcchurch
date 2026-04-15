@@ -173,7 +173,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     study: formData.get("study") ? true : false
   };
 
-  await fetch("/send", {
+  fetch("https://bbcchurch.onrender.com/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
