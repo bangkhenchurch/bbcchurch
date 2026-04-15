@@ -7,7 +7,6 @@
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -84,7 +83,6 @@ footer {
   padding: 20px;
   margin-top: 50px;
 }
-
 </style>
 </head>
 
@@ -158,7 +156,7 @@ footer {
 
 <script>
 
-// ✅ ส่งข้อมูลไป server
+// 🔥 SCRIPT ตัวใหม่ (มี debug ครบ)
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -173,16 +171,31 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     study: formData.get("study") ? true : false
   };
 
-  fetch("https://bbcchurch.onrender.com/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
+  console.log("📤 ส่งข้อมูล:", data);
 
-  alert("ส่งข้อมูลเรียบร้อยแล้ว");
-  e.target.reset();
+  try {
+    const res = await fetch("https://bbcchurch.onrender.com/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const text = await res.text();
+    console.log("📥 SERVER:", text);
+
+    if (res.ok) {
+      alert("✅ ส่งข้อมูลเรียบร้อยแล้ว");
+      e.target.reset();
+    } else {
+      alert("❌ ส่งไม่สำเร็จ: " + text);
+    }
+
+  } catch (err) {
+    console.error("❌ FETCH ERROR:", err);
+    alert("❌ ติดต่อ server ไม่ได้");
+  }
 });
 
 </script>
