@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bangkhen Baptist Church คริสตจักรแบ๊บติสต์บางเขน</title>
+<title>Bangkhen Baptist Church</title>
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
@@ -15,7 +15,11 @@ body {
   background: #000;
   color: #fff;
   padding-top: 70px;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
+
+* { box-sizing: border-box; }
 
 /* NAV */
 nav {
@@ -28,21 +32,11 @@ nav {
   top: 0;
   width: 100%;
   z-index: 999;
-
-  height: auto;
-  min-height: 60px;
-}
-
-nav a {
-  color: white;
-  margin: 0 8px;
-  text-decoration: none;
 }
 
 /* HERO */
 .hero {
-  min-height: 60vh;   /* ลดความสูง */
-  max-height: 500px;  /* กันไม่ให้ใหญ่เกิน */
+  min-height: 60vh;
   background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover no-repeat;
   display: flex;
   justify-content: center;
@@ -56,13 +50,6 @@ nav a {
   text-align: center;
 }
 
-.card {
-  background: #111;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 12px;
-}
-
 /* FORM */
 form {
   max-width: 500px;
@@ -70,7 +57,6 @@ form {
   background: #111;
   padding: 20px;
   border-radius: 10px;
-  text-align: left;
 }
 
 input, textarea {
@@ -80,16 +66,15 @@ input, textarea {
   background: #000;
   color: #fff;
   border: 1px solid #333;
-  border-radius: 5px;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   padding: 10px;
   background: #0b3d91;
   color: white;
   border: none;
-  cursor: pointer;
 }
 
 /* CHECKBOX */
@@ -102,48 +87,21 @@ button {
 
 .checkbox-group input {
   width: auto;
-  transform: scale(1.2);
-}
-
-/* FOOTER */
-footer {
-  background: #0b3d91;
-  padding: 20px;
-  margin-top: 50px;
-}
-
-/* FLOAT LINE */
-#lineFloat {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #06C755;
-  color: white;
-  font-size: 24px;
-  padding: 15px 18px;
-  border-radius: 50%;
-  text-decoration: none;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  z-index: 9999;
 }
 
 /* POPUP */
 #qrPopup {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.8);
   justify-content: center;
   align-items: center;
-  z-index: 9999;
 }
 
 .popup-box {
   background: #111;
   padding: 20px;
-  border-radius: 10px;
-  text-align: center;
   position: relative;
 }
 
@@ -151,201 +109,140 @@ footer {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 28px;
+  font-size: 25px;
   cursor: pointer;
 }
-  html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
 
-* {
-  box-sizing: border-box;
+/* FLOAT */
+#lineFloat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #06C755;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 22px;
 }
 </style>
 </head>
 
 <body>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <div style="max-width:400px; margin:40px auto; background:#111; padding:20px; border-radius:10px;">
 
-  <h2 style="text-align:center;">🔐 สมาชิกเข้าสู่ระบบ</h2>
-
-  <input id="email" type="email" placeholder="Email"
-    style="width:100%; padding:10px; margin:10px 0;">
-
-  <input id="password" type="password" placeholder="Password"
-    style="width:100%; padding:10px; margin:10px 0;">
-
-  <button onclick="login()"
-    style="width:100%; padding:10px; background:#0b3d91; color:white;">
-    เข้าสู่ระบบ
-  </button>
-
-  <button onclick="register()"
-    style="width:100%; padding:10px; margin-top:10px; background:#06C755; color:white;">
-    สมัครสมาชิก
-  </button>
-
-  <p id="status" style="text-align:center; margin-top:10px;"></p>
-
-</div>
 <!-- NAV -->
 <nav>
-  <div>Bangkhen Baptist Chruch คริสตจักรแบ๊บติสต์บางเขน</div>
-  <div>
-    <a href="#home">หน้าแรก</a>
-    <a href="#about">เกี่ยวกับ</a>
-    <a href="#service">นมัสการ</a>
-    <a href="#news">ข่าว</a>
-    <a href="#contact">ติดต่อ</a>
-  </div>
+  <div>Bangkhen Baptist Church</div>
 </nav>
 
 <!-- HERO -->
-<div id="home" class="hero">
+<div class="hero">
   <div>
     <h1>ยินดีต้อนรับ</h1>
-    <p>พระเจ้าทรงรักคุณเสมอ ❤️</p>
   </div>
 </div>
 
-  <!-- FLAG TOP -->
-<div style="display:flex; justify-content:center; margin:20px 0;">
-  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
-</div>
-  
-<div id="about" class="section">
-  <h2>เกี่ยวกับคริสตจักร</h2>
-</div>
+<!-- LOGIN -->
+<div style="max-width:400px;margin:30px auto;background:#111;padding:20px;border-radius:10px;">
+<h2>Login สมาชิก</h2>
 
-<div id="service" class="section">
-  <h2>เวลานมัสการ</h2>
-  <div class="card">อาทิตย์ 09:00 - 11:30</div>
-</div>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-<div id="news" class="section">
-  <h2>ข่าวสาร</h2>
+<button onclick="login()">Login</button>
+<button onclick="register()">Register</button>
+
+<p id="status"></p>
 </div>
 
 <!-- CONTACT -->
-<div id="contact" class="section">
+<div class="section">
 <h2>ติดต่อเรา</h2>
 
 <form id="contactForm">
-<input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
-<input type="tel" name="phone" placeholder="เบอร์โทร" required>
-<textarea name="address" placeholder="ที่อยู่"></textarea>
-<input type="text" name="lineid" placeholder="LINE ID">
+<input name="fullname" placeholder="ชื่อ">
+<input name="phone" placeholder="โทร">
+<textarea name="address"></textarea>
 
 <div class="checkbox-group">
-  <input type="checkbox" id="worship" name="worship">
-  <label for="worship">ต้องการไปร่วมนมัสการพระเจ้า</label>
+<input type="checkbox" name="worship">
+<label>ไปโบสถ์</label>
 </div>
 
-<div class="checkbox-group">
-  <input type="checkbox" id="study" name="study">
-  <label for="study">ต้องการศึกษาพระคัมภีร์ที่บ้าน</label>
-</div>
-
-<button type="submit">ส่งข้อมูล</button>
+<button type="submit">ส่ง</button>
 </form>
-
-<!-- LINE QR SECTION -->
-<div style="text-align:center; margin-top:30px;">
-
-  <h3>เพิ่มเพื่อน LINE</h3>
-
-  <!-- QR (คลิกได้) -->
-  <a href="https://lin.ee/60jBty7m" target="_blank">
-    <img src="line-qr.png"
-      style="width:200px; border-radius:10px; cursor:pointer;">
-  </a>
-
-  <p>สแกนหรือกดที่รูปเพื่อไป LINE</p>
-
-  <!-- ปุ่ม -->
-  <a href="https://lin.ee/60jBty7m" target="_blank">
-    <button>แอด LINE</button>
-  </a>
-
-</div>
 </div>
 
-<!-- FLAG BOTTOM -->
-<div style="display:flex; justify-content:center; margin:20px 0;">
-  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+<!-- LINE -->
+<div style="text-align:center">
+<a href="https://lin.ee/60jBty7m">
+<img src="line-qr.png" width="180">
+</a>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div style="text-align:center; padding:20px;">
-
-    <!-- 🔥 LOGO -->
-    <img src="logo.png" alt="Church Logo"
-      style="width:80px; border-radius:10px; margin-bottom:10px;">
-
-    <!-- TEXT -->
-    <h3 style="margin:0;">
-      <p>@2026 Bangkhen Baptist Church คริสตจักรแบ๊บติสต์บางเขน</p>
-      <p>2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ รหัสไปรษณี 12000</p>
-      <p>โทรศัพท์ 02-5798764 (+662-5798764)</p>
-
-    </h3>
-
-  </div>
-</footer>
-
-<!-- FLOAT BUTTON -->
-<a href="#" id="lineFloat">💬</a>
+<!-- FLOAT -->
+<a id="lineFloat" href="#">💬</a>
 
 <!-- POPUP -->
 <div id="qrPopup">
   <div class="popup-box">
-    <div id="closePopup">&times;</div>
-    <h3>เพิ่มเพื่อน LINE</h3>
-    <img src="line-qr.png" style="width:200px;">
+    <div id="closePopup">×</div>
+    <img src="line-qr.png" width="200">
   </div>
 </div>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script>
 
-/* FORM */
+/* =========================
+   🔥 FIREBASE CONFIG (ของคุณต้องใส่เอง)
+========================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* =========================
+   🔥 LOGIN
+========================= */
+function register() {
+  auth.createUserWithEmailAndPassword(
+    email.value,
+    password.value
+  ).then(() => {
+    status.innerText = "สมัครสำเร็จ";
+  }).catch(e => status.innerText = e.message);
+}
+
+function login() {
+  auth.signInWithEmailAndPassword(
+    email.value,
+    password.value
+  ).then(() => {
+    status.innerText = "Login สำเร็จ";
+  }).catch(e => status.innerText = e.message);
+}
+
+/* =========================
+   FORM
+========================= */
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  const formData = new FormData(e.target);
-
-  const data = {
-    fullname: formData.get("fullname"),
-    phone: formData.get("phone"),
-    address: formData.get("address"),
-    lineid: formData.get("lineid"),
-    worship: formData.get("worship") ? true : false,
-    study: formData.get("study") ? true : false
-  };
-
-  try {
-    const res = await fetch("https://bbcchurch.onrender.com/send", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(data)
-    });
-
-    if (res.ok) {
-      alert("✅ ส่งข้อมูลเรียบร้อยแล้ว");
-      e.target.reset();
-    } else {
-      alert("❌ ส่งไม่สำเร็จ");
-    }
-
-  } catch {
-    alert("❌ server error");
-  }
+  alert("ส่งแล้ว");
 });
 
-/* POPUP CONTROL */
+/* =========================
+   POPUP
+========================= */
 const popup = document.getElementById("qrPopup");
 
 document.getElementById("lineFloat").onclick = (e) => {
@@ -361,39 +258,7 @@ popup.onclick = (e) => {
   if (e.target === popup) popup.style.display = "none";
 };
 
-function openQR(){
-  popup.style.display = "flex";
-}
-
 </script>
-<script>
 
-function register() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  auth.createUserWithEmailAndPassword(email, password)
-  .then(user => {
-    document.getElementById("status").innerText = "✅ สมัครสำเร็จ";
-  })
-  .catch(err => {
-    document.getElementById("status").innerText = err.message;
-  });
-}
-
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, password)
-  .then(user => {
-    document.getElementById("status").innerText = "🎉 เข้าสู่ระบบสำเร็จ";
-  })
-  .catch(err => {
-    document.getElementById("status").innerText = err.message;
-  });
-}
-
-</script>
 </body>
 </html>
