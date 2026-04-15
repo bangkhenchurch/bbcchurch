@@ -16,7 +16,6 @@ body {
   color: #fff;
   padding-top: 70px;
   overflow-x: hidden;
-  box-sizing: border-box;
 }
 
 * { box-sizing: border-box; }
@@ -27,7 +26,6 @@ nav {
   padding: 15px;
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   position: fixed;
   top: 0;
   width: 100%;
@@ -68,7 +66,6 @@ input, textarea {
   border: 1px solid #333;
 }
 
-/* BUTTON */
 button {
   width: 100%;
   padding: 10px;
@@ -82,11 +79,6 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 10px 0;
-}
-
-.checkbox-group input {
-  width: auto;
 }
 
 /* POPUP */
@@ -113,7 +105,7 @@ button {
   cursor: pointer;
 }
 
-/* FLOAT */
+/* FLOAT LINE */
 #lineFloat {
   position: fixed;
   bottom: 20px;
@@ -122,7 +114,13 @@ button {
   padding: 15px;
   border-radius: 50%;
   text-decoration: none;
-  font-size: 22px;
+}
+
+/* FOOTER */
+footer {
+  background: #0b3d91;
+  padding: 30px 10px;
+  text-align: center;
 }
 </style>
 </head>
@@ -139,6 +137,11 @@ button {
   <div>
     <h1>ยินดีต้อนรับ</h1>
   </div>
+</div>
+
+<!-- FLAG TOP -->
+<div style="display:flex; justify-content:center; margin:20px 0;">
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
 <!-- LOGIN -->
@@ -159,27 +162,48 @@ button {
 <h2>ติดต่อเรา</h2>
 
 <form id="contactForm">
-<input name="fullname" placeholder="ชื่อ">
-<input name="phone" placeholder="โทร">
-<textarea name="address"></textarea>
+<input name="fullname" placeholder="ชื่อ-นามสกุล">
+<input name="phone" placeholder="โทรศัพท์">
+<textarea name="address" placeholder="ที่อยู่"></textarea>
 
 <div class="checkbox-group">
 <input type="checkbox" name="worship">
 <label>ไปโบสถ์</label>
 </div>
 
-<button type="submit">ส่ง</button>
+<button type="submit">ส่งข้อมูล</button>
 </form>
-</div>
 
 <!-- LINE -->
-<div style="text-align:center">
+<div style="margin-top:30px;">
 <a href="https://lin.ee/60jBty7m">
 <img src="line-qr.png" width="180">
 </a>
 </div>
+</div>
 
-<!-- FLOAT -->
+<!-- 🔥 FLAG COUNTER (ก่อน FOOTER) -->
+<div style="display:flex; justify-content:center; margin:20px 0;">
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+</div>
+
+<!-- FOOTER (ของคุณคืนครบ 100%) -->
+<footer>
+  <img src="logo.png" style="width:90px; margin-bottom:10px;">
+
+  <h3 style="margin:5px 0;">
+    @2026 Bangkhen Baptist Church คริสตจักรแบ๊บติสต์บางเขน
+  </h3>
+
+  <p>
+    2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน<br>
+    แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
+  </p>
+
+  <p>โทร. 02-579-8764 (+662-5798764)</p>
+</footer>
+
+<!-- FLOAT BUTTON -->
 <a id="lineFloat" href="#">💬</a>
 
 <!-- POPUP -->
@@ -196,9 +220,7 @@ button {
 
 <script>
 
-/* =========================
-   🔥 FIREBASE CONFIG (ของคุณต้องใส่เอง)
-========================= */
+/* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -211,51 +233,35 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-/* =========================
-   🔥 LOGIN
-========================= */
-function register() {
-  auth.createUserWithEmailAndPassword(
-    email.value,
-    password.value
-  ).then(() => {
-    status.innerText = "สมัครสำเร็จ";
-  }).catch(e => status.innerText = e.message);
+/* LOGIN */
+function register(){
+  auth.createUserWithEmailAndPassword(email.value,password.value)
+  .then(()=>status.innerText="สมัครสำเร็จ")
+  .catch(e=>status.innerText=e.message);
 }
 
-function login() {
-  auth.signInWithEmailAndPassword(
-    email.value,
-    password.value
-  ).then(() => {
-    status.innerText = "Login สำเร็จ";
-  }).catch(e => status.innerText = e.message);
+function login(){
+  auth.signInWithEmailAndPassword(email.value,password.value)
+  .then(()=>status.innerText="Login สำเร็จ")
+  .catch(e=>status.innerText=e.message);
 }
 
-/* =========================
-   FORM
-========================= */
-document.getElementById("contactForm").addEventListener("submit", async (e) => {
+/* FORM */
+document.getElementById("contactForm").addEventListener("submit",(e)=>{
   e.preventDefault();
-  alert("ส่งแล้ว");
+  alert("ส่งข้อมูลแล้ว");
 });
 
-/* =========================
-   POPUP
-========================= */
-const popup = document.getElementById("qrPopup");
+/* POPUP */
+const popup=document.getElementById("qrPopup");
 
-document.getElementById("lineFloat").onclick = (e) => {
+document.getElementById("lineFloat").onclick=(e)=>{
   e.preventDefault();
-  popup.style.display = "flex";
+  popup.style.display="flex";
 };
 
-document.getElementById("closePopup").onclick = () => {
-  popup.style.display = "none";
-};
-
-popup.onclick = (e) => {
-  if (e.target === popup) popup.style.display = "none";
+document.getElementById("closePopup").onclick=()=>{
+  popup.style.display="none";
 };
 
 </script>
