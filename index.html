@@ -8,34 +8,49 @@
 
 <style>
 
-html, body {
-  margin: 0;
-  padding: 0;
+html {
   scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #000;
   color: #fff;
-  width: 100%;
-  min-height: 100%;
 }
 
-/* ⭐ FULL SCREEN FIX */
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* NAV */
+/* ⭐ NAV */
 nav {
   background: #0b3d91;
   padding: 15px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-/* HERO */
+nav div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 8px;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,0.2);
+  color: yellow;
+}
+
+/* ⭐ HERO */
 .hero {
   height: 100vh;
   background: url('https://images.unsplash.com/photo-1507692049790-de58290a4334') center/cover;
@@ -45,13 +60,13 @@ nav {
   text-align: center;
 }
 
-/* SECTION */
+/* ⭐ SECTION */
 .section {
   padding: 50px 20px;
   text-align: center;
 }
 
-/* CARD */
+/* ⭐ CARD */
 .card {
   background: #111;
   padding: 20px;
@@ -59,7 +74,7 @@ nav {
   border-radius: 12px;
 }
 
-/* FORM */
+/* ⭐ FORM */
 form {
   max-width: 500px;
   margin: auto;
@@ -71,11 +86,12 @@ form {
 
 input, textarea {
   width: 100%;
-  padding: 8px;
-  margin: 5px 0 15px;
+  padding: 10px;
+  margin: 8px 0;
   background: #000;
   color: #fff;
   border: 1px solid #333;
+  border-radius: 5px;
 }
 
 button {
@@ -87,32 +103,32 @@ button {
   cursor: pointer;
 }
 
-/* ⭐ VISITOR CENTER FIX */
+/* ⭐ VISITOR CENTER */
 .visitor-center {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin: 40px 0;
 }
 
 .visitor-box {
   background: #111;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 12px;
   text-align: center;
+  min-width: 250px;
 }
 
-/* ⭐ FOOTER NEW */
-.footer {
+/* ⭐ FOOTER */
+footer {
   background: #0b3d91;
   padding: 20px;
-  margin-top: auto;
+  margin-top: 50px;
 }
 
 .footer-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -122,25 +138,19 @@ button {
   gap: 10px;
 }
 
-.footer-logo {
+.footer-left img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
 }
 
-/* SOCIAL */
 .social a {
   color: white;
   margin: 0 10px;
+  text-decoration: none;
 }
 
-/* MAP */
-iframe {
-  width: 100%;
-  border-radius: 10px;
-}
-
-/* MOBILE FIX */
+/* ⭐ MOBILE FIX */
 * {
   box-sizing: border-box;
 }
@@ -154,17 +164,19 @@ img, iframe {
 
 <body>
 
+<!-- NAV -->
 <nav>
   <div>คริสตจักรแบ๊บติสต์บางเขน</div>
   <div>
     <a href="#home">หน้าแรก</a>
     <a href="#about">เกี่ยวกับ</a>
-    <a href="#service">ตาราง</a>
+    <a href="#service">นมัสการ</a>
     <a href="#news">ข่าว</a>
     <a href="#contact">ติดต่อ</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <div id="home" class="hero">
   <div>
     <h1>ยินดีต้อนรับ</h1>
@@ -172,27 +184,28 @@ img, iframe {
   </div>
 </div>
 
-<!-- ⭐ PUT UNDER HERO (ตามที่คุณต้องการ) -->
+<!-- FLAG COUNTER -->
 <div style="display:flex; justify-content:center; margin:20px 0;">
-  <a href="https://info.flagcounter.com/M2Js">
-    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
-  </a>
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
+<!-- ABOUT -->
 <div id="about" class="section">
   <h2>เกี่ยวกับคริสตจักร</h2>
-  <p>เราคือชุมชนแห่งความรัก ความหวัง และความเชื่อ</p>
+  <p>เราคือชุมชนแห่งความรัก ความเชื่อ และความหวัง</p>
 </div>
 
+<!-- SERVICE -->
 <div id="service" class="section">
   <h2>เวลานมัสการ</h2>
-  <div class="card">วันอาทิตย์ 09:00 - 11:30</div>
-  <div class="card">อธิษฐาน วันพุธ 19:00</div>
+  <div class="card">อาทิตย์ 09:00 - 11:30</div>
+  <div class="card">พุธ 19:00 อธิษฐาน</div>
 </div>
 
+<!-- NEWS -->
 <div id="news" class="section">
   <h2>ข่าวสาร</h2>
-  <div class="card">ค่ายคริสตจักร</div>
+  <div class="card">ค่ายคริสตจักร / กิจกรรม</div>
 </div>
 
 <!-- CONTACT -->
@@ -204,12 +217,9 @@ img, iframe {
 <input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
 <input type="tel" name="phone" placeholder="เบอร์โทร" required>
 <textarea name="address" placeholder="ที่อยู่"></textarea>
-<input type="text" name="lineid" placeholder="ไอดีไลน์">
+<input type="text" name="lineid" placeholder="LINE ID">
 
-<label><input type="checkbox" name="request1"> ไปร่วมนมัสการ</label><br>
-<label><input type="checkbox" name="request2"> ศึกษาพระคัมภีร์</label><br><br>
-
-<button type="submit">ส่งข้อมูลเข้า LINE</button>
+<button type="submit">ส่งข้อมูล</button>
 
 </form>
 </div>
@@ -223,38 +233,38 @@ img, iframe {
 </div>
 
 <!-- FOOTER -->
-<footer class="footer">
-
+<footer>
   <div class="footer-row">
+    
     <div class="footer-left">
-      <img src="logo.png" class="footer-logo">
+      <img src="logo.png">
       <h3>คริสตจักรแบ๊บติสต์บางเขน</h3>
     </div>
 
     <div class="social">
-      <a href="https://lin.ee/60jBty7m">LINE</a>
+      <a href="#">LINE</a>
       <a href="#">Facebook</a>
       <a href="#">YouTube</a>
     </div>
-  </div>
 
+  </div>
 </footer>
 
 <script>
 
-// ⭐ visitor
+// visitor
 let visits = localStorage.getItem("visitCount") || 0;
 visits++;
 localStorage.setItem("visitCount", visits);
 document.getElementById("visitCount").innerText = visits;
 
-document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 5) + 2;
+document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 5) + 1;
 
-// ⭐ SEND TO LINE (ต้องมี Node.js /send)
-document.getElementById("contactForm").addEventListener("submit", async function(e){
+// form submit → server
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const data = Object.fromEntries(new FormData(this));
+  const data = Object.fromEntries(new FormData(e.target));
 
   await fetch("/send", {
     method: "POST",
@@ -263,7 +273,7 @@ document.getElementById("contactForm").addEventListener("submit", async function
   });
 
   alert("ส่งข้อมูลเรียบร้อยแล้ว");
-  this.reset();
+  e.target.reset();
 });
 
 </script>
