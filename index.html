@@ -16,12 +16,23 @@ body {
   color: #fff;
 }
 
+/* 🔥 NAVBAR FIXED */
 nav {
   background: #0b3d91;
   padding: 15px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/* กันเนื้อหาโดน navbar ทับ */
+body {
+  padding-top: 70px;
 }
 
 nav a {
@@ -78,6 +89,24 @@ button {
   cursor: pointer;
 }
 
+/* 🔥 CHECKBOX STYLE ใหม่ */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.checkbox-group input {
+  width: auto;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+}
+
 footer {
   background: #0b3d91;
   padding: 20px;
@@ -130,20 +159,16 @@ footer {
 <textarea name="address" placeholder="ที่อยู่"></textarea>
 <input type="text" name="lineid" placeholder="LINE ID">
 
-<!-- 🔥 CHECKBOX -->
-<label>
-  <input type="checkbox" name="worship">
-  ต้องการไปร่วมนมัสการพระเจ้าที่คริสต์จักร
-</label>
+<!-- 🔥 CHECKBOX ใหม่ (เรียงแนวนอน) -->
+<div class="checkbox-group">
+  <input type="checkbox" id="worship" name="worship">
+  <label for="worship">ต้องการไปร่วมนมัสการพระเจ้าที่คริสต์จักร</label>
+</div>
 
-<br><br>
-
-<label>
-  <input type="checkbox" name="study">
-  ต้องการเอกสาร เพื่อศึกษาที่บ้าน
-</label>
-
-<br><br>
+<div class="checkbox-group">
+  <input type="checkbox" id="study" name="study">
+  <label for="study">ต้องการศึกษาพระคัมภีร์ที่บ้าน</label>
+</div>
 
 <button type="submit">ส่งข้อมูล</button>
 
@@ -156,7 +181,7 @@ footer {
 
 <script>
 
-// 🔥 SCRIPT ตัวใหม่ (มี debug ครบ)
+// 🔥 SCRIPT ตัวเดิม (ไม่ลบ)
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
