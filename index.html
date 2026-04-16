@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bangkhen Baptist Church</title>
-<link rel="icon" href="logo.png">
+<title>Bangkhen Baptist Church คริสตจักรแบ๊บติสต์บางเขน</title>
+<link rel="icon" type="image/png" href="logo.png">
 
 <style>
 html { scroll-behavior: smooth; }
@@ -19,34 +19,41 @@ body {
 
 /* NAV */
 nav {
-  background: rgba(11,61,145,0.9);
+  background: #0b3d91;
   padding: 15px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   position: fixed;
-  width: 100%;
   top: 0;
+  width: 100%;
   z-index: 999;
 }
 
-/* HERO แบบในรูป */
+nav a {
+  color: white;
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+/* HERO (ใหม่ สวยแบบ template) */
 .hero {
-  height: 90vh;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-  url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') center/cover no-repeat;
+  height: 70vh;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+    url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
 .hero h1 {
-  font-size: 50px;
-  margin: 0;
+  font-size: 40px;
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: 18px;
+  opacity: 0.9;
 }
 
 /* SECTION */
@@ -55,32 +62,26 @@ nav {
   text-align: center;
 }
 
-/* GRID แบบ template */
+/* CARD GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
   gap: 20px;
 }
 
-/* CARD สไตล์ใหม่ */
 .card {
   background: #111;
-  border-radius: 15px;
+  border-radius: 12px;
   overflow: hidden;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
 }
 
 .card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
 }
 
-.card-content {
+.card p {
   padding: 15px;
 }
 
@@ -91,6 +92,7 @@ form {
   background: #111;
   padding: 20px;
   border-radius: 10px;
+  text-align: left;
 }
 
 input, textarea {
@@ -100,6 +102,7 @@ input, textarea {
   background: #000;
   color: #fff;
   border: 1px solid #333;
+  border-radius: 5px;
 }
 
 button {
@@ -108,23 +111,14 @@ button {
   background: #0b3d91;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 /* FOOTER */
 footer {
   background: #0b3d91;
   padding: 20px;
-  text-align: center;
-}
-
-/* FLOAT */
-#lineFloat {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #06C755;
-  padding: 15px;
-  border-radius: 50%;
+  margin-top: 50px;
 }
 </style>
 </head>
@@ -136,9 +130,7 @@ footer {
   <div>Bangkhen Baptist Church</div>
   <div>
     <a href="#home">หน้าแรก</a>
-    <a href="#about">เกี่ยวกับ</a>
     <a href="#service">นมัสการ</a>
-    <a href="#news">ข่าว</a>
     <a href="#contact">ติดต่อ</a>
   </div>
 </nav>
@@ -146,65 +138,41 @@ footer {
 <!-- HERO -->
 <div id="home" class="hero">
   <div>
-    <h1>ยินดีต้อนรับ</h1>
-    <p>พระเจ้าทรงรักคุณเสมอ ❤️</p>
+    <h1>ยินดีต้อนรับสู่คริสตจักร</h1>
+    <p>สถานที่แห่งความรัก ความหวัง และการอธิษฐาน</p>
   </div>
 </div>
 
-<!-- ABOUT -->
-<div id="about" class="section">
-  <h2>เกี่ยวกับคริสตจักร</h2>
+<!-- 🙌 SECTION นมัสการ -->
+<div id="service" class="section">
+  <h2>บรรยากาศนมัสการ</h2>
+
   <div class="grid">
+
+    <!-- 🙌 ยกมือ -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334">
+      <p>การนมัสการด้วยใจ – ยกมือสรรเสริญพระเจ้า</p>
+    </div>
+
+    <!-- 🎤 นักเทศ -->
     <div class="card">
       <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df">
-      <div class="card-content">
-        <h3>วิสัยทัศน์</h3>
-        <p>นำคนมารู้จักพระเจ้า</p>
-      </div>
+      <p>การเทศนาและการฟังพระวจนะ</p>
     </div>
 
+    <!-- 🕯️ แสงนุ่ม -->
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-      <div class="card-content">
-        <h3>พันธกิจ</h3>
-        <p>สร้างสาวกและชุมชนแห่งความรัก</p>
-      </div>
+      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+      <p>บรรยากาศสงบ อธิษฐาน แสงนุ่มอบอุ่น</p>
     </div>
+
   </div>
 </div>
 
-<!-- SERVICE -->
-<div id="service" class="section">
-  <h2>เวลานมัสการ</h2>
-  <div class="card">
-    <div class="card-content">
-      อาทิตย์ 09:00 - 11:30
-    </div>
-  </div>
-</div>
-
-<!-- NEWS -->
-<div id="news" class="section">
-  <h2>ข่าวสาร</h2>
-  <div class="grid">
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
-      <div class="card-content">
-        <h3>ค่ายคริสเตียน</h3>
-        <p>เปิดรับสมัครแล้ว</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d">
-      <div class="card-content">
-        <h3>กิจกรรมเยาวชน</h3>
-        <p>ทุกวันเสาร์</p>
-      </div>
-    </div>
-
-  </div>
+<!-- ✅ FLAG ใต้รูปนมัสการ -->
+<div style="display:flex; justify-content:center; margin:20px 0;">
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
 <!-- CONTACT -->
@@ -216,29 +184,22 @@ footer {
 <input type="tel" name="phone" placeholder="เบอร์โทร" required>
 <textarea name="address" placeholder="ที่อยู่"></textarea>
 <input type="text" name="lineid" placeholder="LINE ID">
-
-<label><input type="checkbox" name="worship"> ไปร่วมนมัสการ</label><br>
-<label><input type="checkbox" name="study"> ศึกษาพระคัมภีร์</label>
-
 <button type="submit">ส่งข้อมูล</button>
 </form>
+</div>
 
-<br>
-
-<a href="https://lin.ee/60jBty7m" target="_blank">
-<img src="line-qr.png" width="200">
-</a>
-
+<!-- ✅ FLAG ก่อน Footer -->
+<div style="display:flex; justify-content:center; margin:20px 0;">
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <img src="logo.png" width="80"><br>
-  Bangkhen Baptist Church<br>
-  กรุงเทพฯ
+  <div style="text-align:center;">
+    <img src="logo.png" style="width:80px;">
+    <p>@2026 Bangkhen Baptist Church</p>
+  </div>
 </footer>
-
-<a href="#" id="lineFloat">💬</a>
 
 <script>
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
@@ -251,17 +212,25 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     phone: formData.get("phone"),
     address: formData.get("address"),
     lineid: formData.get("lineid"),
-    worship: formData.get("worship") ? true : false,
-    study: formData.get("study") ? true : false
   };
 
-  await fetch("https://bbcchurch.onrender.com/send", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(data)
-  });
+  try {
+    const res = await fetch("https://bbcchurch.onrender.com/send", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(data)
+    });
 
-  alert("ส่งข้อมูลแล้ว");
+    if (res.ok) {
+      alert("✅ ส่งข้อมูลเรียบร้อยแล้ว");
+      e.target.reset();
+    } else {
+      alert("❌ ส่งไม่สำเร็จ");
+    }
+
+  } catch {
+    alert("❌ server error");
+  }
 });
 </script>
 
