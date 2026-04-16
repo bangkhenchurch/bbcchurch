@@ -3,122 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bangkhen Baptist Church คริสตจักรแบ๊บติสต์บางเขน</title>
-<link rel="icon" type="image/png" href="logo.png">
+<title>Bangkhen Baptist Church</title>
 
 <style>
-html { scroll-behavior: smooth; }
-
 body {
-  margin: 0;
+  margin:0;
   font-family: 'Segoe UI', sans-serif;
-  background: #000;
-  color: #fff;
-  padding-top: 70px;
+  background:#000;
+  color:#fff;
 }
 
 /* NAV */
 nav {
-  background: #0b3d91;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  display:flex;
+  justify-content:space-between;
+  padding:15px 20px;
+  z-index:999;
 }
 
-nav a {
-  color: white;
-  margin: 0 8px;
-  text-decoration: none;
-}
-
-/* HERO (ใหม่ สวยแบบ template) */
+/* HERO (🔥 ไฮไลท์หลัก) */
 .hero {
-  height: 70vh;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
-    url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  height:100vh;
+  position:relative;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1507692049790-de58290a4334')
+    center/cover no-repeat;
 }
 
-.hero h1 {
-  font-size: 40px;
+/* TEXT OVERLAY */
+.hero-text {
+  position:absolute;
+  bottom:15%;
+  left:10%;
+  max-width:600px;
 }
 
-.hero p {
-  font-size: 18px;
-  opacity: 0.9;
+.hero-text h1 {
+  font-size:60px;
+  margin:0;
+  line-height:1.2;
+}
+
+.hero-text p {
+  font-size:20px;
+  opacity:0.9;
+  margin-top:10px;
 }
 
 /* SECTION */
 .section {
-  padding: 60px 20px;
-  text-align: center;
+  padding:80px 20px;
+  text-align:center;
 }
 
-/* CARD GRID */
+/* GRID */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap:20px;
 }
 
 .card {
-  background: #111;
-  border-radius: 12px;
-  overflow: hidden;
+  background:#111;
+  border-radius:15px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.card:hover {
+  transform:scale(1.03);
 }
 
 .card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  width:100%;
+  height:220px;
+  object-fit:cover;
 }
 
 .card p {
-  padding: 15px;
+  padding:15px;
 }
 
-/* FORM */
-form {
-  max-width: 500px;
-  margin: auto;
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: left;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  background: #000;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 5px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background: #0b3d91;
-  color: white;
-  border: none;
-  cursor: pointer;
+/* FLAG */
+.flag {
+  display:flex;
+  justify-content:center;
+  margin:30px 0;
 }
 
 /* FOOTER */
 footer {
-  background: #0b3d91;
-  padding: 20px;
-  margin-top: 50px;
+  background:#0b3d91;
+  padding:30px;
+  text-align:center;
 }
 </style>
 </head>
@@ -127,112 +110,66 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div>Bangkhen Baptist Church</div>
+  <div>BBC Church</div>
   <div>
-    <a href="#home">หน้าแรก</a>
-    <a href="#service">นมัสการ</a>
-    <a href="#contact">ติดต่อ</a>
+    <a href="#" style="color:white;">หน้าแรก</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<div id="home" class="hero">
-  <div>
-    <h1>ยินดีต้อนรับสู่คริสตจักร</h1>
-    <p>สถานที่แห่งความรัก ความหวัง และการอธิษฐาน</p>
+<div class="hero">
+
+  <div class="hero-text">
+    <h1>นมัสการพระเจ้า</h1>
+    <h1>ด้วยสุดใจ</h1>
+    <p>สถานที่แห่งความรัก การอธิษฐาน และการเปลี่ยนแปลงชีวิต</p>
   </div>
+
 </div>
 
-<!-- 🙌 SECTION นมัสการ -->
-<div id="service" class="section">
-  <h2>บรรยากาศนมัสการ</h2>
+<!-- 🙌 SECTION -->
+<div class="section">
+  <h2>บรรยากาศในคริสตจักร</h2>
 
   <div class="grid">
 
-    <!-- 🙌 ยกมือ -->
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1507692049790-de58290a4334">
-      <p>การนมัสการด้วยใจ – ยกมือสรรเสริญพระเจ้า</p>
+      <img src="https://images.unsplash.com/photo-1515165562835-c3b8c2b1c5b2">
+      <p>🙌 การยกมือสรรเสริญอย่างเต็มหัวใจ</p>
     </div>
 
-    <!-- 🎤 นักเทศ -->
     <div class="card">
       <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df">
-      <p>การเทศนาและการฟังพระวจนะ</p>
+      <p>🎤 การเทศนาและพระวจนะ</p>
     </div>
 
-    <!-- 🕯️ แสงนุ่ม -->
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
-      <p>บรรยากาศสงบ อธิษฐาน แสงนุ่มอบอุ่น</p>
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429">
+      <p>🕯️ บรรยากาศสงบ อธิษฐาน ใกล้ชิดพระเจ้า</p>
     </div>
 
   </div>
 </div>
 
-<!-- ✅ FLAG ใต้รูปนมัสการ -->
-<div style="display:flex; justify-content:center; margin:20px 0;">
-  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+<!-- FLAG ใต้รูป -->
+<div class="flag">
+<img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
 <!-- CONTACT -->
-<div id="contact" class="section">
-<h2>ติดต่อเรา</h2>
-
-<form id="contactForm">
-<input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
-<input type="tel" name="phone" placeholder="เบอร์โทร" required>
-<textarea name="address" placeholder="ที่อยู่"></textarea>
-<input type="text" name="lineid" placeholder="LINE ID">
-<button type="submit">ส่งข้อมูล</button>
-</form>
+<div class="section">
+  <h2>ติดต่อเรา</h2>
 </div>
 
-<!-- ✅ FLAG ก่อน Footer -->
-<div style="display:flex; justify-content:center; margin:20px 0;">
-  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+<!-- FLAG ก่อน footer -->
+<div class="flag">
+<img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div style="text-align:center;">
-    <img src="logo.png" style="width:80px;">
-    <p>@2026 Bangkhen Baptist Church</p>
-  </div>
+  <p>© 2026 Bangkhen Baptist Church</p>
 </footer>
-
-<script>
-document.getElementById("contactForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(e.target);
-
-  const data = {
-    fullname: formData.get("fullname"),
-    phone: formData.get("phone"),
-    address: formData.get("address"),
-    lineid: formData.get("lineid"),
-  };
-
-  try {
-    const res = await fetch("https://bbcchurch.onrender.com/send", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(data)
-    });
-
-    if (res.ok) {
-      alert("✅ ส่งข้อมูลเรียบร้อยแล้ว");
-      e.target.reset();
-    } else {
-      alert("❌ ส่งไม่สำเร็จ");
-    }
-
-  } catch {
-    alert("❌ server error");
-  }
-});
-</script>
 
 </body>
 </html>
