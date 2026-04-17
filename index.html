@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bangkhen Baptist Church</title>
+<link rel="icon" href="logo.png">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', sans-serif; background:#f4f6fb; }
+
+/* NAVBAR */
+.navbar {
+  background:#0a2c6d;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+}
+.navbar h2 { font-size:18px; }
+
+/* HERO */
+.hero {
+  position:relative;
+  height:500px;
+  background:
+    linear-gradient(to right, rgba(10,44,109,0.9), rgba(10,44,109,0.3)),
+    url('https://images.unsplash.com/photo-1548625361-1d4f3c1b0c64'); /* ผู้ชายเทศน์ */
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  padding:50px;
+  color:white;
+}
+.hero-content {
+  max-width:500px;
+}
+.hero h1 { font-size:40px; margin-bottom:10px; }
+.hero p { margin-bottom:20px; }
+.hero button {
+  padding:12px 25px;
+  background:#f4b400;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* MAIN */
+.container {
+  display:flex;
+  gap:20px;
+  padding:30px;
+  flex-wrap:wrap;
+}
+
+/* CARD */
+.card {
+  background:white;
+  flex:1;
+  min-width:300px;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* FORM */
+input, textarea {
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button.submit {
+  background:#2e7d32;
+  color:white;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer {
+  background:#0a2c6d;
+  color:white;
+  padding:30px;
+  text-align:center;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h2>คริสตจักรแบ๊บติสต์บางเขน</h2>
+  <div>หน้าแรก | เกี่ยวกับ | กิจกรรม | ติดต่อ</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>ยินดีต้อนรับสู่<br>คริสตจักรแบ๊บติสต์บางเขน</h1>
+    <p>ร่วมสัมผัสความรักของพระเจ้า และเติบโตในความเชื่อไปด้วยกัน</p>
+    <button>เริ่มต้น</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+  <!-- ABOUT -->
+  <div class="card">
+    <h2>เกี่ยวกับเรา</h2>
+    <p>
+      เราเป็นคริสตจักรที่มุ่งเน้นความรัก ความเชื่อ และการเติบโตฝ่ายจิตวิญญาณ
+      พร้อมต้อนรับทุกคนเข้าสู่ครอบครัวของพระเจ้า
+    </p>
+
+    <img src="https://images.unsplash.com/photo-1527264935191-7c33c63a1c3a"
+         style="width:100%; border-radius:10px; margin-top:15px;">
+  </div>
+
+  <!-- FORM -->
+  <div class="card">
+    <h2>ติดต่อเรา / ลงทะเบียน</h2>
+
+    <form id="contactForm">
+      <input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
+      <input type="tel" name="phone" placeholder="เบอร์โทร" required>
+      <input type="text" name="lineid" placeholder="LINE ID">
+      <textarea name="address" placeholder="ที่อยู่"></textarea>
+
+      <label><input type="checkbox" name="worship"> ต้องการไปร่วมนมัสการ</label><br>
+      <label><input type="checkbox" name="study"> ต้องการศึกษาพระคัมภีร์</label>
+
+      <br><br>
+      <button class="submit">ส่งข้อมูล</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- LINE -->
+<div style="text-align:center;">
+  <h3>เพิ่มเพื่อน LINE</h3>
+  <a href="https://lin.ee/60jBty7m" target="_blank">
+    <img src="line-qr.png" style="width:200px;">
+  </a>
+</div>
+
+<!-- FLAG -->
+<div style="text-align:center; margin:20px 0;">
+  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.png" style="width:70px;"><br>
+  <h3>Bangkhen Baptist Church</h3>
+  <p>2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ</p>
+  <p>โทร: 02-579-8764</p>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    fullname: e.target.fullname.value,
+    phone: e.target.phone.value,
+    lineid: e.target.lineid.value,
+    address: e.target.address.value,
+    worship: e.target.worship.checked,
+    study: e.target.study.checked
+  };
+
+  try {
+    const res = await fetch("https://us-central1-bangkhenchurch-f9eb4.cloudfunctions.net/api/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    alert(await res.text());
+  } catch (err) {
+    alert("ส่งไม่สำเร็จ");
+    console.log(err);
+  }
+});
+</script>
+
+</body>
+</html>
