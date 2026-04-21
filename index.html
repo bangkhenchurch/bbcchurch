@@ -196,6 +196,61 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     console.log(err);
   }
 });
+  /* ===== RESPONSIVE ===== */
+
+/* จำกัดความกว้างตอนอยู่บนคอม */
+body {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HERO มือถือ */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+}
+
+/* NAVBAR มือถือ */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+/* CONTAINER มือถือ */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 15px;
+  }
+}
+
+/* CARD มือถือ */
+@media (max-width: 768px) {
+  .card {
+    min-width: 100%;
+  }
+}
+
+/* FORM มือถือ */
+@media (max-width: 768px) {
+  input, textarea {
+    font-size: 16px;
+  }
+}
 </script>
 
 </body>
