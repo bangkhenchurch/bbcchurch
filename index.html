@@ -2,17 +2,20 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bangkhen Baptist Church</title>
 <link rel="icon" href="logo.png">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family: 'Segoe UI', sans-serif; 
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
   background:#f4f6fb;
-  max-width:1200px;
-  margin:auto;
 }
 
 /* NAVBAR */
@@ -20,55 +23,60 @@ body {
   background:#0a2c6d;
   color:white;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding:15px 30px;
+  justify-content:space-between;
+  padding:12px 20px;
 }
-.navbar h2 { font-size:18px; }
+
+.navbar-left {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.navbar img {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+}
 
 /* HERO */
 .hero {
-  position:relative;
-  height:500px;
+  height:520px;
   background:
-    linear-gradient(to right, rgba(10,44,109,0.9), rgba(10,44,109,0.3)),
-    url('https://images.unsplash.com/photo-1548625361-1d4f3c1b0c64');
+    linear-gradient(to right, rgba(10,44,109,0.85), rgba(10,44,109,0.4)),
+    url('https://images.unsplash.com/photo-1529070538774-1843cb3265df'); /* โบสถ์ + worship */
   background-size:cover;
   background-position:center;
   display:flex;
   align-items:center;
-  padding:50px;
+  padding:40px;
   color:white;
 }
-.hero-content {
-  max-width:500px;
-}
-.hero h1 { font-size:40px; margin-bottom:10px; }
-.hero p { margin-bottom:20px; }
-.hero button {
-  padding:12px 25px;
-  background:#f4b400;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+
+.hero h1 {
+  font-size:38px;
+  margin-bottom:10px;
 }
 
-/* MAIN */
+.hero p {
+  font-size:16px;
+}
+
+/* CONTAINER */
 .container {
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:20px;
-  padding:30px;
-  flex-wrap:wrap;
+  padding:20px;
 }
 
 /* CARD */
 .card {
   background:white;
-  flex:1;
-  min-width:300px;
   padding:20px;
   border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* FORM */
@@ -80,59 +88,57 @@ input, textarea {
   border:1px solid #ccc;
 }
 
-button.submit {
+button {
+  width:100%;
+  padding:12px;
   background:#2e7d32;
   color:white;
   border:none;
-  padding:12px;
-  width:100%;
   border-radius:8px;
-  cursor:pointer;
+}
+
+/* LINE + FLAG ROW */
+.row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  padding:20px;
+  align-items:center;
+}
+
+.box {
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.box img {
+  max-width:100%;
 }
 
 /* FOOTER */
 footer {
   background:#0a2c6d;
   color:white;
-  padding:30px;
   text-align:center;
-  margin-top:30px;
+  padding:30px 20px;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
+footer img {
+  width:60px;
+  margin-bottom:10px;
+}
 
-  .navbar {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-
-  .hero {
-    height: auto;
-    padding: 30px 20px;
-    text-align: center;
+/* MOBILE */
+@media(max-width:768px){
+  .container, .row {
+    grid-template-columns:1fr;
   }
 
   .hero h1 {
-    font-size: 26px;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  .container {
-    flex-direction: column;
-    padding: 15px;
-  }
-
-  .card {
-    min-width: 100%;
-  }
-
-  input, textarea {
-    font-size: 16px;
+    font-size:26px;
   }
 }
 </style>
@@ -142,37 +148,34 @@ footer {
 
 <!-- NAVBAR -->
 <div class="navbar">
-  <h2>คริสตจักรแบ๊บติสต์บางเขน</h2>
-  <div>หน้าแรก | เกี่ยวกับ | กิจกรรม | ติดต่อ</div>
+  <div class="navbar-left">
+    <img src="logo.png">
+    <b>คริสตจักรแบ๊บติสต์บางเขน</b>
+  </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-content">
+  <div>
     <h1>ยินดีต้อนรับสู่<br>คริสตจักรแบ๊บติสต์บางเขน</h1>
     <p>ร่วมสัมผัสความรักของพระเจ้า และเติบโตในความเชื่อไปด้วยกัน</p>
-    <button>เริ่มต้น</button>
   </div>
 </div>
 
 <!-- CONTENT -->
 <div class="container">
 
-  <!-- ABOUT -->
   <div class="card">
     <h2>เกี่ยวกับเรา</h2>
     <p>
       เราเป็นคริสตจักรที่มุ่งเน้นความรัก ความเชื่อ และการเติบโตฝ่ายจิตวิญญาณ
-      พร้อมต้อนรับทุกคนเข้าสู่ครอบครัวของพระเจ้า
     </p>
 
-    <img src="https://images.unsplash.com/photo-1527264935191-7c33c63a1c3a"
-         style="width:100%; border-radius:10px; margin-top:15px;">
+    <img src="https://images.unsplash.com/photo-1527264935191-7c33c63a1c3a" style="width:100%; border-radius:10px; margin-top:10px;">
   </div>
 
-  <!-- FORM -->
   <div class="card">
-    <h2>ติดต่อเรา / ลงทะเบียน</h2>
+    <h2>ติดต่อ / ลงทะเบียน</h2>
 
     <form id="contactForm">
       <input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required>
@@ -180,65 +183,40 @@ footer {
       <input type="text" name="lineid" placeholder="LINE ID">
       <textarea name="address" placeholder="ที่อยู่"></textarea>
 
-      <label><input type="checkbox" name="worship"> ต้องการไปร่วมนมัสการ</label><br>
-      <label><input type="checkbox" name="study"> ต้องการศึกษาพระคัมภีร์</label>
+      <label><input type="checkbox" name="worship"> ต้องการนมัสการ</label><br>
+      <label><input type="checkbox" name="study"> ต้องการศึกษาพระคัมภีร์</label><br><br>
 
-      <br><br>
-      <button class="submit">ส่งข้อมูล</button>
+      <button>ส่งข้อมูล</button>
     </form>
   </div>
 
 </div>
 
-<!-- LINE -->
-<div style="text-align:center;">
-  <h3>เพิ่มเพื่อน LINE</h3>
-  <a href="https://lin.ee/60jBty7m" target="_blank">
-    <img src="line-qr.png" style="width:200px;">
-  </a>
-</div>
+<!-- LINE + FLAG (2 กล่อง) -->
+<div class="row">
 
-<!-- FLAG -->
-<div style="text-align:center; margin:20px 0;">
-  <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  <!-- LINE -->
+  <div class="box">
+    <h3>เพิ่มเพื่อน LINE</h3>
+    <a href="https://lin.ee/60jBty7m">
+      <img src="line-qr.png">
+    </a>
+  </div>
+
+  <!-- FLAG -->
+  <div class="box">
+    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  </div>
+
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <img src="logo.png" style="width:70px;"><br>
+  <img src="logo.png">
   <h3>Bangkhen Baptist Church</h3>
   <p>2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ</p>
   <p>โทร: 02-579-8764</p>
 </footer>
-
-<!-- SCRIPT -->
-<script>
-document.getElementById("contactForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const data = {
-    fullname: e.target.fullname.value,
-    phone: e.target.phone.value,
-    lineid: e.target.lineid.value,
-    address: e.target.address.value,
-    worship: e.target.worship.checked,
-    study: e.target.study.checked
-  };
-
-  try {
-    const res = await fetch("https://us-central1-bangkhenchurch-f9eb4.cloudfunctions.net/api/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    alert(await res.text());
-  } catch (err) {
-    alert("ส่งไม่สำเร็จ");
-    console.log(err);
-  }
-});
-</script>
 
 </body>
 </html>
