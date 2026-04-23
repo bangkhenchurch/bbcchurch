@@ -228,6 +228,11 @@ body{
   </p>
 </div>
 
+<div class="info">
+  <h2>📚 บทความล่าสุด</h2>
+  <div id="articles"></div>
+</div>
+
 <!-- DASHBOARD -->
 <div class="dashboard">
   <div class="card">
@@ -311,6 +316,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// ================= CONTACT =================
 document.getElementById("form").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
@@ -327,6 +333,7 @@ document.getElementById("form").addEventListener("submit", async (e)=>{
   alert("ส่งข้อมูลสำเร็จ");
 });
 
+// ================= DASHBOARD =================
 async function load(){
   const snap = await getDocs(collection(db,"contacts"));
 
@@ -344,6 +351,37 @@ async function load(){
 }
 load();
 
+// ================= 🔥 ARTICLES (SAFE MODE) =================
+async function loadArticles(){
+  try{
+    const box = document.getElementById("articles");
+    if(!box) return;
+
+    const snap = await getDocs(collection(db,"articles"));
+
+    let html="";
+
+    snap.forEach(d=>{
+      const data = d.data();
+
+      html += `
+      <div class="post">
+        <h3>${data.title || ""}</h3>
+        <p>หมวดหมู่: ${data.category || ""}</p>
+        <p>${(data.content || "").substring(0,100)}...</p>
+      </div>
+      `;
+    });
+
+    box.innerHTML = html;
+  }catch(err){
+    console.error("ARTICLE ERROR:", err);
+  }
+}
+
+loadArticles();
+
+// ================= SLIDE =================
 let slideIndex=0;
 setInterval(()=>{
   const slides=document.querySelectorAll(".slide");
