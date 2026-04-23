@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bangkhen Baptist Church</title>
+<link rel="icon" href="logo.png">
+
+<style>
+.main-section{
+  display:grid;
+  grid-template-columns:30% 70%;
+  gap:15px;
+  padding:15px;
+}
+
+.left, .right{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+}
+
+.post{
+  background:#f5f7fb;
+  padding:15px;
+  margin:15px 0;
+  border-radius:12px;
+  border-left:5px solid #0a2c6d; /* 🔥 เส้นด้านซ้าย */
+}
+
+.post img{
+  width:100%;
+  max-height:250px;   /* 🔥 ขนาดกลาง */
+  object-fit:cover;
+  border-radius:10px;
+  margin:10px 0;
+}
+
+.post{
+  background:#f5f7fb;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+}
+
+/* 🔥 มือถือ */
+@media(max-width:768px){
+  .main-section{
+    grid-template-columns:1fr;
+  }
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+  background:#eef2f7;
+}
+
+/* NAV */
+.navbar{
+  background:#0a2c6d;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+  width:100%;
+}
+
+/* HERO FULL SCREEN */
+.hero{
+  position:relative;
+  width:100%;
+  height:100vh; /* 🔥 เต็มจอมือถือ */
+  min-height:100vh;
+  overflow:hidden;
+  color:white;
+}
+
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:1s;
+  display:flex;
+  align-items:center;
+  padding:20px;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+.hero h1{
+  font-size:32px;
+  background:rgba(0,0,0,0.4);
+  padding:10px 16px;
+  border-radius:10px;
+}
+
+/* INFO */
+.info{
+  background:white;
+  padding:20px;
+  text-align:center;
+  line-height:1.8;
+  width:100%;
+}
+
+.info h2{
+  color:#0a2c6d;
+  margin-bottom:10px;
+}
+
+/* DASHBOARD FULL WIDTH */
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+.card{
+  background:#dbe7f5;
+  padding:12px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  width:100%;
+}
+
+.card .num{
+  font-size:26px;
+  font-weight:bold;
+}
+
+/* FORM */
+.container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+.box{
+  background:#dbe7f5;
+  padding:12px;
+  border-radius:12px;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  background:#2e7d32;
+  color:white;
+  padding:10px;
+  border:none;
+  width:100%;
+  border-radius:8px;
+}
+
+/* ROW */
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+/* FOOTER */
+footer{
+  background:#0a2c6d;
+  color:white;
+  text-align:center;
+  padding:20px;
+  width:100%;
+}
+
+/* 🔥 MOBILE FIX FULL SCREEN */
+@media(max-width:768px){
+
+  .hero{
+    height:100vh;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    text-align:center;
+  }
+}
+
+/* ป้องกัน iOS notch */
+body{
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <div>
+    <img src="logo.png" style="width:35px;border-radius:50%;">
+    Bangkhen Baptist Church
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+
+  <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1529070538774-1843cb3265df')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+</div>
+
+<!-- INFO -->
+<div class="info">
+  <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
+  <p>สถานนมัสการ</p>
+  <p>เวลา นมัสการ 9.00 น. - 12.00 น</p>
+  <p>สนใจ ร่วมนมัสการ โทร. 02-5798764</p>
+  <p>สถานที่นมัสการ ณ.คริสตจักรแบ๊บติสต์บางเขน</p>
+  <p>
+    2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน<br>
+    แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
+  </p>
+</div>
+
+<div class="main-section">
+
+  <!-- ซ้าย -->
+  <div class="left">
+    <h2>📰 ข่าวสาร</h2>
+    <div id="news"></div>
+  </div>
+
+  <!-- ขวา -->
+  <div class="right">
+    <h2>📚 บทความ</h2>
+    <div id="articles"></div>
+  </div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+  <div class="card">
+    <h3>ผู้ลงทะเบียน</h3>
+    <div class="num" id="total">0</div>
+  </div>
+
+  <div class="card">
+    <h3>นมัสการ</h3>
+    <div class="num" id="worship">0</div>
+  </div>
+
+  <div class="card">
+    <h3>ศึกษาพระคัมภีร์</h3>
+    <div class="num" id="study">0</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="container">
+
+  <div class="box">
+    <h3>ติดต่อ / ลงทะเบียน</h3>
+
+    <form id="form">
+      <input name="fullname" placeholder="ชื่อ">
+      <input name="phone" placeholder="เบอร์">
+      <input name="lineid" placeholder="LINE">
+      <textarea name="address" placeholder="ที่อยู่"></textarea>
+
+      <label><input type="checkbox" name="worship"> นมัสการ</label><br>
+      <label><input type="checkbox" name="study"> ศึกษาพระคัมภีร์</label><br><br>
+
+      <button>ส่งข้อมูล</button>
+    </form>
+  </div>
+
+  <div class="box">
+    <h3>LINE QR</h3>
+    <img src="line-qr.png" style="width:140px;display:block;margin:auto;">
+  </div>
+
+</div>
+
+<!-- FLAG -->
+<div class="row">
+
+  <div class="card" style="text-align:center;">
+    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  </div>
+
+  <div class="card">
+    <h3>📊 สถิติ</h3>
+    <div style="font-size:28px;font-weight:bold;">Live Dashboard</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.png" width="60"><br>
+  Bangkhen Baptist Church<br>
+  2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ
+</footer>
+
+<!-- SCRIPT (ไม่แตะ) -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  serverTimestamp, 
+  getDocs,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+  authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+  projectId: "bbcchurch-6ffc3",
+  storageBucket: "bbcchurch-6ffc3.appspot.com",
+  messagingSenderId: "1007626508012",
+  appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ================= CONTACT =================
+const form = document.getElementById("form");
+
+if(form){
+  form.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    await addDoc(collection(db,"contacts"),{
+      fullname:e.target.fullname.value,
+      phone:e.target.phone.value,
+      lineid:e.target.lineid.value,
+      address:e.target.address.value,
+      worship:e.target.worship.checked,
+      study:e.target.study.checked,
+      createdAt:serverTimestamp()
+    });
+
+    alert("ส่งข้อมูลสำเร็จ");
+    form.reset();
+    loadDashboard(); // อัปเดตทันที
+  });
+}
+
+// ================= DASHBOARD =================
+async function loadDashboard(){
+  const totalEl = document.getElementById("total");
+  if(!totalEl) return;
+
+  const snap = await getDocs(collection(db,"contacts"));
+
+  let total=0,worship=0,study=0;
+
+  snap.forEach(d=>{
+    total++;
+    if(d.data().worship) worship++;
+    if(d.data().study) study++;
+  });
+
+  document.getElementById("total").innerText=total;
+  document.getElementById("worship").innerText=worship;
+  document.getElementById("study").innerText=study;
+}
+
+// ================= NEWS =================
+async function loadNews(){
+  const box = document.getElementById("news");
+  if(!box) return;
+
+  try{
+    const q = query(collection(db,"articles"), orderBy("createdAt","desc"));
+    const snap = await getDocs(q);
+
+    let html="";
+
+    snap.forEach(d=>{
+      const data = d.data();
+
+      if(data.category === "ข่าว"){
+        html += `
+        <div class="post">
+          <h4>${(data.title || "").substring(0,60)}</h4>
+        </div>
+        `;
+      }
+    });
+
+    box.innerHTML = html || "<p>ยังไม่มีข่าว</p>";
+
+  }catch(err){
+    console.error("NEWS ERROR:", err);
+    box.innerHTML = "<p>โหลดข่าวไม่สำเร็จ</p>";
+  }
+}
+
+// ================= ARTICLES =================
+async function loadArticles(){
+  const box = document.getElementById("articles");
+  if(!box) return;
+
+  try{
+    const q = query(collection(db,"articles"), orderBy("createdAt","desc"));
+    const snap = await getDocs(q);
+
+    let html="";
+    let count = 1;
+
+    snap.forEach(d=>{
+      const data = d.data();
+
+      if(data.category !== "ข่าว"){
+
+        let date="";
+        if(data.createdAt?.toDate){
+          date = data.createdAt.toDate().toLocaleDateString("th-TH");
+        }
+
+        html += `
+        <div class="post">
+          <h3>📘 บทความ ${count}</h3>
+          <h2>${data.title || ""}</h2>
+
+          ${data.image ? `<img src="${data.image}">` : ""}
+
+          <p>📅 ${date}</p>
+          <p>${(data.content || "").substring(0,120)}...</p>
+        </div>
+        `;
+
+        count++;
+      }
+    });
+
+    box.innerHTML = html || "<p>ยังไม่มีบทความ</p>";
+
+  }catch(err){
+    console.error(err);
+  }
+}
+
+// ================= SLIDE =================
+let slideIndex=0;
+setInterval(()=>{
+  const slides=document.querySelectorAll(".slide");
+  if(slides.length === 0) return;
+
+  slides.forEach(s=>s.classList.remove("active"));
+  slideIndex=(slideIndex+1)%slides.length;
+  slides[slideIndex].classList.add("active");
+},4000);
+
+// ================= LOAD ALL =================
+loadDashboard();
+loadNews();
+loadArticles();
+
+</script>
+
+</body>
+</html>
