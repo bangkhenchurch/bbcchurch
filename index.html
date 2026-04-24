@@ -27,7 +27,6 @@
   border-radius:10px;
 }
 
-/* 🔥 มือถือ */
 @media(max-width:768px){
   .main-section{
     grid-template-columns:1fr;
@@ -59,11 +58,22 @@ html, body{
   width:100%;
 }
 
-/* HERO FULL SCREEN */
+.nav-menu{
+  display:flex;
+  gap:15px;
+  font-size:14px;
+}
+
+.nav-menu a{
+  color:white;
+  text-decoration:none;
+}
+
+/* HERO */
 .hero{
   position:relative;
   width:100%;
-  height:100vh; /* 🔥 เต็มจอมือถือ */
+  height:100vh;
   min-height:100vh;
   overflow:hidden;
   color:white;
@@ -93,7 +103,6 @@ html, body{
   border-radius:10px;
 }
 
-/* INFO */
 .info{
   background:white;
   padding:20px;
@@ -107,7 +116,6 @@ html, body{
   margin-bottom:10px;
 }
 
-/* DASHBOARD FULL WIDTH */
 .dashboard{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -129,7 +137,6 @@ html, body{
   font-weight:bold;
 }
 
-/* FORM */
 .container{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -161,7 +168,6 @@ button{
   border-radius:8px;
 }
 
-/* ROW */
 .row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -170,7 +176,6 @@ button{
   width:100%;
 }
 
-/* FOOTER */
 footer{
   background:#0a2c6d;
   color:white;
@@ -179,35 +184,16 @@ footer{
   width:100%;
 }
 
-/* 🔥 MOBILE FIX FULL SCREEN */
 @media(max-width:768px){
-
-  .hero{
-    height:100vh;
-  }
-
-  .hero h1{
-    font-size:24px;
-  }
-
-  .dashboard{
-    grid-template-columns:1fr;
-  }
-
-  .container{
-    grid-template-columns:1fr;
-  }
-
-  .row{
-    grid-template-columns:1fr;
-  }
-
-  .card{
-    text-align:center;
-  }
+  .hero{height:100vh;}
+  .hero h1{font-size:24px;}
+  .dashboard{grid-template-columns:1fr;}
+  .container{grid-template-columns:1fr;}
+  .row{grid-template-columns:1fr;}
+  .card{text-align:center;}
+  .nav-menu{display:none;}
 }
 
-/* ป้องกัน iOS notch */
 body{
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
@@ -219,24 +205,39 @@ body{
 
 <!-- NAV -->
 <div class="navbar">
-  <div>
+  <div style="display:flex;align-items:center;gap:10px;">
     <img src="logo.png" style="width:35px;border-radius:50%;">
     Bangkhen Baptist Church
+  </div>
+
+  <div class="nav-menu">
+    <a href="#home">หน้าแรก</a>
+    <a href="#news">ข่าว</a>
+    <a href="#articles">บทความ</a>
+    <a href="#contact">ติดต่อ</a>
   </div>
 </div>
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="home">
 
-  <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334')">
+  <div class="slide active" style="background-image:url('images/hero_01.jpg')">
     <h1>ในพระเจ้า ข้าวางใจ</h1>
   </div>
 
-  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1529070538774-1843cb3265df')">
+  <div class="slide" style="background-image:url('images/hero_02.jpg')">
     <h1>ในพระเจ้า ข้าวางใจ</h1>
   </div>
 
-  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65')">
+  <div class="slide" style="background-image:url('images/hero_03.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('images/hero_04.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('hero_05.jpg')">
     <h1>ในพระเจ้า ข้าวางใจ</h1>
   </div>
 
@@ -257,40 +258,25 @@ body{
 
 <div class="main-section">
 
-  <!-- ซ้าย -->
-  <div class="left">
+  <div class="left" id="news">
     <h2>📰 ข่าวสาร</h2>
-    <div id="news"></div>
+    <div></div>
   </div>
 
-  <!-- ขวา -->
-  <div class="right">
+  <div class="right" id="articles">
     <h2>📚 บทความ</h2>
-    <div id="articles"></div>
+    <div></div>
   </div>
 
 </div>
 
-<!-- DASHBOARD -->
 <div class="dashboard">
-  <div class="card">
-    <h3>ผู้ลงทะเบียน</h3>
-    <div class="num" id="total">0</div>
-  </div>
-
-  <div class="card">
-    <h3>นมัสการ</h3>
-    <div class="num" id="worship">0</div>
-  </div>
-
-  <div class="card">
-    <h3>ศึกษาพระคัมภีร์</h3>
-    <div class="num" id="study">0</div>
-  </div>
+  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num" id="total">0</div></div>
+  <div class="card"><h3>นมัสการ</h3><div class="num" id="worship">0</div></div>
+  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num" id="study">0</div></div>
 </div>
 
-<!-- FORM -->
-<div class="container">
+<div class="container" id="contact">
 
   <div class="box">
     <h3>ติดต่อ / ลงทะเบียน</h3>
@@ -315,9 +301,7 @@ body{
 
 </div>
 
-<!-- FLAG -->
 <div class="row">
-
   <div class="card" style="text-align:center;">
     <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
   </div>
@@ -326,17 +310,14 @@ body{
     <h3>📊 สถิติ</h3>
     <div style="font-size:28px;font-weight:bold;">Live Dashboard</div>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <footer>
   <img src="logo.png" width="60"><br>
   Bangkhen Baptist Church<br>
   2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ
 </footer>
 
-<!-- SCRIPT (ไม่แตะ) -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp, getDocs } 
@@ -354,90 +335,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ================= CONTACT =================
-document.getElementById("form").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-
-  await addDoc(collection(db,"contacts"),{
-    fullname:e.target.fullname.value,
-    phone:e.target.phone.value,
-    lineid:e.target.lineid.value,
-    address:e.target.address.value,
-    worship:e.target.worship.checked,
-    study:e.target.study.checked,
-    createdAt:serverTimestamp()
-  });
-
-  alert("ส่งข้อมูลสำเร็จ");
-});
-
-// ================= DASHBOARD =================
-async function loadDashboard(){
-  const snap = await getDocs(collection(db,"contacts"));
-
-  let total=0,worship=0,study=0;
-
-  snap.forEach(d=>{
-    total++;
-    if(d.data().worship) worship++;
-    if(d.data().study) study++;
-  });
-
-  document.getElementById("total").innerText=total;
-  document.getElementById("worship").innerText=worship;
-  document.getElementById("study").innerText=study;
-}
-
-// ================= NEWS =================
-async function loadNews(){
-  const box = document.getElementById("news");
-  if(!box) return;
-
-  const snap = await getDocs(collection(db,"articles"));
-
-  let html="";
-
-  snap.forEach(d=>{
-    const data = d.data();
-
-    if(data.category === "ข่าว"){
-      html += `
-      <div class="post">
-        <h4>${(data.title || "").substring(0,60)}</h4>
-      </div>
-      `;
-    }
-  });
-
-  box.innerHTML = html || "<p>ยังไม่มีข่าว</p>";
-}
-
-// ================= ARTICLES =================
-async function loadArticles(){
-  const box = document.getElementById("articles");
-  if(!box) return;
-
-  const snap = await getDocs(collection(db,"articles"));
-
-  let html="";
-
-  snap.forEach(d=>{
-    const data = d.data();
-
-    if(data.category !== "ข่าว"){
-      html += `
-      <div class="post">
-        <h3>${data.title || ""}</h3>
-        <p>${(data.content || "").substring(0,120)}...</p>
-      </div>
-      `;
-    }
-  });
-
-  box.innerHTML = html || "<p>ยังไม่มีบทความ</p>";
-}
-
-// ================= SLIDE =================
 let slideIndex=0;
 setInterval(()=>{
   const slides=document.querySelectorAll(".slide");
@@ -445,11 +342,6 @@ setInterval(()=>{
   slideIndex=(slideIndex+1)%slides.length;
   slides[slideIndex].classList.add("active");
 },4000);
-
-// ================= LOAD ALL =================
-loadDashboard();
-loadNews();
-loadArticles();
 
 </script>
 
