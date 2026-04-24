@@ -198,6 +198,7 @@ body{
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
+
 </style>
 </head>
 
@@ -258,15 +259,15 @@ body{
 
 <div class="main-section">
 
-  <div class="left" id="news">
-    <h2>📰 ข่าวสาร</h2>
-    <div></div>
-  </div>
+  <div class="left">
+  <h2>📰 ข่าวสาร</h2>
+  <div id="news"></div>
+</div>
 
-  <div class="right" id="articles">
-    <h2>📚 บทความ</h2>
-    <div></div>
-  </div>
+<div class="right">
+  <h2>📚 บทความ</h2>
+  <div id="articles"></div>
+</div>
 
 </div>
 
@@ -320,29 +321,130 @@ body{
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, getDocs } 
+import { getFirestore, collection, getDocs } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
   authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-  projectId: "bbcchurch-6ffc3",
-  storageBucket: "bbcchurch-6ffc3.appspot.com",
-  messagingSenderId: "1007626508012",
-  appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+  projectId: "bbcchurch-6ffc3"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let slideIndex=0;
-setInterval(()=>{
-  const slides=document.querySelectorAll(".slide");
-  slides.forEach(s=>s.classList.remove("active"));
-  slideIndex=(slideIndex+1)%slides.length;
+// ================= SLIDE =================
+let slideIndex = 0;
+setInterval(() => {
+  const slides = document.querySelectorAll(".slide");
+  slides.forEach(s => s.classList.remove("active"));
+  slideIndex = (slideIndex + 1) % slides.length;
   slides[slideIndex].classList.add("active");
-},4000);
+}, 4000);
 
+// ================= CLICK =================
+window.openArticle = function (id) {
+  window.location.href = "article.html?id=" + id;
+};
+
+// ================= LOAD =================
+async function loadAll() {
+
+  const newsBox = document.getElementById("news");
+  const articleBox = document.getElementById("articles");
+
+  try {
+    const snap = await getDocs(collection(db, "articles"));
+
+    let newsHTML = "";
+    let articleHTML = "";
+
+    snap.forEach(d => {
+      const data = d.data();
+
+      // 🔥 เช็ค category ให้ชัวร์
+      const isNews = (data.category || "").includes("ข่าว");
+
+      // 🔥 รูป: แสดงเฉพาะมีจริง + ไม่ว่าง
+      const imageHTML = data.image
+        ? `
+          <div style="margin-top:8px;">
+            <img src="/${data.image}"
+              style="
+                width:140px;
+                height:100px;
+                object-fit:cover;
+                border-radius:10px;
+                display:block;
+              ">
+          </div>
+        `
+        : "";
+
+      const card = `
+        <div class="post"
+          onclick="openArticle('${d.id}')"
+          style="
+            cursor:pointer;
+            background:#fff;
+            padding:12px;
+            margin-bottom:12px;
+            border-radius:12px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+            text-align:left;
+          ">
+
+          <h3 style="margin-bottom:5px;">${data.title || "ไม่มีหัวข้อ"}</h3>
+
+          <p style="font-size:13px;color:#555;">
+            <b>${data.author || "ไม่ระบุผู้เขียน"}</b>
+          </p>
+
+          <p style="font-size:12px;color:#0a2c6d;">
+            ${data.bibleVerse || ""}
+          </p>
+
+          ${imageHTML}
+
+          <p style="font-size:13px;margin-top:8px;">
+            ${(data.content || "").substring(0,90)}...
+          </p>
+
+          <p style="font-size:12px;color:gray;">
+            หมวด: ${data.category || "-"}
+          </p>
+
+          <button style="
+            margin-top:8px;
+            width:100%;
+            padding:8px;
+            border:none;
+            border-radius:8px;
+            background:#0a2c6d;
+            color:white;
+          ">
+            อ่านบทความ
+          </button>
+
+        </div>
+      `;
+
+      if (isNews) {
+        newsHTML += card;
+      } else {
+        articleHTML += card;
+      }
+    });
+
+    newsBox.innerHTML = newsHTML || "<p>ไม่มีข่าว</p>";
+    articleBox.innerHTML = articleHTML || "<p>ไม่มีบทความ</p>";
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+loadAll();
 </script>
 
 </body>
