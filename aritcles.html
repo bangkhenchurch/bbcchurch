@@ -1,0 +1,60 @@
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+  authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+  projectId: "bbcchurch-6ffc3",
+  storageBucket: "bbcchurch-6ffc3.appspot.com",
+  messagingSenderId: "1007626508012",
+  appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ดึง id จาก URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+// ❗ กันพัง
+if(!id){
+  document.body.innerHTML = "<h2>ไม่พบบทความ (ไม่มี ID)</h2>";
+  throw new Error("Missing ID");
+}
+
+async function loadArticle(){
+  try{
+    const ref = doc(db,"articles",id);
+    const snap = await getDoc(ref);
+
+    if(!snap.exists()){
+      document.body.innerHTML = "<h2>ไม่พบบทความ</h2>";
+      return;
+    }
+
+    const data = snap.data();
+
+    document.getElementById("title").innerText = data.title || "";
+
+    if(data.createdAt?.toDate){
+      document.getElementById("date").innerText =
+        data.createdAt.toDate().toLocaleDateString("th-TH");
+    }
+
+    document.getElementById("image").src =
+      data.image || "https://via.placeholder.com/600";
+
+    document.getElementById("content").innerText =
+      data.content || "";
+
+  }catch(err){
+    console.error(err);
+    document.body.innerHTML = "<h2>โหลดบทความไม่สำเร็จ</h2>";
+  }
+}
+
+loadArticle();
+</script>
