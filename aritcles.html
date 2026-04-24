@@ -1,3 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บทความ</title>
+
+<style>
+body{font-family:sans-serif;background:#eef2f7;padding:20px;}
+.box{background:white;padding:20px;border-radius:12px;max-width:800px;margin:auto;}
+img{width:100%;border-radius:10px;margin:10px 0;}
+h1{color:#0a2c6d;}
+.meta{margin:5px 0;}
+.star{color:gold;font-size:20px;}
+.back{
+  display:inline-block;
+  margin-bottom:15px;
+  background:#0a2c6d;
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <!-- 🔙 ปุ่มกลับ -->
+  <a href="index.html" class="back">← กลับหน้าแรก</a>
+
+  <h1 id="title"></h1>
+
+  <p id="author" class="meta"></p>
+  <p id="bible" class="meta" style="color:#0a2c6d;"></p>
+  <p id="date" class="meta" style="color:gray;"></p>
+
+  <div id="rating" class="star"></div>
+
+  <img id="image">
+
+  <p id="content"></p>
+
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc } 
@@ -19,7 +66,6 @@ const db = getFirestore(app);
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-// ❗ กันพัง
 if(!id){
   document.body.innerHTML = "<h2>ไม่พบบทความ (ไม่มี ID)</h2>";
   throw new Error("Missing ID");
@@ -37,18 +83,39 @@ async function loadArticle(){
 
     const data = snap.data();
 
+    // TITLE
     document.getElementById("title").innerText = data.title || "";
 
+    // AUTHOR
+    document.getElementById("author").innerText =
+      "ผู้เขียน: " + (data.author || "ไม่ระบุ");
+
+    // BIBLE
+    document.getElementById("bible").innerText =
+      data.bibleVerse ? "ข้อพระคัมภีร์: " + data.bibleVerse : "";
+
+    // DATE (📅 format สวย)
     if(data.createdAt?.toDate){
+      const d = data.createdAt.toDate();
       document.getElementById("date").innerText =
-        data.createdAt.toDate().toLocaleDateString("th-TH");
+        "วันที่: " + d.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
     }
 
+    // IMAGE
     document.getElementById("image").src =
       data.image || "https://via.placeholder.com/600";
 
+    // CONTENT
     document.getElementById("content").innerText =
       data.content || "";
+
+    // ⭐ RATING
+    const stars = "⭐".repeat(data.rating || 0);
+    document.getElementById("rating").innerText = stars;
 
   }catch(err){
     console.error(err);
@@ -58,3 +125,6 @@ async function loadArticle(){
 
 loadArticle();
 </script>
+
+</body>
+</html>
