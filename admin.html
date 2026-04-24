@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บทความ</title>
+
+<style>
+body{font-family:sans-serif;background:#eef2f7;padding:20px;}
+h1{color:#0a2c6d}
+
+.box{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  background:#2e7d32;
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  width:100%;
+  cursor:pointer;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.star{
+  color:gold;
+  font-size:20px;
+}
+
+.action-btns{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.action-btns button{
+  width:50%;
+}
+
+.edit-btn{background:#1976d2;}
+.delete-btn{background:#d32f2f;}
+</style>
+</head>
+
+<body>
+
+<h1>📝 สร้างบทความ</h1>
+
+<div class="box">
+<form id="postForm">
+
+<input name="title" placeholder="หัวข้อบทความ" required>
+
+<select name="category">
+  <option>คำเทศนา</option>
+  <option>ข่าว</option>
+  <option>ข้อคิดพระคัมภีร์</option>
+</select>
+
+<input name="author" placeholder="ผู้เขียน">
+
+<input type="file" id="image">
+
+<textarea name="content" placeholder="เนื้อหา"></textarea>
+
+<label>ให้คะแนน ⭐</label>
+<select name="rating">
+  <option value="1">1 ดาว</option>
+  <option value="2">2 ดาว</option>
+  <option value="3">3 ดาว</option>
+  <option value="4">4 ดาว</option>
+  <option value="5">5 ดาว</option>
+</select>
+
+<button id="submitBtn">บันทึกบทความ</button>
+
+</form>
+</div>
+
+<h1>📚 บทความทั้งหมด</h1>
+<div id="list"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  getDocs,
+  query,
+  orderBy,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+ authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+ projectId: "bbcchurch-6ffc3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let editId = null;
+
+// SAVE / UPDATE
+document.getElementById("postForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const file = document.getElementById("image").files[0];
+  let imageUrl = "";
+
+  if(file){
+    imageUrl = URL.createObjectURL(file);
+  }
+
+  const data = {
+    title:e.target.title.value,
+    category:e.target.category.value,
+    author:e.target.author.value || "ไม่ระบุ",
+    content:e.target.content.value,
+    rating:parseInt(e.target.rating.value),
+    image:imageUrl,
+    createdAt:serverTimestamp()
+  };
+
+  if(editId){
+    await updateDoc(doc(db,"articles",editId), data);
+    alert("อัปเดตบทความแล้ว");
+    editId = null;
+    document.getElementById("submitBtn").innerText = "บันทึกบทความ";
+  }else{
+    await addDoc(collection(db,"articles"), data);
+    alert("บันทึกสำเร็จ");
+  }
+
+  e.target.reset();
+  load();
+});
+
+// LOAD
+async function load(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+
+  const q = query(collection(db,"articles"), orderBy("createdAt","desc"));
+  const snap=await getDocs(q);
+
+  snap.forEach(d=>{
+    const data=d.data();
+    const id = d.id;
+
+    let stars="⭐".repeat(data.rating || 0);
+
+    let date = "";
+    if(data.createdAt && data.createdAt.toDate){
+      date = data.createdAt.toDate().toLocaleString("th-TH");
+    }
+
+    list.innerHTML+=`
+    <div class="card">
+      <h2>${data.title}</h2>
+      <p>หมวดหมู่: ${data.category}</p>
+      <p>ผู้เขียน: ${data.author}</p>
+      <p>${date}</p>
+
+      ${data.image ? `<img src="${data.image}">` : ""}
+
+      <p>${data.content}</p>
+      <div class="star">${stars}</div>
+
+      <div class="action-btns">
+        <button class="edit-btn" onclick="editPost('${id}')">✏️ แก้ไข</button>
+        <button class="delete-btn" onclick="deletePost('${id}')">🗑 ลบ</button>
+      </div>
+    </div>
+    `;
+  });
+}
+
+// DELETE
+window.deletePost = async (id)=>{
+  if(confirm("ต้องการลบบทความนี้หรือไม่?")){
+    await deleteDoc(doc(db,"articles",id));
+    load();
+  }
+};
+
+// EDIT
+window.editPost = async (id)=>{
+  const ref = doc(db,"articles",id);
+  const snap = await getDoc(ref);
+  const data = snap.data();
+
+  document.querySelector("[name='title']").value = data.title;
+  document.querySelector("[name='category']").value = data.category;
+  document.querySelector("[name='author']").value = data.author;
+  document.querySelector("[name='content']").value = data.content;
+  document.querySelector("[name='rating']").value = data.rating;
+
+  editId = id;
+  document.getElementById("submitBtn").innerText = "อัปเดตบทความ";
+};
+
+load();
+</script>
+
+</body>
+</html>
