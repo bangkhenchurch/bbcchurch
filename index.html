@@ -8,6 +8,7 @@
 
 <style>
 
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -48,24 +49,23 @@ img {
   text-decoration: none;
 }
 
-/* ================= HERO FIX (ปรับให้เล็กลง) ================= */
+/* ================= HERO FIX (ตัวจบ) ================= */
 .hero {
   position: relative;
   width: 100%;
-  height: 50svh;   /* 🔥 ลดลงจากเดิม */
-  max-height: 360px; /* 🔥 กันใหญ่เกิน */
+  height: 50svh;     /* เดสก์ท็อป */
+  max-height: 380px;
   min-height: 220px;
   overflow: hidden;
 }
 
 .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: 1s ease;
+  transition: opacity 1s ease;
 }
 
 .slide.active {
@@ -190,11 +190,11 @@ footer {
   max-height: 95%;
 }
 
-/* MOBILE */
+/* ================= MOBILE FIX ================= */
 @media (max-width: 768px) {
 
   .hero {
-    height: 35vh;   /* 🔥 มือถือเล็กลงอีก */
+    height: 32vh;       /* 🔥 ไม่ล้นมือถือ */
     max-height: 240px;
   }
 
@@ -230,8 +230,8 @@ footer {
   </div>
 </div>
 
-<!-- HERO (ของเดิม ไม่ลบ) -->
-<div class="hero" id="home">
+<!-- HERO -->
+<div class="hero">
 
   <div class="slide active" style="background-image:url('hero_01.png')"></div>
   <div class="slide" style="background-image:url('hero_02.png')"></div>
@@ -246,7 +246,7 @@ footer {
   <p>เวลา นมัสการ 9.00 - 12.00</p>
 </div>
 
-<!-- CONTENT (ของเดิมคุณยังอยู่ครบ) -->
+<!-- MAIN -->
 <div class="main-section">
 
   <div class="left">
@@ -294,7 +294,7 @@ footer {
   Bangkhen Baptist Church
 </footer>
 
-<!-- SLIDE -->
+<!-- SLIDE SCRIPT -->
 <script>
 let i = 0;
 setInterval(() => {
