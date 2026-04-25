@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bangkhen Baptist Church</title>
+<link rel="icon" href="logo.png">
+
+<style>
+.main-section{
+  display:grid;
+  grid-template-columns:30% 70%;
+  gap:15px;
+  padding:15px;
+}
+
+.left, .right{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+}
+
+.post{
+  background:#f5f7fb;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+}
+
+@media(max-width:768px){
+  .main-section{
+    grid-template-columns:1fr;
+  }
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+  background:#eef2f7;
+}
+
+/* NAV */
+.navbar{
+  background:#0a2c6d;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+  width:100%;
+}
+
+.nav-menu{
+  display:flex;
+  gap:15px;
+  font-size:14px;
+}
+
+.nav-menu a{
+  color:white;
+  text-decoration:none;
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:100vh;
+  overflow:hidden;
+  color:white;
+}
+
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:1s;
+  display:flex;
+  align-items:center;
+  padding:20px;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+.hero h1{
+  font-size:32px;
+  background:rgba(0,0,0,0.4);
+  padding:10px 16px;
+  border-radius:10px;
+}
+
+.info{
+  background:white;
+  padding:20px;
+  text-align:center;
+  line-height:1.8;
+  width:100%;
+}
+
+.info h2{
+  color:#0a2c6d;
+  margin-bottom:10px;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+.card{
+  background:#dbe7f5;
+  padding:12px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  width:100%;
+}
+
+.card .num{
+  font-size:26px;
+  font-weight:bold;
+}
+
+.container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+.box{
+  background:#dbe7f5;
+  padding:12px;
+  border-radius:12px;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  background:#2e7d32;
+  color:white;
+  padding:10px;
+  border:none;
+  width:100%;
+  border-radius:8px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:10px;
+  width:100%;
+}
+
+footer{
+  background:#0a2c6d;
+  color:white;
+  text-align:center;
+  padding:20px;
+  width:100%;
+}
+
+@media(max-width:768px){
+  .hero{height:100vh;}
+  .hero h1{font-size:24px;}
+  .dashboard{grid-template-columns:1fr;}
+  .container{grid-template-columns:1fr;}
+  .row{grid-template-columns:1fr;}
+  .card{text-align:center;}
+  .nav-menu{display:none;}
+}
+
+body{
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="logo.png" style="width:35px;border-radius:50%;">
+    Bangkhen Baptist Church
+  </div>
+
+  <div class="nav-menu">
+    <a href="#home">หน้าแรก</a>
+    <a href="#news">ข่าว</a>
+    <a href="#articles">บทความ</a>
+    <a href="#contact">ติดต่อ</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="home">
+
+  <div class="slide active" style="background-image:url('images/hero_01.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('images/hero_02.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('images/hero_03.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('images/hero_04.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+  <div class="slide" style="background-image:url('hero_05.jpg')">
+    <h1>ในพระเจ้า ข้าวางใจ</h1>
+  </div>
+
+</div>
+
+<!-- INFO -->
+<div class="info">
+  <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
+  <p>สถานนมัสการ</p>
+  <p>เวลา นมัสการ 9.00 น. - 12.00 น</p>
+  <p>สนใจ ร่วมนมัสการ โทร. 02-5798764</p>
+  <p>สถานที่นมัสการ ณ.คริสตจักรแบ๊บติสต์บางเขน</p>
+  <p>
+    2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน<br>
+    แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
+  </p>
+</div>
+
+<div class="main-section">
+
+  <div class="left">
+  <h2>📰 ข่าวสาร</h2>
+  <div id="news"></div>
+</div>
+
+<div class="right">
+  <h2>📚 บทความ</h2>
+  <div id="articles"></div>
+</div>
+
+</div>
+
+<div class="dashboard">
+  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num" id="total">0</div></div>
+  <div class="card"><h3>นมัสการ</h3><div class="num" id="worship">0</div></div>
+  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num" id="study">0</div></div>
+</div>
+
+<div class="container" id="contact">
+
+  <div class="box">
+    <h3>ติดต่อ / ลงทะเบียน</h3>
+
+    <form id="form">
+      <input name="fullname" placeholder="ชื่อ">
+      <input name="phone" placeholder="เบอร์">
+      <input name="lineid" placeholder="LINE">
+      <textarea name="address" placeholder="ที่อยู่"></textarea>
+
+      <label><input type="checkbox" name="worship"> นมัสการ</label><br>
+      <label><input type="checkbox" name="study"> ศึกษาพระคัมภีร์</label><br><br>
+
+      <button>ส่งข้อมูล</button>
+    </form>
+  </div>
+
+  <div class="box">
+    <h3>LINE QR</h3>
+    <img src="line-qr.png" style="width:140px;display:block;margin:auto;">
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="card" style="text-align:center;">
+    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
+  </div>
+
+  <div class="card">
+    <h3>📊 สถิติ</h3>
+    <div style="font-size:28px;font-weight:bold;">Live Dashboard</div>
+  </div>
+</div>
+
+<footer>
+  <img src="logo.png" width="60"><br>
+  Bangkhen Baptist Church<br>
+  2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+  authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+  projectId: "bbcchurch-6ffc3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ================= SLIDE =================
+let slideIndex = 0;
+setInterval(() => {
+  const slides = document.querySelectorAll(".slide");
+  slides.forEach(s => s.classList.remove("active"));
+  slideIndex = (slideIndex + 1) % slides.length;
+  slides[slideIndex].classList.add("active");
+}, 4000);
+
+// ================= CLICK =================
+window.openArticle = function (id) {
+  window.location.href = "article.html?id=" + id;
+};
+
+// ================= LOAD =================
+async function loadAll() {
+
+  const newsBox = document.getElementById("news");
+  const articleBox = document.getElementById("articles");
+
+  try {
+    const snap = await getDocs(collection(db, "articles"));
+
+    let newsHTML = "";
+    let articleHTML = "";
+
+    snap.forEach(d => {
+      const data = d.data();
+
+      // 🔥 เช็ค category ให้ชัวร์
+      const isNews = (data.category || "").includes("ข่าว");
+
+      // 🔥 รูป: แสดงเฉพาะมีจริง + ไม่ว่าง
+      const imageHTML = data.image
+        ? `
+          <div style="margin-top:8px;">
+            <img src="/${data.image}"
+              style="
+                width:140px;
+                height:100px;
+                object-fit:cover;
+                border-radius:10px;
+                display:block;
+              ">
+          </div>
+        `
+        : "";
+
+      const card = `
+        <div class="post"
+          onclick="openArticle('${d.id}')"
+          style="
+            cursor:pointer;
+            background:#fff;
+            padding:12px;
+            margin-bottom:12px;
+            border-radius:12px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+            text-align:left;
+          ">
+
+          <h3 style="margin-bottom:5px;">${data.title || "ไม่มีหัวข้อ"}</h3>
+
+          <p style="font-size:13px;color:#555;">
+            <b>${data.author || "ไม่ระบุผู้เขียน"}</b>
+          </p>
+
+          <p style="font-size:12px;color:#0a2c6d;">
+            ${data.bibleVerse || ""}
+          </p>
+
+          ${imageHTML}
+
+          <p style="font-size:13px;margin-top:8px;">
+            ${(data.content || "").substring(0,90)}...
+          </p>
+
+          <p style="font-size:12px;color:gray;">
+            หมวด: ${data.category || "-"}
+          </p>
+
+          <button style="
+            margin-top:8px;
+            width:100%;
+            padding:8px;
+            border:none;
+            border-radius:8px;
+            background:#0a2c6d;
+            color:white;
+          ">
+            อ่านบทความ
+          </button>
+
+        </div>
+      `;
+
+      if (isNews) {
+        newsHTML += card;
+      } else {
+        articleHTML += card;
+      }
+    });
+
+    newsBox.innerHTML = newsHTML || "<p>ไม่มีข่าว</p>";
+    articleBox.innerHTML = articleHTML || "<p>ไม่มีบทความ</p>";
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+loadAll();
+</script>
+
+</body>
+</html>
