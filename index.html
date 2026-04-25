@@ -8,22 +8,27 @@
 
 <style>
 
-/* ================= RESET ================= */
+/* ================= RESET กันล้นทุกกรณี ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* 🔥 ตัวสำคัญที่สุด */
 html, body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden; /* 🔥 กันล้นซ้ายขวา */
+  overflow-x: hidden;   /* กันล้นซ้ายขวา */
+}
+
+/* กันทุก element ล้น */
+body {
   background: #eef2f7;
   font-family: sans-serif;
 }
 
-/* IMAGE SAFE */
+/* ================= IMAGE SAFE ================= */
 img {
   max-width: 100%;
   height: auto;
@@ -32,31 +37,31 @@ img {
 
 /* ================= NAV ================= */
 .navbar {
+  width: 100%;
+  max-width: 100%;
   background: #0a2c6d;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  width: 100%;
 }
 
-/* ================= HERO (FIX ล้นจอ) ================= */
+/* ================= HERO FIX (กันล้นจริง) ================= */
 .hero {
   position: relative;
-  width: 100%;
+  width: 100vw;
   max-width: 100%;
-  height: 50svh;
-  max-height: 380px;
+  height: 45svh;
+  max-height: 360px;
   min-height: 220px;
-  overflow: hidden; /* 🔥 สำคัญ */
+  overflow: hidden; /* สำคัญ */
 }
 
 .slide {
   position: absolute;
   inset: 0;
   width: 100%;
-  max-width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
@@ -70,43 +75,48 @@ img {
 
 /* ================= INFO ================= */
 .info {
+  width: 100%;
+  max-width: 100%;
   background: white;
   padding: 20px;
   text-align: center;
-  line-height: 1.8;
-}
-
-.info h2 {
-  color: #0a2c6d;
 }
 
 /* ================= MAIN ================= */
 .main-section {
+  width: 100%;
+  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 15px;
   padding: 15px;
-  width: 100%;
 }
 
+/* 🔥 สำคัญมาก กัน card ดันล้น */
 .left, .right {
+  width: 100%;
+  min-width: 0;
   background: white;
   padding: 15px;
   border-radius: 12px;
-  max-width: 100%;
 }
 
 /* ================= POST ================= */
 .post {
+  width: 100%;
+  max-width: 100%;
   background: #fff;
   padding: 12px;
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  word-wrap: break-word;
 }
 
 /* ================= DASHBOARD ================= */
 .dashboard {
+  width: 100%;
+  max-width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -114,6 +124,8 @@ img {
 }
 
 .card {
+  width: 100%;
+  min-width: 0;
   background: #dbe7f5;
   padding: 12px;
   border-radius: 12px;
@@ -122,6 +134,8 @@ img {
 
 /* ================= FORM ================= */
 .container {
+  width: 100%;
+  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -129,30 +143,37 @@ img {
 }
 
 .box {
+  width: 100%;
+  min-width: 0;
   background: #dbe7f5;
   padding: 12px;
   border-radius: 12px;
 }
 
+/* ================= INPUT ================= */
 input, textarea {
   width: 100%;
+  max-width: 100%;
   padding: 10px;
   margin: 6px 0;
   border-radius: 8px;
   border: 1px solid #ccc;
 }
 
+/* ================= BUTTON ================= */
 button {
+  width: 100%;
   background: #2e7d32;
   color: white;
   padding: 10px;
   border: none;
-  width: 100%;
   border-radius: 8px;
 }
 
 /* ================= ROW ================= */
 .row {
+  width: 100%;
+  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -161,34 +182,19 @@ button {
 
 /* ================= FOOTER ================= */
 footer {
+  width: 100%;
+  max-width: 100%;
   background: #0a2c6d;
   color: white;
   text-align: center;
   padding: 20px;
 }
 
-/* ================= LIGHTBOX ================= */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.lightbox img {
-  max-width: 95%;
-  max-height: 95%;
-}
-
-/* ================= MOBILE FIX ================= */
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
 
   .hero {
-    height: 32vh;
-    max-height: 240px;
+    height: 30vh;
   }
 
   .main-section,
@@ -198,8 +204,8 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .nav-menu {
-    display: none;
+  .navbar {
+    flex-wrap: wrap;
   }
 }
 
@@ -213,13 +219,6 @@ footer {
   <div style="display:flex;align-items:center;gap:10px;">
     <img src="logo.png" style="width:35px;border-radius:50%;">
     Bangkhen Baptist Church
-  </div>
-
-  <div class="nav-menu">
-    <a href="#home">หน้าแรก</a>
-    <a href="#news">ข่าว</a>
-    <a href="#articles">บทความ</a>
-    <a href="#contact">ติดต่อ</a>
   </div>
 </div>
 
@@ -239,7 +238,7 @@ footer {
   <p>เวลา นมัสการ 9.00 - 12.00</p>
 </div>
 
-<!-- CONTENT -->
+<!-- MAIN -->
 <div class="main-section">
 
   <div class="left">
@@ -256,26 +255,24 @@ footer {
 
 <!-- DASHBOARD -->
 <div class="dashboard">
-  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num">0</div></div>
-  <div class="card"><h3>นมัสการ</h3><div class="num">0</div></div>
-  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num">0</div></div>
+  <div class="card"><h3>ผู้ลงทะเบียน</h3><div>0</div></div>
+  <div class="card"><h3>นมัสการ</h3><div>0</div></div>
+  <div class="card"><h3>ศึกษา</h3><div>0</div></div>
 </div>
 
 <!-- FORM -->
 <div class="container">
 
   <div class="box">
-    <h3>ติดต่อ / ลงทะเบียน</h3>
-    <form>
-      <input placeholder="ชื่อ">
-      <input placeholder="เบอร์">
-      <textarea placeholder="ที่อยู่"></textarea>
-      <button>ส่งข้อมูล</button>
-    </form>
+    <h3>ติดต่อ</h3>
+    <input placeholder="ชื่อ">
+    <input placeholder="เบอร์">
+    <textarea placeholder="ที่อยู่"></textarea>
+    <button>ส่งข้อมูล</button>
   </div>
 
   <div class="box">
-    <h3>LINE QR</h3>
+    <h3>LINE</h3>
     <img src="line-qr.png" style="width:140px;margin:auto;">
   </div>
 
