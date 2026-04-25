@@ -8,6 +8,7 @@
 
 <style>
 
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -21,14 +22,14 @@ html, body {
   font-family: sans-serif;
 }
 
-/* รูปกันล้น */
+/* IMAGE SAFE */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* NAVBAR */
+/* NAV */
 .navbar {
   background: #0a2c6d;
   color: white;
@@ -49,12 +50,12 @@ img {
   text-decoration: none;
 }
 
-/* HERO */
+/* HERO FIX (สำคัญ) */
 .hero {
   position: relative;
   width: 100%;
-  height: 60vh; /* 🔥 ลดจาก 100vh */
-  min-height: 300px;
+  height: 55vh;
+  min-height: 280px;
   overflow: hidden;
 }
 
@@ -66,18 +67,11 @@ img {
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: 1s;
+  transition: 1s ease;
 }
 
 .slide.active {
   opacity: 1;
-}
-
-.hero h1 {
-  font-size: 28px;
-  background: rgba(0,0,0,0.4);
-  padding: 10px 16px;
-  border-radius: 10px;
 }
 
 /* INFO */
@@ -113,7 +107,6 @@ img {
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  cursor: pointer;
 }
 
 /* DASHBOARD */
@@ -203,24 +196,16 @@ footer {
   object-fit: contain;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 @media (max-width: 768px) {
+
   .hero {
-    height: 45vh;
+    height: 40vh;
   }
 
-  .main-section {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .container {
-    grid-template-columns: 1fr;
-  }
-
+  .main-section,
+  .dashboard,
+  .container,
   .row {
     grid-template-columns: 1fr;
   }
@@ -254,16 +239,13 @@ footer {
 <div class="hero" id="home">
 
   <div class="slide active" style="background-image:url('hero_01.png')"></div>
-
   <div class="slide" style="background-image:url('hero_02.png')"></div>
-
   <div class="slide" style="background-image:url('hero_03.png')"></div>
-
   <div class="slide" style="background-image:url('hero_04.png')"></div>
 
 </div>
 
-<!-- INFO -->
+<!-- INFO (FIX แล้ว ยินดีต้อนรับกลับมาแล้ว) -->
 <div class="info">
   <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
   <p>เวลา นมัสการ 9.00 - 12.00</p>
@@ -284,9 +266,9 @@ footer {
 
 <!-- DASHBOARD -->
 <div class="dashboard">
-  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num" id="total">0</div></div>
-  <div class="card"><h3>นมัสการ</h3><div class="num" id="worship">0</div></div>
-  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num" id="study">0</div></div>
+  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num">0</div></div>
+  <div class="card"><h3>นมัสการ</h3><div class="num">0</div></div>
+  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num">0</div></div>
 </div>
 
 <!-- FORM -->
@@ -294,10 +276,10 @@ footer {
 
   <div class="box">
     <h3>ติดต่อ / ลงทะเบียน</h3>
-    <form id="form">
-      <input name="fullname" placeholder="ชื่อ">
-      <input name="phone" placeholder="เบอร์">
-      <textarea name="address" placeholder="ที่อยู่"></textarea>
+    <form>
+      <input placeholder="ชื่อ">
+      <input placeholder="เบอร์">
+      <textarea placeholder="ที่อยู่"></textarea>
       <button>ส่งข้อมูล</button>
     </form>
   </div>
@@ -309,42 +291,18 @@ footer {
 
 </div>
 
-<!-- ROW -->
-<div class="row">
-  <div class="card">
-    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
-  </div>
-
-  <div class="card">
-    <h3>📊 Live Dashboard</h3>
-  </div>
-</div>
-
+<!-- FOOTER -->
 <footer>
   <img src="logo.png" width="60"><br>
   Bangkhen Baptist Church
 </footer>
 
-<!-- LIGHTBOX (สำคัญ ต้องอยู่นอก script) -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="this.style.display='none'">
   <img id="lightboxImg">
 </div>
 
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-  authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-  projectId: "bbcchurch-6ffc3"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+<script>
 /* SLIDE */
 let i = 0;
 setInterval(() => {
@@ -353,57 +311,6 @@ setInterval(() => {
   i = (i + 1) % slides.length;
   slides[i].classList.add("active");
 }, 4000);
-
-/* LIGHTBOX */
-window.openLightbox = (src) => {
-  document.getElementById("lightboxImg").src = src;
-  document.getElementById("lightbox").style.display = "flex";
-};
-
-window.closeLightbox = () => {
-  document.getElementById("lightbox").style.display = "none";
-};
-
-/* LOAD DATA */
-async function loadAll() {
-
-  const newsBox = document.getElementById("news");
-  const articleBox = document.getElementById("articles");
-
-  const snap = await getDocs(collection(db, "articles"));
-
-  let newsHTML = "";
-  let articleHTML = "";
-
-  snap.forEach(d => {
-    const data = d.data();
-
-    const card = `
-      <div class="post">
-
-        <h3>${data.title || ""}</h3>
-        <p>${data.author || ""}</p>
-
-        ${data.image ? `<img src="/${data.image}" onclick="openLightbox('/${data.image}')">` : ""}
-
-        <p>${(data.content || "").substring(0,100)}...</p>
-
-      </div>
-    `;
-
-    if ((data.category || "").includes("ข่าว")) {
-      newsHTML += card;
-    } else {
-      articleHTML += card;
-    }
-  });
-
-  newsBox.innerHTML = newsHTML;
-  articleBox.innerHTML = articleHTML;
-}
-
-loadAll();
-
 </script>
 
 </body>
