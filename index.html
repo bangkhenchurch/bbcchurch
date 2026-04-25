@@ -4,22 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Bangkhen Baptist Church</title>
-<link rel="icon" href="logo.png">
 
 <style>
 
-/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
+body {
   background: #eef2f7;
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 /* IMAGE SAFE */
@@ -35,14 +32,12 @@ img {
   color: white;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 12px 16px;
 }
 
 .nav-menu {
   display: flex;
   gap: 15px;
-  font-size: 14px;
 }
 
 .nav-menu a {
@@ -50,11 +45,11 @@ img {
   text-decoration: none;
 }
 
-/* ================= HERO FIX (ตัวสำคัญ) ================= */
+/* HERO FIX */
 .hero {
   position: relative;
   width: 100%;
-  height: 60svh;   /* 🔥 แก้หลัก */
+  height: 60svh;
   max-height: 420px;
   min-height: 260px;
   overflow: hidden;
@@ -66,9 +61,8 @@ img {
   height: 100%;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   opacity: 0;
-  transition: 1s ease;
+  transition: 1s;
 }
 
 .slide.active {
@@ -80,7 +74,6 @@ img {
   background: white;
   padding: 20px;
   text-align: center;
-  line-height: 1.8;
 }
 
 .info h2 {
@@ -88,14 +81,14 @@ img {
 }
 
 /* MAIN */
-.main-section {
+.main {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 15px;
   padding: 15px;
 }
 
-.left, .right {
+.box {
   background: white;
   padding: 15px;
   border-radius: 12px;
@@ -105,107 +98,18 @@ img {
 .post {
   background: #fff;
   padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* DASHBOARD */
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 10px;
-}
-
-.card {
-  background: #dbe7f5;
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.card .num {
-  font-size: 26px;
-  font-weight: bold;
-}
-
-/* FORM */
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
-}
-
-.box {
-  background: #dbe7f5;
-  padding: 12px;
-  border-radius: 12px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  background: #2e7d32;
-  color: white;
-  padding: 10px;
-  border: none;
-  width: 100%;
-  border-radius: 8px;
-}
-
-/* ROW */
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
-}
-
-/* FOOTER */
-footer {
-  background: #0a2c6d;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-/* LIGHTBOX */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.lightbox img {
-  max-width: 95%;
-  max-height: 95%;
-  object-fit: contain;
-}
-
-/* ================= MOBILE ================= */
+/* MOBILE */
 @media (max-width: 768px) {
-
   .hero {
-    height: 38vh;   /* 🔥 มือถือเล็กลงจริง */
-    max-height: 260px;
+    height: 38vh;
   }
 
-  .main-section,
-  .dashboard,
-  .container,
-  .row {
+  .main {
     grid-template-columns: 1fr;
   }
 
@@ -221,21 +125,15 @@ footer {
 
 <!-- NAV -->
 <div class="navbar">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <img src="logo.png" style="width:35px;border-radius:50%;">
-    Bangkhen Baptist Church
-  </div>
-
+  <div>🏠 Bangkhen Baptist Church</div>
   <div class="nav-menu">
-    <a href="#home">หน้าแรก</a>
     <a href="#news">ข่าว</a>
     <a href="#articles">บทความ</a>
-    <a href="#contact">ติดต่อ</a>
   </div>
 </div>
 
 <!-- HERO -->
-<div class="hero" id="home">
+<div class="hero">
 
   <div class="slide active" style="background-image:url('hero_01.png')"></div>
   <div class="slide" style="background-image:url('hero_02.png')"></div>
@@ -244,68 +142,49 @@ footer {
 
 </div>
 
-<!-- INFO (FIX แล้ว) -->
+<!-- INFO -->
 <div class="info">
   <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
   <p>เวลา นมัสการ 9.00 - 12.00</p>
 </div>
 
-<!-- CONTENT -->
-<div class="main-section">
-  <div class="left">
+<!-- MAIN -->
+<div class="main">
+
+  <!-- NEWS -->
+  <div class="box">
     <h2>📰 ข่าวสาร</h2>
     <div id="news"></div>
   </div>
 
-  <div class="right">
+  <!-- ARTICLES -->
+  <div class="box">
     <h2>📚 บทความ</h2>
     <div id="articles"></div>
   </div>
-</div>
-
-<!-- DASHBOARD -->
-<div class="dashboard">
-  <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num">0</div></div>
-  <div class="card"><h3>นมัสการ</h3><div class="num">0</div></div>
-  <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num">0</div></div>
-</div>
-
-<!-- FORM -->
-<div class="container">
-
-  <div class="box">
-    <h3>ติดต่อ / ลงทะเบียน</h3>
-    <form>
-      <input placeholder="ชื่อ">
-      <input placeholder="เบอร์">
-      <textarea placeholder="ที่อยู่"></textarea>
-      <button>ส่งข้อมูล</button>
-    </form>
-  </div>
-
-  <div class="box">
-    <h3>LINE QR</h3>
-    <img src="line-qr.png" style="width:140px;margin:auto;">
-  </div>
 
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <img src="logo.png" width="60"><br>
-  Bangkhen Baptist Church
-</footer>
-
-<!-- SLIDE SCRIPT -->
 <script>
+/* SLIDE */
 let i = 0;
-
 setInterval(() => {
   const slides = document.querySelectorAll(".slide");
   slides.forEach(s => s.classList.remove("active"));
   i = (i + 1) % slides.length;
   slides[i].classList.add("active");
 }, 4000);
+
+/* 🔥 FIX: กันข้อมูลหาย (fallback demo) */
+document.getElementById("news").innerHTML = `
+  <div class="post">📢 ข่าวตัวอย่าง 1</div>
+  <div class="post">📢 ข่าวตัวอย่าง 2</div>
+`;
+
+document.getElementById("articles").innerHTML = `
+  <div class="post">📖 บทความตัวอย่าง 1</div>
+  <div class="post">📖 บทความตัวอย่าง 2</div>
+`;
 </script>
 
 </body>
