@@ -50,12 +50,13 @@ img {
   text-decoration: none;
 }
 
-/* HERO FIX (สำคัญ) */
+/* ================= HERO FIX (ตัวสำคัญ) ================= */
 .hero {
   position: relative;
   width: 100%;
-  height: 55vh;
-  min-height: 280px;
+  height: 60svh;   /* 🔥 แก้หลัก */
+  max-height: 420px;
+  min-height: 260px;
   overflow: hidden;
 }
 
@@ -179,10 +180,7 @@ footer {
 /* LIGHTBOX */
 .lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.9);
   display: none;
   justify-content: center;
@@ -196,11 +194,12 @@ footer {
   object-fit: contain;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
 
   .hero {
-    height: 40vh;
+    height: 38vh;   /* 🔥 มือถือเล็กลงจริง */
+    max-height: 260px;
   }
 
   .main-section,
@@ -245,7 +244,7 @@ footer {
 
 </div>
 
-<!-- INFO (FIX แล้ว ยินดีต้อนรับกลับมาแล้ว) -->
+<!-- INFO (FIX แล้ว) -->
 <div class="info">
   <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
   <p>เวลา นมัสการ 9.00 - 12.00</p>
@@ -272,7 +271,7 @@ footer {
 </div>
 
 <!-- FORM -->
-<div class="container" id="contact">
+<div class="container">
 
   <div class="box">
     <h3>ติดต่อ / ลงทะเบียน</h3>
@@ -297,14 +296,10 @@ footer {
   Bangkhen Baptist Church
 </footer>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox" onclick="this.style.display='none'">
-  <img id="lightboxImg">
-</div>
-
+<!-- SLIDE SCRIPT -->
 <script>
-/* SLIDE */
 let i = 0;
+
 setInterval(() => {
   const slides = document.querySelectorAll(".slide");
   slides.forEach(s => s.classList.remove("active"));
