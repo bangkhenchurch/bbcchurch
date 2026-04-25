@@ -8,21 +8,20 @@
 
 <style>
 
-/* ================= RESET กันล้นทุกกรณี ================= */
+/* ================= HARD RESET (กันล้น 100%) ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 🔥 ตัวสำคัญที่สุด */
 html, body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;   /* กันล้นซ้ายขวา */
+  overflow-x: hidden !important;
 }
 
-/* กันทุก element ล้น */
+/* กัน browser แอบขยาย */
 body {
   background: #eef2f7;
   font-family: sans-serif;
@@ -38,26 +37,26 @@ img {
 /* ================= NAV ================= */
 .navbar {
   width: 100%;
-  max-width: 100%;
   background: #0a2c6d;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
+  flex-wrap: wrap;
 }
 
-/* ================= HERO FIX (กันล้นจริง) ================= */
+/* ================= HERO (FIX ลึกระดับ pixel overflow) ================= */
 .hero {
   position: relative;
-  width: 100vw;
-  max-width: 100%;
+  width: 100%;
   height: 45svh;
-  max-height: 360px;
   min-height: 220px;
-  overflow: hidden; /* สำคัญ */
+  max-height: 360px;
+  overflow: hidden;
 }
 
+/* 🔥 สำคัญ: inset 0 กัน overflow pixel */
 .slide {
   position: absolute;
   inset: 0;
@@ -76,26 +75,24 @@ img {
 /* ================= INFO ================= */
 .info {
   width: 100%;
-  max-width: 100%;
   background: white;
   padding: 20px;
   text-align: center;
+  line-height: 1.6;
 }
 
 /* ================= MAIN ================= */
 .main-section {
   width: 100%;
-  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 15px;
   padding: 15px;
 }
 
-/* 🔥 สำคัญมาก กัน card ดันล้น */
+/* 🔥 FIX สำคัญที่สุดสำหรับ grid overflow */
 .left, .right {
-  width: 100%;
-  min-width: 0;
+  min-width: 0; /* 💥 กันล้นจริง */
   background: white;
   padding: 15px;
   border-radius: 12px;
@@ -104,19 +101,18 @@ img {
 /* ================= POST ================= */
 .post {
   width: 100%;
-  max-width: 100%;
+  min-width: 0;
   background: #fff;
   padding: 12px;
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  word-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ================= DASHBOARD ================= */
 .dashboard {
   width: 100%;
-  max-width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -124,7 +120,6 @@ img {
 }
 
 .card {
-  width: 100%;
   min-width: 0;
   background: #dbe7f5;
   padding: 12px;
@@ -135,7 +130,6 @@ img {
 /* ================= FORM ================= */
 .container {
   width: 100%;
-  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -143,7 +137,6 @@ img {
 }
 
 .box {
-  width: 100%;
   min-width: 0;
   background: #dbe7f5;
   padding: 12px;
@@ -163,9 +156,9 @@ input, textarea {
 /* ================= BUTTON ================= */
 button {
   width: 100%;
+  padding: 10px;
   background: #2e7d32;
   color: white;
-  padding: 10px;
   border: none;
   border-radius: 8px;
 }
@@ -173,7 +166,6 @@ button {
 /* ================= ROW ================= */
 .row {
   width: 100%;
-  max-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -183,7 +175,6 @@ button {
 /* ================= FOOTER ================= */
 footer {
   width: 100%;
-  max-width: 100%;
   background: #0a2c6d;
   color: white;
   text-align: center;
@@ -203,10 +194,11 @@ footer {
   .row {
     grid-template-columns: 1fr;
   }
+}
 
-  .navbar {
-    flex-wrap: wrap;
-  }
+/* ================= FINAL SAFETY NET ================= */
+body {
+  overflow-x: hidden;
 }
 
 </style>
@@ -224,12 +216,10 @@ footer {
 
 <!-- HERO -->
 <div class="hero">
-
   <div class="slide active" style="background-image:url('hero_01.png')"></div>
   <div class="slide" style="background-image:url('hero_02.png')"></div>
   <div class="slide" style="background-image:url('hero_03.png')"></div>
   <div class="slide" style="background-image:url('hero_04.png')"></div>
-
 </div>
 
 <!-- INFO -->
@@ -255,9 +245,9 @@ footer {
 
 <!-- DASHBOARD -->
 <div class="dashboard">
-  <div class="card"><h3>ผู้ลงทะเบียน</h3><div>0</div></div>
-  <div class="card"><h3>นมัสการ</h3><div>0</div></div>
-  <div class="card"><h3>ศึกษา</h3><div>0</div></div>
+  <div class="card">ผู้ลงทะเบียน</div>
+  <div class="card">นมัสการ</div>
+  <div class="card">ศึกษา</div>
 </div>
 
 <!-- FORM -->
@@ -273,7 +263,7 @@ footer {
 
   <div class="box">
     <h3>LINE</h3>
-    <img src="line-qr.png" style="width:140px;margin:auto;">
+    <img src="line-qr.png">
   </div>
 
 </div>
@@ -283,17 +273,6 @@ footer {
   <img src="logo.png" width="60"><br>
   Bangkhen Baptist Church
 </footer>
-
-<!-- SLIDE -->
-<script>
-let i = 0;
-setInterval(() => {
-  const slides = document.querySelectorAll(".slide");
-  slides.forEach(s => s.classList.remove("active"));
-  i = (i + 1) % slides.length;
-  slides[i].classList.add("active");
-}, 4000);
-</script>
 
 </body>
 </html>
