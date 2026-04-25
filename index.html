@@ -1,224 +1,266 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bangkhen Baptist Church</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Bangkhen Baptist Church</title>
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        /* --- 1. CORE RESET (กันล้น 100%) --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Sarabun', sans-serif;
-            background-color: #f4f7fa;
-            color: #2d3436;
-            overflow-x: hidden; /* ล็อคขอบซ้ายขวา */
-        }
+<style>
+/* ================= 1. HARD RESET & DARK THEME ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        /* --- 2. NAVIGATION --- */
-        nav {
-            width: 100%;
-            background: #ffffff;
-            padding: 12px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden !important; /* ล็อคกันล้นซ้ายขวาเด็ดขาด */
+  background: #121212; /* พื้นเว็บสีดำ */
+  color: #eeeeee;
+  font-family: 'Sarabun', sans-serif;
+}
 
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #0a2c6d; font-family: 'Prompt'; }
-        .logo img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+/* ================= 2. NAVBAR ================= */
+.navbar {
+  width: 100%;
+  background: #0a2c6d;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-        /* --- 3. HERO SLIDER (คลีน ไม่มีตัวหนังสือ) --- */
-        .hero {
-            width: 100%;
-            height: 45vh; /* ปรับความสูงตามความสวยงาม */
-            min-height: 250px;
-            max-height: 450px;
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
+/* ================= 3. HERO (กันล้น 100% ไม่เอาตัวหนังสือ) ================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 45vh;
+  min-height: 250px;
+  max-height: 450px;
+  overflow: hidden; /* ตัดส่วนเกินของรูปทิ้ง */
+  background: #000;
+}
 
-        .slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-        }
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
 
-        .slide.active { opacity: 1; }
+.slide.active {
+  opacity: 1;
+}
 
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* รูปจะพอดีขอบเสมอ ไม่ล้นซ้ายขวา */
-            object-position: center;
-        }
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* บังคับรูปให้เต็มขอบซ้ายขวาพอดี */
+  object-position: center;
+}
 
-        /* --- 4. CONTAINER & DASHBOARD (ส่วนสถิติ) --- */
-        .container {
-            width: 92%;
-            max-width: 1100px;
-            margin: -30px auto 40px; /* ให้แดชบอร์ดเกยขึ้นไปบน Hero เล็กน้อย */
-            position: relative;
-            z-index: 20;
-        }
+/* ================= 4. DASHBOARD (เกยขึ้นบน Hero) ================= */
+.dashboard {
+  width: 90%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: -30px auto 30px; /* ดึงขึ้นไปเกย Hero */
+  position: relative;
+  z-index: 10;
+}
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
+.card-stat {
+  background: #1e1e1e;
+  padding: 20px 10px;
+  border-radius: 12px;
+  text-align: center;
+  border-bottom: 4px solid #0a2c6d;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
 
-        .stat-card {
-            background: #ffffff;
-            padding: 20px 10px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-bottom: 4px solid #0a2c6d;
-        }
+.card-stat strong {
+  display: block;
+  font-family: 'Prompt';
+  font-size: 1.2rem;
+  color: #4dabff;
+}
 
-        .stat-card span { display: block; font-size: 12px; color: #666; margin-bottom: 5px; }
-        .stat-card strong { font-family: 'Prompt'; font-size: 18px; color: #0a2c6d; }
+/* ================= 5. INFO & MAIN SECTION ================= */
+.info {
+  text-align: center;
+  padding: 40px 20px;
+}
 
-        /* --- 5. MAIN CONTENT --- */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-            margin-top: 30px;
-        }
+.main-section {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: 20px;
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
+.left, .right {
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
-        /* --- 6. QR CODE & CONTACT --- */
-        .contact-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
+h2 { font-family: 'Prompt'; color: #4dabff; margin-bottom: 15px; }
 
-        .qr-section {
-            text-align: center;
-            background: #eef2f7;
-            padding: 20px;
-            border-radius: 15px;
-        }
+/* ================= 6. FORM & QR (CONTAINER) ================= */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
 
-        .qr-section img {
-            max-width: 140px;
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
+.box {
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 15px;
+}
 
-        /* --- 7. FOOTER --- */
-        footer {
-            background: #0a2c6d;
-            color: white;
-            text-align: center;
-            padding: 50px 20px;
-            margin-top: 50px;
-        }
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #2a2a2a;
+  color: white;
+}
 
-        /* --- 8. RESPONSIVE (กันล้นบนมือถือ) --- */
-        @media (max-width: 768px) {
-            .main-grid, .contact-row { grid-template-columns: 1fr; }
-            .dashboard { gap: 8px; }
-            .stat-card strong { font-size: 14px; }
-        }
-    </style>
+button {
+  width: 100%;
+  padding: 12px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.box img {
+  max-width: 180px;
+  margin: 15px auto 0;
+  border-radius: 10px;
+}
+
+/* ================= 7. FOOTER ================= */
+footer {
+  background: #0a2c6d;
+  color: white;
+  text-align: center;
+  padding: 50px 20px;
+  margin-top: 50px;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .hero { height: 35vh; }
+  .main-section, .dashboard, .container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
+
 <body>
 
-    <nav>
-        <div class="logo">
-            <img src="logo.png" alt="Church Logo">
-            <span>Bangkhen Baptist Church</span>
-        </div>
-        <div style="font-size: 12px; font-weight: bold; color: #28a745;">LIVE NOW</div>
-    </nav>
+<div class="navbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="logo.png" style="width:35px;height:35px;border-radius:50%;object-fit:cover;">
+    <span style="font-family:'Prompt'; font-weight:600;">Bangkhen Baptist Church</span>
+  </div>
+</div>
 
-    <div class="hero">
-        <div class="slide active"><img src="hero_01.png"></div>
-        <div class="slide"><img src="hero_02.png"></div>
-        <div class="slide"><img src="hero_03.png"></div>
+<div class="hero">
+  <div class="slide active"><img src="hero_01.png"></div>
+  <div class="slide"><img src="hero_02.png"></div>
+  <div class="slide"><img src="hero_03.png"></div>
+  <div class="slide"><img src="hero_04.png"></div>
+</div>
+
+<div class="dashboard">
+  <div class="card-stat"><span>ผู้ลงทะเบียน</span><strong>1,250 คน</strong></div>
+  <div class="card-stat"><span>นมัสการ</span><strong>450 คน</strong></div>
+  <div class="card-stat"><span>ศึกษา</span><strong>85 คน</strong></div>
+</div>
+
+<div class="info">
+  <h2 style="color:white;">ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
+  <p style="color:#aaa;">เวลานมัสการ: วันอาทิตย์ 9.00 - 12.00 น.</p>
+</div>
+
+<div class="main-section">
+  <div class="left">
+    <h2>📰 ข่าวสาร</h2>
+    <div id="news" style="color:#888;">กำลังโหลดข่าวสาร...</div>
+  </div>
+
+  <div class="right">
+    <h2>📚 บทความ</h2>
+    <div id="articles" style="color:#888;">
+      <p>"ความเชื่อคือความแน่ใจในสิ่งที่เราหวังไว้ เป็นความรู้สึกมั่นใจว่าสิ่งที่ยังไม่เห็นนั้นมีจริง" (ฮีบรู 11:1)</p>
     </div>
+  </div>
+</div>
 
-    <div class="container">
-        <div class="dashboard">
-            <div class="stat-card">
-                <span>ผู้ลงทะเบียน</span>
-                <strong>1,250 คน</strong>
-            </div>
-            <div class="stat-card">
-                <span>มานมัสการ</span>
-                <strong>450 คน</strong>
-            </div>
-            <div class="stat-card">
-                <span>ชั้นเรียนรวี</span>
-                <strong>85 คน</strong>
-            </div>
-        </div>
+<div class="container">
+  <div class="box">
+    <h3>📍 ติดต่อ</h3>
+    <input placeholder="ชื่อของคุณ">
+    <input placeholder="เบอร์โทรศัพท์">
+    <textarea placeholder="คำอธิษฐานหรือที่อยู่" rows="3"></textarea>
+    <button>ส่งข้อมูล</button>
+  </div>
 
-        <div class="main-grid">
-            <div class="card">
-                <h3 style="color:#0a2c6d; margin-bottom:15px; font-family:'Prompt';">📰 ข่าวสาร</h3>
-                <p style="font-size:14px; color:#555;">คริสตจักรมีกิจกรรมพิเศษในวันอาทิตย์หน้า ขอเชิญพี่น้องทุกท่านเข้าร่วมโดยพร้อมเพรียงกัน</p>
-            </div>
-            <div class="card">
-                <h3 style="color:#0a2c6d; margin-bottom:15px; font-family:'Prompt';">📚 บทความหนุนใจ</h3>
-                <p>"ความเชื่อคือความแน่ใจในสิ่งที่เราหวังไว้ เป็นความรู้สึกมั่นใจว่าสิ่งที่ยังไม่เห็นนั้นมีจริง" (ฮีบรู 11:1)</p>
-            </div>
-        </div>
+  <div class="box" style="text-align: center;">
+    <h3>💬 LINE Official</h3>
+    <img src="line-qr.png" alt="LINE QR Code">
+    <p style="font-size: 12px; color: #888; margin-top: 10px;">สแกนเพื่อเพิ่มเพื่อน</p>
+  </div>
+</div>
 
-        <div class="contact-row">
-            <div class="card">
-                <h3 style="margin-bottom:15px;">📍 ติดต่อเรา</h3>
-                <input type="text" placeholder="ชื่อ-นามสกุล" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
-                <button style="width:100%; padding:12px; background:#0a2c6d; color:white; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">ส่งข้อมูลติดต่อ</button>
-            </div>
-            
-            <div class="qr-section">
-                <h3 style="font-family:'Prompt'; font-size: 16px;">💬 LINE OFFICIAL</h3>
-                <img src="line-qr.png" alt="LINE QR Code">
-                <p style="font-size:12px; color:#666; margin-top:5px;">สแกนเพื่อรับข่าวสารด่วน</p>
-            </div>
-        </div>
-    </div>
+<footer>
+  <img src="logo.png" width="60" style="border-radius:50%; margin-bottom:15px;"><br>
+  <strong>Bangkhen Baptist Church</strong>
+  <p style="font-size: 12px; opacity: 0.6; margin-top: 10px;">© 2026 มุ่งมั่นประกาศพระคุณของพระเจ้า</p>
+</footer>
 
-    <footer>
-        <img src="logo.png" width="60" style="margin-bottom: 15px; border-radius: 50%;">
-        <p style="font-family:'Prompt'; font-weight:bold;">คริสตจักรแบ๊บติสต์บางเขน</p>
-        <p style="font-size: 12px; opacity: 0.6; margin-top: 10px;">มุ่งมั่นประกาศพระคุณและเดินตามรอยพระบาทพระเยซูคริสต์</p>
-    </footer>
+<script>
+  // Script สำหรับสไลด์รูปภาพ
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  
+  function nextSlide() {
+    if(slides.length < 2) return;
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }
 
-    <script>
-        let current = 0;
-        const slides = document.querySelectorAll('.slide');
-        function next() {
-            if(slides.length < 2) return;
-            slides[current].classList.remove('active');
-            current = (current + 1) % slides.length;
-            slides[current].classList.add('active');
-        }
-        setInterval(next, 5000); // เปลี่ยนรูปทุก 5 วินาที
-    </script>
+  setInterval(nextSlide, 5000); // เปลี่ยนทุก 5 วินาที
+</script>
 
 </body>
 </html>
