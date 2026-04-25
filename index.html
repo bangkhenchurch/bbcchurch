@@ -3,258 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bangkhen Baptist Church</title>
-    <link rel="icon" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Bangkhen Baptist Church - Welcome Home</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* ================= 1. FORCE RESET (กันล้นทุกทิศทาง) ================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            max-width: 100vw; /* บังคับไม่ให้กว้างเกินจอ */
-            overflow-x: hidden; /* ตัดส่วนที่แลบออกซ้ายขวาทิ้งทันที */
-            background: #f4f7fa;
+        /* --- 1. CORE RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
             font-family: 'Sarabun', sans-serif;
-            -webkit-text-size-adjust: 100%;
+            background-color: #f8f9fa;
+            color: #2d3436;
+            line-height: 1.6;
+            overflow-x: hidden; /* กันล้นซ้ายขวาระดับ Body */
         }
 
-        /* ================= 2. NAVBAR ================= */
-        .navbar {
+        h1, h2, h3 { font-family: 'Prompt', sans-serif; }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
             width: 100%;
-            background: #0a2c6d;
-            color: white;
+            background: #fff;
+            padding: 15px 5%;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            position: relative;
-            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* ================= 3. HERO SLIDER (จุดที่แก้รูปล้น) ================= */
-        .hero-container {
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #0a2c6d; }
+        .logo img { width: 40px; height: 40px; border-radius: 50%; }
+
+        /* --- 3. HERO SECTION (NO OVERFLOW FIX) --- */
+        .hero {
+            position: relative;
             width: 100%;
-            height: 250px; /* กำหนดความสูงคงที่สำหรับมือถือ */
-            position: relative;
-            overflow: hidden; /* สำคัญมาก: กันรูปข้างในล้นออกข้าง */
+            max-width: 100vw; /* ล็อคความกว้างเท่าหน้าจอ */
+            height: 60vh; /* ปรับความสูงตามความเหมาะสม */
+            min-height: 350px;
+            overflow: hidden;
             background: #000;
-        }
-
-        /* สำหรับหน้าจอคอมให้สูงขึ้น */
-        @media (min-width: 768px) {
-            .hero-container {
-                height: 450px;
-            }
         }
 
         .slide {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: opacity 1.5s ease-in-out;
         }
 
-        .slide.active {
-            opacity: 1;
-        }
+        .slide.active { opacity: 1; }
 
         .slide img {
-            /* 🔥 บังคับรูปให้เต็มพื้นที่โดยไม่ดันขอบจอออกไป */
             width: 100%;
             height: 100%;
-            object-fit: cover; 
+            object-fit: cover; /* บังคับรูปให้เต็มพื้นที่โดยไม่เบี้ยวและไม่ล้นออกข้าง */
             object-position: center;
-            display: block;
+            filter: brightness(60%); /* ทำให้รูปมืดลงเพื่อให้ข้อความเด่น */
         }
 
-        /* ================= 4. CONTENT LAYOUT ================= */
-        .content-wrapper {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        .info-card {
-            background: white;
-            padding: 25px 15px;
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            color: white;
+            width: 90%;
+            max-width: 800px;
+            z-index: 10;
         }
 
+        .hero-text h1 { font-size: clamp(1.5rem, 5vw, 3rem); margin-bottom: 15px; }
+
+        /* --- 4. CONTAINER SYSTEM (กันเนื้อหาล้นขอบซ้ายขวา) --- */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0a2c6d;
+        }
+
+        /* --- 5. GRID LAYOUT --- */
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr; /* บนมือถือแถวเดียว */
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr 2fr; /* บนคอมแยกซ้ายขวา */
-            }
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .card {
-            background: white;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-top: 5px solid #0a2c6d;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        /* --- 6. FOOTER (IMAGE STYLE) --- */
+        .bible-banner {
+            background: #1a1a1a;
+            color: #fff;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            word-wrap: break-word; /* กันข้อความล้น */
-        }
-
-        /* ================= 5. DASHBOARD ================= */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
-            background: #0a2c6d;
-            color: white;
-            padding: 15px 5px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        /* ================= 6. FORM & QR ================= */
-        .contact-section {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
+            border-radius: 10px;
+            margin-top: 50px;
         }
 
-        @media (min-width: 768px) {
-            .contact-section {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px; /* กัน iPhone Auto Zoom */
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 6px;
+        .btn-read {
+            background: #fff;
+            color: #1a1a1a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
+            font-size: 14px;
         }
 
-        /* ================= 7. FOOTER ================= */
         footer {
             background: #0a2c6d;
-            color: white;
+            color: #fff;
             text-align: center;
-            padding: 40px 15px;
-            margin-top: 30px;
+            padding: 60px 20px;
+            margin-top: 60px;
         }
 
-        footer img {
-            border-radius: 50%;
-            margin-bottom: 15px;
+        /* --- 7. RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .hero { height: 40vh; }
+            .hero-text h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <img src="logo.png" style="width:35px; height:35px; border-radius:50%; margin-right:10px;">
-        <span style="font-weight: 700;">Bangkhen Baptist Church</span>
+    <nav>
+        <div class="logo">
+            <img src="logo.png" alt="Church Logo">
+            <span>Bangkhen Baptist</span>
+        </div>
+        <div style="font-size: 14px; color: #666;">อาทิตย์ 09:00 - 12:00</div>
     </nav>
 
-    <div class="hero-container">
+    <div class="hero">
         <div class="slide active"><img src="hero_01.png"></div>
         <div class="slide"><img src="hero_02.png"></div>
         <div class="slide"><img src="hero_03.png"></div>
-        <div class="slide"><img src="hero_04.png"></div>
+        
+        <div class="hero-text">
+            <h1>"ความเชื่อคือความแน่ใจในสิ่งที่เราหวังไว้"</h1>
+            <p>ฮีบรู 11:1 | ยินดีต้อนรับสู่คริสตจักรแบ๊บติสต์บางเขน</p>
+        </div>
     </div>
 
-    <div class="content-wrapper">
+    <div class="container">
+        <h2 class="section-title">พันธกิจและข่าวสาร</h2>
         
-        <div class="info-card">
-            <h2 style="color:#0a2c6d; margin-bottom:10px;">คริสตจักรแบ๊บติสต์บางเขน</h2>
-            <p style="color: #666;">นมัสการพระเจ้าทุกวันอาทิตย์ 09:00 - 12:00 น.</p>
-        </div>
-
         <div class="main-grid">
             <div class="card">
-                <h3 style="color:#0a2c6d; border-left:4px solid #0a2c6d; padding-left:10px; margin-bottom:15px;">📰 ข่าวสาร</h3>
-                <p style="color:#888;">จะอัปเดตกิจกรรมเร็วๆ นี้</p>
+                <h3>📰 ข่าวประกาศ</h3>
+                <p>ติดตามกิจกรรมพิเศษและค่ายคริสตจักรประจำปีได้ที่นี่...</p>
             </div>
             <div class="card">
-                <h3 style="color:#0a2c6d; border-left:4px solid #0a2c6d; padding-left:10px; margin-bottom:15px;">📚 บทความ</h3>
-                <p>ขอพระเจ้าเสริมกำลังและเติมเต็มสันติสุขในชีวิตของท่าน...</p>
+                <h3>📚 บทเรียนรวี</h3>
+                <p>ศึกษาพระคัมภีร์ร่วมกันเพื่อการเติบโตในความเชื่อทุกสัปดาห์</p>
             </div>
-        </div>
-
-        <div class="dashboard">
-            <div class="stat-box">ผู้ลงทะเบียน</div>
-            <div class="stat-box">นมัสการ</div>
-            <div class="stat-box">ชั้นเรียนรวี</div>
-        </div>
-
-        <div class="contact-section">
             <div class="card">
-                <h3 style="margin-bottom:10px;">📍 ติดต่อเรา</h3>
-                <input type="text" placeholder="ชื่อ">
-                <input type="tel" placeholder="เบอร์โทร">
-                <textarea placeholder="ข้อความ" rows="3"></textarea>
-                <button>ส่งข้อมูล</button>
-            </div>
-            <div class="card" style="text-align: center;">
-                <h3>💬 LINE QR Code</h3>
-                <img src="line-qr.png" style="max-width: 150px; margin-top:15px; height:auto;">
+                <h3>🙏 คำขออธิษฐาน</h3>
+                <p>หากท่านมีเรื่องไม่สบายใจ ให้เราได้ร่วมอธิษฐานเผื่อท่าน</p>
             </div>
         </div>
 
+        <div class="bible-banner">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 24px;">📖</span>
+                <div>
+                    <div style="font-weight:bold;">พระวจนะของพระเจ้า</div>
+                    <div style="font-size:12px; opacity:0.7;">นำทาง ชีวิตเปลี่ยน</div>
+                </div>
+            </div>
+            <a href="#" class="btn-read">อ่านพระคัมภีร์เพิ่มเติม</a>
+        </div>
     </div>
 
     <footer>
-        <img src="logo.png" width="70">
+        <img src="logo.png" width="60" style="margin-bottom: 20px;">
         <p>Bangkhen Baptist Church</p>
-        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 10px;">© 2026 สงวนลิขสิทธิ์</p>
+        <p style="font-size: 12px; opacity: 0.5; margin-top: 20px;">© 2026 มุ่งมั่นรับใช้ด้วยความรักของพระคริสต์</p>
     </footer>
 
     <script>
-        let currentSlide = 0;
+        let current = 0;
         const slides = document.querySelectorAll('.slide');
-
-        function nextSlide() {
-            if (slides.length < 2) return;
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        function next() {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
         }
-
-        setInterval(nextSlide, 5000);
+        setInterval(next, 5000);
     </script>
 
 </body>
