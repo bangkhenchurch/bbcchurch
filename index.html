@@ -14,7 +14,6 @@
   box-sizing: border-box;
 }
 
-  <img src="URL-ของรูปที่คุณอัปโหลด" style="width:728px;height:90px;object-fit:cover;">
 html, body {
   width: 100%;
   overflow-x: hidden;
@@ -22,7 +21,7 @@ html, body {
   font-family: sans-serif;
 }
 
-/* ป้องกันรูปล้นจอ */
+/* รูปกันล้น */
 img {
   max-width: 100%;
   height: auto;
@@ -37,7 +36,6 @@ img {
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  width: 100%;
 }
 
 .nav-menu {
@@ -56,7 +54,6 @@ img {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 100svh;
   overflow: hidden;
   color: white;
 }
@@ -79,7 +76,7 @@ img {
 }
 
 .hero h1 {
-  font-size: 32px;
+  font-size: 28px;
   background: rgba(0,0,0,0.4);
   padding: 10px 16px;
   border-radius: 10px;
@@ -91,21 +88,18 @@ img {
   padding: 20px;
   text-align: center;
   line-height: 1.8;
-  width: 100%;
 }
 
 .info h2 {
   color: #0a2c6d;
-  margin-bottom: 10px;
 }
 
-/* MAIN SECTION (ข่าว + บทความ) */
+/* MAIN */
 .main-section {
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 1fr 2fr;
   gap: 15px;
   padding: 15px;
-  width: 100%;
 }
 
 .left, .right {
@@ -130,14 +124,12 @@ img {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   padding: 10px;
-  width: 100%;
 }
 
 .card {
   background: #dbe7f5;
   padding: 12px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   text-align: center;
 }
 
@@ -146,13 +138,12 @@ img {
   font-weight: bold;
 }
 
-/* FORM SECTION */
-.form-container {
+/* FORM */
+.container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   padding: 10px;
-  width: 100%;
 }
 
 .box {
@@ -184,7 +175,6 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   padding: 10px;
-  width: 100%;
 }
 
 /* FOOTER */
@@ -193,44 +183,9 @@ footer {
   color: white;
   text-align: center;
   padding: 20px;
-  width: 100%;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-
-  .hero {
-    height: 100svh;
-  }
-
-  .hero h1 {
-    font-size: 24px;
-  }
-
-  .main-section {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .form-container {
-    grid-template-columns: 1fr;
-  }
-
-  .row {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-menu {
-    display: none;
-  }
-}
-/* =========================
-   IMAGE ZOOM (LIGHTBOX)
-========================= */
-
+/* LIGHTBOX */
 .lightbox {
   position: fixed;
   top: 0;
@@ -248,40 +203,32 @@ footer {
   max-width: 95%;
   max-height: 95%;
   object-fit: contain;
-  border-radius: 10px;
-  transform: scale(1);
-  transition: 0.3s;
-  cursor: zoom-out;
-}
-/* =========================
-   IMAGE SAFE ZONE (สำคัญ)
-========================= */
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
 }
 
-/* รูปในบทความ */
-.post img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px;
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  .main-section {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-menu {
+    display: none;
+  }
 }
 
-/* กันรูปใน box */
-.box img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ป้องกันรูปใหญ่เกิน container */
-* img {
-  max-width: 100%;
-}
 </style>
 </head>
 
@@ -304,107 +251,83 @@ img {
 
 <!-- HERO -->
 <div class="hero" id="home">
-
-  <div class="slide active" style="background-image:url('images/hero_01.jpg')">
-    <h1>ในพระเจ้า ข้าวางใจ</h1>
-  </div>
-
-  <div class="slide" style="background-image:url('images/hero_02.jpg')">
-    <h1>ในพระเจ้า ข้าวางใจ</h1>
-  </div>
-
-  <div class="slide" style="background-image:url('images/hero_03.jpg')">
-    <h1>ในพระเจ้า ข้าวางใจ</h1>
-  </div>
-
-  <div class="slide" style="background-image:url('images/hero_04.jpg')">
-    <h1>ในพระเจ้า ข้าวางใจ</h1>
-  </div>
-
-  <div class="slide" style="background-image:url('hero_05.jpg')">
-    <h1>ในพระเจ้า ข้าวางใจ</h1>
-  </div>
-
+  <div class="slide active" style="background-image:url('images/hero_01.jpg')"><h1>ในพระเจ้า ข้าวางใจ</h1></div>
+  <div class="slide" style="background-image:url('images/hero_02.jpg')"><h1>ในพระเจ้า ข้าวางใจ</h1></div>
+  <div class="slide" style="background-image:url('images/hero_03.jpg')"><h1>ในพระเจ้า ข้าวางใจ</h1></div>
+  <div class="slide" style="background-image:url('images/hero_04.jpg')"><h1>ในพระเจ้า ข้าวางใจ</h1></div>
 </div>
 
 <!-- INFO -->
 <div class="info">
   <h2>ยินดีต้อนรับ คริสตจักรแบ๊บติสต์บางเขน</h2>
-  <p>สถานนมัสการ</p>
-  <p>เวลา นมัสการ 9.00 น. - 12.00 น</p>
-  <p>สนใจ ร่วมนมัสการ โทร. 02-5798764</p>
-  <p>สถานที่นมัสการ ณ.คริสตจักรแบ๊บติสต์บางเขน</p>
-  <p>
-    2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน<br>
-    แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
-  </p>
+  <p>เวลา นมัสการ 9.00 - 12.00</p>
 </div>
 
+<!-- CONTENT -->
 <div class="main-section">
-
   <div class="left">
-  <h2>📰 ข่าวสาร</h2>
-  <div id="news"></div>
+    <h2>📰 ข่าวสาร</h2>
+    <div id="news"></div>
+  </div>
+
+  <div class="right">
+    <h2>📚 บทความ</h2>
+    <div id="articles"></div>
+  </div>
 </div>
 
-<div class="right">
-  <h2>📚 บทความ</h2>
-  <div id="articles"></div>
-</div>
-
-</div>
-
+<!-- DASHBOARD -->
 <div class="dashboard">
   <div class="card"><h3>ผู้ลงทะเบียน</h3><div class="num" id="total">0</div></div>
   <div class="card"><h3>นมัสการ</h3><div class="num" id="worship">0</div></div>
   <div class="card"><h3>ศึกษาพระคัมภีร์</h3><div class="num" id="study">0</div></div>
 </div>
 
+<!-- FORM -->
 <div class="container" id="contact">
 
   <div class="box">
     <h3>ติดต่อ / ลงทะเบียน</h3>
-
     <form id="form">
       <input name="fullname" placeholder="ชื่อ">
       <input name="phone" placeholder="เบอร์">
-      <input name="lineid" placeholder="LINE">
       <textarea name="address" placeholder="ที่อยู่"></textarea>
-
-      <label><input type="checkbox" name="worship"> นมัสการ</label><br>
-      <label><input type="checkbox" name="study"> ศึกษาพระคัมภีร์</label><br><br>
-
       <button>ส่งข้อมูล</button>
     </form>
   </div>
 
   <div class="box">
     <h3>LINE QR</h3>
-    <img src="line-qr.png" style="width:140px;display:block;margin:auto;">
+    <img src="line-qr.png" style="width:140px;margin:auto;">
   </div>
 
 </div>
 
+<!-- ROW -->
 <div class="row">
-  <div class="card" style="text-align:center;">
+  <div class="card">
     <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
   </div>
 
   <div class="card">
-    <h3>📊 สถิติ</h3>
-    <div style="font-size:28px;font-weight:bold;">Live Dashboard</div>
+    <h3>📊 Live Dashboard</h3>
   </div>
 </div>
 
 <footer>
   <img src="logo.png" width="60"><br>
-  Bangkhen Baptist Church<br>
-  2172/145-147 ซอยพหลโยธิน 36 กรุงเทพ
+  Bangkhen Baptist Church
 </footer>
 
+<!-- LIGHTBOX (สำคัญ ต้องอยู่นอก script) -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg">
+</div>
+
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs } 
+import { getFirestore, collection, getDocs }
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -416,121 +339,65 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ================= SLIDE =================
-let slideIndex = 0;
+/* SLIDE */
+let i = 0;
 setInterval(() => {
   const slides = document.querySelectorAll(".slide");
   slides.forEach(s => s.classList.remove("active"));
-  slideIndex = (slideIndex + 1) % slides.length;
-  slides[slideIndex].classList.add("active");
+  i = (i + 1) % slides.length;
+  slides[i].classList.add("active");
 }, 4000);
 
-// ================= CLICK =================
-window.openArticle = function (id) {
-  window.location.href = "article.html?id=" + id;
+/* LIGHTBOX */
+window.openLightbox = (src) => {
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").style.display = "flex";
 };
 
-// ================= LOAD =================
+window.closeLightbox = () => {
+  document.getElementById("lightbox").style.display = "none";
+};
+
+/* LOAD DATA */
 async function loadAll() {
 
   const newsBox = document.getElementById("news");
   const articleBox = document.getElementById("articles");
 
-  try {
-    const snap = await getDocs(collection(db, "articles"));
+  const snap = await getDocs(collection(db, "articles"));
 
-    let newsHTML = "";
-    let articleHTML = "";
+  let newsHTML = "";
+  let articleHTML = "";
 
-    snap.forEach(d => {
-      const data = d.data();
+  snap.forEach(d => {
+    const data = d.data();
 
-      // 🔥 เช็ค category ให้ชัวร์
-      const isNews = (data.category || "").includes("ข่าว");
+    const card = `
+      <div class="post">
 
-      // 🔥 รูป: แสดงเฉพาะมีจริง + ไม่ว่าง
-      const imageHTML = data.image
-        ? `
-          <div style="margin-top:8px;">
-            <img src="/${data.image}"
-              style="
-                width:140px;
-                height:100px;
-                object-fit:cover;
-                border-radius:10px;
-                display:block;
-              ">
-          </div>
-        `
-        : "";
+        <h3>${data.title || ""}</h3>
+        <p>${data.author || ""}</p>
 
-      const card = `
-        <div class="post"
-          onclick="openArticle('${d.id}')"
-          style="
-            cursor:pointer;
-            background:#fff;
-            padding:12px;
-            margin-bottom:12px;
-            border-radius:12px;
-            box-shadow:0 2px 6px rgba(0,0,0,0.08);
-            text-align:left;
-          ">
+        ${data.image ? `<img src="/${data.image}" onclick="openLightbox('/${data.image}')">` : ""}
 
-          <h3 style="margin-bottom:5px;">${data.title || "ไม่มีหัวข้อ"}</h3>
+        <p>${(data.content || "").substring(0,100)}...</p>
 
-          <p style="font-size:13px;color:#555;">
-            <b>${data.author || "ไม่ระบุผู้เขียน"}</b>
-          </p>
+      </div>
+    `;
 
-          <p style="font-size:12px;color:#0a2c6d;">
-            ${data.bibleVerse || ""}
-          </p>
+    if ((data.category || "").includes("ข่าว")) {
+      newsHTML += card;
+    } else {
+      articleHTML += card;
+    }
+  });
 
-          ${imageHTML}
-
-          <p style="font-size:13px;margin-top:8px;">
-            ${(data.content || "").substring(0,90)}...
-          </p>
-
-          <p style="font-size:12px;color:gray;">
-            หมวด: ${data.category || "-"}
-          </p>
-
-          <button style="
-            margin-top:8px;
-            width:100%;
-            padding:8px;
-            border:none;
-            border-radius:8px;
-            background:#0a2c6d;
-            color:white;
-          ">
-            อ่านบทความ
-          </button>
-
-        </div>
-      `;
-
-      if (isNews) {
-        newsHTML += card;
-      } else {
-        articleHTML += card;
-      }
-    });
-
-    newsBox.innerHTML = newsHTML || "<p>ไม่มีข่าว</p>";
-    articleBox.innerHTML = articleHTML || "<p>ไม่มีบทความ</p>";
-
-  } catch (err) {
-    console.error(err);
-  }
+  newsBox.innerHTML = newsHTML;
+  articleBox.innerHTML = articleHTML;
 }
 
 loadAll();
-  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <img id="lightboxImg">
-</div>
+
 </script>
 
 </body>
