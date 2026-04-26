@@ -2,198 +2,374 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bangkhen Baptist Church</title>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Bangkhen Baptist Church</title>
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png"> 
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* ================= 1. ล็อคขอบจอแบบเด็ดขาด ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
 }
 
 html, body {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden !important; /* ห้ามเลื่อนซ้ายขวา */
-  background: #121212; /* พื้นหลังดำ */
-  color: #eeeeee;
-  font-family: 'Sarabun', sans-serif;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important; 
+    background: #121212; 
+    color: #eeeeee;
+    font-family: 'Sarabun', sans-serif;
 }
 
 /* ================= 2. NAVBAR ================= */
 .navbar {
-  width: 100%;
-  background: #0a2c6d;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    width: 100%;
+    background: #0a2c6d;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
-.navbar img { width: 35px; border-radius: 50%; }
+.navbar img { 
+    width: 35px; 
+    border-radius: 50%; 
+}
 
-/* ================= 3. HERO (จุดที่แก้รูปล้น) ================= */
+/* ================= 3. HERO (เทคนิคภาพไม่ล้นและสัดส่วนคงเดิม) ================= */
 .hero-container {
-  width: 100%;
-  background: #000;
-  overflow: hidden;
-  line-height: 0; /* กันช่องว่างใต้รูป */
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    line-height: 0; 
 }
 
-.slide {
-  width: 100%;
-  display: none;
+.slide { 
+    width: 100%; 
+    display: none; 
 }
 
-.slide.active {
-  display: block;
+.slide.active { 
+    display: block; 
 }
 
 .slide img {
-  /* 🔥 ไม้ตาย: บังคับกว้างเท่าจอเสมอ และย่อความสูงตามสัดส่วนรูปจริง */
-  width: 100%;
-  height: auto; 
-  display: block;
+    width: 100%;
+    height: auto; 
+    display: block;
 }
 
-/* ================= 4. CONTENT AREA ================= */
-.container {
-  padding: 15px;
-  width: 100%;
+/* ================= 4. CONTENT AREA & CARDS ================= */
+.container { 
+    padding: 15px; 
+    width: 100%; 
 }
 
 .card {
-  background: #1e1e1e;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.card h2 { color: #4dabff; font-family: 'Prompt'; margin-bottom: 10px; }
-
-/* ================= 5. DASHBOARD & FLAG (ย้ายลงล่าง) ================= */
-.bottom-section {
-  width: 100%;
-  padding: 0 15px 20px;
+.card h2 { 
+    color: #4dabff; 
+    font-family: 'Prompt'; 
+    margin-bottom: 10px; 
 }
 
-.dashboard {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+/* --- สไตล์ส่วนยินดีต้อนรับและข้อมูลติดต่อ --- */
+.welcome-card {
+    background: linear-gradient(145deg, #1e1e1e, #161616);
+    border-left: 5px solid #4dabff; /* แถบสีฟ้าด้านข้าง */
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.info-item .icon {
+    font-size: 20px;
+}
+
+.info-item p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+/* ปุ่มกดไป LINE */
+.btn-line {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #06C755;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 15px;
+    width: 100%;
+    font-family: 'Prompt';
+    transition: 0.3s;
+}
+
+.btn-line:hover {
+    background-color: #05b34c;
+}
+
+.line-qr-small {
+    width: 120px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 2px solid #fff;
+}
+
+/* สไตล์รายการบทความ/ข่าว */
+.post-item {
+    border-bottom: 1px solid #333;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.post-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.post-item:last-child { 
+    border: none; 
+}
+
+.post-item h3 { 
+    font-size: 16px; 
+    color: #fff; 
+    margin-bottom: 5px; 
+}
+
+/* ================= 5. DASHBOARD ================= */
+.bottom-section { 
+    width: 100%; 
+    padding: 0 15px 20px; 
+}
+
+.dashboard { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 20px; 
 }
 
 .stat-box {
-  flex: 1;
-  background: #1e1e1e;
-  padding: 12px 5px;
-  border-radius: 10px;
-  text-align: center;
-  border-bottom: 3px solid #0a2c6d;
+    flex: 1;
+    background: #1e1e1e;
+    padding: 12px 5px;
+    border-radius: 10px;
+    text-align: center;
+    border-bottom: 3px solid #0a2c6d;
 }
 
-.stat-box span { font-size: 11px; color: #888; display: block; margin-bottom: 2px; }
-.stat-box strong { font-size: 15px; color: #fff; }
+.stat-box span { 
+    font-size: 11px; 
+    color: #888; 
+    display: block; 
+    margin-bottom: 2px; 
+}
+
+.stat-box strong { 
+    font-size: 16px; 
+    color: #fff; 
+}
 
 /* ================= 6. FOOTER ================= */
 footer {
-  background: #0a2c6d;
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-  width: 100%;
+    background: #0a2c6d;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    width: 100%;
 }
 
-footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
+footer img { 
+    width: 60px; 
+    border-radius: 50%; 
+    margin-bottom: 15px; 
+}
 
-/* ปรับฟอนต์ปุ่มและอินพุตให้พอดีมือถือ */
+footer p { 
+    font-size: 14px; 
+    line-height: 1.6; 
+    opacity: 0.9; 
+}
+
+/* ปุ่มและอินพุต (สำหรับหน้าอื่นๆ) */
 input, textarea {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  background: #2a2a2a;
-  border: 1px solid #333;
-  color: white;
-  border-radius: 8px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #2a2a2a;
+    border: 1px solid #333;
+    color: white;
+    border-radius: 8px;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  background: #2e7d32;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  margin-top: 10px;
-  font-weight: bold;
+    width: 100%;
+    padding: 12px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
+<body>
+
 <nav class="navbar">
-  <img src="logo.png">
-  <span style="font-family:'Prompt'; font-weight:600;">Bangkhen Baptist Church</span>
+    <img src="logo.png">
+    <span style="font-family:'Prompt'; font-weight:600;">Bangkhen Baptist Church</span>
 </nav>
 
 <div class="hero-container">
-  <div class="slide active"><img src="hero_01.png"></div>
-  <div class="slide"><img src="hero_02.png"></div>
-  <div class="slide"><img src="hero_03.png"></div>
+    <div class="slide active"><img src="images/hero_j01.jpg"></div>
+    <div class="slide"><img src="images/hero_j02.jpg"></div>
+    <div class="slide"><img src="images/hero_j03.jpg"></div>
 </div>
 
-<div class="container">
-  <div class="card">
-    <h2>📰 ข่าวสาร</h2>
-    <p style="color:#aaa;">ติดตามข่าวประกาศกิจกรรมที่นี่</p>
-  </div>
-  
-  <div class="card">
-    <h2>📚 บทความ</h2>
-    <p>มัทธิว 6:33 "จงแสวงหาแผ่นดินของพระเจ้าก่อน..."</p>
-  </div>
+<div class="container"> <div class="card welcome-card">
+        <h2>✨ ยินดีต้อนรับ</h2>
+        <p style="color: #4dabff; font-weight: bold;">สู่คริสตจักรแบ๊บติสต์บางเขน</p>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="icon">⏰</span>
+                <p><strong>เวลานมัสการ:</strong> ทุกวันอาทิตย์ 9.00 น. - 12.00 น.</p>
+            </div>
+            <div class="info-item">
+                <span class="icon">📍</span>
+                <p><strong>สถานที่ตั้ง:</strong> ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900</p>
+            </div>
+            <div class="info-item">
+                <span class="icon">📞</span>
+                <p><strong>ติดต่อ:</strong> 02-579-8764</p>
+            </div>
+        </div>
 
-  <div class="card" style="text-align: center;">
-    <h3 style="color:#4dabff; margin-bottom:12px;">LINE QR Code</h3>
-    <img src="line-qr.png" style="width:180px; max-width:80%; border-radius:10px;">
-  </div>
-</div>
+        <div style="text-align: center; margin-top: 15px;">
+            <img src="line-qr.png" class="line-qr-small">
+            <a href="https://lin.ee/NhFf2Rf" class="btn-line">🟢 ติดต่อเราทาง LINE</a>
+        </div>
+    </div>
 
-<div class="bottom-section">
-  <div class="dashboard">
-    <div class="stat-box"><span>ผู้ลงทะเบียน</span><strong>1,250</strong></div>
-    <div class="stat-box"><span>นมัสการ</span><strong>450</strong></div>
-    <div class="stat-box"><span>ศึกษา</span><strong>85</strong></div>
-  </div>
+    <div class="card">
+        <h2>📰 ข่าวประกาศ</h2>
+        <div id="news-list">กำลังโหลดข่าว...</div>
+    </div>
+    
+    <div class="card">
+        <h2>📚 บทความ & คำเทศนา</h2>
+        <div id="article-list">กำลังโหลดบทความ...</div>
+    </div>
 
-  <div style="display:flex; justify-content:center; padding:10px 0;">
-    <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" style="max-width:100%; height:auto;">
-  </div>
+    </div> <div class="bottom-section">
+    <div class="dashboard">
+        <div class="stat-box"><span>ผู้ลงทะเบียน</span><strong id="stat-total">0</strong></div>
+        <div class="stat-box"><span>นมัสการ</span><strong id="stat-worship">0</strong></div>
+        <div class="stat-box"><span>ศึกษา</span><strong id="stat-study">0</strong></div>
+    </div>
+
+    <div style="display:flex; justify-content:center; padding:10px 0;">
+        <img src="https://s01.flagcounter.com/count2/M2Js/bg_EEF277/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" style="max-width:100%; height:auto;">
+    </div>
 </div>
 
 <footer>
-  <img src="logo.png"><br>
-  <strong>@2026 Bangkhen Baptist Church</strong><br>
-  <p style="margin-top:10px; font-size: 13px; opacity: 0.8;">
-    ร่วมนมัสการ เวลา 9.00 am - 12.00 pm
-  </p>
+    <img src="logo.png"><br>
+    <p>
+        <strong>เชิญร่วมนมัสการ</strong><br>
+        ทุกวันอาทิตย์ เวลา 9.00 น. - 12.00 น.<br>
+        โทร. 02-5798764
+    </p>
+    <div style="margin-top:15px; font-size: 13px; opacity: 0.6;">
+        @2026 Bangkhen Baptist Church
+    </div>
 </footer>
 
-<script>
-  let cur = 0;
-  const slides = document.querySelectorAll('.slide');
-  function next() {
-    if(slides.length < 2) return;
-    slides[cur].classList.remove('active');
-    cur = (cur + 1) % slides.length;
-    slides[cur].classList.add('active');
-  }
-  setInterval(next, 5000);
-</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Slide Logic
+    let cur = 0;
+    const slides = document.querySelectorAll('.slide');
+    setInterval(() => {
+        if(slides.length < 2) return;
+        slides[cur].classList.remove('active');
+        cur = (cur + 1) % slides.length;
+        slides[cur].classList.add('active');
+    }, 5000);
+
+    // Load Firebase Data
+    async function loadData() {
+        try {
+            // Load Articles & News
+            const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(10));
+            const snap = await getDocs(q);
+            let newsH = "", artH = "";
+            snap.forEach(doc => {
+                const d = doc.data();
+                const html = `<div class="post-item" onclick="location.href='article.html?id=${doc.id}'">
+                                <h3>${d.title}</h3>
+                                <p style="font-size:13px; color:#999;">${d.content.substring(0, 60)}...</p>
+                              </div>`;
+                if(d.category === "ข่าว") newsH += html; else artH += html;
+            });
+            document.getElementById('news-list').innerHTML = newsH || "ไม่มีข่าวประกาศ";
+            document.getElementById('article-list').innerHTML = artH || "ไม่มีบทความ";
+
+            // Load Stats
+            const regSnap = await getDocs(collection(db, "registrations"));
+            let w=0, s=0;
+            regSnap.forEach(d => {
+                if(d.data().worship) w++;
+                if(d.data().study) s++;
+            });
+            document.getElementById('stat-total').innerText = regSnap.size.toLocaleString();
+            document.getElementById('stat-worship').innerText = w.toLocaleString();
+            document.getElementById('stat-study').innerText = s.toLocaleString();
+        } catch(e) { console.error(e); }
+    }
+    loadData();
+</script>
 </body>
 </html>
