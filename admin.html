@@ -1,285 +1,247 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - จัดการบทความ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BBC Church</title>
+    <style>
+        body { background: #121212; color: white; font-family: 'Sarabun', sans-serif; padding: 20px; }
+        .form-card, .list-card { background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 4px solid #4dabff; max-width: 900px; margin: 20px auto; }
+        label { display: block; margin-top: 15px; color: #4dabff; font-size: 14px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 5px 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
+        input[type="date"] { color-scheme: dark; }
 
-<!-- ใส่โลโก้ที่แท็บบาร์เบราเซอร์ -->
-<link rel="icon" type="image/png" href="logo.png">
+        /* สไตล์อัปโหลดรูป */
+        .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 10px; }
+        .upload-box { width: 100%; height: 160px; background: #252525; border: 2px dashed #444; border-radius: 12px; cursor: pointer; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .upload-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 1; }
+        .upload-box span { font-size: 12px; color: #888; text-align: center; }
+        .upload-box input { display: none; }
 
-<style>
-body{font-family:sans-serif;background:#eef2f7;padding:20px; color:#333;}
-h1{color:#0a2c6d; text-align: center; margin-bottom: 20px;}
+        .btn-save { width: 100%; padding: 15px; background: #0a2c6d; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 25px; font-size: 16px; }
+        .btn-save:disabled { background: #444; cursor: not-allowed; }
 
-.box{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  margin: auto;
-  max-width: 600px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  margin-bottom:30px;
-}
+        /* Pop-up แจ้งเตือน */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-box { background: #1e1e1e; padding: 30px; border-radius: 20px; text-align: center; border-top: 6px solid #66bb6a; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-box h2 { color: #66bb6a; margin-top: 0; }
+        .btn-ok { background: #66bb6a; color: white; border: none; padding: 10px 40px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; width: 100%; }
 
-label { display: block; margin-top: 10px; font-weight: bold; color: #555; }
-
-input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-button {
-  background:#2e7d32;
-  color:white;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  width:100%;
-  cursor:pointer;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-button:hover { background: #235d26; }
-
-.list-container { max-width: 800px; margin: auto; }
-
-.card{
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-img.preview-img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-.star{
-  color:gold;
-  font-size:20px;
-  margin: 5px 0;
-}
-
-.action-btns{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-
-.action-btns button{
-  width:50%;
-  padding: 8px;
-  font-size: 14px;
-}
-
-.edit-btn{background:#1976d2;}
-.delete-btn{background:#d32f2f;}
-
-.nav-link {
-    display: block;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #0a2c6d;
-    text-decoration: none;
-    font-weight: bold;
-}
-</style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { border-bottom: 1px solid #333; padding: 12px; text-align: left; }
+        th { color: #4dabff; }
+        .btn-edit { color: #ffca28; cursor: pointer; border:none; background:none; font-weight:bold; }
+        .btn-delete { color: #ff5252; cursor: pointer; border:none; background:none; font-weight:bold; }
+    </style>
 </head>
-
 <body>
 
-<a href="index.html" class="nav-link">← กลับหน้าหลักเว็บไซต์</a>
-<h1>📝 ระบบจัดการบทความ</h1>
+<!-- Pop-up สำเร็จ -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+        <h2>✅ สำเร็จ!</h2>
+        <p>บันทึกข้อมูลเรียบร้อยแล้ว</p>
+        <button class="btn-ok" onclick="location.reload()">ตกลง</button>
+    </div>
+</div>
 
-<div class="box">
+<div class="form-card">
+    <h2 id="form-title">✍️ จัดการบทความ</h2>
     <form id="postForm">
-        <label>หัวข้อบทความ</label>
-        <input name="title" placeholder="ใส่ชื่อหัวข้อ..." required>
+        <input type="hidden" id="editId">
+        <label>หัวข้อเรื่อง</label>
+        <input type="text" id="title" required>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <label>ผู้แต่ง / ผู้เทศนา</label>
+                <input type="text" id="author">
+            </div>
+            <div>
+                <label>📅 วันที่ลงบทความ</label>
+                <input type="date" id="customDate" required>
+            </div>
+        </div>
 
         <label>หมวดหมู่</label>
-        <select name="category">
-          <option>คำเทศนา</option>
-          <option>ข่าว</option>
-          <option>ข้อคิดพระคัมภีร์</option>
-          <option>กิจกรรมคริสตจักร</option>
+        <select id="category">
+            <option value="📢 ข่าวสารคริสตจักร">📢 ข่าวสารคริสตจักร</option>
+            <option value="📖 บทความทั่วไป">📖 บทความทั่วไป</option>
+            <option value="🙏 คำพยานจากผู้เชื่อ">🙏 คำพยานจากผู้เชื่อ</option>
+            <option value="🎙️ คำเทศนา (วิดีโอ)">🎙️ คำเทศนา (วิดีโอ)</option>
         </select>
 
-        <label>ชื่อผู้เขียน</label>
-        <input name="author" placeholder="ระบุชื่อผู้เขียน">
+        <label>รูปภาพ (คลิกเลือกที่กล่อง)</label>
+        <div class="upload-grid">
+            <div class="upload-box" onclick="document.getElementById('f1').click()" id="b1">
+                <span>➕ รูปย่อ (Thumb)</span>
+                <input type="file" id="f1" accept="image/*" onchange="previewImg(this, 'b1')">
+            </div>
+            <div class="upload-box" onclick="document.getElementById('f2').click()" id="b2">
+                <span>➕ รูปบทนำ (Intro)</span>
+                <input type="file" id="f2" accept="image/*" onchange="previewImg(this, 'b2')">
+            </div>
+            <div class="upload-box" onclick="document.getElementById('f3').click()" id="b3">
+                <span>➕ รูปประกอบ</span>
+                <input type="file" id="f3" accept="image/*" onchange="previewImg(this, 'b3')">
+            </div>
+        </div>
 
-        <label>รูปภาพประกอบ (URL หรือเลือกไฟล์)</label>
-        <input name="imageUrl" placeholder="ใส่ URL รูปภาพ หรืออัปโหลดด้านล่าง">
-        <input type="file" id="imageFile" accept="image/*">
+        <label>YouTube Link (ถ้ามี)</label>
+        <input type="text" id="youtubeUrl">
 
-        <label>เนื้อหาบทความ</label>
-        <textarea name="content" rows="6" placeholder="พิมพ์เนื้อหาบทความที่นี่..."></textarea>
+        <label>เนื้อหาละเอียด</label>
+        <textarea id="content" rows="8"></textarea>
 
-        <label>ให้คะแนนบทความ (เริ่มต้น) ⭐</label>
-        <select name="rating">
-          <option value="5">⭐⭐⭐⭐⭐ (5 ดาว)</option>
-          <option value="4">⭐⭐⭐⭐ (4 ดาว)</option>
-          <option value="3">⭐⭐⭐ (3 ดาว)</option>
-          <option value="2">⭐⭐ (2 ดาว)</option>
-          <option value="1">⭐ (1 ดาว)</option>
-        </select>
-
-        <button type="submit" id="submitBtn">🚀 บันทึกบทความ</button>
+        <div id="uploadStatus" style="text-align:center; margin-top:15px; color:#4dabff; font-weight:bold;"></div>
+        <button type="submit" id="saveBtn" class="btn-save">🚀 บันทึกข้อมูลทั้งหมด</button>
+        <button type="button" id="cancelEdit" style="display:none; background:#444; width:100%; margin-top:10px;" class="btn-save">ยกเลิกการแก้ไข</button>
     </form>
 </div>
 
-<div class="list-container">
-    <h2 style="color:#0a2c6d; margin-bottom: 15px;">📚 รายการบทความทั้งหมด</h2>
-    <div id="list">กำลังโหลด...</div>
+<!-- ตารางบทความ -->
+<div class="list-card">
+    <h3>📋 รายการบทความ</h3>
+    <table id="articleTable">
+        <thead><tr><th>วันที่</th><th>หัวข้อ</th><th>จัดการ</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- ตารางคอมเมนต์ (กู้กลับมาให้แล้วครับ) -->
+<div class="list-card">
+    <h3>💬 จัดการคอมเมนต์</h3>
+    <table id="commentTable">
+        <thead><tr><th>จาก</th><th>ข้อความ</th><th>จัดการ</th></tr></thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getFirestore, collection, addDoc, serverTimestamp, getDocs, 
-  query, orderBy, deleteDoc, doc, updateDoc, getDoc 
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const firebaseConfig = {
- apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
- authDomain: "bbcchurch-6ffc3.firebaseapp.com",
- projectId: "bbcchurch-6ffc3",
- storageBucket: "bbcchurch-6ffc3.appspot.com",
- messagingSenderId: "1007626508012",
- appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-};
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+    };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-let editId = null;
+    document.getElementById('customDate').valueAsDate = new Date();
 
-// บันทึก หรือ อัปเดตข้อมูล
-document.getElementById("postForm").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  
-  const submitBtn = document.getElementById("submitBtn");
-  submitBtn.disabled = true;
-  submitBtn.innerText = "กำลังบันทึก...";
+    window.previewImg = (input, boxId) => {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const box = document.getElementById(boxId);
+                let img = box.querySelector('img') || document.createElement('img');
+                img.src = e.target.result;
+                box.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
-  // จัดการรูปภาพ (ถ้ามีไฟล์ให้ใช้ไฟล์ ถ้าไม่มีให้ใช้ URL)
-  const file = document.getElementById("imageFile").files[0];
-  let finalImageUrl = e.target.imageUrl.value;
-
-  if(file){
-    // หมายเหตุ: ในที่นี้เป็นการสร้าง Preview URL ชั่วคราว 
-    // หากต้องการใช้ถาวรต้องอัปโหลดขึ้น Firebase Storage
-    finalImageUrl = URL.createObjectURL(file);
-  }
-
-  const data = {
-    title: e.target.title.value,
-    category: e.target.category.value,
-    author: e.target.author.value || "ไม่ระบุ",
-    content: e.target.content.value,
-    rating: parseInt(e.target.rating.value),
-    image: finalImageUrl || "https://via.placeholder.com/600x300?text=No+Image",
-    createdAt: serverTimestamp()
-  };
-
-  try {
-    if(editId){
-      await updateDoc(doc(db, "articles", editId), data);
-      alert("อัปเดตบทความสำเร็จ!");
-      editId = null;
-      submitBtn.innerText = "🚀 บันทึกบทความ";
-    } else {
-      await addDoc(collection(db, "articles"), data);
-      alert("บันทึกบทความใหม่สำเร็จ!");
+    async function uploadWithTimeout(file, folder) {
+        if (!file) return null;
+        const uploadPromise = (async () => {
+            const sRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
+            const snapshot = await uploadBytes(sRef, file);
+            return await getDownloadURL(snapshot.ref);
+        })();
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("การเชื่อมต่อล่าช้า (Timeout)")), 40000)
+        );
+        return Promise.race([uploadPromise, timeoutPromise]);
     }
-    e.target.reset();
-    load();
-  } catch (error) {
-    console.error(error);
-    alert("เกิดข้อผิดพลาด!");
-  } finally {
-    submitBtn.disabled = false;
-  }
-});
 
-// โหลดข้อมูลจาก Firebase
-async function load(){
-  const list = document.getElementById("list");
-  list.innerHTML = "กำลังโหลดข้อมูล...";
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveBtn');
+        const status = document.getElementById('uploadStatus');
+        btn.disabled = true;
+        status.innerHTML = "⏳ กำลังดำเนินการ...";
 
-  const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
-  const snap = await getDocs(q);
-  
-  list.innerHTML = "";
+        try {
+            const u1 = await uploadWithTimeout(document.getElementById('f1').files[0], 'thumbnails');
+            const u2 = await uploadWithTimeout(document.getElementById('f2').files[0], 'intros');
+            const u3 = await uploadWithTimeout(document.getElementById('f3').files[0], 'contents');
 
-  snap.forEach(d => {
-    const data = d.data();
-    const id = d.id;
-    let stars = "⭐".repeat(data.rating || 0);
-    let date = data.createdAt ? data.createdAt.toDate().toLocaleString("th-TH") : "กำลังประมวลผล...";
+            const data = {
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                category: document.getElementById('category').value,
+                displayDate: document.getElementById('customDate').value,
+                youtubeUrl: document.getElementById('youtubeUrl').value,
+                content: document.getElementById('content').value,
+                updatedAt: Date.now()
+            };
 
-    list.innerHTML += `
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-          <div>
-              <h2 style="margin:0; color:#0a2c6d;">${data.title}</h2>
-              <small>${data.category} | โดย ${data.author}</small>
-          </div>
-          <div class="star">${stars}</div>
-      </div>
-      <p style="font-size:14px; color:#666; margin:10px 0;">${date}</p>
-      ${data.image ? `<img src="${data.image}" class="preview-img">` : ""}
-      <p style="white-space: pre-line;">${data.content.substring(0, 150)}...</p>
-      
-      <div class="action-btns">
-        <button class="edit-btn" onclick="editPost('${id}')">✏️ แก้ไข</button>
-        <button class="delete-btn" onclick="deletePost('${id}')">🗑 ลบ</button>
-      </div>
-    </div>
-    `;
-  });
-}
+            if (u1) data.thumbUrl = u1;
+            if (u2) data.introUrl = u2;
+            if (u3) data.contentUrl = u3;
 
-// ลบบทความ
-window.deletePost = async (id)=>{
-  if(confirm("ยืนยันการลบบทความนี้?")){
-    await deleteDoc(doc(db, "articles", id));
-    load();
-  }
-};
+            const id = document.getElementById('editId').value;
+            if (id) {
+                await updateDoc(doc(db, "articles", id), data);
+            } else {
+                data.createdAt = Date.now();
+                data.rating = 0;
+                await addDoc(collection(db, "articles"), data);
+            }
+            document.getElementById('successModal').style.display = 'flex';
+        } catch (err) {
+            alert("❌ ผิดพลาด: " + err.message);
+            btn.disabled = false;
+        }
+    });
 
-// เตรียมข้อมูลเพื่อแก้ไข
-window.editPost = async (id)=>{
-  const ref = doc(db, "articles", id);
-  const snap = await getDoc(ref);
-  const data = snap.data();
+    // ดึงข้อมูลบทความ
+    onSnapshot(query(collection(db, "articles"), orderBy("displayDate", "desc")), (snap) => {
+        const tbody = document.querySelector("#articleTable tbody");
+        tbody.innerHTML = "";
+        snap.forEach(d => {
+            const r = d.data();
+            tbody.innerHTML += `<tr><td>${r.displayDate}</td><td>${r.title}</td><td>
+                <button class="btn-edit" onclick="editPost('${d.id}', '${r.title}', '${r.author}', '${r.category}', '${r.displayDate}', '${r.youtubeUrl}', \`${r.content.replace(/`/g, '\\`')}\`)">แก้ไข</button>
+                <button class="btn-delete" onclick="deleteItem('articles', '${d.id}')">ลบ</button>
+            </td></tr>`;
+        });
+    });
 
-  const form = document.getElementById("postForm");
-  form.title.value = data.title;
-  form.category.value = data.category;
-  form.author.value = data.author;
-  form.content.value = data.content;
-  form.rating.value = data.rating;
-  form.imageUrl.value = data.image;
+    // ดึงข้อมูลคอมเมนต์ (ส่วนที่หายไป กู้กลับมาแล้ว)
+    onSnapshot(query(collection(db, "comments"), orderBy("createdAt", "desc")), (snap) => {
+        const tbody = document.querySelector("#commentTable tbody");
+        tbody.innerHTML = "";
+        snap.forEach(d => {
+            const c = d.data();
+            const approveBtn = !c.approved ? `<button style="color:#66bb6a; border:none; background:none; cursor:pointer;" onclick="approveComment('${d.id}')">อนุมัติ</button>` : '<span>✅</span>';
+            tbody.innerHTML += `<tr><td>${c.name}</td><td>${c.message}</td><td>${approveBtn} <button class="btn-delete" onclick="deleteItem('comments', '${d.id}')">ลบ</button></td></tr>`;
+        });
+    });
 
-  editId = id;
-  document.getElementById("submitBtn").innerText = "🔄 อัปเดตบทความ";
-  window.scrollTo({top: 0, behavior: 'smooth'});
-};
-
-load();
+    window.deleteItem = async (col, id) => { if(confirm('ยืนยันการลบ?')) await deleteDoc(doc(db, col, id)); };
+    window.approveComment = async (id) => { await updateDoc(doc(db, "comments", id), { approved: true }); };
+    window.editPost = (id, title, author, cat, date, yt, content) => {
+        document.getElementById('editId').value = id;
+        document.getElementById('title').value = title;
+        document.getElementById('author').value = author;
+        document.getElementById('category').value = cat;
+        document.getElementById('customDate').value = date;
+        document.getElementById('youtubeUrl').value = yt;
+        document.getElementById('content').value = content;
+        document.getElementById('cancelEdit').style.display = "block";
+        window.scrollTo(0,0);
+    };
+    document.getElementById('cancelEdit').onclick = () => location.reload();
 </script>
-
 </body>
 </html>
