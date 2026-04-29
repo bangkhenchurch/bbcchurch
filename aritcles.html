@@ -1,129 +1,179 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>บทความ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทความ - Bangkhen Baptist Church</title>
+    
+    <!-- 1. ใส่โลโก้ที่แท็บบาร์ (Favicon) -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
 
-<style>
-body{font-family:sans-serif;background:#eef2f7;padding:20px;}
-.box{background:white;padding:20px;border-radius:12px;max-width:800px;margin:auto;}
-img{width:100%;border-radius:10px;margin:10px 0;}
-h1{color:#0a2c6d;}
-.meta{margin:5px 0;}
-.star{color:gold;font-size:20px;}
-.back{
-  display:inline-block;
-  margin-bottom:15px;
-  background:#0a2c6d;
-  color:white;
-  padding:8px 12px;
-  border-radius:8px;
-  text-decoration:none;
-}
-</style>
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background: #eef2f7; padding: 20px; color: #333; }
+        .box { background: white; padding: 25px; border-radius: 15px; max-width: 800px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        img#image { width: 100%; border-radius: 12px; margin: 20px 0; object-fit: cover; max-height: 400px; }
+        h1 { color: #0a2c6d; font-family: 'Prompt'; margin-top: 10px; }
+        .meta { margin: 8px 0; font-size: 14px; color: #555; }
+        .star-display { color: gold; font-size: 24px; margin: 10px 0; }
+        .back { display: inline-block; margin-bottom: 20px; background: #0a2c6d; color: white; padding: 10px 18px; border-radius: 25px; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .back:hover { background: #061d4a; }
+        
+        /* --- ส่วนคอมเมนต์ --- */
+        .comment-section { margin-top: 40px; border-top: 2px solid #eee; pt: 20px; }
+        .comment-form { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
+        .comment-form h3 { margin-bottom: 15px; font-family: 'Prompt'; color: #0a2c6d; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #ddd; font-family: inherit; }
+        button#btnSubmit { background: #2e7d32; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; }
+        
+        .comment-list { margin-top: 20px; }
+        .comment-item { background: white; padding: 15px; border-radius: 10px; border-left: 5px solid #0a2c6d; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .comment-name { font-weight: bold; color: #0a2c6d; margin-bottom: 5px; }
+        .comment-text { font-size: 15px; line-height: 1.5; }
+        .comment-date { font-size: 12px; color: #999; margin-top: 8px; }
+    </style>
 </head>
 
 <body>
 
 <div class="box">
+    <a href="index.html" class="back">← กลับหน้าแรก</a>
 
-  <!-- 🔙 ปุ่มกลับ -->
-  <a href="index.html" class="back">← กลับหน้าแรก</a>
+    <h1 id="title">กำลังโหลด...</h1>
+    <div id="ratingDisplay" class="star-display"></div>
 
-  <h1 id="title"></h1>
+    <p id="author" class="meta"></p>
+    <p id="bible" class="meta" style="color:#0a2c6d; font-weight: bold;"></p>
+    <p id="date" class="meta"></p>
 
-  <p id="author" class="meta"></p>
-  <p id="bible" class="meta" style="color:#0a2c6d;"></p>
-  <p id="date" class="meta" style="color:gray;"></p>
+    <img id="image" src="https://via.placeholder.com/800x400?text=Loading...">
 
-  <div id="rating" class="star"></div>
+    <p id="content" style="white-space: pre-line; line-height: 1.8;"></p>
 
-  <img id="image">
+    <!-- ================= ส่วนแสดงความคิดเห็น ================= -->
+    <div class="comment-section">
+        <div class="comment-form">
+            <h3>แสดงความคิดเห็นและให้ดาว</h3>
+            <form id="commentForm">
+                <input type="text" id="visitorName" placeholder="ชื่อของคุณ" required>
+                <select id="visitorRating">
+                    <option value="5">⭐⭐⭐⭐⭐ (ดีมาก)</option>
+                    <option value="4">⭐⭐⭐⭐ (ดี)</option>
+                    <option value="3">⭐⭐⭐ (ปานกลาง)</option>
+                    <option value="2">⭐⭐ (พอใช้)</option>
+                    <option value="1">⭐ (ควรปรับปรุง)</option>
+                </select>
+                <textarea id="visitorMsg" rows="3" placeholder="เขียนข้อความที่นี่..." required></textarea>
+                <button type="submit" id="btnSubmit">ส่งความคิดเห็น</button>
+            </form>
+        </div>
 
-  <p id="content"></p>
-
+        <h3>ความคิดเห็นจากพี่น้อง</h3>
+        <div id="commentList" class="comment-list">
+            <!-- ข้อมูลคอมเมนต์จะมาโชว์ตรงนี้ -->
+        </div>
+    </div>
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+        getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, where, orderBy, onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-  authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-  projectId: "bbcchurch-6ffc3",
-  storageBucket: "bbcchurch-6ffc3.appspot.com",
-  messagingSenderId: "1007626508012",
-  appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-};
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        messagingSenderId: "1007626508012",
+        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+    };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-// ดึง id จาก URL
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-if(!id){
-  document.body.innerHTML = "<h2>ไม่พบบทความ (ไม่มี ID)</h2>";
-  throw new Error("Missing ID");
-}
-
-async function loadArticle(){
-  try{
-    const ref = doc(db,"articles",id);
-    const snap = await getDoc(ref);
-
-    if(!snap.exists()){
-      document.body.innerHTML = "<h2>ไม่พบบทความ</h2>";
-      return;
+    if(!id) {
+        document.getElementById("title").innerText = "ไม่พบบทความ";
+    } else {
+        loadArticle();
+        loadComments();
     }
 
-    const data = snap.data();
+    // 1. โหลดเนื้อหาบทความ
+    async function loadArticle(){
+        try {
+            const ref = doc(db, "articles", id);
+            const snap = await getDoc(ref);
+            if(snap.exists()){
+                const data = snap.data();
+                document.getElementById("title").innerText = data.title || "";
+                document.getElementById("author").innerText = "ผู้เขียน: " + (data.author || "ไม่ระบุ");
+                document.getElementById("bible").innerText = data.bibleVerse ? "📖 " + data.bibleVerse : "";
+                document.getElementById("content").innerText = data.content || "";
+                document.getElementById("image").src = data.image || "https://via.placeholder.com/800";
+                
+                // โชว์ดาวเฉลี่ยของบทความ (ถ้ามี)
+                const stars = "⭐".repeat(data.rating || 0);
+                document.getElementById("ratingDisplay").innerText = stars;
+                
+                if(data.createdAt?.toDate){
+                    document.getElementById("date").innerText = "โพสต์เมื่อ: " + data.createdAt.toDate().toLocaleDateString("th-TH");
+                }
+            }
+        } catch(err) { console.error(err); }
+    }
 
-    // TITLE
-    document.getElementById("title").innerText = data.title || "";
+    // 2. ส่งคอมเมนต์
+    document.getElementById("commentForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("visitorName").value;
+        const msg = document.getElementById("visitorMsg").value;
+        const star = document.getElementById("visitorRating").value;
 
-    // AUTHOR
-    document.getElementById("author").innerText =
-      "ผู้เขียน: " + (data.author || "ไม่ระบุ");
+        try {
+            await addDoc(collection(db, "comments"), {
+                articleId: id,
+                name: name,
+                message: msg,
+                rating: parseInt(star),
+                createdAt: serverTimestamp()
+            });
+            alert("ขอบคุณสำหรับความคิดเห็นครับ");
+            document.getElementById("commentForm").reset();
+        } catch(err) { alert("เกิดข้อผิดพลาดในการส่ง"); }
+    });
 
-    // BIBLE
-    document.getElementById("bible").innerText =
-      data.bibleVerse ? "ข้อพระคัมภีร์: " + data.bibleVerse : "";
+    // 3. ดึงคอมเมนต์มาแสดงแบบ Real-time
+    function loadComments() {
+        const q = query(
+            collection(db, "comments"), 
+            where("articleId", "==", id),
+            orderBy("createdAt", "desc")
+        );
 
-    // DATE (📅 format สวย)
-    if(data.createdAt?.toDate){
-      const d = data.createdAt.toDate();
-      document.getElementById("date").innerText =
-        "วันที่: " + d.toLocaleDateString("th-TH", {
-          year: "numeric",
-          month: "long",
-          day: "numeric"
+        onSnapshot(q, (snap) => {
+            const list = document.getElementById("commentList");
+            list.innerHTML = "";
+            snap.forEach(d => {
+                const c = d.data();
+                const starLine = "⭐".repeat(c.rating || 0);
+                const dateStr = c.createdAt ? c.createdAt.toDate().toLocaleString("th-TH") : "กำลังส่ง...";
+                
+                list.innerHTML += `
+                    <div class="comment-item">
+                        <div class="comment-name">${c.name} <span style="color:gold">${starLine}</span></div>
+                        <div class="comment-text">${c.message}</div>
+                        <div class="comment-date">${dateStr}</div>
+                    </div>
+                `;
+            });
         });
     }
-
-    // IMAGE
-    document.getElementById("image").src =
-      data.image || "https://via.placeholder.com/600";
-
-    // CONTENT
-    document.getElementById("content").innerText =
-      data.content || "";
-
-    // ⭐ RATING
-    const stars = "⭐".repeat(data.rating || 0);
-    document.getElementById("rating").innerText = stars;
-
-  }catch(err){
-    console.error(err);
-    document.body.innerHTML = "<h2>โหลดบทความไม่สำเร็จ</h2>";
-  }
-}
-
-loadArticle();
 </script>
 
 </body>
