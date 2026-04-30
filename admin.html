@@ -3,40 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - BBC Church (High Speed)</title>
+    <title>ระบบจัดการหลังบ้าน - BBC Church</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; }
         body { background: var(--dark-bg); color: #e0e0e0; font-family: 'Sarabun', sans-serif; padding: 20px; margin: 0; }
         .container { max-width: 1000px; margin: auto; }
-        .form-card, .list-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; }
-        h2, h3 { font-family: 'Prompt'; color: white; }
+        .form-card, .list-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2, h3 { font-family: 'Prompt'; color: white; margin-top: 0; }
         label { display: block; margin-top: 15px; color: var(--primary); font-size: 14px; font-weight: 600; }
-        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
         .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 10px; }
-        .upload-box { width: 100%; height: 120px; background: #252525; border: 2px dashed #444; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .upload-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
-        .upload-box span { font-size: 11px; color: #888; text-align: center; }
-        .btn-save { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .btn-save:disabled { background: #444; opacity: 0.7; }
+        .upload-box { width: 100%; height: 140px; background: #252525; border: 2px dashed #444; border-radius: 12px; cursor: pointer; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.3s; }
+        .upload-box:hover { border-color: var(--primary); background: #2d2d2d; }
+        .upload-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .upload-box span { font-size: 12px; color: #888; padding: 10px; z-index: 1; pointer-events: none; }
+        .btn-save { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; transition: 0.3s; }
+        .btn-save:hover { background: #1545a5; }
+        .btn-save:disabled { background: #444; cursor: wait; opacity: 0.7; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: var(--primary); font-family: 'Prompt'; }
+        .btn-edit { color: #ffca28; cursor: pointer; border:none; background:none; font-weight:bold; margin-right:10px;}
+        .btn-delete { color: #ff5252; cursor: pointer; border:none; background:none; font-weight:bold;}
+        
+        /* Progress Overlay */
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #333; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
+<div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div id="statusText">กำลังประมวลผลรูปภาพและบันทึกข้อมูล...</div>
+</div>
+
 <div class="container">
     <div class="form-card">
-        <h2 id="form-title">✍️ เขียนบทความ (Fast Upload)</h2>
+        <h2 id="form-title">✍️ เขียนบทความใหม่</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
+            
             <label>หัวข้อเรื่อง</label>
-            <input type="text" id="title" required>
+            <input type="text" id="title" placeholder="ระบุหัวข้อบทความ..." required>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <input type="text" id="author" placeholder="ผู้แต่ง">
-                <input type="date" id="customDate" required>
+                <div>
+                    <label>ผู้แต่ง / ผู้เทศนา</label>
+                    <input type="text" id="author" placeholder="ชื่อ-นามสกุล">
+                </div>
+                <div>
+                    <label>📅 วันที่ลงบทความ</label>
+                    <input type="date" id="customDate" required>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>ซีรีส์ (Series)</label>
+                    <input type="text" id="series" placeholder="เช่น มัทธิว, การอธิษฐาน...">
+                </div>
+                <div>
+                    <label>ข้อพระคัมภีร์ (Scripture)</label>
+                    <input type="text" id="scripture" placeholder="เช่น ยอห์น 3:16">
+                </div>
             </div>
 
             <label>หมวดหมู่</label>
@@ -47,32 +80,35 @@
                 <option value="🎙️ คำเทศนา (วิดีโอ)">🎙️ คำเทศนา (วิดีโอ)</option>
             </select>
 
-            <label>รูปภาพ (ส่งไฟล์ทันที)</label>
+            <label>จัดการรูปภาพ (บีบอัดอัตโนมัติเพื่อความเร็ว)</label>
             <div class="upload-grid">
-                <div class="upload-box" onclick="document.getElementById('f1').click()">
-                    <span id="t1">➕ รูปปก</span>
-                    <input type="file" id="f1" hidden onchange="quickPreview(this, 't1')">
+                <div class="upload-box" onclick="document.getElementById('f1').click()" id="b1">
+                    <span id="t1">➕ รูปปกหน้าแรก<br>(Thumbnail)</span>
+                    <input type="file" id="f1" hidden accept="image/*" onchange="preview(this, 'b1', 't1')">
                 </div>
-                <div class="upload-box" onclick="document.getElementById('f2').click()">
-                    <span id="t2">➕ รูปหัวบทความ</span>
-                    <input type="file" id="f2" hidden onchange="quickPreview(this, 't2')">
+                <div class="upload-box" onclick="document.getElementById('f2').click()" id="b2">
+                    <span id="t2">➕ รูปหัวบทความ<br>(Intro Image)</span>
+                    <input type="file" id="f2" hidden accept="image/*" onchange="preview(this, 'b2', 't2')">
                 </div>
-                <div class="upload-box" onclick="document.getElementById('f3').click()">
-                    <span id="t3">➕ รูปประกอบ</span>
-                    <input type="file" id="f3" hidden onchange="quickPreview(this, 't3')">
+                <div class="upload-box" onclick="document.getElementById('f3').click()" id="b3">
+                    <span id="t3">➕ รูปประกอบพิเศษ<br>(Optional)</span>
+                    <input type="file" id="f3" hidden accept="image/*" onchange="preview(this, 'b3', 't3')">
                 </div>
             </div>
 
-            <label>เนื้อหา</label>
-            <textarea id="content" rows="8"></textarea>
-            
-            <div id="status" style="text-align:center; color:var(--primary); margin-top:10px;"></div>
+            <label>YouTube Link (URL)</label>
+            <input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=...">
+
+            <label>เนื้อหาบทความ</label>
+            <textarea id="content" rows="10" placeholder="เขียนเนื้อหาที่นี่..."></textarea>
+
             <button type="submit" id="saveBtn" class="btn-save">🚀 บันทึกและเผยแพร่</button>
+            <button type="button" id="cancelBtn" class="btn-save" style="background:#444; display:none; margin-top:10px;">ยกเลิกการแก้ไข</button>
         </form>
     </div>
 
     <div class="list-card">
-        <h3>📋 รายการทั้งหมด</h3>
+        <h3>📋 รายการบทความที่เผยแพร่แล้ว</h3>
         <table id="articleTable">
             <thead><tr><th>วันที่</th><th>หัวข้อ</th><th>จัดการ</th></tr></thead>
             <tbody></tbody>
@@ -82,7 +118,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
     const firebaseConfig = {
@@ -99,41 +135,90 @@
 
     document.getElementById('customDate').valueAsDate = new Date();
 
-    // แสดงพรีวิวทันที ไม่บีบอัด
-    window.quickPreview = (input, textId) => {
-        if (input.files[0]) {
-            document.getElementById(textId).innerText = "✅ เลือกแล้ว: " + input.files[0].name;
-            document.getElementById(textId).style.color = "#4dabff";
+    // ฟังก์ชันบีบอัดรูปภาพ (ลดขนาดไฟล์เพื่อให้อัพโหลดไว)
+    async function compressImage(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // กำหนดขนาดสูงสุดไม่เกิน 1200px (ความคมชัดเพียงพอสำหรับเว็บ)
+                    const MAX_SIZE = 1200;
+                    if (width > height) {
+                        if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
+                    } else {
+                        if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // บีบอัดเป็น JPEG คุณภาพ 0.7 (70%)
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, 'image/jpeg', 0.7);
+                };
+            };
+        });
+    }
+
+    // พรีวิวรูปภาพ
+    window.preview = (input, boxId, textId) => {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const box = document.getElementById(boxId);
+                let img = box.querySelector('img') || document.createElement('img');
+                img.src = e.target.result;
+                box.appendChild(img);
+                document.getElementById(textId).style.display = 'none';
+            }
+            reader.readAsDataURL(file);
         }
     };
 
-    async function uploadFile(file) {
+    // อัพโหลดไฟล์ที่ผ่านการบีบอัดแล้ว
+    async function uploadWithCompression(file, folder) {
         if (!file) return null;
-        const sRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
-        const snap = await uploadBytes(sRef, file);
+        const compressedBlob = await compressImage(file);
+        const fileName = `${Date.now()}_${file.name.split('.')[0]}.jpg`;
+        const sRef = ref(storage, `${folder}/${fileName}`);
+        const snap = await uploadBytes(sRef, compressedBlob);
         return await getDownloadURL(snap.ref);
     }
 
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
-        const btn = document.getElementById('saveBtn');
-        const st = document.getElementById('status');
-        btn.disabled = true;
-        st.innerText = "⚡ กำลังส่งข้อมูลแบบด่วน...";
+        const overlay = document.getElementById('loadingOverlay');
+        const statusText = document.getElementById('statusText');
+        overlay.style.display = 'flex';
 
         try {
-            // อัพโหลดพร้อมกัน 3 รูป (Parallel) เพื่อความเร็วสูงสุด
+            // อัพโหลดแบบ Parallel แต่ละรูปจะถูกบีบอัดก่อนส่ง
+            statusText.innerText = "⏳ กำลังบีบอัดและส่งรูปภาพ...";
             const [u1, u2, u3] = await Promise.all([
-                uploadFile(document.getElementById('f1').files[0]),
-                uploadFile(document.getElementById('f2').files[0]),
-                uploadFile(document.getElementById('f3').files[0])
+                uploadWithCompression(document.getElementById('f1').files[0], 'thumbs'),
+                uploadWithCompression(document.getElementById('f2').files[0], 'intros'),
+                uploadWithCompression(document.getElementById('f3').files[0], 'extras')
             ]);
 
             const data = {
                 title: document.getElementById('title').value,
-                author: document.getElementById('author').value || 'คริสตจักร',
-                category: document.getElementById('category').value,
+                author: document.getElementById('author').value,
                 displayDate: document.getElementById('customDate').value,
+                series: document.getElementById('series').value,
+                scripture: document.getElementById('scripture').value,
+                category: document.getElementById('category').value,
+                youtubeUrl: document.getElementById('youtubeUrl').value,
                 content: document.getElementById('content').value,
                 updatedAt: serverTimestamp()
             };
@@ -142,46 +227,69 @@
             if (u2) data.introUrl = u2;
             if (u3) data.contentUrl = u3;
 
-            const id = document.getElementById('editId').value;
-            if (id) {
-                await updateDoc(doc(db, "articles", id), data);
+            const editId = document.getElementById('editId').value;
+            statusText.innerText = "💾 กำลังบันทึกฐานข้อมูล...";
+            
+            if (editId) {
+                await updateDoc(doc(db, "articles", editId), data);
             } else {
                 data.createdAt = serverTimestamp();
                 await addDoc(collection(db, "articles"), data);
             }
-            alert("บันทึกสำเร็จ!");
+
+            overlay.style.display = 'none';
+            alert("✅ บันทึกสำเร็จ!");
             location.reload();
         } catch (err) {
-            alert("Error: " + err.message);
-            btn.disabled = false;
+            overlay.style.display = 'none';
+            alert("❌ ผิดพลาด: " + err.message);
         }
     };
 
+    // แสดงรายการบทความ (เหมือนเดิม)
     onSnapshot(query(collection(db, "articles"), orderBy("displayDate", "desc")), (snap) => {
         const tbody = document.querySelector("#articleTable tbody");
         tbody.innerHTML = "";
         snap.forEach(d => {
             const r = d.data();
-            tbody.innerHTML += `
-                <tr>
-                    <td>${r.displayDate}</td>
-                    <td>${r.title}</td>
-                    <td>
-                        <button onclick="editPost('${d.id}')" style="color:yellow; background:none; border:none; cursor:pointer;">แก้ไข</button>
-                        <button onclick="deletePost('${d.id}')" style="color:red; background:none; border:none; cursor:pointer; margin-left:10px;">ลบ</button>
-                    </td>
-                </tr>`;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.displayDate}</td>
+                <td>${r.title}</td>
+                <td>
+                    <button class="btn-edit" onclick="loadEdit('${d.id}')">แก้ไข</button>
+                    <button class="btn-delete" onclick="deleteItem('${d.id}')">ลบ</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
         });
     });
 
-    window.deletePost = async (id) => { if(confirm('ลบหรือไม่?')) await deleteDoc(doc(db, "articles", id)); };
-    
-    window.editPost = (id) => {
-        // สำหรับแก้ไข แนะนำให้ใช้การดึงข้อมูลจากหน้าจอเดิม หรือหาข้อมูลจาก snapshot
-        alert("กำลังเข้าสู่โหมดแก้ไข (ID: " + id + ")");
-        document.getElementById('editId').value = id;
-        window.scrollTo(0,0);
+    window.deleteItem = async (id) => {
+        if (confirm('ยืนยันการลบ?')) await deleteDoc(doc(db, "articles", id));
     };
+
+    window.loadEdit = async (id) => {
+        const d = await getDoc(doc(db, "articles", id));
+        const r = d.data();
+        document.getElementById('editId').value = id;
+        document.getElementById('title').value = r.title;
+        document.getElementById('author').value = r.author || '';
+        document.getElementById('customDate').value = r.displayDate;
+        document.getElementById('series').value = r.series || '';
+        document.getElementById('scripture').value = r.scripture || '';
+        document.getElementById('category').value = r.category;
+        document.getElementById('youtubeUrl').value = r.youtubeUrl || '';
+        document.getElementById('content').value = r.content || '';
+        
+        document.getElementById('form-title').innerText = "📝 กำลังแก้ไขบทความ";
+        document.getElementById('saveBtn').innerText = "💾 อัพเดทบทความ";
+        document.getElementById('cancelBtn').style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    document.getElementById('cancelBtn').onclick = () => location.reload();
 </script>
+
 </body>
 </html>
