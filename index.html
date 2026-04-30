@@ -43,6 +43,7 @@
         .card-content { padding: 15px; flex-grow: 1; }
         .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
         .card-meta { font-size: 12px; color: #888; }
+        .card-sub-info { font-size: 11px; color: #4dabff; margin-bottom: 5px; font-weight: 600; }
 
         /* Dashboard Statistics */
         .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 50px 0; }
@@ -78,14 +79,12 @@
     <span style="font-family:'Prompt'; font-weight: 600;">Bangkhen Baptist Church</span>
 </nav>
 
-<!-- Slideshow Section -->
 <div class="hero-container">
     <div class="slide active"><img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'"></div>
     <div class="slide"><img src="hero_02.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
 </div>
 
 <div class="container">
-    <!-- Articles Sections -->
     <h2 class="section-title">📢 ข่าวสารและประกาศ</h2>
     <div id="list-news" class="grid-container">กำลังโหลด...</div>
 
@@ -98,14 +97,12 @@
     <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 
-    <!-- Statistics Dashboard -->
     <div class="dashboard">
         <div class="stat-box"><span>ผู้ลงทะเบียน</span><br><strong>1,250</strong></div>
         <div class="stat-box"><span>นมัสการ</span><br><strong>450</strong></div>
         <div class="stat-box"><span>กลุ่มเซลล์</span><br><strong>85</strong></div>
     </div>
 
-    <!-- QR Code Section -->
     <div class="contact-grid">
         <div style="text-align: left;">
             <h3 style="font-family:'Prompt'; color:#4dabff; margin-bottom:10px;">เชื่อมต่อกับเรา</h3>
@@ -118,7 +115,6 @@
     </div>
 </div>
 
-<!-- Visitor Counter (Flag Counter) -->
 <div class="counter-section">
     <h3 style="margin-bottom: 20px; font-family: 'Prompt'; font-weight: 400;">สถิติผู้เยี่ยมชมคริสตจักร</h3>
     <a href="https://info.flagcounter.com/8zW3">
@@ -126,7 +122,6 @@
     </a>
 </div>
 
-<!-- Footer -->
 <footer>
     <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'"><br>
     <strong style="font-family:'Prompt'; font-size:18px;">คริสตจักรแบ๊บติสต์บางเขน</strong>
@@ -152,7 +147,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ดึงข้อมูลทั้งหมดเรียงตามเวลา (วิธีนี้แก้ปัญหาเรื่อง Index 100%)
     const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
 
     onSnapshot(q, (snap) => {
@@ -163,8 +157,7 @@
             "🎙️ คำเทศนา (วิดีโอ)": document.getElementById('list-sermon')
         };
 
-        // ล้างสถานะ "กำลังโหลด" ทุกช่องก่อนเริ่ม Render
-        Object.values(containers).forEach(el => el.innerHTML = "");
+        Object.values(containers).forEach(el => { if(el) el.innerHTML = ""; });
 
         let count = { news:0, testimony:0, article:0, sermon:0 };
 
@@ -174,17 +167,27 @@
             
             if (targetDiv) {
                 const img = d.thumbUrl || d.image || 'https://via.placeholder.com/400x250/0a2c6d/ffffff?text=BBC+CHURCH';
+                
+                // ส่วนของข้อมูล YouTube และข้อมูลเสริม
+                const youtubeIcon = d.youtubeUrl ? '📺 ' : '';
+                const subInfo = (d.series || d.scripture) ? `
+                    <div class="card-sub-info">
+                        ${d.series ? '📀 Series: ' + d.series : ''} 
+                        ${(d.series && d.scripture) ? ' | ' : ''} 
+                        ${d.scripture ? '📖 ' + d.scripture : ''}
+                    </div>` : '';
+
                 targetDiv.innerHTML += `
-           <div class="card" onclick="location.href='article.html?id=${doc.id}'">
-            ...
-            `;
+                    <div class="card" onclick="location.href='article.html?id=${doc.id}'">
                         <img src="${img}">
                         <div class="card-content">
-                            <h4 class="card-title">${d.title}</h4>
+                            ${subInfo}
+                            <h4 class="card-title">${youtubeIcon}${d.title}</h4>
                             <div class="card-meta">📅 ${d.displayDate} | 👤 ${d.author || 'คริสตจักร'}</div>
                         </div>
                     </div>
                 `;
+
                 if(d.category === "📢 ข่าวสารคริสตจักร") count.news++;
                 if(d.category === "🙏 คำพยานจากผู้เชื่อ") count.testimony++;
                 if(d.category === "📖 บทความทั่วไป") count.article++;
@@ -192,14 +195,12 @@
             }
         });
 
-        // ตรวจสอบว่าถ้าหมวดไหนว่าง ให้แสดงข้อความแจ้ง
         if(count.news === 0) containers["📢 ข่าวสารคริสตจักร"].innerHTML = "<p style='color:#666;'>ไม่มีประกาศล่าสุด</p>";
         if(count.testimony === 0) containers["🙏 คำพยานจากผู้เชื่อ"].innerHTML = "<p style='color:#666;'>รอการแบ่งปันคำพยาน</p>";
         if(count.article === 0) containers["📖 บทความทั่วไป"].innerHTML = "<p style='color:#666;'>ไม่มีบทความใหม่</p>";
         if(count.sermon === 0) containers["🎙️ คำเทศนา (วิดีโอ)"].innerHTML = "<p style='color:#666;'>ไม่มีวิดีโอเทศนาล่าสุด</p>";
     });
 
-    // Slideshow Logic
     let cur = 0;
     const slides = document.querySelectorAll('.slide');
     setInterval(() => {
