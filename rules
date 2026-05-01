@@ -1,16 +1,12 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // กฎสำหรับบทความ (อ่านได้ทุกคน แก้ไขเฉพาะแอดมิน)
-    match /articles/{article} {
-      allow read: if true;
-      allow write: if true; // ในช่วงพัฒนาตั้งเป็น true ไว้ก่อนครับ
+    
+    // อนุญาตให้ อ่าน และ เขียน ข้อมูลได้ทุกอย่างแบบถาวร
+    match /{allPaths=**} {
+      allow read, write: if true;
     }
-    // กฎสำหรับคะแนนและคอมเมนต์ (สำคัญมาก: ต้องอนุญาตให้คนทั่วไป create ได้)
-    match /ratings/{rating} {
-      allow read: if true;
-      allow create: if true; 
-      allow update, delete: if true; 
-    }
+    
   }
 }
