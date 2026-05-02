@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>อ่านบทความ - BBC Church</title>
+        <link rel="icon" type="image/png" href="logo.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
@@ -72,17 +74,69 @@
     const db = getFirestore(app);
     const artId = new URLSearchParams(window.location.search).get('id');
 
-    // โหลดเนื้อหา
+    // ฟังก์ชันดึง ID จาก YouTube
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length == 11) ? match[2] : null;
+    }
+
+    // --- 1. โหลดเนื้อหาทั้งหมด (แสดงผู้เทศนา วิดีโอ และเนื้อหา) ---
     async function loadContent() {
         if(!artId) return;
-        const snap = await getDoc(doc(db, "articles", artId));
-        if(snap.exists()) {
-            document.getElementById('artTitle').innerText = snap.data().title;
-            document.getElementById('artBody').innerText = snap.data().content;
+        try {
+            const snap = await getDoc(doc(db, "articles", artId));
+            if(snap.exists()) {
+                const data = snap.data();
+                
+                // แสดงหัวข้อบทความ/คำเทศนา
+                document.getElementById('artTitle').innerText = data.title;
+                
+                // เตรียมส่วนข้อมูลผู้เทศนาและซีรีส์ (Meta Data)
+                let metaHtml = `
+                    <div style="margin: 15px 0; padding: 15px; background: #252525; border-radius: 10px; border-left: 4px solid #4dabff;">
+                        <div style="color: #4dabff; font-weight: bold; font-size: 18px; margin-bottom: 5px;">🎙️ โดย: ${data.author || 'ไม่ระบุชื่อ'}</div>
+                        ${data.series ? `<div style="color: #ccc; font-size: 14px; margin-bottom: 3px;">📁 ชุดคำเทศนา: ${data.series}</div>` : ''}
+                        ${data.scripture ? `<div style="color: #2ecc71; font-size: 14px; font-weight: bold;">📖 ข้อพระคัมภีร์: ${data.scripture}</div>` : ''}
+                        <div style="color: #888; font-size: 12px; margin-top: 5px;">📅 วันที่โพสต์: ${data.displayDate || 'ไม่ระบุ'}</div>
+                    </div>
+                `;
+
+                // เตรียมส่วนวิดีโอ YouTube (Responsive)
+                const yid = getYoutubeId(data.youtubeUrl);
+                let videoHtml = "";
+                if (yid) {
+                    videoHtml = `
+                        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; margin: 20px 0; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
+                            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                                src="https://www.youtube.com/embed/${yid}?rel=0" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    `;
+                }
+
+                // แสดงผลทุกอย่างลงใน artBody
+                document.getElementById('artBody').innerHTML = `
+                    ${metaHtml}
+                    ${videoHtml}
+                    <div style="margin-top: 25px; line-height: 1.8; color: #eee; font-size: 17px; white-space: pre-line;">
+                        ${data.content}
+                    </div>
+                `;
+            } else {
+                document.getElementById('artTitle').innerText = "ไม่พบเนื้อหาที่ท่านต้องการ";
+            }
+        } catch (error) {
+            console.error("Error loading content:", error);
+            document.getElementById('artTitle').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
         }
     }
 
-    // โหลดคอมเมนต์ (เอา orderBy ออกเพื่อให้โชว์ทันที)
+    // --- 2. โหลดคอมเมนต์และการให้คะแนน ---
     function loadComments() {
         const q = query(
             collection(db, "ratings"), 
@@ -95,7 +149,7 @@
             const avgHeader = document.getElementById('artRating');
             
             if(snap.empty) {
-                list.innerHTML = "ยังไม่มีความคิดเห็นที่ได้รับอนุมัติในขณะนี้";
+                list.innerHTML = "<p style='color: #888;'>ยังไม่มีความคิดเห็นที่ได้รับอนุมัติในขณะนี้</p>";
                 avgHeader.innerHTML = "☆☆☆☆☆ (0)";
                 return;
             }
@@ -125,7 +179,7 @@
         });
     }
 
-    // ดาวหน้ารูปแบบฟอร์ม
+    // --- 3. ส่วนการจัดการแบบฟอร์มให้คะแนน (Star Rating) ---
     let userStar = 0;
     const starList = document.querySelectorAll('.star');
     starList.forEach(s => {
@@ -135,7 +189,7 @@
         };
     });
 
-    // ส่งข้อมูล
+    // ส่งข้อมูล Rating/Comment ใหม่
     document.getElementById('submitBtn').onclick = async () => {
         if(userStar == 0) return alert("กรุณาให้คะแนนดาว");
         const btn = document.getElementById('submitBtn');
@@ -149,11 +203,15 @@
                 approved: false,
                 createdAt: serverTimestamp()
             });
-            alert("ขอบคุณครับ! ความเห็นจะโชว์หลังจากแอดมินตรวจสอบ");
+            alert("ขอบคุณครับ! ความเห็นจะแสดงหลังจากผ่านการตรวจสอบโดยแอดมิน");
             location.reload();
-        } catch (e) { alert("เกิดข้อผิดพลาด"); btn.disabled = false; }
+        } catch (e) { 
+            alert("เกิดข้อผิดพลาดในการส่งข้อมูล"); 
+            btn.disabled = false; 
+        }
     };
 
+    // เริ่มทำงาน
     loadContent();
     loadComments();
 </script>
