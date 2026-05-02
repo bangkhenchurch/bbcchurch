@@ -9,7 +9,7 @@
     <style>
         /* พื้นฐาน */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
+        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 0; }
 
         /* Navbar */
         .navbar { width: 100%; background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
@@ -81,6 +81,29 @@
 <div class="hero-container">
     <div class="slide active"><img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'"></div>
     <div class="slide"><img src="hero_02.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
+    <div class="slide"><img src="hero_03.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
+</div>
+
+<!-- ส่วนวิดีโอแนะนำใต้ Hero -->
+<div class="featured-video-container" style="background: #121212; padding: 40px 20px;">
+    <div style="max-width: 900px; margin: auto;">
+        <h2 style="font-family: 'Prompt'; color: white; border-left: 5px solid #4dabff; padding-left: 15px; margin-bottom: 20px;">
+            📽️ รับชมวีดีโอ สร้างโลก 
+        </h2>
+        
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <!-- ลิงก์ที่ใส่พารามิเตอร์ autoplay=1 และ mute=1 เพื่อให้รันทันทีตามนโยบาย Browser -->
+            <iframe 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/Vytt_r-k7Ck?autoplay=1&mute=1&rel=0&si=s0Rh5bN011KbyWYd" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -96,20 +119,14 @@
     <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 
-    <!-- สถิติ -->
-    <div class="dashboard">
-        <div class="stat-box"><span>ผู้ลงทะเบียน</span><br><strong>1,250</strong></div>
-        <div class="stat-box"><span>นมัสการ</span><br><strong>450</strong></div>
-        <div class="stat-box"><span>กลุ่มเซลล์</span><br><strong>85</strong></div>
-    </div>
-</div>
-
 <div class="counter-section">
     <h3 style="margin-bottom: 20px; font-family: 'Prompt'; font-weight: 400;">สถิติผู้เยี่ยมชมคริสตจักร</h3>
-    <a href="https://info.flagcounter.com/8zW3">
-        <img src="https://s11.flagcounter.com/count2/8zW3/bg_121212/txt_EEEEEE/border_333333/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+    <a href="https://info.flagcounter.com/iWY4">
+    <img src="https://s01.flagcounter.com/countxl/iWY4/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" 
+    alt="Flag Counter" border="0"></a>
     </a>
 </div>
+
 
 <footer>
     <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'"><br>
@@ -119,99 +136,105 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, onSnapshot, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, onSnapshot, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-    authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-    projectId: "bbcchurch-6ffc3",
-    storageBucket: "bbcchurch-6ffc3.appspot.com",
-    appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// 1. ฟังก์ชันดึงคะแนนดาวและจำนวนคอมเมนต์ (รองรับทุก ID)
-async function getRatingData(articleId) {
-    try {
-        const q = query(
-            collection(db, "ratings"), 
-            where("articleId", "==", articleId), 
-            where("approved", "==", true)
-        );
-        const snap = await getDocs(q);
-        let total = 0;
-        let count = snap.size;
-        
-        if (count === 0) return { stars: "☆☆☆☆☆", count: 0 };
-
-        snap.forEach(doc => { total += doc.data().rating; });
-        const avg = Math.round(total / count);
-        let starStr = "";
-        for(let i=1; i<=5; i++) starStr += i <= avg ? "★" : "☆";
-        
-        return { stars: starStr, count: count };
-    } catch (error) {
-        console.error("Error fetching ratings:", error);
-        return { stars: "☆☆☆☆☆", count: 0 };
-    }
-}
-
-// 2. ส่วนการดึงข้อมูลบทความ/ข่าวสาร/คำเทศนา มาโชว์ที่หน้าแรก
-const qArticles = query(collection(db, "articles"), orderBy("createdAt", "desc"));
-
-onSnapshot(qArticles, (snap) => {
-    const containers = {
-        "📢 ข่าวสารคริสตจักร": document.getElementById('list-news'),
-        "🙏 คำพยานจากผู้เชื่อ": document.getElementById('list-testimony'),
-        "📖 บทความทั่วไป": document.getElementById('list-article'),
-        "🎙️ คำเทศนา (วิดีโอ)": document.getElementById('list-sermon')
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
-    // ล้างข้อมูลเก่าก่อนแสดงผลใหม่
-    Object.values(containers).forEach(el => { if(el) el.innerHTML = ""; });
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // ใช้ for...of เพื่อรองรับการทำงานของ await ให้ออกมาตรงตามลำดับ
-    snap.forEach(async (doc) => {
-        const d = doc.data();
-        const targetDiv = containers[d.category]; 
-        
-        if (targetDiv) {
-            // ดึงข้อมูลดาวและคอมเมนต์สำหรับแต่ละเรื่อง
-            const ratingData = await getRatingData(doc.id);
-            
-            const img = d.thumbUrl || d.image || 'https://via.placeholder.com/400x250/0a2c6d/ffffff?text=BBC+CHURCH';
-            const youtubeIcon = d.youtubeUrl ? '📺 ' : '';
-            
-            // สร้าง Card HTML ที่มีทั้ง ดาว และ จำนวนคอมเมนต์
-            const cardHtml = `
-                <div class="card" onclick="location.href='article.html?id=${doc.id}'" style="cursor:pointer;">
-                    <img src="${img}">
-                    <div class="card-content">
-                        <div class="star-rating" style="color: #f1c40f; margin-bottom: 5px;">${ratingData.stars}</div>
-                        <h4 class="card-title" style="font-family:'Prompt'; font-size:18px; margin-bottom:8px;">${youtubeIcon}${d.title}</h4>
-                        <div class="card-meta" style="display:flex; justify-content:space-between; font-size:12px; color:#888;">
-                            <span>📅 ${d.displayDate || 'ไม่ระบุวันที่'}</span>
-                            <span class="comment-count" style="color:#4dabff;">💬 ${ratingData.count}</span>
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length == 11) ? match[2] : null;
+    }
+
+    async function getRatingData(articleId) {
+        try {
+            const q = query(collection(db, "ratings"), where("articleId", "==", articleId), where("approved", "==", true));
+            const snap = await getDocs(q);
+            if (snap.empty) return { stars: "☆☆☆☆☆", count: 0 };
+            let total = 0;
+            snap.forEach(doc => { total += doc.data().rating; });
+            const avg = Math.round(total / snap.size);
+            let starStr = "";
+            for(let i=1; i<=5; i++) starStr += i <= avg ? "★" : "☆";
+            return { stars: starStr, count: snap.size };
+        } catch (e) { return { stars: "☆☆☆☆☆", count: 0 }; }
+    }
+
+    // แก้ไข Query ตรงนี้: เอา orderBy ออกก่อนเพื่อป้องกัน Error Index
+    const qArticles = query(collection(db, "articles"), where("status", "==", "approved"));
+
+    onSnapshot(qArticles, (snap) => {
+        const containers = {
+            "📢 ข่าวสารคริสตจักร": document.getElementById('list-news'),
+            "🙏 คำพยานจากผู้เชื่อ": document.getElementById('list-testimony'),
+            "📖 บทความทั่วไป": document.getElementById('list-article'),
+            "🎙️ คำเทศนา (วิดีโอ)": document.getElementById('list-sermon')
+        };
+
+        Object.values(containers).forEach(el => { if(el) el.innerHTML = ""; });
+
+        // นำข้อมูลมาใส่ Array เพื่อเรียงลำดับด้วย JavaScript แทน
+        const items = [];
+        snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+        items.sort((a, b) => (b.displayDate || "").localeCompare(a.displayDate || ""));
+
+        items.forEach(async (d) => {
+            const targetDiv = containers[d.category]; 
+            if (targetDiv) {
+                const ratingData = await getRatingData(d.id);
+                const yid = getYoutubeId(d.youtubeUrl);
+                const img = d.thumbUrl || (yid ? `https://img.youtube.com/vi/${yid}/hqdefault.jpg` : 'https://via.placeholder.com/400x250/0a2c6d/ffffff?text=BBC+CHURCH');
+                
+                const cardHtml = `
+                    <div class="card" onclick="location.href='article.html?id=${d.id}'">
+                        <div style="position: relative;">
+                            <img src="${img}" style="width:100%; height:180px; object-fit:cover;">
+                            <span style="position: absolute; top: 10px; left: 10px; background: #4dabff; color: black; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold;">
+                                ${d.category}
+                            </span>
+                        </div>
+                        <div class="card-content" style="padding:15px; line-height: 1.4;">
+                            <div class="star-rating">${ratingData.stars}</div>
+                            <h4 class="card-title">${d.youtubeUrl ? '📺 ' : ''}${d.title}</h4>
+                            
+                            <!-- เพิ่มหัวข้อคำเทศนาและผู้เทศนา -->
+                            <div style="color: #4dabff; font-size: 13px; font-weight: 600; margin-bottom: 4px;">
+                                🎙️ โดย: ${d.author || 'ผู้รับใช้พระเจ้า'}
+                            </div>
+                            ${d.series ? `<div style="color: #aaa; font-size: 11px; margin-bottom: 4px;">📁 ชุด: ${d.series}</div>` : ''}
+                            
+                            <div class="card-meta" style="margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+                                <span>📅 ${d.displayDate || 'ไม่ระบุวันที่'}</span>
+                                <span class="comment-count">💬 ${ratingData.count}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-            targetDiv.insertAdjacentHTML('beforeend', cardHtml);
-        }
+                `;
+                targetDiv.insertAdjacentHTML('beforeend', cardHtml);
+            }
+        });
     });
-});
 
-// 3. Slideshow Logic
-let cur = 0;
-setInterval(() => {
-    const slides = document.querySelectorAll('.slide');
-    if(slides.length < 2) return;
-    slides[cur].classList.remove('active');
-    cur = (cur + 1) % slides.length;
-    slides[cur].classList.add('active');
-}, 5000);
+    // --- Slideshow Logic ---
+    let cur = 0;
+    function runSlideshow() {
+        const slides = document.querySelectorAll('.slide');
+        if(slides.length < 2) return;
+        slides.forEach(s => s.classList.remove('active'));
+        cur = (cur + 1) % slides.length;
+        slides[cur].classList.add('active');
+    }
+    setInterval(runSlideshow, 5000);
 </script>
 
 </body>
