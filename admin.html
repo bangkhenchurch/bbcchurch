@@ -3,118 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - BBC Church</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    <title>BBC Church - Admin Full System</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #ff4d4d; --success: #2ecc71; --warning: #f1c40f; }
+        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #ff4d4d; --success: #2ecc71; }
         body { background: var(--dark-bg); color: #e0e0e0; font-family: 'Sarabun', sans-serif; padding: 20px; margin: 0; }
-        .container { max-width: 1000px; margin: auto; }
-        .form-card, .list-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        h2, h3 { font-family: 'Prompt'; color: white; margin-top: 0; }
+        .container { max-width: 1100px; margin: auto; }
+        
+        .form-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; }
+        h2 { font-family: 'Prompt'; color: white; border-left: 5px solid var(--primary); padding-left: 15px; margin-top: 40px; }
+        
+        /* Form Styling */
         label { display: block; margin-top: 15px; color: var(--primary); font-size: 14px; font-weight: 600; }
         input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
-        .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
-        .upload-box { width: 100%; height: 110px; background: #252525; border: 2px dashed #444; border-radius: 12px; cursor: pointer; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .upload-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 2; }
-        .upload-box span { font-size: 10px; color: #888; z-index: 1; }
-        .btn-save { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 20px; transition: 0.3s; }
-        .btn-save:hover { background: #1546a0; }
-        .btn-action { padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px; color: white; margin-right: 4px; font-weight: bold; }
-        .btn-edit { background: var(--primary); }
-        .btn-delete { background: var(--danger); }
-        .btn-approve { background: var(--success); }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
-        th { color: var(--primary); background: rgba(255,255,255,0.05); }
-        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .btn-save { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+
+        /* Article Grid */
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .article-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; }
+        .article-thumb { width: 100%; height: 180px; object-fit: cover; }
+        .article-info { padding: 15px; flex-grow: 1; }
+        .article-info h3 { margin: 0; font-size: 18px; color: white; font-family: 'Prompt'; }
         
-        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 50px; height: 50px; border: 5px solid #333; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Stars Display */
+        .stars-avg { color: #f1c40f; font-size: 14px; margin: 5px 0; }
+        
+        /* Admin Actions */
+        .admin-controls { background: #252525; padding: 10px; display: flex; gap: 5px; border-top: 1px solid #333; }
+        .btn-action { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; font-size: 12px; }
+        .btn-edit { background: #444; }
+        .btn-del { background: #600; }
+        
+        /* Comment Section in Admin */
+        .comment-manage-box { background: #1a1a1a; margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 12px; }
+        .comment-row { border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+        .btn-approve { background: var(--success); color: white; border: none; padding: 3px 7px; border-radius: 3px; cursor: pointer; }
+        .pending-tag { background: #f1c40f; color: black; padding: 2px 5px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-<div id="loadingOverlay">
-    <div class="spinner"></div>
-    <div id="statusText" style="color: white; margin-top: 20px; font-family: 'Prompt';">ระบบกำลังประมวลผล...</div>
-</div>
+<div id="loadingOverlay"><div style="color: white;">กำลังดำเนินการ...</div></div>
 
 <div class="container">
     <div class="form-card">
-        <h2 id="form-title">✍️ เขียนบทความใหม่ (Auto-Approve)</h2>
+        <h2 id="form-title">✍️ จัดการบทความและคำเทศนา</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
-            <label>หัวข้อเรื่อง</label>
-            <input type="text" id="title" required placeholder="ใส่หัวข้อเรื่องที่นี่...">
-
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+                <div><label>วันที่แสดง</label><input type="date" id="customDate" required></div>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div><label>ผู้แต่ง/เทศนา</label><input type="text" id="author" placeholder="ชื่อผู้เขียน"></div>
-                <div><label>วันที่</label><input type="date" id="customDate" required></div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div><label>ซีรีส์</label><input type="text" id="series" placeholder="ชุดคำเทศนา"></div>
-                <div><label>ข้อพระคัมภีร์</label><input type="text" id="scripture" placeholder="เช่น ปฐมกาล 1:1"></div>
-            </div>
-
-            <label>หมวดหมู่</label>
-            <select id="category">
-                <option value="📢 ข่าวสารคริสตจักร">📢 ข่าวสารคริสตจักร</option>
-                <option value="📖 บทความทั่วไป">📖 บทความทั่วไป</option>
-                <option value="🙏 คำพยานจากผู้เชื่อ">🙏 คำพยานจากผู้เชื่อ</option>
-                <option value="🎙️ คำเทศนา (วิดีโอ)">🎙️ คำเทศนา (วิดีโอ)</option>
-            </select>
-
-            <label>รูปภาพ (แนะนำขนาดไม่เกิน 1MB ต่อรูป)</label>
-            <div class="upload-grid">
-                <div class="upload-box" onclick="document.getElementById('f1').click()" id="b1">
-                    <span id="t1">รูปปก</span><input type="file" id="f1" hidden accept="image/*" onchange="preview(this, 'b1', 't1')">
+                <div><label>หมวดหมู่</label>
+                    <select id="category">
+                        <option value="🎙️ คำเทศนา (วิดีโอ)">🎙️ คำเทศนา (วิดีโอ)</option>
+                        <option value="📖 บทความทั่วไป">📖 บทความทั่วไป</option>
+                        <option value="📢 ข่าวสารคริสตจักร">📢 ข่าวสารคริสตจักร</option>
+                    </select>
                 </div>
-                <div class="upload-box" onclick="document.getElementById('f2').click()" id="b2">
-                    <span id="t2">รูปหัวข้อ</span><input type="file" id="f2" hidden accept="image/*" onchange="preview(this, 'b2', 't2')">
-                </div>
-                <div class="upload-box" onclick="document.getElementById('f3').click()" id="b3">
-                    <span id="t3">รูปเสริม</span><input type="file" id="f3" hidden accept="image/*" onchange="preview(this, 'b3', 't3')">
-                </div>
+                <div><label>ผู้เทศนา/ผู้เขียน</label><input type="text" id="author"></div>
             </div>
-
-            <label>YouTube Link</label>
-            <input type="text" id="youtubeUrl" placeholder="https://youtube.com/...">
-
-            <label>เนื้อหาบทความ</label>
-            <textarea id="content" rows="8" placeholder="พิมพ์เนื้อหาที่นี่..."></textarea>
-
-            <button type="submit" id="saveBtn" class="btn-save">🚀 บันทึกและสแตนบายหน้าใหม่ทันที</button>
+            <label>ลิ้งก์ YouTube</label><input type="text" id="youtubeUrl">
+            <label>ลิ้งก์รูปหน้าปก (ถ้ามี)</label><input type="text" id="thumbUrl">
+            <label>เนื้อหา</label><textarea id="content" rows="4"></textarea>
+            <button type="submit" class="btn-save">🚀 บันทึกข้อมูลบทความ</button>
         </form>
     </div>
 
-    <!-- ตารางบทความ -->
-    <div class="list-card">
-        <h3>📋 รายการบทความล่าสุด</h3>
-        <table id="articleTable">
-            <thead><tr><th>วันที่</th><th>หัวข้อ</th><th>จัดการ</th></tr></thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <!-- ตารางอนุมัติ Rating & Comment -->
-    <div class="list-card" style="border-top-color: var(--success);">
-        <h3>⭐ อนุมัติ Rating & Comments</h3>
-        <table id="ratingTable">
-            <thead>
-                <tr><th>ผู้ส่ง</th><th>คะแนน/ข้อความ</th><th>จากเรื่อง</th><th>จัดการ</th></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <h2>🌐 รายการทั้งหมด และ การจัดการความคิดเห็น/ดาว</h2>
+    <div id="adminContentGrid" class="content-grid">
+        <!-- ข้อมูลจะถูกโหลดที่นี่ -->
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -126,187 +93,134 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
-    // --- ฟังก์ชันล้างฟอร์มสแตนบาย ---
-    function clearToStandby() {
-        document.getElementById('postForm').reset();
-        document.getElementById('editId').value = "";
-        document.getElementById('form-title').innerText = "✍️ เขียนบทความใหม่ (Auto-Approve)";
-        document.getElementById('customDate').valueAsDate = new Date();
-        
-        ['b1','b2','b3'].forEach(id => {
-            const img = document.getElementById(id).querySelector('img');
-            if(img) img.remove();
-        });
-        ['t1','t2','t3'].forEach(id => document.getElementById(id).style.display = 'block');
-        
-        window.scrollTo({top: 0, behavior: 'smooth'});
+    // ฟังก์ชันดึง ID YouTube
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length == 11) ? match[2] : null;
     }
 
-    document.getElementById('customDate').valueAsDate = new Date();
-
-    // --- ฟังก์ชันบีบอัดภาพ ---
-    async function compressImage(file) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let w = img.width, h = img.height;
-                    const MAX = 800; 
-                    if (w > h && w > MAX) { h *= MAX/w; w = MAX; }
-                    else if (h > MAX) { w *= MAX/h; h = MAX; }
-                    canvas.width = w; canvas.height = h;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, w, h);
-                    canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.6);
-                };
-            };
-        });
-    }
-
-    window.preview = (input, boxId, textId) => {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const box = document.getElementById(boxId);
-                let img = box.querySelector('img') || document.createElement('img');
-                img.src = e.target.result;
-                box.appendChild(img);
-                document.getElementById(textId).style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    };
-
-    // --- ส่วนการบันทึกข้อมูล (อัปโหลดเสถียรที่สุด) ---
+    // 1. บันทึก/แก้ไข บทความ
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
-        const overlay = document.getElementById('loadingOverlay');
-        const statusText = document.getElementById('statusText');
-        overlay.style.display = 'flex';
-
-        try {
-            const fileConfigs = [
-                { id: 'f1', folder: 'thumbs', key: 'thumbUrl', label: 'รูปปก' },
-                { id: 'f2', folder: 'intros', key: 'introUrl', label: 'รูปหัวข้อ' },
-                { id: 'f3', folder: 'extras', key: 'contentUrl', label: 'รูปเสริม' }
-            ];
-
-            const data = {
-                title: document.getElementById('title').value,
-                author: document.getElementById('author').value,
-                displayDate: document.getElementById('customDate').value,
-                series: document.getElementById('series').value,
-                scripture: document.getElementById('scripture').value,
-                category: document.getElementById('category').value,
-                youtubeUrl: document.getElementById('youtubeUrl').value,
-                content: document.getElementById('content').value,
-                status: 'approved',
-                updatedAt: serverTimestamp()
-            };
-
-            // อัปโหลดทีละไฟล์แบบ Sequential (ป้องกันปัญหาการค้าง)
-            for (const config of fileConfigs) {
-                const fileInput = document.getElementById(config.id);
-                if (fileInput.files[0]) {
-                    statusText.innerText = `กำลังอัปโหลด: ${config.label}...`;
-                    const compressed = await compressImage(fileInput.files[0]);
-                    const sRef = ref(storage, `${config.folder}/${Date.now()}-${config.id}.jpg`);
-                    const snap = await uploadBytes(sRef, compressed);
-                    data[config.key] = await getDownloadURL(snap.ref);
-                }
-            }
-
-            statusText.innerText = "กำลังบันทึกข้อมูล...";
-            const editId = document.getElementById('editId').value;
-            if (editId) {
-                await updateDoc(doc(db, "articles", editId), data);
-            } else {
-                data.createdAt = serverTimestamp();
-                await addDoc(collection(db, "articles"), data);
-            }
-
-            overlay.style.display = 'none';
-            alert("✅ บันทึกสำเร็จ!");
-            clearToStandby();
-
-        } catch (err) {
-            console.error(err);
-            overlay.style.display = 'none';
-            alert("❌ ผิดพลาด: " + err.message);
-        }
+        document.getElementById('loadingOverlay').style.display = 'flex';
+        const data = {
+            title: document.getElementById('title').value,
+            displayDate: document.getElementById('customDate').value,
+            author: document.getElementById('author').value,
+            category: document.getElementById('category').value,
+            youtubeUrl: document.getElementById('youtubeUrl').value,
+            thumbUrl: document.getElementById('thumbUrl').value,
+            content: document.getElementById('content').value,
+            status: 'approved',
+            updatedAt: serverTimestamp()
+        };
+        const id = document.getElementById('editId').value;
+        if(id) await updateDoc(doc(db, "articles", id), data);
+        else { data.createdAt = serverTimestamp(); await addDoc(collection(db, "articles"), data); }
+        
+        document.getElementById('postForm').reset();
+        document.getElementById('editId').value = "";
+        document.getElementById('loadingOverlay').style.display = 'none';
+        alert("ดำเนินการสำเร็จ!");
     };
 
-    // --- ดึงตารางบทความ (แก้ปัญหา Missing Index / ข้อมูลหาย) ---
-    onSnapshot(collection(db, "articles"), (snap) => {
-        const tbody = document.querySelector("#articleTable tbody");
-        tbody.innerHTML = "";
-        const docs = [];
-        snap.forEach(d => docs.push({id: d.id, ...d.data()}));
-        
-        // เรียงลำดับด้วย JavaScript แทน Firebase Query เพื่อเลี่ยงปัญหา Index
-        docs.sort((a, b) => (b.displayDate > a.displayDate ? 1 : -1));
-        
-        docs.forEach(r => {
-            tbody.innerHTML += `<tr>
-                <td>${r.displayDate}</td>
-                <td><b>${r.title}</b></td>
-                <td>
-                    <button class="btn-action btn-edit" onclick="loadEdit('${r.id}')">แก้ไข</button>
-                    <button class="btn-action btn-delete" onclick="deleteArticle('${r.id}')">ลบ</button>
-                </td>
-            </tr>`;
+    // 2. โหลดรายการบทความ (แสดง Video แทนรูปภาพ)
+    onSnapshot(query(collection(db, "articles"), orderBy("displayDate", "desc")), (snap) => {
+        const grid = document.getElementById('adminContentGrid');
+        grid.innerHTML = "";
+        snap.forEach(d => {
+            const r = d.data();
+            const yid = getYoutubeId(r.youtubeUrl);
+            
+            // สร้าง Media Display (ถ้ามี YouTube ให้แสดง Player ถ้าไม่มีให้แสดงรูป)
+            let mediaHtml = `<img src="${r.thumbUrl || 'https://via.placeholder.com/300x180?text=No+Image'}" class="article-thumb">`;
+            if (yid && r.category.includes("คำเทศนา")) {
+                mediaHtml = `
+                    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+                        <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" 
+                            src="https://www.youtube.com/embed/${yid}" frameborder="0" allowfullscreen>
+                        </iframe>
+                    </div>`;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'article-card';
+            card.innerHTML = `
+                ${mediaHtml}
+                <div class="article-info">
+                    <div style="font-size:11px; color:var(--primary); font-weight:bold;">${r.category} | ${r.displayDate}</div>
+                    <h3 style="margin: 5px 0;">${r.title}</h3>
+                    <div id="stars-${d.id}" style="color:#f1c40f; font-size:14px; margin-bottom:10px;"></div>
+                    
+                    <div class="comment-manage-box">
+                        <div style="font-weight:bold; border-bottom:1px solid #444; padding-bottom:5px; margin-bottom:5px; font-size:13px; color:#fff;">💬 จัดการคำรีวิว</div>
+                        <div id="comments-${d.id}" style="max-height: 150px; overflow-y: auto;">โหลดคอมเมนต์...</div>
+                    </div>
+                </div>
+                <div class="admin-controls">
+                    <button class="btn-action btn-edit" onclick="editPost('${d.id}')">📝 แก้ไข</button>
+                    <button class="btn-action btn-del" onclick="deletePost('${d.id}')">🗑️ ลบ</button>
+                </div>
+            `;
+            grid.appendChild(card);
+            loadArticleRatings(d.id);
         });
     });
 
-    // --- ตาราง Rating ---
-    onSnapshot(collection(db, "ratings"), (snap) => {
-        const tbody = document.querySelector("#ratingTable tbody");
-        tbody.innerHTML = "";
-        const docs = [];
-        snap.forEach(d => docs.push({id: d.id, ...d.data()}));
-        
-        docs.forEach(data => {
-            const status = data.approved ? '<span class="status-badge" style="background:var(--success)">อนุมัติแล้ว</span>' : '<span class="status-badge" style="background:var(--warning); color:black">รออนุมัติ</span>';
-            tbody.innerHTML += `<tr>
-                <td>${data.userName || 'ทั่วไป'}<br>${status}</td>
-                <td>⭐ ${data.rating}/5 <br> ${data.comment}</td>
-                <td><small>${data.articleTitle || '-'}</small></td>
-                <td>
-                    ${!data.approved ? `<button class="btn-action btn-approve" onclick="approveRating('${data.id}')">อนุมัติ</button>` : ''}
-                    <button class="btn-action btn-delete" onclick="deleteRating('${data.id}')">ลบ</button>
-                </td>
-            </tr>`;
-        });
-    });
+    // 3. ฟังก์ชันโหลดคะแนนดาว และคอมเมนต์ (เหมือนเดิมแต่ปรับ UI ปุ่ม)
+    function loadArticleRatings(artId) {
+        const q = query(collection(db, "ratings"), where("articleId", "==", artId));
+        onSnapshot(q, (snap) => {
+            const starDiv = document.getElementById(`stars-${artId}`);
+            const commDiv = document.getElementById(`comments-${artId}`);
+            let sum = 0, count = 0, html = "";
 
-    // --- ฟังก์ชัน Global ---
-    window.approveRating = async (id) => { await updateDoc(doc(db, "ratings", id), { approved: true }); };
-    window.deleteRating = async (id) => { if(confirm("ลบข้อมูลนี้?")) await deleteDoc(doc(db, "ratings", id)); };
-    window.deleteArticle = async (id) => { if(confirm("ลบบทความนี้?")) await deleteDoc(doc(db, "articles", id)); };
-    
-    window.loadEdit = async (id) => {
-        const d = await getDoc(doc(db, "articles", id));
-        const r = d.data();
+            snap.forEach(docSnap => {
+                const r = docSnap.data();
+                if(r.approved) { sum += r.rating; count++; }
+                
+                html += `
+                    <div class="comment-row" style="font-size:11px; background:#222; margin-bottom:3px; padding:5px; border-radius:4px;">
+                        <div style="flex-grow:1;">
+                            <b style="color:var(--primary)">${r.userName}</b>: ${"★".repeat(r.rating)}<br>
+                            <span style="color:#bbb">${r.comment || ''}</span>
+                            ${!r.approved ? '<br><span class="pending-tag">รออนุมัติ</span>' : ''}
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:2px;">
+                            ${!r.approved ? `<button class="btn-approve" onclick="approveRating('${docSnap.id}')" title="อนุมัติ">✔</button>` : ''}
+                            <button onclick="deleteRating('${docSnap.id}')" style="background:#600; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">✕</button>
+                        </div>
+                    </div>`;
+            });
+
+            const avg = count > 0 ? (sum/count).toFixed(1) : 0;
+            if(starDiv) starDiv.innerHTML = `${"★".repeat(Math.round(avg))} ${avg} (${count} รีวิว)`;
+            if(commDiv) commDiv.innerHTML = html || "<div style='color:#666; font-size:11px;'>ไม่มีคอมเมนต์</div>";
+        });
+    }
+
+    // ฟังก์ชันแอดมิน (Global)
+    window.editPost = async (id) => {
+        const s = await getDoc(doc(db, "articles", id));
+        const r = s.data();
         document.getElementById('editId').value = id;
         document.getElementById('title').value = r.title;
-        document.getElementById('author').value = r.author || '';
         document.getElementById('customDate').value = r.displayDate;
-        document.getElementById('series').value = r.series || '';
-        document.getElementById('scripture').value = r.scripture || '';
+        document.getElementById('author').value = r.author || '';
         document.getElementById('category').value = r.category;
         document.getElementById('youtubeUrl').value = r.youtubeUrl || '';
+        document.getElementById('thumbUrl').value = r.thumbUrl || '';
         document.getElementById('content').value = r.content || '';
-        document.getElementById('form-title').innerText = "📝 แก้ไข: " + r.title;
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
-</script>
 
+    window.deletePost = async (id) => { if(confirm("ยืนยันลบบทความนี้?")) await deleteDoc(doc(db, "articles", id)); };
+    window.approveRating = async (rid) => { await updateDoc(doc(db, "ratings", rid), { approved: true }); };
+    window.deleteRating = async (rid) => { if(confirm("ลบคอมเมนต์นี้?")) await deleteDoc(doc(db, "ratings", rid)); };
+
+</script>
 </body>
 </html>
