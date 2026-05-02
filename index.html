@@ -46,11 +46,6 @@
         .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
         .card-meta { font-size: 12px; color: #888; display: flex; justify-content: space-between; align-items: center; }
         
-        /* สถิติ Dashboard */
-        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 50px 0; }
-        .stat-box { background: #1e1e1e; padding: 20px; border-radius: 12px; text-align: center; border-bottom: 4px solid #0a2c6d; }
-        .stat-box strong { font-size: 24px; color: #4dabff; font-family: 'Prompt'; }
-
         /* Footer & Others */
         .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
         .counter-section img { max-width: 100%; height: auto; }
@@ -59,7 +54,6 @@
 
         @media (max-width: 768px) {
             .slide img { height: 250px; }
-            .dashboard { grid-template-columns: 1fr; }
             .section-title { font-size: 20px; }
         }
     </style>
@@ -176,12 +170,21 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // ฟังก์ชันดึงรูปภาพ Thumbnail จาก YouTube URL
+    function getYoutubeThumb(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        if (match && match[2].length === 11) {
+            return `https://img.youtube.com/vi/${match[2]}/mqdefault.jpg`;
+        }
+        return null;
+    }
+
     // ฟังก์ชันส่งฟอร์มเข้า LINE
     document.getElementById('contactForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        
-        // มั่นใจว่า scriptURL นี้มาจากเวอร์ชันล่าสุดที่ Deploy เป็น "Anyone" แล้ว
         const scriptURL = "https://script.google.com/macros/s/AKfycby7yhA-MxALu0dTrXNKe9f4LQXMiKMpMBLxB4Zm2AiGDujYoykVx2vHwYt9_FVAtbmt7Q/exec";
         
         btn.disabled = true; 
@@ -196,7 +199,6 @@
         };
 
         try {
-            // ปรับการส่งให้เป็น JSON ตามที่ Google Apps Script รอรับ
             await fetch(scriptURL, { 
                 method: 'POST', 
                 mode: 'no-cors',
@@ -226,13 +228,19 @@
 
         snap.forEach(doc => {
             const d = doc.data();
+            
+            // ตรวจสอบรูปภาพ: ถ้าไม่มี thumbUrl ให้พยายามดึงจาก youtubeUrl
+            const ytThumb = getYoutubeThumb(d.youtubeUrl);
+            const finalThumb = d.thumbUrl || ytThumb || 'https://via.placeholder.com/400x250?text=BBC+Church';
+
             const card = `<div class="card" onclick="location.href='article.html?id=${doc.id}'">
-                <img src="${d.thumbUrl || 'https://via.placeholder.com/400x250'}">
+                <img src="${finalThumb}" alt="${d.title}">
                 <div class="card-content">
                     <h4 class="card-title">${d.title}</h4>
                     <div class="card-meta"><span>📅 ${d.displayDate || ''}</span></div>
                 </div>
             </div>`;
+            
             const cat = d.category || "";
             if (cat.includes("ข่าวสาร") && lists.news) lists.news.insertAdjacentHTML('beforeend', card);
             else if (cat.includes("พยาน") && lists.testimony) lists.testimony.insertAdjacentHTML('beforeend', card);
@@ -241,7 +249,7 @@
         });
     });
 
-    // ระบบ Slide (ถ้ามี)
+    // ระบบ Slide
     let cur = 0;
     setInterval(() => {
         const slides = document.querySelectorAll('.slide');
