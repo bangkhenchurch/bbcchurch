@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* พื้นฐาน - เพิ่มการคุม Overflow เพื่อแก้ปัญหาตามรูป 495260_0_10.jpg */
+        /* พื้นฐาน */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { overflow-x: hidden; width: 100%; }
         body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
@@ -29,12 +29,12 @@
         
         .grid-container { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-            gap: 20px; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
             margin-bottom: 20px;
         }
 
-        /* Card Design */
+        /* Card Design - ปรับปรุงเพื่อแสดงข้อมูลเพิ่มเติม */
         .card { 
             background: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #333; 
             transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%;
@@ -42,9 +42,16 @@
         }
         .card:hover { transform: translateY(-5px); border-color: #4dabff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         .card img { width: 100%; height: 180px; object-fit: cover; background: #2a2a2a; }
-        .card-content { padding: 15px; flex-grow: 1; }
+        
+        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
-        .card-meta { font-size: 12px; color: #888; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* สไตล์ส่วนข้อมูลเพิ่มเติม */
+        .card-info { font-size: 13px; color: #bbb; margin-bottom: 10px; flex-grow: 1; }
+        .card-info div { margin-bottom: 2px; display: flex; align-items: flex-start; gap: 5px; }
+        .info-label { color: #4dabff; font-weight: bold; min-width: fit-content; }
+
+        .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
         
         /* Footer & Others */
         .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
@@ -88,14 +95,18 @@
 <div class="container">
     <h2 class="section-title">📢 ข่าวสารและประกาศ</h2>
     <div id="list-news" class="grid-container">กำลังโหลด...</div>
+    
     <h2 class="section-title">🙏 คำพยานชีวิต</h2>
     <div id="list-testimony" class="grid-container">กำลังโหลด...</div>
+    
     <h2 class="section-title">📖 บทความหนุนใจ</h2>
     <div id="list-article" class="grid-container">กำลังโหลด...</div>
+    
     <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 </div>
 
+<!-- ฟอร์มติดต่อ -->
 <div style="max-width: 500px; width: 90%; margin: 40px auto; background: #ffffff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: 'Sarabun', sans-serif; color: #333;">
     <div style="text-align: center; margin-bottom: 20px;">
         <h2 style="color: #2c3e50; font-family: 'Prompt', sans-serif;">ติดต่อเรา / สนใจรับข้อมูล</h2>
@@ -170,7 +181,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ฟังก์ชันดึงรูปภาพ Thumbnail จาก YouTube URL
     function getYoutubeThumb(url) {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -181,7 +191,7 @@
         return null;
     }
 
-    // ฟังก์ชันส่งฟอร์มเข้า LINE
+    // ฟังก์ชันส่งฟอร์มเข้า LINE (ยังใช้ mode no-cors ตามเดิม)
     document.getElementById('contactForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
@@ -208,7 +218,6 @@
             alert("ขอบพระเจ้าอวยพระพร ระบบได้รับข้อมูลของท่านแล้ว");
             document.getElementById('contactForm').reset();
         } catch (err) {
-            console.error("LINE Error:", err);
             alert("ขอบพระเจ้าอวยพระพร");
         } finally {
             btn.disabled = false; 
@@ -216,7 +225,7 @@
         }
     };
 
-    // ระบบดึงข้อมูล บทความ/คำเทศนา จาก Firebase มาแสดงผล
+    // ปรับปรุงระบบดึงข้อมูล Firebase เพื่อแสดงผลฟิลด์ที่คุณต้องการ
     onSnapshot(query(collection(db, "articles"), where("status", "==", "approved")), (snap) => {
         const lists = {
             news: document.getElementById('list-news'),
@@ -228,16 +237,30 @@
 
         snap.forEach(doc => {
             const d = doc.data();
-            
-            // ตรวจสอบรูปภาพ: ถ้าไม่มี thumbUrl ให้พยายามดึงจาก youtubeUrl
             const ytThumb = getYoutubeThumb(d.youtubeUrl);
             const finalThumb = d.thumbUrl || ytThumb || 'https://via.placeholder.com/400x250?text=BBC+Church';
 
-            const card = `<div class="card" onclick="location.href='article.html?id=${doc.id}'">
+            // เตรียมข้อมูลสำหรับแสดงผล (ถ้าไม่มีค่าจะซ่อนไว้)
+            const authorHtml = d.author ? `<div><span class="info-label">ผู้เขียน:</span> ${d.author}</div>` : '';
+            const preacherHtml = d.preacher ? `<div><span class="info-label">ผู้เทศนา:</span> ${d.preacher}</div>` : '';
+            const seriesHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
+            const topicHtml = d.topic ? `<div><span class="info-label">หัวข้อ:</span> ${d.topic}</div>` : '';
+
+            const card = `
+            <div class="card" onclick="location.href='article.html?id=${doc.id}'">
                 <img src="${finalThumb}" alt="${d.title}">
                 <div class="card-content">
                     <h4 class="card-title">${d.title}</h4>
-                    <div class="card-meta"><span>📅 ${d.displayDate || ''}</span></div>
+                    <div class="card-info">
+                        ${topicHtml}
+                        ${authorHtml}
+                        ${preacherHtml}
+                        ${seriesHtml}
+                    </div>
+                    <div class="card-meta">
+                        <span>📅 ${d.displayDate || ''}</span>
+                        <span style="color:var(--primary)">อ่านต่อ...</span>
+                    </div>
                 </div>
             </div>`;
             
