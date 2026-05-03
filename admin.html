@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Full System</title>
+    <title>BBC Church - Admin Full System (Updated)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #ff4d4d; --success: #2ecc71; }
@@ -17,6 +17,7 @@
         label { display: block; margin-top: 15px; color: var(--primary); font-size: 14px; font-weight: 600; }
         input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
         .btn-save { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         /* Article Grid */
         .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
@@ -25,16 +26,12 @@
         .article-info { padding: 15px; flex-grow: 1; }
         .article-info h3 { margin: 0; font-size: 18px; color: white; font-family: 'Prompt'; }
         
-        /* Stars Display */
-        .stars-avg { color: #f1c40f; font-size: 14px; margin: 5px 0; }
-        
         /* Admin Actions */
         .admin-controls { background: #252525; padding: 10px; display: flex; gap: 5px; border-top: 1px solid #333; }
         .btn-action { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; font-size: 12px; }
         .btn-edit { background: #444; }
         .btn-del { background: #600; }
         
-        /* Comment Section in Admin */
         .comment-manage-box { background: #1a1a1a; margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 12px; }
         .comment-row { border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
         .btn-approve { background: var(--success); color: white; border: none; padding: 3px 7px; border-radius: 3px; cursor: pointer; }
@@ -49,39 +46,63 @@
 
 <div class="container">
     <div class="form-card">
-        <h2 id="form-title">✍️ จัดการบทความและคำเทศนา</h2>
+        <h2 id="form-title">✍️ จัดการระบบข้อมูล BBC Church</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
-                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+            
+            <div class="row">
+                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required placeholder="เช่น สังคมที่น่าอยู่จริงๆ"></div>
                 <div><label>วันที่แสดง</label><input type="date" id="customDate" required></div>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+
+            <div class="row">
                 <div><label>หมวดหมู่</label>
                     <select id="category">
                         <option value="🎙️ คำเทศนา (วิดีโอ)">🎙️ คำเทศนา (วิดีโอ)</option>
                         <option value="📖 บทความทั่วไป">📖 บทความทั่วไป</option>
+                        <option value="🌟 คำพยานชีวิต">🌟 คำพยานชีวิต</option>
                         <option value="📢 ข่าวสารคริสตจักร">📢 ข่าวสารคริสตจักร</option>
                     </select>
                 </div>
-                <div><label>ผู้เทศนา/ผู้เขียน</label><input type="text" id="author"></div>
+                <div><label>ผู้เทศนา/ผู้เขียน</label><input type="text" id="author" placeholder="ชื่อผู้เขียน"></div>
             </div>
-            <label>ลิ้งก์ YouTube</label><input type="text" id="youtubeUrl">
-            <label>ลิ้งก์รูปหน้าปก (ถ้ามี)</label><input type="text" id="thumbUrl">
-            <label>เนื้อหา</label><textarea id="content" rows="4"></textarea>
-            <button type="submit" class="btn-save">🚀 บันทึกข้อมูลบทความ</button>
+
+            <div class="row">
+                <div><label>ซีรีส์ (Series)</label><input type="text" id="series" placeholder="เช่น มัทธิว: ราชาผู้เสด็จมา"></div>
+                <div><label>ข้อพระคัมภีร์ (Scripture Reference)</label><input type="text" id="bibleRef" placeholder="เช่น ยอห์น 3:16"></div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
+
+            <h3>🔗 ลิงก์สื่อวิดีโอ (YouTube)</h3>
+            <div class="row">
+                <div><label>1. ลิงก์ YouTube (สำหรับคำเทศนา)</label><input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
+                <div><label>2. ลิงก์ YouTube (สำหรับเพลงนมัสการ)</label><input type="text" id="musicUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
+            </div>
+
+            <h3>🖼️ ลิงก์รูปภาพประกอบ</h3>
+            <label>3. ลิงก์รูปภาพบทนำ (สำหรับแสดงหน้าแรก/หน้า Index)</label>
+            <input type="text" id="thumbUrl" placeholder="URL รูปภาพหน้าปกหลัก">
+            
+            <div class="row">
+                <div><label>4. ลิงก์รูปภาพเนื้อหา 1</label><input type="text" id="contentImg1" placeholder="URL รูปภาพประกอบเนื้อหา"></div>
+                <div><label>5. ลิงก์รูปภาพเนื้อหา 2 (สำหรับบทความ/คำพยาน)</label><input type="text" id="contentImg2" placeholder="URL รูปภาพประกอบเสริม"></div>
+            </div>
+
+            <label>เนื้อหาบทความ / เรื่องย่อ</label>
+            <textarea id="content" rows="6" placeholder="พิมพ์เนื้อหาที่นี่..."></textarea>
+            
+            <button type="submit" class="btn-save">🚀 บันทึกและอัปเดตข้อมูลทั้งหมด</button>
         </form>
     </div>
 
-    <h2>🌐 รายการทั้งหมด และ การจัดการความคิดเห็น/ดาว</h2>
-    <div id="adminContentGrid" class="content-grid">
-        <!-- ข้อมูลจะถูกโหลดที่นี่ -->
-    </div>
+    <h2>🌐 รายการจัดการบทความและคำเทศนา</h2>
+    <div id="adminContentGrid" class="content-grid"></div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, getDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, getDoc, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -94,7 +115,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ฟังก์ชันดึง ID YouTube
     function getYoutubeId(url) {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -102,32 +122,49 @@
         return (match && match[2].length == 11) ? match[2] : null;
     }
 
-    // 1. บันทึก/แก้ไข บทความ
+    // 1. Save/Update Function
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
         document.getElementById('loadingOverlay').style.display = 'flex';
+        
         const data = {
             title: document.getElementById('title').value,
             displayDate: document.getElementById('customDate').value,
-            author: document.getElementById('author').value,
             category: document.getElementById('category').value,
+            author: document.getElementById('author').value,
+            series: document.getElementById('series').value,
+            bibleRef: document.getElementById('bibleRef').value,
             youtubeUrl: document.getElementById('youtubeUrl').value,
+            musicUrl: document.getElementById('musicUrl').value,
             thumbUrl: document.getElementById('thumbUrl').value,
+            contentImg1: document.getElementById('contentImg1').value,
+            contentImg2: document.getElementById('contentImg2').value,
             content: document.getElementById('content').value,
-            status: 'approved',
             updatedAt: serverTimestamp()
         };
-        const id = document.getElementById('editId').value;
-        if(id) await updateDoc(doc(db, "articles", id), data);
-        else { data.createdAt = serverTimestamp(); await addDoc(collection(db, "articles"), data); }
-        
-        document.getElementById('postForm').reset();
-        document.getElementById('editId').value = "";
-        document.getElementById('loadingOverlay').style.display = 'none';
-        alert("ดำเนินการสำเร็จ!");
+
+        try {
+            const id = document.getElementById('editId').value;
+            if(id) {
+                await updateDoc(doc(db, "articles", id), data);
+            } else {
+                data.createdAt = serverTimestamp();
+                data.status = 'approved';
+                await addDoc(collection(db, "articles"), data);
+            }
+            alert("บันทึกข้อมูลเรียบร้อยแล้ว!");
+            document.getElementById('postForm').reset();
+            document.getElementById('editId').value = "";
+            window.scrollTo(0,0);
+        } catch (error) {
+            console.error("Error: ", error);
+            alert("เกิดข้อผิดพลาดในการบันทึก");
+        } finally {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
     };
 
-    // 2. โหลดรายการบทความ (แสดง Video แทนรูปภาพ)
+    // 2. Real-time Loading
     onSnapshot(query(collection(db, "articles"), orderBy("displayDate", "desc")), (snap) => {
         const grid = document.getElementById('adminContentGrid');
         grid.innerHTML = "";
@@ -135,15 +172,9 @@
             const r = d.data();
             const yid = getYoutubeId(r.youtubeUrl);
             
-            // สร้าง Media Display (ถ้ามี YouTube ให้แสดง Player ถ้าไม่มีให้แสดงรูป)
             let mediaHtml = `<img src="${r.thumbUrl || 'https://via.placeholder.com/300x180?text=No+Image'}" class="article-thumb">`;
             if (yid && r.category.includes("คำเทศนา")) {
-                mediaHtml = `
-                    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
-                        <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" 
-                            src="https://www.youtube.com/embed/${yid}" frameborder="0" allowfullscreen>
-                        </iframe>
-                    </div>`;
+                mediaHtml = `<div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;"><iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" src="https://www.youtube.com/embed/${yid}" frameborder="0" allowfullscreen></iframe></div>`;
             }
 
             const card = document.createElement('div');
@@ -153,11 +184,12 @@
                 <div class="article-info">
                     <div style="font-size:11px; color:var(--primary); font-weight:bold;">${r.category} | ${r.displayDate}</div>
                     <h3 style="margin: 5px 0;">${r.title}</h3>
-                    <div id="stars-${d.id}" style="color:#f1c40f; font-size:14px; margin-bottom:10px;"></div>
-                    
+                    <div style="font-size:12px; color:#aaa; margin-bottom:10px;">
+                        ${r.series ? '📁 ซีรีส์: '+r.series : ''} ${r.bibleRef ? ' | 📖 '+r.bibleRef : ''}
+                    </div>
+                    <div id="stars-${d.id}" style="color:#f1c40f; font-size:13px; margin-bottom:10px;"></div>
                     <div class="comment-manage-box">
-                        <div style="font-weight:bold; border-bottom:1px solid #444; padding-bottom:5px; margin-bottom:5px; font-size:13px; color:#fff;">💬 จัดการคำรีวิว</div>
-                        <div id="comments-${d.id}" style="max-height: 150px; overflow-y: auto;">โหลดคอมเมนต์...</div>
+                        <div id="comments-${d.id}">กำลังโหลดรีวิว...</div>
                     </div>
                 </div>
                 <div class="admin-controls">
@@ -170,7 +202,7 @@
         });
     });
 
-    // 3. ฟังก์ชันโหลดคะแนนดาว และคอมเมนต์ (เหมือนเดิมแต่ปรับ UI ปุ่ม)
+    // Rating & Comment Management
     function loadArticleRatings(artId) {
         const q = query(collection(db, "ratings"), where("articleId", "==", artId));
         onSnapshot(q, (snap) => {
@@ -181,43 +213,45 @@
             snap.forEach(docSnap => {
                 const r = docSnap.data();
                 if(r.approved) { sum += r.rating; count++; }
-                
                 html += `
-                    <div class="comment-row" style="font-size:11px; background:#222; margin-bottom:3px; padding:5px; border-radius:4px;">
+                    <div class="comment-row">
                         <div style="flex-grow:1;">
-                            <b style="color:var(--primary)">${r.userName}</b>: ${"★".repeat(r.rating)}<br>
+                            <b>${r.userName}</b>: ${"★".repeat(r.rating)} ${!r.approved ? '<span class="pending-tag">รออนุมัติ</span>' : ''}<br>
                             <span style="color:#bbb">${r.comment || ''}</span>
-                            ${!r.approved ? '<br><span class="pending-tag">รออนุมัติ</span>' : ''}
                         </div>
-                        <div style="display:flex; flex-direction:column; gap:2px;">
-                            ${!r.approved ? `<button class="btn-approve" onclick="approveRating('${docSnap.id}')" title="อนุมัติ">✔</button>` : ''}
+                        <div style="display:flex; gap:3px;">
+                            ${!r.approved ? `<button class="btn-approve" onclick="approveRating('${docSnap.id}')">✔</button>` : ''}
                             <button onclick="deleteRating('${docSnap.id}')" style="background:#600; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">✕</button>
                         </div>
                     </div>`;
             });
-
             const avg = count > 0 ? (sum/count).toFixed(1) : 0;
             if(starDiv) starDiv.innerHTML = `${"★".repeat(Math.round(avg))} ${avg} (${count} รีวิว)`;
-            if(commDiv) commDiv.innerHTML = html || "<div style='color:#666; font-size:11px;'>ไม่มีคอมเมนต์</div>";
+            if(commDiv) commDiv.innerHTML = html || "<div style='color:#666'>ไม่มีคอมเมนต์</div>";
         });
     }
 
-    // ฟังก์ชันแอดมิน (Global)
+    // Global Functions for UI
     window.editPost = async (id) => {
         const s = await getDoc(doc(db, "articles", id));
         const r = s.data();
         document.getElementById('editId').value = id;
-        document.getElementById('title').value = r.title;
-        document.getElementById('customDate').value = r.displayDate;
+        document.getElementById('title').value = r.title || '';
+        document.getElementById('customDate').value = r.displayDate || '';
+        document.getElementById('category').value = r.category || '📖 บทความทั่วไป';
         document.getElementById('author').value = r.author || '';
-        document.getElementById('category').value = r.category;
+        document.getElementById('series').value = r.series || '';
+        document.getElementById('bibleRef').value = r.bibleRef || '';
         document.getElementById('youtubeUrl').value = r.youtubeUrl || '';
+        document.getElementById('musicUrl').value = r.musicUrl || '';
         document.getElementById('thumbUrl').value = r.thumbUrl || '';
+        document.getElementById('contentImg1').value = r.contentImg1 || '';
+        document.getElementById('contentImg2').value = r.contentImg2 || '';
         document.getElementById('content').value = r.content || '';
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    window.deletePost = async (id) => { if(confirm("ยืนยันลบบทความนี้?")) await deleteDoc(doc(db, "articles", id)); };
+    window.deletePost = async (id) => { if(confirm("ยืนยันลบข้อมูลนี้?")) await deleteDoc(doc(db, "articles", id)); };
     window.approveRating = async (rid) => { await updateDoc(doc(db, "ratings", rid), { approved: true }); };
     window.deleteRating = async (rid) => { if(confirm("ลบคอมเมนต์นี้?")) await deleteDoc(doc(db, "ratings", rid)); };
 
