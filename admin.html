@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Flexible Version)</title>
+    <title>BBC Church - Admin Center (Full Version)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
@@ -14,28 +14,36 @@
         .form-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { font-family: 'Prompt'; color: white; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; }
         
+        .admin-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #252525; padding: 15px; border-radius: 10px; }
+        .search-input { flex: 1; min-width: 250px; padding: 12px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; }
+        .sort-select { padding: 12px; border-radius: 8px; background: #333; color: white; border: 1px solid #444; }
+
+        .category-group-title { background: var(--accent); color: white; padding: 10px 20px; border-radius: 8px; margin: 30px 0 15px 0; font-family: 'Prompt'; font-size: 18px; }
+
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .full-width { grid-column: 1 / -1; }
+        .full-width { grid-column: 1 / -1; margin-top: 10px; }
         
         label { display: block; font-size: 14px; color: var(--primary); margin-bottom: 5px; font-weight: bold; }
         input, textarea, select { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; }
         
-        .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
-        .preview-box img { max-height: 150px; max-width: 100%; border-radius: 5px; object-fit: contain; }
-        
-        .btn-save { width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
-        .btn-save:hover { background: #1a4ba7; }
+        /* สไตล์พิเศษสำหรับปุ่มเพิ่มผู้แต่ง */
+        .author-input-group { display: flex; gap: 5px; }
+        .btn-add-inline { background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; font-size: 20px; }
 
-        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 20px; }
-        .article-card { background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #3d3d3d; display: flex; flex-direction: column; transition: 0.3s; }
-        .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
+        .preview-box img { max-height: 100px; max-width: 100%; border-radius: 5px; object-fit: contain; }
+        
+        .btn-save { width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .btn-save:hover { background: #1e8449; }
+
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .article-card { background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #3d3d3d; display: flex; flex-direction: column; }
         
         .article-thumb { width: 100%; height: 160px; background: #111; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .article-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
         .article-info { padding: 15px; flex-grow: 1; }
         .article-info h4 { margin: 0 0 8px 0; color: #fff; font-size: 16px; }
-        .article-info small { color: var(--primary); display: block; margin-bottom: 5px; }
         .article-info .author-display { color: #f1c40f; font-size: 13px; font-weight: bold; }
 
         .article-btns { display: flex; gap: 8px; padding: 12px; background: rgba(0,0,0,0.2); }
@@ -48,8 +56,9 @@
 <body>
 
 <div class="container">
+    <!-- ส่วนฟอร์มแก้ไข/เพิ่ม -->
     <div class="form-card">
-        <h2>✍️ จัดการเนื้อหา (ทุกประเภทและทุกรูปแบบไฟล์)</h2>
+        <h2 id="formHeader">✍️ จัดการเนื้อหา</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
             <div class="form-grid">
@@ -71,64 +80,61 @@
                 </div>
                 <div>
                     <label>ผู้เขียน/ผู้เทศนา/เจ้าของคำพยาน</label>
-                    <input type="text" id="authorName" placeholder="ระบุชื่อ (เช่น คุณสุทิสา เหมือนมาตย์)">
+                    <div class="author-input-group">
+                        <select id="authorName">
+                            <option value="คริสตจักร">คริสตจักร</option>
+                        </select>
+                        <button type="button" class="btn-add-inline" onclick="addNewAuthor()">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="form-grid">
-                <div>
-                    <label>รูปปกหน้าแรก (Thumbnail)</label>
-                    <input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')">
-                    <div class="preview-box" id="pre1"></div>
-                </div>
-                <div>
-                    <label>รูปหัวเรื่อง (Header Image)</label>
-                    <input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')">
-                    <div class="preview-box" id="pre2"></div>
-                </div>
+                <div><label>รูปปกหน้าแรก (Thumbnail)</label><input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')"><div class="preview-box" id="pre1"></div></div>
+                <div><label>รูปหัวเรื่อง (Header Image)</label><input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')"><div class="preview-box" id="pre2"></div></div>
             </div>
 
             <div class="form-grid">
-                <div>
-                    <label>รายละเอียด 1 (ลิงก์รูป/วิดีโอ/ไฟล์)</label>
-                    <input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')">
-                    <div class="preview-box" id="pre3"></div>
-                </div>
-                <div>
-                    <label>รายละเอียด 2 (ลิงก์รูป/วิดีโอ/ไฟล์)</label>
-                    <input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')">
-                    <div class="preview-box" id="pre4"></div>
-                </div>
-                <div>
-                    <label>รายละเอียด 3 (ลิงก์รูป/วิดีโอ/ไฟล์)</label>
-                    <input type="text" id="arc3" oninput="forcePreview(this.value, 'pre5')">
-                    <div class="preview-box" id="pre5"></div>
-                </div>
+                <div><label>รายละเอียด 1 (รูป/วิดีโอ)</label><input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')"><div class="preview-box" id="pre3"></div></div>
+                <div><label>รายละเอียด 2 (รูป/วิดีโอ)</label><input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')"><div class="preview-box" id="pre4"></div></div>
+                <div><label>รายละเอียด 3 (รูป/วิดีโอ)</label><input type="text" id="arc3" oninput="forcePreview(this.value, 'pre5')"><div class="preview-box" id="pre5"></div></div>
             </div>
 
             <div class="form-grid">
-                <div><label>YouTube 1</label><input type="text" id="yt1"></div>
-                <div><label>YouTube 2</label><input type="text" id="yt2"></div>
+                <div><label>YouTube 1 (Link)</label><input type="text" id="yt1"></div>
+                <div><label>YouTube 2 (Link)</label><input type="text" id="yt2"></div>
             </div>
 
             <div class="full-width">
                 <label>เนื้อหาหลัก</label>
-                <textarea id="mainContent" rows="8"></textarea>
+                <textarea id="mainContent" rows="6"></textarea>
             </div>
             <div class="full-width">
                 <label>เนื้อหาเพิ่มเติม</label>
-                <textarea id="extraContent" rows="4"></textarea>
+                <textarea id="extraContent" rows="3"></textarea>
             </div>
 
             <button type="submit" class="btn-save">🚀 บันทึกข้อมูลทั้งหมด</button>
+            <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิกการแก้ไข</button>
         </form>
     </div>
 
+    <!-- ส่วนรายการเนื้อหา -->
     <div class="form-card">
         <h2>📑 รายการเนื้อหาทั้งหมด</h2>
-        <div id="adminArticleGrid" class="article-grid">กำลังโหลด...</div>
+        <div class="admin-controls">
+            <input type="text" id="adminSearch" class="search-input" placeholder="🔍 ค้นหา ชื่อเรื่อง, ผู้แต่ง, ซีรีย์..." oninput="renderArticles()">
+            <select id="adminSort" class="sort-select" onchange="renderArticles()">
+                <option value="dateDesc">📅 วันที่ล่าสุด</option>
+                <option value="dateAsc">📅 วันที่เก่าสุด</option>
+                <option value="authorAsc">👤 ผู้แต่ง (ก-ฮ/A-Z)</option>
+                <option value="seriesAsc">🎞️ ซีรีย์ (ก-ฮ/A-Z)</option>
+            </select>
+        </div>
+        <div id="articleContainer">กำลังโหลด...</div>
     </div>
 
+    <!-- ส่วนจัดการคอมเมนต์ -->
     <div class="form-card">
         <h2>🛠️ จัดการ Rating & คอมเมนต์</h2>
         <div id="adminCommentList">กำลังโหลด...</div>
@@ -150,109 +156,104 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    let allArticles = [];
+
+    // ฟังก์ชันพรีวิวรูปภาพ
     window.forcePreview = (url, id) => {
         const box = document.getElementById(id);
         if(url && url.trim() !== "") {
-            box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<small>Link Active</small>'">`;
-        } else {
-            box.innerHTML = `<small style="color:#666">ว่างเปล่า</small>`;
+            box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<small>Active</small>'">`;
+        } else { box.innerHTML = `<small style="color:#666">ว่าง</small>`; }
+    };
+
+    // --- ระบบจัดการ Authors ---
+    onSnapshot(collection(db, "authors"), (snap) => {
+        const select = document.getElementById('authorName');
+        const currentVal = select.value;
+        select.innerHTML = '<option value="คริสตจักร">คริสตจักร</option>';
+        let authors = [];
+        snap.forEach(d => authors.push(d.data().name));
+        authors.sort((a, b) => a.localeCompare(b, 'th')); // เรียง ก-ฮ
+        authors.forEach(name => {
+            select.innerHTML += `<option value="${name}">${name}</option>`;
+        });
+        select.value = currentVal;
+    });
+
+    window.addNewAuthor = async () => {
+        const name = prompt("กรอกชื่อผู้แต่ง/ผู้เทศนาคนใหม่:");
+        if (name && name.trim() !== "") {
+            try {
+                await addDoc(collection(db, "authors"), { name: name.trim(), createdAt: serverTimestamp() });
+                alert("เพิ่มรายชื่อสำเร็จ");
+            } catch (e) { alert("เกิดข้อผิดพลาด"); }
         }
     };
 
-    document.getElementById('postForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const id = document.getElementById('editId').value;
-        const data = {
-            displayDate: document.getElementById('customDate').value,
-            title: document.getElementById('title').value,
-            series: document.getElementById('series').value,
-            bibleRef: document.getElementById('bibleRef').value,
-            category: document.getElementById('category').value,
-            authorName: document.getElementById('authorName').value, // เก็บชื่อในฟิลด์ authorName
-            author: document.getElementById('authorName').value,     // เก็บสำรองในฟิลด์ author เพื่อความชัวร์
-            thumbUrl: document.getElementById('thumbUrl').value,
-            headerImg: document.getElementById('headerImg').value,
-            arc1: document.getElementById('arc1').value,
-            arc2: document.getElementById('arc2').value,
-            arc3: document.getElementById('arc3').value,
-            yt1: document.getElementById('yt1').value,
-            yt2: document.getElementById('yt2').value,
-            mainContent: document.getElementById('mainContent').value,
-            extraContent: document.getElementById('extraContent').value,
-            updatedAt: serverTimestamp()
-        };
-
-        try {
-            if(id) await updateDoc(doc(db, "articles", id), data);
-            else { data.createdAt = serverTimestamp(); await addDoc(collection(db, "articles"), data); }
-            alert("บันทึกข้อมูลเรียบร้อยแล้ว");
-            location.reload();
-        } catch(e) { alert("เกิดข้อผิดพลาดในการบันทึก"); }
-    };
-
-    onSnapshot(query(collection(db, "articles"), orderBy("displayDate", "desc")), (snap) => {
-        const grid = document.getElementById('adminArticleGrid');
-        grid.innerHTML = "";
-        snap.forEach(d => {
-            const r = d.data();
-            
-            // --- จัดการคำนำหน้าชื่อตามหมวดหมู่ ---
-            let prefix = "ผู้แต่ง: ";
-            if(r.category.includes("เทศนา")) prefix = "ผู้เทศนา: ";
-            else if(r.category.includes("คำพยาน")) prefix = "เจ้าของคำพยาน: ";
-            
-            const authorShow = r.authorName || r.author || "คริสตจักร";
-            // ---------------------------------
-
-            const div = document.createElement('div');
-            div.className = "article-card";
-            div.innerHTML = `
-                <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
-                <div class="article-info">
-                    <small>${r.category}</small>
-                    <h4>${r.title}</h4>
-                    <div class="author-display">👤 ${prefix}${authorShow}</div>
-                    <span style="font-size:12px; color:#888;">📅 ${r.displayDate}</span>
-                </div>
-                <div class="article-btns">
-                    <button class="btn-edit" onclick="editArt('${d.id}')">แก้ไข</button>
-                    <button class="btn-del" onclick="delArt('${d.id}')">ลบ</button>
-                </div>`;
-            grid.appendChild(div);
-        });
+    // --- โหลดและแสดงผลบทความ ---
+    onSnapshot(collection(db, "articles"), (snap) => {
+        allArticles = [];
+        snap.forEach(d => allArticles.push({ id: d.id, ...d.data() }));
+        renderArticles();
     });
 
-    window.editArt = async (id) => {
-        const s = await getDoc(doc(db, "articles", id));
-        const r = s.data();
-        document.getElementById('editId').value = id;
-        document.getElementById('customDate').value = r.displayDate;
-        document.getElementById('title').value = r.title;
-        document.getElementById('series').value = r.series || "";
-        document.getElementById('bibleRef').value = r.bibleRef || "";
-        document.getElementById('category').value = r.category;
-        document.getElementById('authorName').value = r.authorName || r.author || "";
-        document.getElementById('thumbUrl').value = r.thumbUrl || "";
-        document.getElementById('headerImg').value = r.headerImg || "";
-        document.getElementById('arc1').value = r.arc1 || "";
-        document.getElementById('arc2').value = r.arc2 || "";
-        document.getElementById('arc3').value = r.arc3 || "";
-        document.getElementById('yt1').value = r.yt1 || "";
-        document.getElementById('yt2').value = r.yt2 || "";
-        document.getElementById('mainContent').value = r.mainContent || "";
-        document.getElementById('extraContent').value = r.extraContent || "";
+    window.renderArticles = () => {
+        const searchTxt = document.getElementById('adminSearch').value.toLowerCase();
+        const sortType = document.getElementById('adminSort').value;
+        const container = document.getElementById('articleContainer');
         
-        forcePreview(r.thumbUrl, 'pre1');
-        forcePreview(r.headerImg, 'pre2');
-        forcePreview(r.arc1, 'pre3');
-        forcePreview(r.arc2, 'pre4');
-        forcePreview(r.arc3, 'pre5');
+        let filtered = allArticles.filter(a => 
+            (a.title || "").toLowerCase().includes(searchTxt) || 
+            (a.authorName || "").toLowerCase().includes(searchTxt) || 
+            (a.series || "").toLowerCase().includes(searchTxt)
+        );
+
+        // ระบบเรียงลำดับ
+        filtered.sort((a, b) => {
+            if (sortType === 'dateDesc') return (b.displayDate || "").localeCompare(a.displayDate || "");
+            if (sortType === 'dateAsc') return (a.displayDate || "").localeCompare(b.displayDate || "");
+            if (sortType === 'authorAsc') return (a.authorName || "").localeCompare(b.authorName || "", 'th');
+            if (sortType === 'seriesAsc') return (a.series || "").localeCompare(b.series || "", 'th');
+            return 0;
+        });
+
+        const categories = [...new Set(filtered.map(a => a.category))];
+        container.innerHTML = "";
         
-        window.scrollTo(0,0);
+        if (filtered.length === 0) {
+            container.innerHTML = "<p style='text-align:center; color:#888;'>ไม่พบข้อมูลที่ค้นหา</p>";
+            return;
+        }
+
+        categories.forEach(cat => {
+            const catArts = filtered.filter(a => a.category === cat);
+            const section = document.createElement('div');
+            section.innerHTML = `<div class="category-group-title">${cat} (${catArts.length})</div>`;
+            const grid = document.createElement('div');
+            grid.className = "article-grid";
+            catArts.forEach(r => {
+                const div = document.createElement('div');
+                div.className = "article-card";
+                div.innerHTML = `
+                    <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
+                    <div class="article-info">
+                        <h4>${r.title}</h4>
+                        <div class="author-display">👤 ${r.authorName || "คริสตจักร"}</div>
+                        <div style="font-size:12px; color:#aaa; margin-top:5px;">📂 ${r.series || 'ไม่มีซีรีย์'}</div>
+                        <span style="font-size:12px; color:#888;">📅 ${r.displayDate}</span>
+                    </div>
+                    <div class="article-btns">
+                        <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
+                        <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
+                    </div>`;
+                grid.appendChild(div);
+            });
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
     };
 
-    window.delArt = async (id) => { if(confirm("ลบรายการนี้?")) await deleteDoc(doc(db, "articles", id)); };
-
+    // --- ระบบ Rating & Comment (ห้ามลบ/ห้ามเปลี่ยน) ---
     onSnapshot(collection(db, "ratings"), (snap) => {
         const list = document.getElementById('adminCommentList');
         list.innerHTML = "";
@@ -264,15 +265,77 @@
             div.innerHTML = `
                 <div><strong>👤 ${c.userName}</strong> (${c.rating}★) ${c.approved ? '✅' : '⏳'}<p>💬 ${c.comment}</p></div>
                 <div>
-                    ${!c.approved ? `<button style="background:var(--success); color:white; border:none; padding:8px; border-radius:5px;" onclick="approve('${d.id}')">อนุมัติ</button>` : ''}
-                    <button style="background:var(--danger); color:white; border:none; padding:8px; border-radius:5px;" onclick="delCom('${d.id}')">ลบ</button>
+                    ${!c.approved ? `<button style="background:var(--success); color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="approve('${d.id}')">อนุมัติ</button>` : ''}
+                    <button style="background:var(--danger); color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="delCom('${d.id}')">ลบ</button>
                 </div>`;
             list.appendChild(div);
         });
     });
 
     window.approve = async (id) => { await updateDoc(doc(db, "ratings", id), { approved: true }); };
-    window.delCom = async (id) => { if(confirm("ลบ?")) await deleteDoc(doc(db, "ratings", id)); };
+    window.delCom = async (id) => { if(confirm("ลบคอมเมนต์นี้?")) await deleteDoc(doc(db, "ratings", id)); };
+
+    // --- บันทึกบทความ ---
+    document.getElementById('postForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editId').value;
+        const data = {
+            displayDate: document.getElementById('customDate').value,
+            title: document.getElementById('title').value,
+            series: document.getElementById('series').value,
+            bibleRef: document.getElementById('bibleRef').value,
+            category: document.getElementById('category').value,
+            authorName: document.getElementById('authorName').value,
+            thumbUrl: document.getElementById('thumbUrl').value,
+            headerImg: document.getElementById('headerImg').value,
+            arc1: document.getElementById('arc1').value,
+            arc2: document.getElementById('arc2').value,
+            arc3: document.getElementById('arc3').value,
+            yt1: document.getElementById('yt1').value,
+            yt2: document.getElementById('yt2').value,
+            mainContent: document.getElementById('mainContent').value,
+            extraContent: document.getElementById('extraContent').value,
+            updatedAt: serverTimestamp()
+        };
+        try {
+            if(id) await updateDoc(doc(db, "articles", id), data);
+            else { data.createdAt = serverTimestamp(); await addDoc(collection(db, "articles"), data); }
+            alert("บันทึกสำเร็จ!");
+            resetForm();
+        } catch(e) { alert("ล้มเหลว"); }
+    };
+
+    window.editArt = async (id) => {
+        const s = await getDoc(doc(db, "articles", id));
+        const r = s.data();
+        document.getElementById('editId').value = id;
+        document.getElementById('customDate').value = r.displayDate;
+        document.getElementById('title').value = r.title;
+        document.getElementById('series').value = r.series || "";
+        document.getElementById('bibleRef').value = r.bibleRef || "";
+        document.getElementById('category').value = r.category;
+        document.getElementById('authorName').value = r.authorName || "คริสตจักร";
+        document.getElementById('thumbUrl').value = r.thumbUrl || "";
+        document.getElementById('headerImg').value = r.headerImg || "";
+        document.getElementById('arc1').value = r.arc1 || "";
+        document.getElementById('arc2').value = r.arc2 || "";
+        document.getElementById('arc3').value = r.arc3 || "";
+        document.getElementById('yt1').value = r.yt1 || "";
+        document.getElementById('yt2').value = r.yt2 || "";
+        document.getElementById('mainContent').value = r.mainContent || "";
+        document.getElementById('extraContent').value = r.extraContent || "";
+        forcePreview(r.thumbUrl, 'pre1'); forcePreview(r.headerImg, 'pre2');
+        forcePreview(r.arc1, 'pre3'); forcePreview(r.arc2, 'pre4'); forcePreview(r.arc3, 'pre5');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+
+    window.resetForm = () => {
+        document.getElementById('postForm').reset();
+        document.getElementById('editId').value = "";
+        ['pre1','pre2','pre3','pre4','pre5'].forEach(id => document.getElementById(id).innerHTML = "");
+    };
+
+    window.delArt = async (id) => { if(confirm("ต้องการลบ?")) await deleteDoc(doc(db, "articles", id)); };
 </script>
 </body>
 </html>
