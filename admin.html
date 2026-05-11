@@ -3,60 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Full Version)</title>
+    <title>BBC Church - Admin Center (Catalog Version)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
         * { box-sizing: border-box; }
         body { background: var(--dark-bg); color: #e0e0e0; font-family: 'Sarabun', sans-serif; padding: 20px; }
         .container { max-width: 1100px; margin: auto; }
-        
         .form-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { font-family: 'Prompt'; color: white; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; }
-        
         .admin-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #252525; padding: 15px; border-radius: 10px; }
         .search-input { flex: 1; min-width: 250px; padding: 12px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; }
-        .sort-select { padding: 12px; border-radius: 8px; background: #333; color: white; border: 1px solid #444; }
-
         .category-group-title { background: var(--accent); color: white; padding: 10px 20px; border-radius: 8px; margin: 30px 0 15px 0; font-family: 'Prompt'; font-size: 18px; }
-
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .full-width { grid-column: 1 / -1; margin-top: 10px; }
-        
         label { display: block; font-size: 14px; color: var(--primary); margin-bottom: 5px; font-weight: bold; }
         input, textarea, select { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; }
-        
-        /* สไตล์พิเศษสำหรับปุ่มเพิ่มผู้แต่ง */
         .author-input-group { display: flex; gap: 5px; }
         .btn-add-inline { background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; font-size: 20px; }
-
         .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
         .preview-box img { max-height: 100px; max-width: 100%; border-radius: 5px; object-fit: contain; }
-        
         .btn-save { width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
         .btn-save:hover { background: #1e8449; }
-
         .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         .article-card { background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #3d3d3d; display: flex; flex-direction: column; }
-        
         .article-thumb { width: 100%; height: 160px; background: #111; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .article-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
         .article-info { padding: 15px; flex-grow: 1; }
         .article-info h4 { margin: 0 0 8px 0; color: #fff; font-size: 16px; }
-        .article-info .author-display { color: #f1c40f; font-size: 13px; font-weight: bold; }
-
         .article-btns { display: flex; gap: 8px; padding: 12px; background: rgba(0,0,0,0.2); }
         .btn-edit { flex: 1; background: #444; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; }
         .btn-del { background: var(--danger); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
-
         .comment-card { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #f1c40f; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ส่วนฟอร์มแก้ไข/เพิ่ม -->
     <div class="form-card">
         <h2 id="formHeader">✍️ จัดการเนื้อหา</h2>
         <form id="postForm">
@@ -67,7 +50,6 @@
                 <div><label>ซีรีย์ (Series)</label><input type="text" id="series"></div>
                 <div><label>ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
             </div>
-
             <div class="form-grid">
                 <div>
                     <label>หมวดหมู่</label>
@@ -79,64 +61,41 @@
                     </select>
                 </div>
                 <div>
-                    <label>ผู้เขียน/ผู้เทศนา/เจ้าของคำพยาน</label>
+                    <label>ผู้เขียน/ผู้เทศนา</label>
                     <div class="author-input-group">
-                        <select id="authorName">
-                            <option value="คริสตจักร">คริสตจักร</option>
-                        </select>
+                        <select id="authorName"><option value="คริสตจักร">คริสตจักร</option></select>
                         <button type="button" class="btn-add-inline" onclick="addNewAuthor()">+</button>
                     </div>
                 </div>
             </div>
-
             <div class="form-grid">
-                <div><label>รูปปกหน้าแรก (Thumbnail)</label><input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')"><div class="preview-box" id="pre1"></div></div>
-                <div><label>รูปหัวเรื่อง (Header Image)</label><input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')"><div class="preview-box" id="pre2"></div></div>
+                <div><label>Thumbnail</label><input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')"><div class="preview-box" id="pre1"></div></div>
+                <div><label>Header Image</label><input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')"><div class="preview-box" id="pre2"></div></div>
             </div>
-
             <div class="form-grid">
-                <div><label>รายละเอียด 1 (รูป/วิดีโอ)</label><input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')"><div class="preview-box" id="pre3"></div></div>
-                <div><label>รายละเอียด 2 (รูป/วิดีโอ)</label><input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')"><div class="preview-box" id="pre4"></div></div>
-                <div><label>รายละเอียด 3 (รูป/วิดีโอ)</label><input type="text" id="arc3" oninput="forcePreview(this.value, 'pre5')"><div class="preview-box" id="pre5"></div></div>
+                <div><label>Detail 1</label><input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')"><div class="preview-box" id="pre3"></div></div>
+                <div><label>Detail 2</label><input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')"><div class="preview-box" id="pre4"></div></div>
+                <div><label>YouTube 1</label><input type="text" id="yt1"></div>
             </div>
-
-            <div class="form-grid">
-                <div><label>YouTube 1 (Link)</label><input type="text" id="yt1"></div>
-                <div><label>YouTube 2 (Link)</label><input type="text" id="yt2"></div>
-            </div>
-
             <div class="full-width">
                 <label>เนื้อหาหลัก</label>
                 <textarea id="mainContent" rows="6"></textarea>
             </div>
-            <div class="full-width">
-                <label>เนื้อหาเพิ่มเติม</label>
-                <textarea id="extraContent" rows="3"></textarea>
-            </div>
-
             <button type="submit" class="btn-save">🚀 บันทึกข้อมูลทั้งหมด</button>
-            <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิกการแก้ไข</button>
+            <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิก</button>
         </form>
     </div>
 
-    <!-- ส่วนรายการเนื้อหา -->
     <div class="form-card">
-        <h2>📑 รายการเนื้อหาทั้งหมด</h2>
+        <h2>📑 รายการเนื้อหา (แยกตามหมวดหมู่ > ผู้แต่ง > เวลา)</h2>
         <div class="admin-controls">
-            <input type="text" id="adminSearch" class="search-input" placeholder="🔍 ค้นหา ชื่อเรื่อง, ผู้แต่ง, ซีรีย์..." oninput="renderArticles()">
-            <select id="adminSort" class="sort-select" onchange="renderArticles()">
-                <option value="dateDesc">📅 วันที่ล่าสุด</option>
-                <option value="dateAsc">📅 วันที่เก่าสุด</option>
-                <option value="authorAsc">👤 ผู้แต่ง (ก-ฮ/A-Z)</option>
-                <option value="seriesAsc">🎞️ ซีรีย์ (ก-ฮ/A-Z)</option>
-            </select>
+            <input type="text" id="adminSearch" class="search-input" placeholder="🔍 ค้นหาบทความ..." oninput="renderArticles()">
         </div>
         <div id="articleContainer">กำลังโหลด...</div>
     </div>
 
-    <!-- ส่วนจัดการคอมเมนต์ -->
     <div class="form-card">
-        <h2>🛠️ จัดการ Rating & คอมเมนต์</h2>
+        <h2>🛠️ จัดการคอมเมนต์</h2>
         <div id="adminCommentList">กำลังโหลด...</div>
     </div>
 </div>
@@ -155,42 +114,26 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     let allArticles = [];
 
-    // ฟังก์ชันพรีวิวรูปภาพ
     window.forcePreview = (url, id) => {
         const box = document.getElementById(id);
-        if(url && url.trim() !== "") {
-            box.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<small>Active</small>'">`;
-        } else { box.innerHTML = `<small style="color:#666">ว่าง</small>`; }
+        box.innerHTML = url ? `<img src="${url}">` : `<small>ว่าง</small>`;
     };
 
-    // --- ระบบจัดการ Authors ---
     onSnapshot(collection(db, "authors"), (snap) => {
         const select = document.getElementById('authorName');
-        const currentVal = select.value;
         select.innerHTML = '<option value="คริสตจักร">คริสตจักร</option>';
-        let authors = [];
-        snap.forEach(d => authors.push(d.data().name));
-        authors.sort((a, b) => a.localeCompare(b, 'th')); // เรียง ก-ฮ
-        authors.forEach(name => {
-            select.innerHTML += `<option value="${name}">${name}</option>`;
+        snap.forEach(d => {
+            select.innerHTML += `<option value="${d.data().name}">${d.data().name}</option>`;
         });
-        select.value = currentVal;
     });
 
     window.addNewAuthor = async () => {
-        const name = prompt("กรอกชื่อผู้แต่ง/ผู้เทศนาคนใหม่:");
-        if (name && name.trim() !== "") {
-            try {
-                await addDoc(collection(db, "authors"), { name: name.trim(), createdAt: serverTimestamp() });
-                alert("เพิ่มรายชื่อสำเร็จ");
-            } catch (e) { alert("เกิดข้อผิดพลาด"); }
-        }
+        const name = prompt("ชื่อผู้แต่งใหม่:");
+        if (name) await addDoc(collection(db, "authors"), { name, createdAt: serverTimestamp() });
     };
 
-    // --- โหลดและแสดงผลบทความ ---
     onSnapshot(collection(db, "articles"), (snap) => {
         allArticles = [];
         snap.forEach(d => allArticles.push({ id: d.id, ...d.data() }));
@@ -198,136 +141,62 @@
     });
 
     window.renderArticles = () => {
-    const searchTxt = document.getElementById('adminSearch').value.toLowerCase();
-    const container = document.getElementById('articleContainer');
-    
-    // 1. กรองข้อมูลตามที่ค้นหา
-    let filtered = allArticles.filter(a => 
-        (a.title || "").toLowerCase().includes(searchTxt) || 
-        (a.authorName || "").toLowerCase().includes(searchTxt) ||
-        (a.category || "").toLowerCase().includes(searchTxt)
-    );
+        const searchTxt = document.getElementById('adminSearch').value.toLowerCase();
+        const container = document.getElementById('articleContainer');
+        container.innerHTML = "";
 
-    // 2. จัดกลุ่มข้อมูล (Nested Grouping)
-    // ลำดับ: Category -> Author -> Year -> Month
-    const groupedData = {};
+        let filtered = allArticles.filter(a => (a.title || "").toLowerCase().includes(searchTxt) || (a.authorName || "").toLowerCase().includes(searchTxt));
 
-    filtered.forEach(art => {
-        const cat = art.category || "ทั่วไป";
-        const author = art.authorName || "คริสตจักร";
-        const dateObj = new Date(art.displayDate);
-        const year = dateObj.getFullYear() + 543; // พ.ศ.
-        const month = dateObj.toLocaleString('th-TH', { month: 'long' });
+        const groupedData = {};
+        filtered.forEach(art => {
+            const cat = art.category || "ทั่วไป";
+            const author = art.authorName || "คริสตจักร";
+            const dateObj = new Date(art.displayDate);
+            const year = dateObj.getFullYear() + 543;
+            const month = dateObj.toLocaleString('th-TH', { month: 'long' });
 
-        if (!groupedData[cat]) groupedData[cat] = {};
-        if (!groupedData[cat][author]) groupedData[cat][author] = {};
-        if (!groupedData[cat][author][year]) groupedData[cat][author][year] = {};
-        if (!groupedData[cat][author][year][month]) groupedData[cat][author][year][month] = [];
+            if (!groupedData[cat]) groupedData[cat] = {};
+            if (!groupedData[cat][author]) groupedData[cat][author] = {};
+            if (!groupedData[cat][author][year]) groupedData[cat][author][year] = {};
+            if (!groupedData[cat][author][year][month]) groupedData[cat][author][year][month] = [];
+            groupedData[cat][author][year][month].push(art);
+        });
 
-        groupedData[cat][author][year][month].push(art);
-    });
-
-    // 3. แสดงผลออกทางหน้าจอ
-    container.innerHTML = "";
-    
-    if (Object.keys(groupedData).length === 0) {
-        container.innerHTML = "<p style='text-align:center; color:#888;'>ไม่พบข้อมูล</p>";
-        return;
-    }
-
-    for (const cat in groupedData) {
-        // --- ส่วนแสดงหมวดหมู่ (หลัก) ---
-        const catSection = document.createElement('div');
-        catSection.innerHTML = `<div class="category-group-title">${cat}</div>`;
-        
-        for (const author in groupedData[cat]) {
-            // --- ส่วนแสดงผู้แต่ง ---
-            const authorDiv = document.createElement('div');
-            authorDiv.innerHTML = `<h3 style="color:#f1c40f; margin: 15px 0 5px 15px; font-size: 1.1rem;">👤 ผู้เขียน: ${author}</h3>`;
-            catSection.appendChild(authorDiv);
-
-            for (const year in groupedData[cat][author]) {
-                // --- ส่วนแสดงปี ---
-                for (const month in groupedData[cat][author][year]) {
-                    // --- ส่วนแสดงเดือน ---
-                    const monthGroup = document.createElement('div');
-                    monthGroup.style.margin = "10px 0 20px 25px";
-                    monthGroup.innerHTML = `<div style="color:#4dabff; font-weight:bold; margin-bottom:10px;">📅 ${month} ${year}</div>`;
-                    
-                    const grid = document.createElement('div');
-                    grid.className = "article-grid";
-
-                    groupedData[cat][author][year][month].forEach(r => {
-                        const card = document.createElement('div');
-                        card.className = "article-card";
-                        card.innerHTML = `
-                            <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
-                            <div class="article-info">
-                                <h4>${r.title}</h4>
-                                <span style="font-size:12px; color:#888;">📅 ${r.displayDate}</span>
-                            </div>
-                            <div class="article-btns">
-                                <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
-                                <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
-                            </div>`;
-                        grid.appendChild(card);
-                    });
-                    
-                    monthGroup.appendChild(grid);
-                    catSection.appendChild(monthGroup);
+        for (const cat in groupedData) {
+            const catSection = document.createElement('div');
+            catSection.innerHTML = `<div class="category-group-title">${cat}</div>`;
+            for (const author in groupedData[cat]) {
+                const authorDiv = document.createElement('div');
+                authorDiv.innerHTML = `<h3 style="color:#f1c40f; margin:15px 0 5px 15px;">👤 ${author}</h3>`;
+                catSection.appendChild(authorDiv);
+                for (const year in groupedData[cat][author]) {
+                    for (const month in groupedData[cat][author][year]) {
+                        const mGroup = document.createElement('div');
+                        mGroup.style.margin = "10px 0 20px 25px";
+                        mGroup.innerHTML = `<div style="color:#4dabff; font-weight:bold;">📅 ${month} ${year}</div>`;
+                        const grid = document.createElement('div');
+                        grid.className = "article-grid";
+                        groupedData[cat][author][year][month].forEach(r => {
+                            const card = document.createElement('div');
+                            card.className = "article-card";
+                            card.innerHTML = `
+                                <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
+                                <div class="article-info"><h4>${r.title}</h4><span style="font-size:12px; color:#888;">${r.displayDate}</span></div>
+                                <div class="article-btns">
+                                    <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
+                                    <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
+                                </div>`;
+                            grid.appendChild(card);
+                        });
+                        mGroup.appendChild(grid);
+                        catSection.appendChild(mGroup);
+                    }
                 }
             }
+            container.appendChild(catSection);
         }
-        container.appendChild(catSection);
-    }
-};
-
-        // ระบบเรียงลำดับ
-        filtered.sort((a, b) => {
-            if (sortType === 'dateDesc') return (b.displayDate || "").localeCompare(a.displayDate || "");
-            if (sortType === 'dateAsc') return (a.displayDate || "").localeCompare(b.displayDate || "");
-            if (sortType === 'authorAsc') return (a.authorName || "").localeCompare(b.authorName || "", 'th');
-            if (sortType === 'seriesAsc') return (a.series || "").localeCompare(b.series || "", 'th');
-            return 0;
-        });
-
-        const categories = [...new Set(filtered.map(a => a.category))];
-        container.innerHTML = "";
-        
-        if (filtered.length === 0) {
-            container.innerHTML = "<p style='text-align:center; color:#888;'>ไม่พบข้อมูลที่ค้นหา</p>";
-            return;
-        }
-
-        categories.forEach(cat => {
-            const catArts = filtered.filter(a => a.category === cat);
-            const section = document.createElement('div');
-            section.innerHTML = `<div class="category-group-title">${cat} (${catArts.length})</div>`;
-            const grid = document.createElement('div');
-            grid.className = "article-grid";
-            catArts.forEach(r => {
-                const div = document.createElement('div');
-                div.className = "article-card";
-                div.innerHTML = `
-                    <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
-                    <div class="article-info">
-                        <h4>${r.title}</h4>
-                        <div class="author-display">👤 ${r.authorName || "คริสตจักร"}</div>
-                        <div style="font-size:12px; color:#aaa; margin-top:5px;">📂 ${r.series || 'ไม่มีซีรีย์'}</div>
-                        <span style="font-size:12px; color:#888;">📅 ${r.displayDate}</span>
-                    </div>
-                    <div class="article-btns">
-                        <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
-                        <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
-                    </div>`;
-                grid.appendChild(div);
-            });
-            section.appendChild(grid);
-            container.appendChild(section);
-        });
     };
 
-    // --- ระบบ Rating & Comment (ห้ามลบ/ห้ามเปลี่ยน) ---
     onSnapshot(collection(db, "ratings"), (snap) => {
         const list = document.getElementById('adminCommentList');
         list.innerHTML = "";
@@ -335,48 +204,29 @@
             const c = d.data();
             const div = document.createElement('div');
             div.className = "comment-card";
-            div.style.borderLeft = `5px solid ${c.approved ? '#27ae60' : '#f1c40f'}`;
-            div.innerHTML = `
-                <div><strong>👤 ${c.userName}</strong> (${c.rating}★) ${c.approved ? '✅' : '⏳'}<p>💬 ${c.comment}</p></div>
-                <div>
-                    ${!c.approved ? `<button style="background:var(--success); color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="approve('${d.id}')">อนุมัติ</button>` : ''}
-                    <button style="background:var(--danger); color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="delCom('${d.id}')">ลบ</button>
-                </div>`;
+            div.innerHTML = `<div><strong>${c.userName}</strong>: ${c.comment}</div>
+                <div><button class="btn-del" onclick="delCom('${d.id}')">ลบ</button></div>`;
             list.appendChild(div);
         });
     });
 
-    window.approve = async (id) => { await updateDoc(doc(db, "ratings", id), { approved: true }); };
-    window.delCom = async (id) => { if(confirm("ลบคอมเมนต์นี้?")) await deleteDoc(doc(db, "ratings", id)); };
+    window.delCom = async (id) => { if(confirm("ลบ?")) await deleteDoc(doc(db, "ratings", id)); };
 
-    // --- บันทึกบทความ ---
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
         const id = document.getElementById('editId').value;
         const data = {
             displayDate: document.getElementById('customDate').value,
             title: document.getElementById('title').value,
-            series: document.getElementById('series').value,
-            bibleRef: document.getElementById('bibleRef').value,
             category: document.getElementById('category').value,
             authorName: document.getElementById('authorName').value,
             thumbUrl: document.getElementById('thumbUrl').value,
-            headerImg: document.getElementById('headerImg').value,
-            arc1: document.getElementById('arc1').value,
-            arc2: document.getElementById('arc2').value,
-            arc3: document.getElementById('arc3').value,
-            yt1: document.getElementById('yt1').value,
-            yt2: document.getElementById('yt2').value,
-            mainContent: document.getElementById('mainContent').value,
-            extraContent: document.getElementById('extraContent').value,
             updatedAt: serverTimestamp()
         };
-        try {
-            if(id) await updateDoc(doc(db, "articles", id), data);
-            else { data.createdAt = serverTimestamp(); await addDoc(collection(db, "articles"), data); }
-            alert("บันทึกสำเร็จ!");
-            resetForm();
-        } catch(e) { alert("ล้มเหลว"); }
+        if(id) await updateDoc(doc(db, "articles", id), data);
+        else await addDoc(collection(db, "articles"), data);
+        alert("บันทึกแล้ว");
+        resetForm();
     };
 
     window.editArt = async (id) => {
@@ -385,31 +235,14 @@
         document.getElementById('editId').value = id;
         document.getElementById('customDate').value = r.displayDate;
         document.getElementById('title').value = r.title;
-        document.getElementById('series').value = r.series || "";
-        document.getElementById('bibleRef').value = r.bibleRef || "";
         document.getElementById('category').value = r.category;
-        document.getElementById('authorName').value = r.authorName || "คริสตจักร";
-        document.getElementById('thumbUrl').value = r.thumbUrl || "";
-        document.getElementById('headerImg').value = r.headerImg || "";
-        document.getElementById('arc1').value = r.arc1 || "";
-        document.getElementById('arc2').value = r.arc2 || "";
-        document.getElementById('arc3').value = r.arc3 || "";
-        document.getElementById('yt1').value = r.yt1 || "";
-        document.getElementById('yt2').value = r.yt2 || "";
-        document.getElementById('mainContent').value = r.mainContent || "";
-        document.getElementById('extraContent').value = r.extraContent || "";
-        forcePreview(r.thumbUrl, 'pre1'); forcePreview(r.headerImg, 'pre2');
-        forcePreview(r.arc1, 'pre3'); forcePreview(r.arc2, 'pre4'); forcePreview(r.arc3, 'pre5');
+        document.getElementById('authorName').value = r.authorName;
+        document.getElementById('thumbUrl').value = r.thumbUrl;
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    window.resetForm = () => {
-        document.getElementById('postForm').reset();
-        document.getElementById('editId').value = "";
-        ['pre1','pre2','pre3','pre4','pre5'].forEach(id => document.getElementById(id).innerHTML = "");
-    };
-
-    window.delArt = async (id) => { if(confirm("ต้องการลบ?")) await deleteDoc(doc(db, "articles", id)); };
+    window.resetForm = () => { document.getElementById('postForm').reset(); document.getElementById('editId').value = ""; };
+    window.delArt = async (id) => { if(confirm("ลบ?")) await deleteDoc(doc(db, "articles", id)); };
 </script>
 </body>
 </html>
