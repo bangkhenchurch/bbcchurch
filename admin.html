@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Full & Catalog)</title>
+    <title>BBC Church - Admin Center (Complete Version)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
@@ -37,16 +37,19 @@
 
 <div class="container">
     <div class="form-card">
-        <h2 id="formHeader">✍️ จัดการเนื้อหา (Full Version)</h2>
+        <h2 id="formHeader">✍️ จัดการเนื้อหา (ตรวจสอบครบทุกช่องแล้ว)</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
+            
+            <!-- ส่วนที่ 1: ข้อมูลพื้นฐาน -->
             <div class="form-grid">
                 <div><label>วันที่</label><input type="date" id="customDate" required></div>
-                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+                <div><label>หัวข้อเรื่อง (Title)</label><input type="text" id="title" required></div>
                 <div><label>ซีรีย์ (Series)</label><input type="text" id="series"></div>
-                <div><label>ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
+                <div><label>ข้อพระธรรม (Bible Reference)</label><input type="text" id="bibleRef"></div>
             </div>
 
+            <!-- ส่วนที่ 2: หมวดหมู่และผู้แต่ง -->
             <div class="form-grid">
                 <div>
                     <label>หมวดหมู่</label>
@@ -66,38 +69,40 @@
                 </div>
             </div>
 
+            <!-- ส่วนที่ 3: ลิ้งก์รูปภาพ (4 ช่องครบ) -->
             <div class="form-grid">
                 <div><label>ลิ้งรูปปก (Thumbnail)</label><input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')"><div class="preview-box" id="pre1"></div></div>
                 <div><label>ลิ้งรูปนำ (Header Image)</label><input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')"><div class="preview-box" id="pre2"></div></div>
             </div>
-
             <div class="form-grid">
                 <div><label>ลิ้งรูปรายละเอียด 1</label><input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')"><div class="preview-box" id="pre3"></div></div>
                 <div><label>ลิ้งรูปรายละเอียด 2</label><input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')"><div class="preview-box" id="pre4"></div></div>
             </div>
 
+            <!-- ส่วนที่ 4: ลิ้งก์วิดีโอ (2 ช่องครบ) -->
             <div class="form-grid">
                 <div><label>ลิ้งยูทูบ 1</label><input type="text" id="yt1"></div>
                 <div><label>ลิ้งยูทูบ 2</label><input type="text" id="yt2"></div>
             </div>
 
+            <!-- ส่วนที่ 5: เนื้อหาและหมายเหตุ -->
             <div class="full-width">
                 <label>เนื้อหาหลัก</label>
                 <textarea id="mainContent" rows="6"></textarea>
             </div>
             <div class="full-width">
-                <label>เนื้อหาเพิ่มเติม</label>
+                <label>หมายเหตุ / เนื้อหาเพิ่มเติม</label>
                 <textarea id="extraContent" rows="3"></textarea>
             </div>
 
             <button type="submit" class="btn-save">🚀 บันทึกข้อมูลทั้งหมด</button>
-            <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิก</button>
+            <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิกการแก้ไข</button>
         </form>
     </div>
 
     <div class="form-card">
-        <h2>📑 รายการเนื้อหา (หมวดหมู่ > ผู้เขียน > เวลา)</h2>
-        <div id="articleContainer">กำลังโหลด...</div>
+        <h2>📑 รายการเนื้อหา (แยกตามหมวดหมู่ > ผู้แต่ง > เวลา)</h2>
+        <div id="articleContainer">กำลังโหลดข้อมูล...</div>
     </div>
 </div>
 
@@ -117,41 +122,47 @@
     const db = getFirestore(app);
     let allArticles = [];
 
+    // ฟังก์ชันพรีวิวรูป
     window.forcePreview = (url, id) => {
         const box = document.getElementById(id);
-        box.innerHTML = url ? `<img src="${url}">` : `<small>ว่าง</small>`;
+        box.innerHTML = url ? `<img src="${url}">` : `<small>ไม่มีรูป</small>`;
     };
 
+    // ดึงรายชื่อผู้แต่ง
     onSnapshot(collection(db, "authors"), (snap) => {
         const select = document.getElementById('authorName');
         select.innerHTML = '<option value="คริสตจักร">คริสตจักร</option>';
         snap.forEach(d => { select.innerHTML += `<option value="${d.data().name}">${d.data().name}</option>`; });
     });
 
+    // เพิ่มผู้แต่งใหม่ (+)
     window.addNewAuthor = async () => {
-        const name = prompt("ชื่อผู้แต่งใหม่:");
+        const name = prompt("กรุณาใส่ชื่อผู้แต่ง/ผู้เทศนาใหม่:");
         if (name) await addDoc(collection(db, "authors"), { name, createdAt: serverTimestamp() });
     };
 
+    // ดึงบทความและจัดเรียง
     onSnapshot(collection(db, "articles"), (snap) => {
         allArticles = [];
         snap.forEach(d => allArticles.push({ id: d.id, ...d.data() }));
         renderArticles();
     });
 
+    // แสดงผลรายการแบบแยกกลุ่ม (หมวดหมู่ > ผู้แต่ง > เวลา)
     window.renderArticles = () => {
         const container = document.getElementById('articleContainer');
         container.innerHTML = "";
         const groupedData = {};
 
+        // เรียงวันที่ใหม่ไปเก่า
         allArticles.sort((a, b) => new Date(b.displayDate) - new Date(a.displayDate));
 
         allArticles.forEach(art => {
-            const cat = art.category || "ทั่วไป";
+            const cat = art.category || "📢 ข่าวสารคริสตจักร";
             const author = art.authorName || "คริสตจักร";
             const dateObj = new Date(art.displayDate);
-            const year = dateObj.getFullYear() + 543;
-            const month = dateObj.toLocaleString('th-TH', { month: 'long' });
+            const year = isNaN(dateObj) ? "ไม่ระบุปี" : dateObj.getFullYear() + 543;
+            const month = isNaN(dateObj) ? "ไม่ระบุเดือน" : dateObj.toLocaleString('th-TH', { month: 'long' });
 
             if (!groupedData[cat]) groupedData[cat] = {};
             if (!groupedData[cat][author]) groupedData[cat][author] = {};
@@ -177,7 +188,8 @@
                         groupedData[cat][author][year][month].forEach(r => {
                             const card = document.createElement('div');
                             card.className = "article-card";
-                            card.innerHTML = `<div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
+                            card.innerHTML = `
+                                <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
                                 <div class="article-info"><h4>${r.title}</h4><span style="font-size:12px; color:#888;">${r.displayDate}</span></div>
                                 <div class="article-btns">
                                     <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
@@ -194,6 +206,7 @@
         }
     };
 
+    // บันทึกข้อมูล (Add/Update)
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
         const id = document.getElementById('editId').value;
@@ -217,11 +230,12 @@
         try {
             if(id) await updateDoc(doc(db, "articles", id), data);
             else await addDoc(collection(db, "articles"), data);
-            alert("บันทึกข้อมูลเรียบร้อยแล้ว!"); 
+            alert("✅ บันทึกข้อมูลเรียบร้อยแล้ว!"); 
             resetForm();
-        } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+        } catch (err) { alert("❌ เกิดข้อผิดพลาด: " + err.message); }
     };
 
+    // แก้ไขข้อมูล (ดึงค่ากลับมาใส่ฟอร์ม)
     window.editArt = async (id) => {
         const s = await getDoc(doc(db, "articles", id));
         if (!s.exists()) return;
@@ -241,20 +255,27 @@
         document.getElementById('yt2').value = r.yt2 || "";
         document.getElementById('mainContent').value = r.mainContent || "";
         document.getElementById('extraContent').value = r.extraContent || "";
+        
+        // อัปเดตพรีวิวรูป
         forcePreview(r.thumbUrl, 'pre1');
         forcePreview(r.headerImg, 'pre2');
         forcePreview(r.arc1, 'pre3');
         forcePreview(r.arc2, 'pre4');
+        
         window.scrollTo({top: 0, behavior: 'smooth'});
+        document.getElementById('formHeader').innerText = "📝 กำลังแก้ไข: " + r.title;
     };
 
+    // รีเซ็ตฟอร์ม
     window.resetForm = () => { 
         document.getElementById('postForm').reset(); 
         document.getElementById('editId').value = ""; 
+        document.getElementById('formHeader').innerText = "✍️ จัดการเนื้อหา";
         ['pre1','pre2','pre3','pre4'].forEach(id => document.getElementById(id).innerHTML = "");
     };
 
-    window.delArt = async (id) => { if(confirm("คุณต้องการลบเนื้อหานี้ใช่หรือไม่?")) await deleteDoc(doc(db, "articles", id)); };
+    // ลบบทความ
+    window.delArt = async (id) => { if(confirm("ยืนยันการลบข้อมูลนี้อย่างถาวร?")) await deleteDoc(doc(db, "articles", id)); };
 </script>
 </body>
 </html>
