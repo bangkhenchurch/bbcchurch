@@ -198,15 +198,89 @@
     });
 
     window.renderArticles = () => {
-        const searchTxt = document.getElementById('adminSearch').value.toLowerCase();
-        const sortType = document.getElementById('adminSort').value;
-        const container = document.getElementById('articleContainer');
+    const searchTxt = document.getElementById('adminSearch').value.toLowerCase();
+    const container = document.getElementById('articleContainer');
+    
+    // 1. กรองข้อมูลตามที่ค้นหา
+    let filtered = allArticles.filter(a => 
+        (a.title || "").toLowerCase().includes(searchTxt) || 
+        (a.authorName || "").toLowerCase().includes(searchTxt) ||
+        (a.category || "").toLowerCase().includes(searchTxt)
+    );
+
+    // 2. จัดกลุ่มข้อมูล (Nested Grouping)
+    // ลำดับ: Category -> Author -> Year -> Month
+    const groupedData = {};
+
+    filtered.forEach(art => {
+        const cat = art.category || "ทั่วไป";
+        const author = art.authorName || "คริสตจักร";
+        const dateObj = new Date(art.displayDate);
+        const year = dateObj.getFullYear() + 543; // พ.ศ.
+        const month = dateObj.toLocaleString('th-TH', { month: 'long' });
+
+        if (!groupedData[cat]) groupedData[cat] = {};
+        if (!groupedData[cat][author]) groupedData[cat][author] = {};
+        if (!groupedData[cat][author][year]) groupedData[cat][author][year] = {};
+        if (!groupedData[cat][author][year][month]) groupedData[cat][author][year][month] = [];
+
+        groupedData[cat][author][year][month].push(art);
+    });
+
+    // 3. แสดงผลออกทางหน้าจอ
+    container.innerHTML = "";
+    
+    if (Object.keys(groupedData).length === 0) {
+        container.innerHTML = "<p style='text-align:center; color:#888;'>ไม่พบข้อมูล</p>";
+        return;
+    }
+
+    for (const cat in groupedData) {
+        // --- ส่วนแสดงหมวดหมู่ (หลัก) ---
+        const catSection = document.createElement('div');
+        catSection.innerHTML = `<div class="category-group-title">${cat}</div>`;
         
-        let filtered = allArticles.filter(a => 
-            (a.title || "").toLowerCase().includes(searchTxt) || 
-            (a.authorName || "").toLowerCase().includes(searchTxt) || 
-            (a.series || "").toLowerCase().includes(searchTxt)
-        );
+        for (const author in groupedData[cat]) {
+            // --- ส่วนแสดงผู้แต่ง ---
+            const authorDiv = document.createElement('div');
+            authorDiv.innerHTML = `<h3 style="color:#f1c40f; margin: 15px 0 5px 15px; font-size: 1.1rem;">👤 ผู้เขียน: ${author}</h3>`;
+            catSection.appendChild(authorDiv);
+
+            for (const year in groupedData[cat][author]) {
+                // --- ส่วนแสดงปี ---
+                for (const month in groupedData[cat][author][year]) {
+                    // --- ส่วนแสดงเดือน ---
+                    const monthGroup = document.createElement('div');
+                    monthGroup.style.margin = "10px 0 20px 25px";
+                    monthGroup.innerHTML = `<div style="color:#4dabff; font-weight:bold; margin-bottom:10px;">📅 ${month} ${year}</div>`;
+                    
+                    const grid = document.createElement('div');
+                    grid.className = "article-grid";
+
+                    groupedData[cat][author][year][month].forEach(r => {
+                        const card = document.createElement('div');
+                        card.className = "article-card";
+                        card.innerHTML = `
+                            <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
+                            <div class="article-info">
+                                <h4>${r.title}</h4>
+                                <span style="font-size:12px; color:#888;">📅 ${r.displayDate}</span>
+                            </div>
+                            <div class="article-btns">
+                                <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
+                                <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
+                            </div>`;
+                        grid.appendChild(card);
+                    });
+                    
+                    monthGroup.appendChild(grid);
+                    catSection.appendChild(monthGroup);
+                }
+            }
+        }
+        container.appendChild(catSection);
+    }
+};
 
         // ระบบเรียงลำดับ
         filtered.sort((a, b) => {
