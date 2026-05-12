@@ -45,16 +45,23 @@
         margin-top: 20px; 
     }
 
-    /* ส่วนที่แก้ไข: รวมคุณสมบัติทั้งหมดไว้ในบล็อกเดียว */
     .counter-section {
-        text-align: center;
-        border-top: 1px solid #eee;
-        padding: 30px 15px;
-        background: #1a1a1a; /* ใส่พื้นหลังเข้มเพื่อให้แยกจากตัวบทความ */
-        border-radius: 15px;
-        margin: 40px 0; /* ปรับ margin ตามความเหมาะสม */
-        color: #ffffff; /* เพิ่มเพื่อให้ข้อความในพื้นหลังสีเข้มอ่านง่ายขึ้น */
-    }
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding: 30px 15px;
+    background: #1a1a1a; 
+    border-radius: 15px;
+    margin: 40px 0;
+    color: #ffffff;
+    overflow: hidden; /* ป้องกันเนื้อหาส่วนที่เกินโผล่ออกมา */
+}
+
+/* คุมขนาด Flag Counter ให้เล็กลงตามหน้าจอมือถือ */
+.counter-section img {
+    max-width: 100% !important; 
+    height: auto !important;
+    display: inline-block;
+}
 
     .qr-code { 
         width: 140px; 
