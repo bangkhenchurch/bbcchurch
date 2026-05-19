@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Complete Version)</title>
+    <title>BBC Church - Admin Center (Upload Version)</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
@@ -39,7 +39,7 @@
 
 <div class="container">
     <div class="form-card">
-        <h2 id="formHeader">✍️ จัดการเนื้อหา (อัปโหลดรูปภาพ & ลิ้งก์ YouTube)</h2>
+        <h2 id="formHeader">✍️ จัดการเนื้อหา (อัปโหลดรูปภาพจากเครื่อง & ลิ้งก์ YouTube)</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
             
@@ -78,19 +78,19 @@
 
             <div class="form-grid">
                 <div>
-                    <label>📸 อัปโหลดรูปปก (Thumbnail)</label>
+                    <label>📸 เลือกรูปปก (Thumbnail)</label>
                     <input type="file" id="thumbFile" accept="image/*">
                     <input type="hidden" id="thumbUrl">
                     <div class="preview-box" id="pre1"><small>ไม่มีรูปปก</small></div>
                 </div>
                 <div>
-                    <label>🖼️ อัปโหลดรูปรายละเอียด 1</label>
+                    <label>🖼️ เลือกรูปรายละเอียด 1</label>
                     <input type="file" id="arc1File" accept="image/*">
                     <input type="hidden" id="arc1">
                     <div class="preview-box" id="pre2"><small>ไม่มีรูปรายละเอียด 1</small></div>
                 </div>
                 <div>
-                    <label>🖼️ อัปโหลดรูปรายละเอียด 2</label>
+                    <label>🖼️ เลือกรูปรายละเอียด 2</label>
                     <input type="file" id="arc2File" accept="image/*">
                     <input type="hidden" id="arc2">
                     <div class="preview-box" id="pre3"><small>ไม่มีรูปรายละเอียด 2</small></div>
@@ -111,7 +111,7 @@
                 <textarea id="extraContent" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn-save" id="btnSubmit">🚀 บันทึกข้อมูลทั้งหมด</button>
+            <button type="submit" class="btn-save" id="btnSubmit">🚀 บันทึกข้อมูลและอัปโหลดรูปภาพทั้งหมด</button>
             <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิกการแก้ไข</button>
         </form>
     </div>
@@ -146,12 +146,12 @@
         box.innerHTML = url ? `<img src="${url}">` : `<small>ไม่มีรูป</small>`;
     };
 
-    // แก้ไขฟังก์ชันให้ชี้ไปที่โฟลเดอร์ uploads เสมอตามกฎ Rules
+    // ฟังก์ชันช่วยอัปโหลดรูปเข้าโฟลเดอร์ uploads/ โดยตรงเพื่อให้ผ่านกฎ 'allow write: if true;'
     async function uploadImageHelper(fileInputId, hiddenInputId, previewId) {
         const fileInput = document.getElementById(fileInputId);
         if (fileInput.files.length > 0) {
             const file = fileInput.files[0];
-            // ตั้งชื่อให้ไฟล์ขึ้นต้นด้วยโฟลเดอร์ uploads/ เพื่อให้ผ่าน Security Rules
+            // ระบุโครงสร้างโฟลเดอร์ให้เป็น uploads/ เสมอตามกติกา Rules ของ Storage
             const fileName = `uploads/${Date.now()}_${file.name}`;
             const storageRef = ref(storage, fileName);
             
@@ -162,16 +162,16 @@
             forcePreview(downloadUrl, previewId);
             return downloadUrl;
         }
-        return document.getElementById(hiddenInputId).value; 
+        return document.getElementById(hiddenInputId).value; // ใช้ค่าเดิมในกรณีแก้ไขแล้วไม่ได้เลือกภาพใหม่
     }
 
-    // แสดงพรีวิวรูปในเครื่องทันทีเมื่อผู้ใช้งานเลือกไฟล์
+    // แสดงพรีวิวรูปในเครื่องทันทีเมื่อเลือกไฟล์ (Local Preview)
     const setupLocalPreview = (fileId, preId) => {
         document.getElementById(fileId).addEventListener('change', function(e) {
             if(this.files && this.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(ex) {
-                    document.getElementById(preId).innerHTML = `<img src="${ex.target.result}" style="opacity: 0.7;"> <br><small style="color:#4dabff;">(เลือกไฟล์แล้ว รออัปโหลดเมื่อกดบันทึก)</small>`;
+                    document.getElementById(preId).innerHTML = `<img src="${ex.target.result}" style="opacity: 0.6;"> <br><small style="color:#4dabff;">(เลือกไฟล์แล้ว รออัปโหลดตอนบันทึก)</small>`;
                 };
                 reader.readAsDataURL(this.files[0]);
             }
@@ -263,7 +263,7 @@
         }
     };
 
-    // บันทึกข้อมูล
+    // บันทึกข้อมูล (Add/Update พร้อมส่งภาพขึ้นคลาวด์)
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
         const btnSubmit = document.getElementById('btnSubmit');
@@ -271,7 +271,7 @@
         btnSubmit.innerText = "⏳ กำลังอัปโหลดรูปภาพและบันทึกข้อมูล...";
 
         try {
-            // อัปโหลดรูปภาพเข้าสู่โฟลเดอร์ uploads/ ตามสิทธิ์ของ Rules
+            // อัปโหลดรูปภาพเข้าสู่โฟลเดอร์ uploads/ ตามการปลดล็อกสิทธิ์ของ Rules
             const thumbUrl = await uploadImageHelper('thumbFile', 'thumbUrl', 'pre1');
             const arc1Url = await uploadImageHelper('arc1File', 'arc1', 'pre2');
             const arc2Url = await uploadImageHelper('arc2File', 'arc2', 'pre3');
@@ -304,12 +304,13 @@
             resetForm();
         } catch (err) { 
             alert("❌ เกิดข้อผิดพลาด: " + err.message); 
+        } finally {
             btnSubmit.disabled = false;
-            btnSubmit.innerText = "🚀 บันทึกข้อมูลทั้งหมด";
+            btnSubmit.innerText = "🚀 บันทึกข้อมูลและอัปโหลดรูปภาพทั้งหมด";
         }
     };
 
-    // แก้ไขข้อมูล
+    // แก้ไขข้อมูล (ดึงค่าเก่ามาใส่ในฟอร์มเพื่อแก้ไข)
     window.editArt = async (id) => {
         const s = await getDoc(doc(db, "articles", id));
         if (!s.exists()) return;
@@ -323,6 +324,7 @@
         document.getElementById('authorName').value = r.authorName || "คริสตจักร";
         document.getElementById('status').value = r.status || "pending";
         
+        // บันทึก URL รูปภาพที่มีอยู่เดิมลงฟิลด์ซ่อนไว้
         document.getElementById('thumbUrl').value = r.thumbUrl || "";
         document.getElementById('arc1').value = r.arc1 || "";
         document.getElementById('arc2').value = r.arc2 || "";
@@ -332,6 +334,7 @@
         document.getElementById('mainContent').value = r.mainContent || "";
         document.getElementById('extraContent').value = r.extraContent || "";
         
+        // วาดรูปพรีวิวเดิมให้โชว์
         forcePreview(r.thumbUrl, 'pre1');
         forcePreview(r.arc1, 'pre2');
         forcePreview(r.arc2, 'pre3');
@@ -340,22 +343,20 @@
         document.getElementById('formHeader').innerText = "📝 กำลังแก้ไข: " + r.title;
     };
 
-    // รีเซ็ตฟอร์ม
+    // รีเซ็ตฟอร์มกลับคืนค่าว่าง
     window.resetForm = () => { 
         document.getElementById('postForm').reset(); 
         document.getElementById('editId').value = ""; 
         document.getElementById('thumbUrl').value = "";
         document.getElementById('arc1').value = "";
         document.getElementById('arc2').value = "";
-        document.getElementById('formHeader').innerText = "✍️ จัดการเนื้อหา";
+        document.getElementById('formHeader').innerText = "✍️ จัดการเนื้อหา (อัปโหลดรูปภาพจากเครื่อง & ลิ้งก์ YouTube)";
         document.getElementById('pre1').innerHTML = "<small>ไม่มีรูปปก</small>";
         document.getElementById('pre2').innerHTML = "<small>ไม่มีรูปรายละเอียด 1</small>";
         document.getElementById('pre3').innerHTML = "<small>ไม่มีรูปรายละเอียด 2</small>";
-        document.getElementById('btnSubmit').disabled = false;
-        document.getElementById('btnSubmit').innerText = "🚀 บันทึกข้อมูลทั้งหมด";
     };
 
-    // ลบบทความ
+    // ลบบทความอย่างถาวร
     window.delArt = async (id) => { if(confirm("ยืนยันการลบข้อมูลนี้อย่างถาวร?")) await deleteDoc(doc(db, "articles", id)); };
 </script>
 </body>
