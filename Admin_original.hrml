@@ -33,6 +33,19 @@
         .btn-edit { flex: 1; background: #444; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; }
         .btn-del { background: var(--danger); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
         .category-group-title { background: var(--accent); color: white; padding: 10px 20px; border-radius: 8px; margin: 30px 0 15px 0; font-family: 'Prompt'; font-size: 18px; }
+
+        /* สไตล์ตาราง QC ความความคิดเห็นที่เพิ่มเข้ามาใหม่ */
+        .comment-table-container { width: 100%; overflow-x: auto; margin-top: 15px; }
+        .comment-table { width: 100%; border-collapse: collapse; background: #222; text-align: left; font-size: 14px; }
+        .comment-table th, .comment-table td { padding: 12px; border: 1px solid #333; }
+        .comment-table th { background: #2c3e50; color: #4dabff; font-family: 'Prompt'; }
+        .comment-table tr:hover { background: #2a2a2a; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-pending { background: #e67e22; color: #white; }
+        .badge-approved { background: #27ae60; color: #white; }
+        .btn-action { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 5px; }
+        .btn-approve { background: #27ae60; color: white; }
+        .btn-reject { background: #c0392b; color: white; }
     </style>
 </head>
 <body>
@@ -117,6 +130,27 @@
     </div>
 
     <div class="form-card">
+        <h2>⭐️ ศูนย์คัดกรองคุณภาพ (QC Comments & Ratings)</h2>
+        <div class="comment-table-container">
+            <table class="comment-table">
+                <thead>
+                    <tr>
+                        <th>บทความที่อ้างอิง</th>
+                        <th>ผู้ให้ความคิดเห็น</th>
+                        <th>คะแนนดาว</th>
+                        <th>ข้อความหนุนใจ / แบ่งปันพระพร</th>
+                        <th>สถานะ ตรวจสอบ</th>
+                        <th>การจัดการโดยแอดมิน</th>
+                    </tr>
+                </thead>
+                <tbody id="commentTableBody">
+                    <tr><td colspan="6" style="text-align:center; color:#888;">กำลังโหลดความคิดเห็นจากผู้ใช้...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-card">
         <h2>📑 รายการเนื้อหา (แยกตามหมวดหมู่ > ผู้แต่ง > เวลา)</h2>
         <div id="articleContainer">กำลังโหลดข้อมูล...</div>
     </div>
@@ -131,7 +165,7 @@
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
         projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.firebasestorage.app", 
+        storageBucket: "bbcchurch-6ffc3.appspot.com", 
         appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
@@ -151,7 +185,6 @@
         const fileInput = document.getElementById(fileInputId);
         if (fileInput.files.length > 0) {
             const file = fileInput.files[0];
-            // ระบุโครงสร้างโฟลเดอร์ให้เป็น uploads/ เสมอตามกติกา Rules ของ Storage
             const fileName = `uploads/${Date.now()}_${file.name}`;
             const storageRef = ref(storage, fileName);
             
@@ -162,7 +195,7 @@
             forcePreview(downloadUrl, previewId);
             return downloadUrl;
         }
-        return document.getElementById(hiddenInputId).value; // ใช้ค่าเดิมในกรณีแก้ไขแล้วไม่ได้เลือกภาพใหม่
+        return document.getElementById(hiddenInputId).value;
     }
 
     // แสดงพรีวิวรูปในเครื่องทันทีเมื่อเลือกไฟล์ (Local Preview)
@@ -200,6 +233,58 @@
         snap.forEach(d => allArticles.push({ id: d.id, ...d.data() }));
         renderArticles();
     });
+
+    // === ระบบ QC ความคิดเห็น (เพิ่มเข้ามาใหม่เพื่อดึงคะแนนจากหน้าเว็บ) ===
+    onSnapshot(collection(db, "comments"), (snap) => {
+        const tbody = document.getElementById('commentTableBody');
+        tbody.innerHTML = "";
+        
+        if(snap.empty){
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">ยังไม่มีประวัติความคิดเห็นหรือการให้คะแนนส่งเข้ามา</td></tr>`;
+            return;
+        }
+
+        snap.forEach(docSnap => {
+            const com = docSnap.data();
+            const comId = docSnap.id;
+            
+            // หาชื่อบทความที่ถูกอ้างอิง
+            const linkedArticle = allArticles.find(a => a.id === com.articleId);
+            const articleTitle = linkedArticle ? linkedArticle.title : `<span style="color:#666;">ไม่พบบทความ (${com.articleId || 'ทั่วไป'})</span>`;
+            
+            // แปลงคะแนนเป็นดาวจำลองเพื่อความสวยงาม
+            const starsDisplay = "⭐".repeat(parseInt(com.rating || 5));
+            const statusBadge = com.status === 'approved' 
+                ? `<span class="badge badge-approved">อนุมัติแล้ว</span>` 
+                : `<span class="badge badge-pending">⏳ รอตรวจสอบ</span>`;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><b>${articleTitle}</b></td>
+                <td>${com.userName || 'ไม่ระบุชื่อ'}</td>
+                <td><span style="color:#f1c40f;">${starsDisplay}</span> (${com.rating || 5} ดาว)</td>
+                <td><div style="max-width:300px; white-space:pre-wrap;">${com.message || 'ไม่มีข้อความ'}</div></td>
+                <td>${statusBadge}</td>
+                <td>
+                    ${com.status !== 'approved' ? `<button class="btn-action btn-approve" onclick="approveComment('${comId}')">✅ อนุมัติ</button>` : ''}
+                    <button class="btn-action btn-reject" onclick="deleteComment('${comId}')">❌ ลบทิ้ง</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
+
+    // ฟังก์ชันบริหารคอมเมนต์ (อนุมัติ / ลบออก)
+    window.approveComment = async (id) => {
+        if(confirm("ยืนยันการอนุมัติความคิดเห็นนี้ให้ไปโชว์ในหน้าบทความ?")) {
+            await updateDoc(doc(db, "comments", id), { status: "approved", approvedAt: serverTimestamp() });
+        }
+    };
+    window.deleteComment = async (id) => {
+        if(confirm("คุณต้องการลบความคิดเห็นนี้ออกจากระบบอย่างถาวรใช่หรือไม่?")) {
+            await deleteDoc(doc(db, "comments", id));
+        }
+    };
 
     // แสดงผลรายการแบบแยกกลุ่ม (หมวดหมู่ > ผู้แต่ง > เวลา)
     window.renderArticles = () => {
@@ -271,7 +356,6 @@
         btnSubmit.innerText = "⏳ กำลังอัปโหลดรูปภาพและบันทึกข้อมูล...";
 
         try {
-            // อัปโหลดรูปภาพเข้าสู่โฟลเดอร์ uploads/ ตามการปลดล็อกสิทธิ์ของ Rules
             const thumbUrl = await uploadImageHelper('thumbFile', 'thumbUrl', 'pre1');
             const arc1Url = await uploadImageHelper('arc1File', 'arc1', 'pre2');
             const arc2Url = await uploadImageHelper('arc2File', 'arc2', 'pre3');
@@ -324,7 +408,6 @@
         document.getElementById('authorName').value = r.authorName || "คริสตจักร";
         document.getElementById('status').value = r.status || "pending";
         
-        // บันทึก URL รูปภาพที่มีอยู่เดิมลงฟิลด์ซ่อนไว้
         document.getElementById('thumbUrl').value = r.thumbUrl || "";
         document.getElementById('arc1').value = r.arc1 || "";
         document.getElementById('arc2').value = r.arc2 || "";
@@ -334,7 +417,6 @@
         document.getElementById('mainContent').value = r.mainContent || "";
         document.getElementById('extraContent').value = r.extraContent || "";
         
-        // วาดรูปพรีวิวเดิมให้โชว์
         forcePreview(r.thumbUrl, 'pre1');
         forcePreview(r.arc1, 'pre2');
         forcePreview(r.arc2, 'pre3');
