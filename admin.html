@@ -22,6 +22,7 @@
         .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
         .preview-box img { max-height: 100px; max-width: 100%; border-radius: 5px; object-fit: contain; }
         .btn-save { width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .btn-save:disabled { background: #555; color: #aaa; cursor: not-allowed; }
         .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         .article-card { background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #3d3d3d; display: flex; flex-direction: column; }
         .article-thumb { width: 100%; height: 160px; background: #111; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -130,7 +131,7 @@
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
         projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.firebasestorage.app", // อัปเดตเพื่อให้ตรงกับสิทธิ์ภาพใน Firebase Storage
+        storageBucket: "bbcchurch-6ffc3.firebasestorage.app", 
         appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
@@ -145,13 +146,14 @@
         box.innerHTML = url ? `<img src="${url}">` : `<small>ไม่มีรูป</small>`;
     };
 
-    // ฟังก์ชันช่วยอัปโหลดรูปภาพเดี่ยวขึ้น Firebase Storage
-    async function uploadImageHelper(fileInputId, hiddenInputId, previewId, folderName) {
+    // แก้ไขฟังก์ชันให้ชี้ไปที่โฟลเดอร์ uploads เสมอตามกฎ Rules
+    async function uploadImageHelper(fileInputId, hiddenInputId, previewId) {
         const fileInput = document.getElementById(fileInputId);
         if (fileInput.files.length > 0) {
             const file = fileInput.files[0];
-            const fileName = `${Date.now()}_${file.name}`;
-            const storageRef = ref(storage, `${folderName}/${fileName}`);
+            // ตั้งชื่อให้ไฟล์ขึ้นต้นด้วยโฟลเดอร์ uploads/ เพื่อให้ผ่าน Security Rules
+            const fileName = `uploads/${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, fileName);
             
             const snapshot = await uploadBytes(storageRef, file);
             const downloadUrl = await getDownloadURL(snapshot.ref);
@@ -160,16 +162,16 @@
             forcePreview(downloadUrl, previewId);
             return downloadUrl;
         }
-        return document.getElementById(hiddenInputId).value; // ใช้ค่าเดิมหากไม่ได้เลือกไฟล์ใหม่
+        return document.getElementById(hiddenInputId).value; 
     }
 
-    // ทำงานเมื่อมีการเลือกไฟล์รูปภาพ เพื่อทำการแสดงพรีวิวเบื้องต้น (Local Preview)
+    // แสดงพรีวิวรูปในเครื่องทันทีเมื่อผู้ใช้งานเลือกไฟล์
     const setupLocalPreview = (fileId, preId) => {
         document.getElementById(fileId).addEventListener('change', function(e) {
             if(this.files && this.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(ex) {
-                    document.getElementById(preId).innerHTML = `<img src="${ex.target.result}" style="opacity: 0.6;"> <br><small style="color:#f1c40f;">(รอการกดบันทึกเพื่ออัปโหลด)</small>`;
+                    document.getElementById(preId).innerHTML = `<img src="${ex.target.result}" style="opacity: 0.7;"> <br><small style="color:#4dabff;">(เลือกไฟล์แล้ว รออัปโหลดเมื่อกดบันทึก)</small>`;
                 };
                 reader.readAsDataURL(this.files[0]);
             }
@@ -261,7 +263,7 @@
         }
     };
 
-    // บันทึกข้อมูล (Add/Update พร้อม Upload ไปยัง Firebase Storage)
+    // บันทึกข้อมูล
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
         const btnSubmit = document.getElementById('btnSubmit');
@@ -269,10 +271,10 @@
         btnSubmit.innerText = "⏳ กำลังอัปโหลดรูปภาพและบันทึกข้อมูล...";
 
         try {
-            // อัปโหลดไฟล์ขึ้น Storage (ถ้ามีการเลือกไฟล์ใหม่)
-            const thumbUrl = await uploadImageHelper('thumbFile', 'thumbUrl', 'pre1', 'thumbnails');
-            const arc1Url = await uploadImageHelper('arc1File', 'arc1', 'pre2', 'details');
-            const arc2Url = await uploadImageHelper('arc2File', 'arc2', 'pre3', 'details');
+            // อัปโหลดรูปภาพเข้าสู่โฟลเดอร์ uploads/ ตามสิทธิ์ของ Rules
+            const thumbUrl = await uploadImageHelper('thumbFile', 'thumbUrl', 'pre1');
+            const arc1Url = await uploadImageHelper('arc1File', 'arc1', 'pre2');
+            const arc2Url = await uploadImageHelper('arc2File', 'arc2', 'pre3');
 
             const id = document.getElementById('editId').value;
             const data = {
@@ -302,13 +304,12 @@
             resetForm();
         } catch (err) { 
             alert("❌ เกิดข้อผิดพลาด: " + err.message); 
-        } finally {
             btnSubmit.disabled = false;
             btnSubmit.innerText = "🚀 บันทึกข้อมูลทั้งหมด";
         }
     };
 
-    // แก้ไขข้อมูล (ดึงค่ากลับมาใส่ฟอร์ม)
+    // แก้ไขข้อมูล
     window.editArt = async (id) => {
         const s = await getDoc(doc(db, "articles", id));
         if (!s.exists()) return;
@@ -322,7 +323,6 @@
         document.getElementById('authorName').value = r.authorName || "คริสตจักร";
         document.getElementById('status').value = r.status || "pending";
         
-        // เก็บค่า URL เดิมลงใน Input Hidden
         document.getElementById('thumbUrl').value = r.thumbUrl || "";
         document.getElementById('arc1').value = r.arc1 || "";
         document.getElementById('arc2').value = r.arc2 || "";
@@ -332,7 +332,6 @@
         document.getElementById('mainContent').value = r.mainContent || "";
         document.getElementById('extraContent').value = r.extraContent || "";
         
-        // แสดงพรีวิวรูปภาพเดิมที่มีอยู่
         forcePreview(r.thumbUrl, 'pre1');
         forcePreview(r.arc1, 'pre2');
         forcePreview(r.arc2, 'pre3');
@@ -341,7 +340,7 @@
         document.getElementById('formHeader').innerText = "📝 กำลังแก้ไข: " + r.title;
     };
 
-    // รีเซ็ตฟอร์มหลังจากบันทึกหรือยกเลิก
+    // รีเซ็ตฟอร์ม
     window.resetForm = () => { 
         document.getElementById('postForm').reset(); 
         document.getElementById('editId').value = ""; 
@@ -352,6 +351,8 @@
         document.getElementById('pre1').innerHTML = "<small>ไม่มีรูปปก</small>";
         document.getElementById('pre2').innerHTML = "<small>ไม่มีรูปรายละเอียด 1</small>";
         document.getElementById('pre3').innerHTML = "<small>ไม่มีรูปรายละเอียด 2</small>";
+        document.getElementById('btnSubmit').disabled = false;
+        document.getElementById('btnSubmit').innerText = "🚀 บันทึกข้อมูลทั้งหมด";
     };
 
     // ลบบทความ
