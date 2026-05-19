@@ -7,121 +7,75 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* พื้นฐาน */
+        /* ==========================================================================
+           1. CORE STYLES (พื้นฐานระบบ)
+           ========================================================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { overflow-x: hidden; width: 100%; }
         body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
+        .container { padding: 20px 5%; width: 100%; max-width: 1200px; margin: auto; overflow: hidden; }
+        .section-title { font-family: 'Prompt'; font-size: 24px; margin: 40px 0 20px 0; color: #4dabff; border-left: 5px solid #4dabff; padding-left: 15px; }
 
-        /* Navbar */
+        /* ==========================================================================
+           2. NAVIGATION & MENU (แถบเมนูนำทาง)
+           ========================================================================== */
         .navbar { width: 100%; background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .navbar img { width: 35px; border-radius: 50%; }
 
-        /* Hero Slideshow */
+        .horizontal-menu { background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .horizontal-menu a { padding: 10px 20px; color: #ccc; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 15px; border-radius: 25px; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px; }
+        .horizontal-menu a:hover { color: #fff; background: #2c2c2c; transform: translateY(-2px); }
+
+        /* ==========================================================================
+           3. HERO & SLIDESHOW (ภาพสไลด์ส่วนหัว)
+           ========================================================================== */
         .hero-container { width: 100%; background: #000; position: relative; overflow: hidden; }
         .slide { width: 100%; display: none; animation: fade 1.5s; }
         .slide.active { display: block; }
         .slide img { width: 100%; height: 400px; object-fit: cover; opacity: 0.8; }
+        .hero-section img, .article-card img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 10px; }
         @keyframes fade { from {opacity: .4} to {opacity: 1} }
-/* คุมรูปภาพส่วน Hero ให้พอดีหน้าจอเสมอ */
-.hero-section img, .article-card img {
-    max-width: 100%;    /* กว้างสูงสุดไม่เกินหน้าจอ */
-    height: auto;       /* ปรับความสูงตามสัดส่วนของรูป */
-    display: block;      /* ลบช่องว่างใต้ภาพ */
-    margin: 0 auto;     /* จัดกึ่งกลาง */
-    border-radius: 10px; /* เพิ่มขอบมนให้เข้ากับส่วนอื่นๆ (ถ้าต้องการ) */
-}
-        /* Layout & Grid */
-        .container { padding: 20px 5%; width: 100%; max-width: 1200px; margin: auto; overflow: hidden; }
-        .section-title { font-family: 'Prompt'; font-size: 24px; margin: 40px 0 20px 0; color: #4dabff; border-left: 5px solid #4dabff; padding-left: 15px; }
-        
-        .grid-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 25px; 
-            margin-bottom: 20px;
-        }
 
-        /* Card Design */
-        .card { 
-            background: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #333; 
-            transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%;
-            position: relative;
-        }
+        /* ==========================================================================
+           4. CARD & GRID LAYOUT (ระบบแสดงผลเนื้อหา)
+           ========================================================================== */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 20px; }
+        .card { background: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; position: relative; }
         .card:hover { transform: translateY(-5px); border-color: #4dabff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         .card img { width: 100%; height: 180px; object-fit: cover; background: #2a2a2a; }
-        
         .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
-        
-        /* สไตล์ส่วนข้อมูลเพิ่มเติมใน Card */
         .card-info { font-size: 13px; color: #bbb; margin-bottom: 10px; flex-grow: 1; }
         .card-info div { margin-bottom: 2px; display: flex; align-items: flex-start; gap: 5px; }
         .info-label { color: #4dabff; font-weight: bold; min-width: fit-content; }
-
         .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
+
+        /* ==========================================================================
+           5. FORMS & CONTACT (แบบฟอร์มการติดต่อและให้คะแนน)
+           ========================================================================== */
+        .rating-form { background: #1e1e1e; padding: 25px; border-radius: 15px; border: 1px solid #333; margin-bottom: 30px; }
+        .u-input { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 12px; font-family: 'Sarabun', sans-serif; }
+        .btn-submit-rating { width: 100%; padding: 14px; background: #4dabff; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        /* Footer & Counter */
+        .contact-section { background: #ffffff; padding: 30px; border-radius: 15px; color: #333; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        /* ==========================================================================
+           6. FOOTER & COUNTER (ส่วนท้ายของหน้าและสถิติ)
+           ========================================================================== */
         .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
         .counter-section img { max-width: 100%; height: auto; }
         footer { background: #0a2c6d; color: white; text-align: center; padding: 60px 20px; width: 100%; }
         footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
 
+        /* ==========================================================================
+           7. RESPONSIVE DESIGN (ปรับหน้าจอสำหรับมือถือ)
+           ========================================================================== */
         @media (max-width: 768px) {
             .slide img { height: 250px; }
             .section-title { font-size: 20px; }
+            .horizontal-menu { margin: 10px; border-radius: 15px; padding: 15px; }
+            .horizontal-menu a { font-size: 14px; padding: 8px 12px; }
         }
-
-       /* ปรับแต่งกรอบเมนูให้ยาวและอยู่กึ่งกลาง */
-.horizontal-menu { 
-    background: #1e1e1e; /* สีพื้นหลังเข้ม */
-    padding: 10px 5%; 
-    display: flex; 
-    justify-content: center; /* จัดให้อยู่กึ่งกลางแนวนอน */
-    align-items: center;
-    gap: 10px; 
-    flex-wrap: wrap; /* ถ้าจอมือถือเล็กจะตัดขึ้นแถวใหม่ */
-    
-    /* การใส่กรอบยาวให้สวยงาม */
-    border: 1px solid #333; /* เส้นขอบบางๆ */
-    max-width: 1200px; /* จำกัดความกว้างไม่ให้แผ่จนเกินไปบนจอใหญ่ */
-    margin: 20px auto; /* จัดกึ่งกลางหน้าจอ และเว้นระยะบน-ล่าง */
-    border-radius: 50px; /* ทำมุมโค้งมนแบบแคปซูล (เปลี่ยนเป็น 10px ถ้าชอบเหลี่ยม) */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* ใส่เงาให้นูนดูมีมิติ */
-}
-
-/* ปรับแต่งปุ่มเมนู */
-.horizontal-menu a { 
-    padding: 10px 20px; 
-    color: #ccc; 
-    text-decoration: none; 
-    font-family: 'Prompt', sans-serif; 
-    font-size: 15px;
-    border-radius: 25px; /* ความโค้งของไฮไลท์เวลาเอาเมาส์ไปชี้ */
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
-.horizontal-menu a:hover { 
-    color: #fff; 
-    background: #2c2c2c; /* เปลี่ยนพื้นหลังปุ่มเมื่อชี้ */
-    transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อย */
-}
-
-/* หน้าจอเล็ก (มือถือ) */
-@media (max-width: 768px) {
-    .horizontal-menu {
-        margin: 10px; /* ลดระยะขอบบนมือถือ */
-        border-radius: 15px; /* ลดความโค้งบนมือถือให้ดูดีขึ้น */
-        padding: 15px;
-    }
-    .horizontal-menu a {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
     </style>
 </head>
 <body>
@@ -153,16 +107,17 @@
 
 <div class="marquee-box">
     <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
-        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานประบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอหืน 3 : 16 
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานประบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอห์น 3 : 16 
     </marquee>
 </div>
+
 <nav class="horizontal-menu">
     <a href="index.html">🏠 หน้าแรก</a>
     <a href="sermons.html">🎙️ คำเทศนา</a>
     <a href="blogs.html">📖 บทความ</a>
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
-    <a href="contact.html">� ติดต่อเรา</a>
+    <a href="contact.html">📞 ติดต่อเรา</a>
 </nav>
 
 <div class="container">
@@ -177,9 +132,7 @@
     
     <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
-</div>
 
-<!-- ฟอร์มให้คะแนนเดิม -->
     <div class="rating-form">
         <h3 style="font-family: 'Prompt'; color: white; margin-bottom: 10px;">⭐️ ให้คะแนนและแบ่งปันพระพร</h3>
         <select id="uStars" class="u-input" style="color: #f1c40f;">
@@ -194,7 +147,6 @@
         <button id="submitRatingBtn" class="btn-submit-rating">ส่งความคิดเห็น</button>
     </div>
 
-    <!-- ฟอร์มติดต่อใหม่ -->
     <div class="contact-section">
         <div style="text-align: center; margin-bottom: 20px;">
             <h2 style="color: #2c3e50; font-family: 'Prompt';">ติดต่อเรา / สนใจรับข้อมูล</h2>
@@ -225,7 +177,6 @@
         </form>
     </div>
 
-    <!-- สถิติ และ QR Code -->
     <div class="counter-section">
         <div style="margin-bottom: 30px;">
             <h3 style="font-family: 'Prompt'; margin-bottom: 15px;">ติดต่อเราผ่าน LINE</h3>
@@ -251,17 +202,24 @@
     </div>
 </footer>
 
-
 <script>
-    function toggleAddress(chk) {
-        const addressBox = document.getElementById('addressBox');
-        if(addressBox) addressBox.style.display = chk.checked ? 'block' : 'none';
-    }
+    // ซ่อมระบบเปิด-ปิด กล่องที่อยู่เมื่อเลือกปุ่ม "ต้องการศึกษาที่บ้าน" (opt2) ให้ผูกเข้าด้วยกันอย่างสมบูรณ์
+    document.addEventListener("DOMContentLoaded", () => {
+        const checkboxOpt2 = document.getElementById('opt2');
+        if (checkboxOpt2) {
+            checkboxOpt2.addEventListener('change', function() {
+                const addressBox = document.getElementById('addressBox');
+                if (addressBox) {
+                    addressBox.style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        }
+    });
 </script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -284,7 +242,7 @@
         return null;
     }
 
-    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate) หรือ วันที่สร้าง (createdAt)
+    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate)
     const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
 
     onSnapshot(q, (snap) => {
@@ -345,7 +303,7 @@
         });
     });
 
-    // ส่งฟอร์มติดต่อ
+    // ส่งฟอร์มติดต่อเข้าสู่กูเกิ้ลชีตตามสคริปต์เดิมของคุณ
     document.getElementById('contactForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
@@ -365,6 +323,8 @@
             await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
             alert("ขอบพระเจ้าอวยพระพร ระบบได้รับข้อมูลของท่านแล้ว");
             document.getElementById('contactForm').reset();
+            const addressBox = document.getElementById('addressBox');
+            if (addressBox) addressBox.style.display = 'none';
         } catch (err) { 
             alert("ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"); 
         } finally { 
@@ -373,7 +333,7 @@
         }
     };
 
-    // Slide Show
+    // Slide Show ภาพหัวเว็บสลับเปลี่ยนทุก 5 วินาที
     let cur = 0;
     setInterval(() => {
         const slides = document.querySelectorAll('.slide');
