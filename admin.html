@@ -16,6 +16,7 @@
         .full-width { grid-column: 1 / -1; margin-top: 10px; }
         label { display: block; font-size: 14px; color: var(--primary); margin-bottom: 5px; font-weight: bold; }
         input, textarea, select { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; }
+        input[type="file"] { padding: 8px; background: #222; }
         .author-input-group { display: flex; gap: 5px; }
         .btn-add-inline { background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; font-size: 20px; }
         .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
@@ -37,11 +38,10 @@
 
 <div class="container">
     <div class="form-card">
-        <h2 id="formHeader">✍️ จัดการเนื้อหา (ตรวจสอบครบทุกช่องแล้ว)</h2>
+        <h2 id="formHeader">✍️ จัดการเนื้อหา (อัปโหลดรูปภาพ & ลิ้งก์ YouTube)</h2>
         <form id="postForm">
             <input type="hidden" id="editId">
             
-            <!-- ส่วนที่ 1: ข้อมูลพื้นฐาน -->
             <div class="form-grid">
                 <div><label>วันที่</label><input type="date" id="customDate" required></div>
                 <div><label>หัวข้อเรื่อง (Title)</label><input type="text" id="title" required></div>
@@ -49,7 +49,6 @@
                 <div><label>ข้อพระธรรม (Bible Reference)</label><input type="text" id="bibleRef"></div>
             </div>
 
-            <!-- ส่วนที่ 2: หมวดหมู่และผู้แต่ง -->
             <div class="form-grid">
                 <div>
                     <label>หมวดหมู่</label>
@@ -67,25 +66,41 @@
                         <button type="button" class="btn-add-inline" onclick="addNewAuthor()">+</button>
                     </div>
                 </div>
+                <div>
+                    <label>สถานะการแสดงผล</label>
+                    <select id="status">
+                        <option value="pending">⏳ รอตรวจสอบ (Pending)</option>
+                        <option value="published">✅ อนุมัติ (Published)</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- ส่วนที่ 3: ลิ้งก์รูปภาพ (4 ช่องครบ) -->
             <div class="form-grid">
-                <div><label>ลิ้งรูปปก (Thumbnail)</label><input type="text" id="thumbUrl" oninput="forcePreview(this.value, 'pre1')"><div class="preview-box" id="pre1"></div></div>
-                <div><label>ลิ้งรูปนำ (Header Image)</label><input type="text" id="headerImg" oninput="forcePreview(this.value, 'pre2')"><div class="preview-box" id="pre2"></div></div>
-            </div>
-            <div class="form-grid">
-                <div><label>ลิ้งรูปรายละเอียด 1</label><input type="text" id="arc1" oninput="forcePreview(this.value, 'pre3')"><div class="preview-box" id="pre3"></div></div>
-                <div><label>ลิ้งรูปรายละเอียด 2</label><input type="text" id="arc2" oninput="forcePreview(this.value, 'pre4')"><div class="preview-box" id="pre4"></div></div>
+                <div>
+                    <label>📸 อัปโหลดรูปปก (Thumbnail)</label>
+                    <input type="file" id="thumbFile" accept="image/*">
+                    <input type="hidden" id="thumbUrl">
+                    <div class="preview-box" id="pre1"><small>ไม่มีรูปปก</small></div>
+                </div>
+                <div>
+                    <label>🖼️ อัปโหลดรูปรายละเอียด 1</label>
+                    <input type="file" id="arc1File" accept="image/*">
+                    <input type="hidden" id="arc1">
+                    <div class="preview-box" id="pre2"><small>ไม่มีรูปรายละเอียด 1</small></div>
+                </div>
+                <div>
+                    <label>🖼️ อัปโหลดรูปรายละเอียด 2</label>
+                    <input type="file" id="arc2File" accept="image/*">
+                    <input type="hidden" id="arc2">
+                    <div class="preview-box" id="pre3"><small>ไม่มีรูปรายละเอียด 2</small></div>
+                </div>
             </div>
 
-            <!-- ส่วนที่ 4: ลิ้งก์วิดีโอ (2 ช่องครบ) -->
             <div class="form-grid">
-                <div><label>ลิ้งยูทูบ 1</label><input type="text" id="yt1"></div>
-                <div><label>ลิ้งยูทูบ 2</label><input type="text" id="yt2"></div>
+                <div><label>🔴 ลิ้งก์ยูทูบ 1</label><input type="text" id="yt1" placeholder="https://www.youtube.com/watch?v=..."></div>
+                <div><label>🔴 ลิ้งก์ยูทูบ 2</label><input type="text" id="yt2" placeholder="https://www.youtube.com/watch?v=..."></div>
             </div>
 
-            <!-- ส่วนที่ 5: เนื้อหาและหมายเหตุ -->
             <div class="full-width">
                 <label>เนื้อหาหลัก</label>
                 <textarea id="mainContent" rows="6"></textarea>
@@ -95,7 +110,7 @@
                 <textarea id="extraContent" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn-save">🚀 บันทึกข้อมูลทั้งหมด</button>
+            <button type="submit" class="btn-save" id="btnSubmit">🚀 บันทึกข้อมูลทั้งหมด</button>
             <button type="button" onclick="resetForm()" style="width:100%; background:none; border:none; color:#888; cursor:pointer; margin-top:10px;">ยกเลิกการแก้ไข</button>
         </form>
     </div>
@@ -105,35 +120,64 @@
         <div id="articleContainer">กำลังโหลดข้อมูล...</div>
     </div>
 </div>
-    <div>
-    <label>สถานะการแสดงผล</label>
-    <select id="status">
-        <option value="pending">⏳ รอตรวจสอบ (Pending)</option>
-        <option value="published">✅ อนุมัติ (Published)</option>
-    </select>
-    </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
         projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        storageBucket: "bbcchurch-6ffc3.firebasestorage.app", // อัปเดตเพื่อให้ตรงกับสิทธิ์ภาพใน Firebase Storage
         appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const storage = getStorage(app);
     let allArticles = [];
 
-    // ฟังก์ชันพรีวิวรูป
+    // ฟังก์ชันจัดการแสดงพรีวิวรูปภาพในหน้าจอ
     window.forcePreview = (url, id) => {
         const box = document.getElementById(id);
         box.innerHTML = url ? `<img src="${url}">` : `<small>ไม่มีรูป</small>`;
     };
+
+    // ฟังก์ชันช่วยอัปโหลดรูปภาพเดี่ยวขึ้น Firebase Storage
+    async function uploadImageHelper(fileInputId, hiddenInputId, previewId, folderName) {
+        const fileInput = document.getElementById(fileInputId);
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const fileName = `${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, `${folderName}/${fileName}`);
+            
+            const snapshot = await uploadBytes(storageRef, file);
+            const downloadUrl = await getDownloadURL(snapshot.ref);
+            
+            document.getElementById(hiddenInputId).value = downloadUrl;
+            forcePreview(downloadUrl, previewId);
+            return downloadUrl;
+        }
+        return document.getElementById(hiddenInputId).value; // ใช้ค่าเดิมหากไม่ได้เลือกไฟล์ใหม่
+    }
+
+    // ทำงานเมื่อมีการเลือกไฟล์รูปภาพ เพื่อทำการแสดงพรีวิวเบื้องต้น (Local Preview)
+    const setupLocalPreview = (fileId, preId) => {
+        document.getElementById(fileId).addEventListener('change', function(e) {
+            if(this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(ex) {
+                    document.getElementById(preId).innerHTML = `<img src="${ex.target.result}" style="opacity: 0.6;"> <br><small style="color:#f1c40f;">(รอการกดบันทึกเพื่ออัปโหลด)</small>`;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    };
+    setupLocalPreview('thumbFile', 'pre1');
+    setupLocalPreview('arc1File', 'pre2');
+    setupLocalPreview('arc2File', 'pre3');
 
     // ดึงรายชื่อผู้แต่ง
     onSnapshot(collection(db, "authors"), (snap) => {
@@ -161,7 +205,6 @@
         container.innerHTML = "";
         const groupedData = {};
 
-        // เรียงวันที่ใหม่ไปเก่า
         allArticles.sort((a, b) => new Date(b.displayDate) - new Date(a.displayDate));
 
         allArticles.forEach(art => {
@@ -197,7 +240,12 @@
                             card.className = "article-card";
                             card.innerHTML = `
                                 <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
-                                <div class="article-info"><h4>${r.title}</h4><span style="font-size:12px; color:#888;">${r.displayDate}</span></div>
+                                <div class="article-info">
+                                    <h4>${r.title}</h4>
+                                    <span style="font-size:12px; color:${r.status === 'published' ? '#27ae60' : '#e67e22'};">
+                                        ● ${r.status === 'published' ? 'อนุมัติแล้ว' : 'รอตรวจสอบ'}
+                                    </span>
+                                </div>
                                 <div class="article-btns">
                                     <button class="btn-edit" onclick="editArt('${r.id}')">แก้ไข</button>
                                     <button class="btn-del" onclick="delArt('${r.id}')">ลบ</button>
@@ -213,33 +261,51 @@
         }
     };
 
-    // บันทึกข้อมูล (Add/Update)
+    // บันทึกข้อมูล (Add/Update พร้อม Upload ไปยัง Firebase Storage)
     document.getElementById('postForm').onsubmit = async (e) => {
         e.preventDefault();
-        const id = document.getElementById('editId').value;
-        const data = {
-            displayDate: document.getElementById('customDate').value,
-            title: document.getElementById('title').value,
-            series: document.getElementById('series').value || "",
-            bibleRef: document.getElementById('bibleRef').value || "",
-            category: document.getElementById('category').value,
-            authorName: document.getElementById('authorName').value,
-            thumbUrl: document.getElementById('thumbUrl').value || "",
-            headerImg: document.getElementById('headerImg').value || "",
-            arc1: document.getElementById('arc1').value || "",
-            arc2: document.getElementById('arc2').value || "",
-            yt1: document.getElementById('yt1').value || "",
-            yt2: document.getElementById('yt2').value || "",
-            mainContent: document.getElementById('mainContent').value || "",
-            extraContent: document.getElementById('extraContent').value || "",
-            updatedAt: serverTimestamp()
-        };
+        const btnSubmit = document.getElementById('btnSubmit');
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = "⏳ กำลังอัปโหลดรูปภาพและบันทึกข้อมูล...";
+
         try {
-            if(id) await updateDoc(doc(db, "articles", id), data);
-            else await addDoc(collection(db, "articles"), data);
-            alert("✅ บันทึกข้อมูลเรียบร้อยแล้ว!"); 
+            // อัปโหลดไฟล์ขึ้น Storage (ถ้ามีการเลือกไฟล์ใหม่)
+            const thumbUrl = await uploadImageHelper('thumbFile', 'thumbUrl', 'pre1', 'thumbnails');
+            const arc1Url = await uploadImageHelper('arc1File', 'arc1', 'pre2', 'details');
+            const arc2Url = await uploadImageHelper('arc2File', 'arc2', 'pre3', 'details');
+
+            const id = document.getElementById('editId').value;
+            const data = {
+                displayDate: document.getElementById('customDate').value,
+                title: document.getElementById('title').value,
+                series: document.getElementById('series').value || "",
+                bibleRef: document.getElementById('bibleRef').value || "",
+                category: document.getElementById('category').value,
+                authorName: document.getElementById('authorName').value,
+                status: document.getElementById('status').value,
+                thumbUrl: thumbUrl || "",
+                arc1: arc1Url || "",
+                arc2: arc2Url || "",
+                yt1: document.getElementById('yt1').value || "",
+                yt2: document.getElementById('yt2').value || "",
+                mainContent: document.getElementById('mainContent').value || "",
+                extraContent: document.getElementById('extraContent').value || "",
+                updatedAt: serverTimestamp()
+            };
+
+            if(id) {
+                await updateDoc(doc(db, "articles", id), data);
+            } else {
+                await addDoc(collection(db, "articles"), data);
+            }
+            alert("✅ บันทึกข้อมูลและอัปโหลดรูปภาพเรียบร้อยแล้ว!"); 
             resetForm();
-        } catch (err) { alert("❌ เกิดข้อผิดพลาด: " + err.message); }
+        } catch (err) { 
+            alert("❌ เกิดข้อผิดพลาด: " + err.message); 
+        } finally {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = "🚀 บันทึกข้อมูลทั้งหมด";
+        }
     };
 
     // แก้ไขข้อมูล (ดึงค่ากลับมาใส่ฟอร์ม)
@@ -254,52 +320,42 @@
         document.getElementById('bibleRef').value = r.bibleRef || "";
         document.getElementById('category').value = r.category || "";
         document.getElementById('authorName').value = r.authorName || "คริสตจักร";
+        document.getElementById('status').value = r.status || "pending";
+        
+        // เก็บค่า URL เดิมลงใน Input Hidden
         document.getElementById('thumbUrl').value = r.thumbUrl || "";
-        document.getElementById('headerImg').value = r.headerImg || "";
         document.getElementById('arc1').value = r.arc1 || "";
         document.getElementById('arc2').value = r.arc2 || "";
+        
         document.getElementById('yt1').value = r.yt1 || "";
         document.getElementById('yt2').value = r.yt2 || "";
         document.getElementById('mainContent').value = r.mainContent || "";
         document.getElementById('extraContent').value = r.extraContent || "";
         
-        // อัปเดตพรีวิวรูป
+        // แสดงพรีวิวรูปภาพเดิมที่มีอยู่
         forcePreview(r.thumbUrl, 'pre1');
-        forcePreview(r.headerImg, 'pre2');
-        forcePreview(r.arc1, 'pre3');
-        forcePreview(r.arc2, 'pre4');
+        forcePreview(r.arc1, 'pre2');
+        forcePreview(r.arc2, 'pre3');
         
         window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById('formHeader').innerText = "📝 กำลังแก้ไข: " + r.title;
     };
 
-    // รีเซ็ตฟอร์ม
+    // รีเซ็ตฟอร์มหลังจากบันทึกหรือยกเลิก
     window.resetForm = () => { 
         document.getElementById('postForm').reset(); 
         document.getElementById('editId').value = ""; 
+        document.getElementById('thumbUrl').value = "";
+        document.getElementById('arc1').value = "";
+        document.getElementById('arc2').value = "";
         document.getElementById('formHeader').innerText = "✍️ จัดการเนื้อหา";
-        ['pre1','pre2','pre3','pre4'].forEach(id => document.getElementById(id).innerHTML = "");
+        document.getElementById('pre1').innerHTML = "<small>ไม่มีรูปปก</small>";
+        document.getElementById('pre2').innerHTML = "<small>ไม่มีรูปรายละเอียด 1</small>";
+        document.getElementById('pre3').innerHTML = "<small>ไม่มีรูปรายละเอียด 2</small>";
     };
 
     // ลบบทความ
     window.delArt = async (id) => { if(confirm("ยืนยันการลบข้อมูลนี้อย่างถาวร?")) await deleteDoc(doc(db, "articles", id)); };
-const data = {
-    // ... ของเดิม ...
-    status: document.getElementById('status').value, // เพิ่มบรรทัดนี้
-    updatedAt: serverTimestamp()
-};
-
-    card.innerHTML = `
-    <div class="article-thumb">${r.thumbUrl ? `<img src="${r.thumbUrl}">` : '🖼️'}</div>
-    <div class="article-info">
-        <h4>${r.title}</h4>
-        <div style="color:#f1c40f;">⭐ ${r.avgRating || '0'} | 💬 ${r.commentCount || '0'}</div>
-        <span style="font-size:12px; color:${r.status === 'published' ? '#27ae60' : '#e67e22'};">
-            ● ${r.status === 'published' ? 'อนุมัติแล้ว' : 'รอตรวจสอบ'}
-        </span>
-    </div>
-    ...
-`;
 </script>
 </body>
 </html>
