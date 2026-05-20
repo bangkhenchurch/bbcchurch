@@ -1,302 +1,523 @@
 <!DOCTYPE html>
-<html lang="th"> 
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>อ่านบทความ - BBC Church</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--dark-bg); color: #e0e0e0; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
-        .container { max-width: 850px; margin: 20px auto; padding: 0 20px; }
-        .article-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid #333; margin-top: 20px; }
-        h1 { font-family: 'Prompt'; color: white; font-size: 28px; margin-bottom: 10px; }
-        .article-meta { color: #aaa; font-size: 14px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
-        .article-meta b { color: var(--primary); }
-        .media-full-width {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain; /* ช่วยให้รูปไม่โดนตัดขอบ */
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-        .content-text { line-height: 1.8; font-size: 17px; white-space: pre-wrap; color: #eee; margin: 25px 0; }
-        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; margin: 20px 0; border-radius: 12px; overflow: hidden; background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .comment-display-area { margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
-        .comment-item { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--primary); }
-        .comment-user { font-weight: bold; color: var(--primary); margin-bottom: 5px; font-family: 'Prompt'; }
-        .comment-text { color: #ccc; font-size: 15px; }
-        .
-        rating-form { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 1px dashed #444; margin: 40px 0; }
-        .u-input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; }
-        .btn-submit-rating { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        
-        <style>
-    /* สไตล์เพิ่มเติมสำหรับส่วนติดต่อและสถิติ */
-    .contact-section { 
-        background: #ffffff; 
-        color: #333; 
-        padding: 30px; 
-        border-radius: 20px; 
-        margin-top: 20px; 
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>อ่านบทความ - BBC Church</title>
 
-    .counter-section {
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding: 30px 15px;
-    background: #1a1a1a; 
-    border-radius: 15px;
-    margin: 40px 0;
-    color: #ffffff;
-    overflow: hidden; /* ป้องกันเนื้อหาส่วนที่เกินโผล่ออกมา */
+<link rel="icon" type="image/png" href="logo.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --primary:#4dabff;
+    --dark-bg:#121212;
+    --card-bg:#1e1e1e;
 }
 
-/* คุมขนาด Flag Counter ให้เล็กลงตามหน้าจอมือถือ */
-.counter-section img {
-    max-width: 100% !important; 
-    height: auto !important;
-    display: inline-block;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-    .qr-code { 
-        width: 140px; 
-        border: 4px solid white; 
-        border-radius: 10px; 
-        margin-top: 10px; 
-        transition: transform 0.3s;
-    }
-    .qr-code:hover { transform: scale(1.05); }
+body{
+    background:var(--dark-bg);
+    color:#e0e0e0;
+    font-family:'Sarabun',sans-serif;
+    line-height:1.6;
+}
 
-    footer { 
-        background: #051937; 
-        color: white; 
-        text-align: center; 
-        padding: 40px 20px; 
-        margin-top: 50px; 
+/* =========================
+   HERO
+========================= */
+.hero{
+    width:100%;
+    background:url('hero.jpg') center/cover no-repeat;
+    min-height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+}
+
+.hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.55);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:42px;
+    color:#fff;
+    font-family:'Prompt';
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#ddd;
+    font-size:18px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.main-layout{
+    max-width:1400px;
+    margin:20px auto;
+    padding:0 15px;
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+}
+
+/* =========================
+   SIDEBAR LEFT
+========================= */
+
+.sidebar-left{
+    width:320px;
+    background:#1b1b1b;
+    border:1px solid #333;
+    border-radius:18px;
+    overflow:hidden;
+    position:sticky;
+    top:15px;
+}
+
+.sidebar-title{
+    background:linear-gradient(90deg,#4dabff,#1e88e5);
+    padding:18px;
+    color:#fff;
+    font-size:22px;
+    font-family:'Prompt';
+    font-weight:bold;
+}
+
+.news-list{
+    padding:10px;
+}
+
+.news-item{
+    display:block;
+    padding:14px;
+    border-bottom:1px solid #2f2f2f;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.news-item:hover{
+    background:#252525;
+}
+
+.news-date{
+    color:#4dabff;
+    font-size:13px;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.news-text{
+    color:#fff;
+    font-size:15px;
+    line-height:1.5;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content-area{
+    flex:1;
+    min-width:0;
+}
+
+.article-card{
+    background:var(--card-bg);
+    padding:30px;
+    border-radius:15px;
+    border:1px solid #333;
+}
+
+.container{
+    width:100%;
+}
+
+h1{
+    font-family:'Prompt';
+    color:white;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.article-meta{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:20px;
+    border-bottom:1px solid #333;
+    padding-bottom:15px;
+}
+
+.article-meta b{
+    color:var(--primary);
+}
+
+.media-full-width{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    object-fit:contain;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.content-text{
+    line-height:1.8;
+    font-size:17px;
+    white-space:pre-wrap;
+    color:#eee;
+    margin:25px 0;
+}
+
+.video-container{
+    position:relative;
+    width:100%;
+    padding-bottom:56.25%;
+    height:0;
+    margin:20px 0;
+    border-radius:12px;
+    overflow:hidden;
+    background:#000;
+}
+
+.video-container iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.comment-display-area{
+    margin-top:30px;
+    border-top:1px solid #333;
+    padding-top:20px;
+}
+
+.comment-item{
+    background:#252525;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    border-left:4px solid var(--primary);
+}
+
+.comment-user{
+    font-weight:bold;
+    color:var(--primary);
+    margin-bottom:5px;
+    font-family:'Prompt';
+}
+
+.comment-text{
+    color:#ccc;
+    font-size:15px;
+}
+
+.rating-form{
+    background:#1a1a1a;
+    padding:25px;
+    border-radius:15px;
+    border:1px dashed #444;
+    margin:40px 0;
+}
+
+.u-input{
+    width:100%;
+    padding:12px;
+    background:#000;
+    border:1px solid #333;
+    color:white;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.btn-submit-rating{
+    width:100%;
+    padding:15px;
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-section{
+    background:#ffffff;
+    color:#333;
+    padding:30px;
+    border-radius:20px;
+    margin-top:20px;
+}
+
+.counter-section{
+    text-align:center;
+    border-top:1px solid #eee;
+    padding:30px 15px;
+    background:#1a1a1a;
+    border-radius:15px;
+    margin:40px 0;
+    color:#ffffff;
+    overflow:hidden;
+}
+
+.counter-section img{
+    max-width:100% !important;
+    height:auto !important;
+    display:inline-block;
+}
+
+.qr-code{
+    width:140px;
+    border:4px solid white;
+    border-radius:10px;
+    margin-top:10px;
+    transition:transform 0.3s;
+}
+
+.qr-code:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#051937;
+    color:white;
+    text-align:center;
+    padding:40px 20px;
+    margin-top:50px;
+}
+
+footer img{
+    width:60px;
+    margin-bottom:10px;
+}
+
+.footer-address{
+    font-size:14px;
+    color:#aaa;
+    margin-top:10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:980px){
+
+    .main-layout{
+        flex-direction:column;
     }
-    footer img { width: 60px; margin-bottom: 10px; }
-    .footer-address { font-size: 14px; color: #aaa; margin-top: 10px; }
-    </style>
+
+    .sidebar-left{
+        width:100%;
+        position:relative;
+        top:0;
+    }
+
+    .hero{
+        min-height:180px;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .article-card{
+        padding:20px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <div style="margin-top: 20px;">
-        <a href="index.html" style="color: var(--primary); text-decoration: none; font-family: 'Prompt';">← กลับหน้าหลัก</a>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>BBC Church</h1>
+        <p>ข่าวสาร • บทความ • คำเทศนา • พระพรจากพระเจ้า</p>
     </div>
+</section>
 
-    <article class="article-card">
-        <div id="catDisp" style="color:var(--primary); font-family:'Prompt'; font-weight:bold; margin-bottom:5px;"></div>
-        <h1 id="artTitle">กำลังโหลดเนื้อหา...</h1>
-        <div id="artRatingHeader" style="color: #f1c40f; font-family: 'Prompt'; margin-bottom: 15px;">☆☆☆☆☆ (0)</div>
-        <div id="artMeta" class="article-meta"></div>
-        <div id="topDisplay"></div>
-        <div id="artBody" class="content-text"></div>
-        <div id="detailsDisplay"></div>
-        <div class="comment-display-area" id="commentList"></div>
-    </article>
+<!-- MAIN -->
+<div class="main-layout">
 
-    <!-- ฟอร์มให้คะแนนเดิม -->
-    <div class="rating-form">
-        <h3 style="font-family: 'Prompt'; color: white; margin-bottom: 10px;">⭐️ ให้คะแนนและแบ่งปันพระพร</h3>
-        <select id="uStars" class="u-input" style="color: #f1c40f;">
-            <option value="5">⭐⭐⭐⭐⭐ (ยอดเยี่ยม)</option>
-            <option value="4">⭐⭐⭐⭐ (ดีมาก)</option>
-            <option value="3">⭐⭐⭐ (ดี)</option>
-            <option value="2">⭐⭐ (พอใช้)</option>
-            <option value="1">⭐ (ควรปรับปรุง)</option>
-        </select>
-        <input type="text" id="uName" class="u-input" placeholder="ชื่อของคุณ">
-        <textarea id="uMsg" class="u-input" rows="3" placeholder="เขียนความประทับใจของคุณ..."></textarea>
-        <button id="submitRatingBtn" class="btn-submit-rating">ส่งความคิดเห็น</button>
-    </div>
+    <!-- SIDEBAR LEFT -->
+    <aside class="sidebar-left">
 
-    <!-- ฟอร์มติดต่อใหม่ -->
-    <div class="contact-section">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h2 style="color: #2c3e50; font-family: 'Prompt';">ติดต่อเรา / สนใจรับข้อมูล</h2>
+        <div class="sidebar-title">
+            ข่าวสารคริสตจักร
         </div>
-        <form id="contactForm">
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; margin-bottom: 5px; font-weight: bold;">ชื่อ-นามสกุล</label>
-                <input type="text" id="contactName" required placeholder="ระบุชื่อของคุณ" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; margin-bottom: 5px; font-weight: bold;">เบอร์โทรศัพท์</label>
-                <input type="tel" id="contactPhone" required placeholder="08X-XXX-XXXX" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
-            <div style="margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 12px;">
-                <label style="font-weight: bold;">ความต้องการ</label><br>
-                <input type="checkbox" name="opt" value="ต้องการไปโบสถ์" id="opt1"> <label for="opt1">ต้องการไปร่วมโบสถ์</label><br>
-                <input type="checkbox" name="opt" value="ศึกษาที่บ้าน" id="opt2"> <label for="opt2">ต้องการศึกษาที่บ้าน</label>
-            </div>
-            <div id="addressBox" style="display:none; margin-bottom: 15px;">
-                <label style="font-weight: bold;">ที่อยู่สำหรับส่งเอกสาร</label>
-                <textarea id="contactAddress" rows="3" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
-            </div>
-            <div style="margin-bottom: 20px;">
-                <label style="font-weight: bold;">ข้อความเพิ่มเติม</label>
-                <textarea id="contactNote" rows="3" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
-            </div>
-            <button type="submit" id="sendBtn" style="width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">ส่งข้อมูล</button>
-        </form>
-    </div>
 
-    <!-- สถิติ และ QR Code -->
-    <div class="counter-section">
-        <div style="margin-bottom: 30px;">
-            <h3 style="font-family: 'Prompt'; margin-bottom: 15px;">ติดต่อเราผ่าน LINE</h3>
-            <a href="https://lin.ee/NhFf2Rf" target="_blank">
-                <img src="https://qr-official.line.me/gs/M_082xyooj_BW.png?oat_สารบัญ" alt="LINE" class="qr-code">
+        <div class="news-list">
+
+            <a href="#" class="news-item">
+                <div class="news-date">
+                    20 พฤษภาคม 2026
+                </div>
+                <div class="news-text">
+                    นมัสการวันอาทิตย์ เวลา 09:00 น.
+                </div>
             </a>
+
+            <a href="#" class="news-item">
+                <div class="news-date">
+                    18 พฤษภาคม 2026
+                </div>
+                <div class="news-text">
+                    เปิดรับสมัครเรียนพระคัมภีร์ออนไลน์
+                </div>
+            </a>
+
+            <a href="#" class="news-item">
+                <div class="news-date">
+                    15 พฤษภาคม 2026
+                </div>
+                <div class="news-text">
+                    กิจกรรมอธิษฐานเผื่อประเทศไทย
+                </div>
+            </a>
+
+            <a href="#" class="news-item">
+                <div class="news-date">
+                    10 พฤษภาคม 2026
+                </div>
+                <div class="news-text">
+                    ประกาศค่ายเยาวชนคริสเตียนประจำปี
+                </div>
+            </a>
+
+            <a href="#" class="news-item">
+                <div class="news-date">
+                    02 พฤษภาคม 2026
+                </div>
+                <div class="news-text">
+                    ถ่ายทอดสดคำเทศนาผ่าน YouTube ทุกสัปดาห์
+                </div>
+            </a>
+
         </div>
-        <h3 style="margin-bottom: 15px; font-family: 'Prompt';">สถิติผู้เยี่ยมชม</h3>
-        <a href="https://info.flagcounter.com/iWY4">
-            <img src="https://s01.flagcounter.com/countxl/iWY4/bg_FFFFFF/txt_000000/border_CCCCCC/columns_5/maxflags_20/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
-        </a>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+        <div class="container">
+
+            <div style="margin-top:20px;">
+                <a href="index.html" style="color:var(--primary); text-decoration:none; font-family:'Prompt';">
+                    ← กลับหน้าหลัก
+                </a>
+            </div>
+
+            <article class="article-card">
+
+                <div id="catDisp" style="color:var(--primary); font-family:'Prompt'; font-weight:bold; margin-bottom:5px;"></div>
+
+                <h1 id="artTitle">กำลังโหลดเนื้อหา...</h1>
+
+                <div id="artRatingHeader" style="color:#f1c40f; font-family:'Prompt'; margin-bottom:15px;">
+                    ☆☆☆☆☆ (0)
+                </div>
+
+                <div id="artMeta" class="article-meta"></div>
+
+                <div id="topDisplay"></div>
+
+                <div id="artBody" class="content-text"></div>
+
+                <div id="detailsDisplay"></div>
+
+                <div class="comment-display-area" id="commentList"></div>
+
+            </article>
+
+            <!-- ฟอร์มให้คะแนน -->
+            <div class="rating-form">
+
+                <h3 style="font-family:'Prompt'; color:white; margin-bottom:10px;">
+                    ⭐️ ให้คะแนนและแบ่งปันพระพร
+                </h3>
+
+                <select id="uStars" class="u-input" style="color:#f1c40f;">
+                    <option value="5">⭐⭐⭐⭐⭐ (ยอดเยี่ยม)</option>
+                    <option value="4">⭐⭐⭐⭐ (ดีมาก)</option>
+                    <option value="3">⭐⭐⭐ (ดี)</option>
+                    <option value="2">⭐⭐ (พอใช้)</option>
+                    <option value="1">⭐ (ควรปรับปรุง)</option>
+                </select>
+
+                <input type="text" id="uName" class="u-input" placeholder="ชื่อของคุณ">
+
+                <textarea id="uMsg" class="u-input" rows="3" placeholder="เขียนความประทับใจของคุณ..."></textarea>
+
+                <button id="submitRatingBtn" class="btn-submit-rating">
+                    ส่งความคิดเห็น
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 <footer>
+
     <div class="footer-info">
-        <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'"><br>
-        <strong style="font-family:'Prompt'; font-size:18px;">คริสตจักรแบ๊บติสต์บางเขน</strong>
-        <div style="margin-top: 10px; color: #4dabff; font-weight: bold;">🕒 นมัสการ: วันอาทิตย์ 09.00 - 12.00 น.</div>
-        <div class="footer-address">
-            2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900 <br>📞 โทร: 02-5798764
+
+        <img src="logo.png">
+
+        <br>
+
+        <strong style="font-family:'Prompt'; font-size:18px;">
+            คริสตจักรแบ๊บติสต์บางเขน
+        </strong>
+
+        <div style="margin-top:10px; color:#4dabff; font-weight:bold;">
+            🕒 นมัสการ: วันอาทิตย์ 09.00 - 12.00 น.
         </div>
+
+        <div class="footer-address">
+            2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
+            <br>
+            📞 โทร: 02-5798764
+        </div>
+
     </div>
+
 </footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, query, where, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-        projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.appspot.com",
-        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const artId = new URLSearchParams(window.location.search).get('id');
-
-    // ฟังก์ชันจัดการฟอร์มติดต่อ (แสดง/ซ่อน ที่อยู่)
-    document.getElementById('opt2').onchange = function() {
-        document.getElementById('addressBox').style.display = this.checked ? 'block' : 'none';
-    };
-
-    // ส่งฟอร์มติดต่อเข้า Firebase (ใช้ Collection ชื่อ contacts)
-    document.getElementById('contactForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('sendBtn');
-        btn.disabled = true;
-        btn.innerText = "กำลังส่ง...";
-
-        const options = Array.from(document.querySelectorAll('input[name="opt"]:checked')).map(cb => cb.value);
-        
-        try {
-            await addDoc(collection(db, "contacts"), {
-                articleId: artId || "general",
-                name: document.getElementById('contactName').value,
-                phone: document.getElementById('contactPhone').value,
-                needs: options,
-                address: document.getElementById('contactAddress').value,
-                note: document.getElementById('contactNote').value,
-                createdAt: serverTimestamp()
-            });
-            alert("ได้รับข้อมูลแล้ว พระเจ้าอวยพรครับ!");
-            document.getElementById('contactForm').reset();
-            document.getElementById('addressBox').style.display = 'none';
-        } catch (err) {
-            alert("เกิดข้อผิดพลาด กรุณาลองใหม่");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "ส่งข้อมูล";
-        }
-    };
-
-    // --- ส่วนโหลดเนื้อหาบทความเดิม ---
-    function createMediaHTML(url) {
-        if (!url || url === "" || url === "undefined") return "";
-        const yid = (url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/) || [])[1];
-        if (yid) return `<div class="video-container"><iframe src="https://www.youtube.com/embed/${yid}" frameborder="0" allowfullscreen></iframe></div>`;
-        return `<img src="${url}" class="media-full-width" onerror="this.style.display='none';">`;
-    }
-
-    async function loadContent() {
-        if(!artId) return;
-        const snap = await getDoc(doc(db, "articles", artId));
-        if(snap.exists()) {
-            const r = snap.data();
-            document.title = r.title;
-            document.getElementById('artTitle').innerText = r.title;
-            
-            let prefix = "ผู้แต่ง: ";
-            const category = r.category || "";
-            if (category.includes("เทศนา")) prefix = "ผู้เทศนา: ";
-            else if (category.includes("คำพยาน")) prefix = "เจ้าของคำพยาน: ";
-            else if (category.includes("ประกาศ")) prefix = "เจ้าหน้าที่คริสตจักร: ";
-
-            let finalName = r.author || r.authorName || "คริสตจักร";
-            document.getElementById('catDisp').innerText = "☀️ " + category;
-            document.getElementById('artMeta').innerHTML = `${prefix}<b>${finalName}</b> | วันที่: <b>${r.displayDate || '-'}</b>`;
-
-            let topHtml = createMediaHTML(r.thumbUrl);
-            if(r.youtubeUrl) topHtml += createMediaHTML(r.youtubeUrl);
-            document.getElementById('topDisplay').innerHTML = topHtml;
-            document.getElementById('artBody').innerText = r.content || "";
-
-            let detailsHtml = "";
-            const imgs = [r.arc1 || r.contentImg1, r.arc2 || r.contentImg2, r.arc3 || r.archiveUrl];
-            imgs.forEach(url => { if(url) detailsHtml += createMediaHTML(url); });
-            document.getElementById('detailsDisplay').innerHTML = detailsHtml;
-
-            loadRatings();
-        }
-    }
-
-    function loadRatings() {
-        const q = query(collection(db, "ratings"), where("articleId", "==", artId), where("approved", "==", true));
-        onSnapshot(q, (snapshot) => {
-            let html = '<h3 style="font-family:\'Prompt\'; font-size:18px; margin-bottom:15px; color:white;">ความคิดเห็นจากพี่น้อง</h3>';
-            let totalStars = 0;
-            if (!snapshot.empty) {
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    totalStars += data.rating;
-                    html += `<div class="comment-item"><div class="comment-user">${data.userName} - ${'⭐'.repeat(data.rating)}</div><div class="comment-text">${data.comment}</div></div>`;
-                });
-                document.getElementById('commentList').innerHTML = html;
-                const avg = (totalStars / snapshot.size).toFixed(1);
-                document.getElementById('artRatingHeader').innerText = `${'⭐'.repeat(Math.round(avg))} (${avg}/5 จาก ${snapshot.size} คน)`;
-            }
-        });
-    }
-
-    document.getElementById('submitRatingBtn').onclick = async () => {
-        const name = document.getElementById('uName').value;
-        const msg = document.getElementById('uMsg').value;
-        const stars = parseInt(document.getElementById('uStars').value);
-        if(!name || !msg) return alert("กรุณากรอกชื่อและข้อความ");
-        try {
-            await addDoc(collection(db, "ratings"), {
-                articleId: artId, userName: name, comment: msg, rating: stars, approved: true, createdAt: serverTimestamp()
-            });
-            alert("ขอบคุณสำหรับคำหนุนใจครับ!");
-            document.getElementById('uName').value = ""; document.getElementById('uMsg').value = "";
-        } catch (e) { alert("เกิดข้อผิดพลาด"); }
-    };
-
-    loadContent();
-</script>
 </body>
 </html>
