@@ -1,92 +1,24 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>อ่านบทความ - BBC Church</title>
-
-<link rel="icon" type="image/png" href="logo.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<!-- ========================= -->
+<!-- SIDEBAR LEFT ข่าวสารคริสตจักร -->
+<!-- วางโค้ดนี้ ใต้ HERO / ใต้วิดีโอ -->
+<!-- ใช้ได้กับ index.html / article.html / testimony.html / sermon.html -->
+<!-- ห้ามลบ script firebase เดิม -->
+<!-- ========================= -->
 
 <style>
-:root{
-    --primary:#4dabff;
-    --dark-bg:#121212;
-    --card-bg:#1e1e1e;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:var(--dark-bg);
-    color:#e0e0e0;
-    font-family:'Sarabun',sans-serif;
-    line-height:1.6;
-}
-
-/* =========================
-   HERO
-========================= */
-.hero{
+/* ===== LAYOUT ===== */
+.main-layout-wrap{
     width:100%;
-    background:url('hero.jpg') center/cover no-repeat;
-    min-height:260px;
     display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    position:relative;
-}
-
-.hero::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,.55);
-}
-
-.hero-content{
-    position:relative;
-    z-index:2;
-    padding:20px;
-}
-
-.hero h1{
-    font-size:42px;
-    color:#fff;
-    font-family:'Prompt';
-    margin-bottom:10px;
-}
-
-.hero p{
-    color:#ddd;
-    font-size:18px;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
-.main-layout{
-    max-width:1400px;
-    margin:20px auto;
-    padding:0 15px;
-    display:flex;
-    gap:20px;
+    gap:25px;
     align-items:flex-start;
+    margin-top:25px;
 }
 
-/* =========================
-   SIDEBAR LEFT
-========================= */
-
-.sidebar-left{
+/* ===== LEFT SIDEBAR ===== */
+.left-news-sidebar{
     width:320px;
+    min-width:320px;
     background:#1b1b1b;
     border:1px solid #333;
     border-radius:18px;
@@ -95,429 +27,327 @@ body{
     top:15px;
 }
 
-.sidebar-title{
-    background:linear-gradient(90deg,#4dabff,#1e88e5);
+.sidebar-header{
+    background:linear-gradient(135deg,#4dabff,#007bff);
     padding:18px;
-    color:#fff;
-    font-size:22px;
-    font-family:'Prompt';
+    font-family:'Prompt',sans-serif;
+    font-size:20px;
     font-weight:bold;
+    color:#fff;
+    text-align:center;
 }
 
-.news-list{
-    padding:10px;
+.news-scroll-area{
+    max-height:1200px;
+    overflow-y:auto;
+}
+
+.news-scroll-area::-webkit-scrollbar{
+    width:7px;
+}
+
+.news-scroll-area::-webkit-scrollbar-thumb{
+    background:#4dabff;
+    border-radius:10px;
 }
 
 .news-item{
-    display:block;
-    padding:14px;
-    border-bottom:1px solid #2f2f2f;
-    text-decoration:none;
-    transition:.3s;
+    padding:16px;
+    border-bottom:1px solid #2d2d2d;
+    transition:0.3s;
 }
 
 .news-item:hover{
-    background:#252525;
+    background:#222;
+}
+
+.news-item:last-child{
+    border-bottom:none;
+}
+
+.news-link{
+    text-decoration:none;
+    display:block;
 }
 
 .news-date{
     color:#4dabff;
     font-size:13px;
-    margin-bottom:6px;
+    margin-bottom:8px;
     font-weight:bold;
+    font-family:'Prompt',sans-serif;
 }
 
-.news-text{
+.news-title{
     color:#fff;
-    font-size:15px;
-    line-height:1.5;
+    font-size:16px;
+    line-height:1.6;
+    font-weight:700;
+    margin-bottom:10px;
 }
 
-/* =========================
-   CONTENT
-========================= */
+.news-content{
+    color:#bdbdbd;
+    font-size:14px;
+    line-height:1.7;
+    display:-webkit-box;
+    -webkit-line-clamp:4;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
 
-.content-area{
+.news-thumb{
+    width:100%;
+    border-radius:12px;
+    margin-top:12px;
+    object-fit:cover;
+    max-height:180px;
+    border:1px solid #333;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.main-page-content{
     flex:1;
     min-width:0;
 }
 
-.article-card{
-    background:var(--card-bg);
-    padding:30px;
-    border-radius:15px;
-    border:1px solid #333;
-}
+/* ===== MOBILE ===== */
+@media(max-width:991px){
 
-.container{
-    width:100%;
-}
-
-h1{
-    font-family:'Prompt';
-    color:white;
-    font-size:28px;
-    margin-bottom:10px;
-}
-
-.article-meta{
-    color:#aaa;
-    font-size:14px;
-    margin-bottom:20px;
-    border-bottom:1px solid #333;
-    padding-bottom:15px;
-}
-
-.article-meta b{
-    color:var(--primary);
-}
-
-.media-full-width{
-    width:100%;
-    max-width:100%;
-    height:auto;
-    object-fit:contain;
-    border-radius:10px;
-    margin-bottom:20px;
-}
-
-.content-text{
-    line-height:1.8;
-    font-size:17px;
-    white-space:pre-wrap;
-    color:#eee;
-    margin:25px 0;
-}
-
-.video-container{
-    position:relative;
-    width:100%;
-    padding-bottom:56.25%;
-    height:0;
-    margin:20px 0;
-    border-radius:12px;
-    overflow:hidden;
-    background:#000;
-}
-
-.video-container iframe{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-}
-
-.comment-display-area{
-    margin-top:30px;
-    border-top:1px solid #333;
-    padding-top:20px;
-}
-
-.comment-item{
-    background:#252525;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-    border-left:4px solid var(--primary);
-}
-
-.comment-user{
-    font-weight:bold;
-    color:var(--primary);
-    margin-bottom:5px;
-    font-family:'Prompt';
-}
-
-.comment-text{
-    color:#ccc;
-    font-size:15px;
-}
-
-.rating-form{
-    background:#1a1a1a;
-    padding:25px;
-    border-radius:15px;
-    border:1px dashed #444;
-    margin:40px 0;
-}
-
-.u-input{
-    width:100%;
-    padding:12px;
-    background:#000;
-    border:1px solid #333;
-    color:white;
-    border-radius:8px;
-    margin-bottom:10px;
-}
-
-.btn-submit-rating{
-    width:100%;
-    padding:15px;
-    background:var(--primary);
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-/* =========================
-   CONTACT
-========================= */
-
-.contact-section{
-    background:#ffffff;
-    color:#333;
-    padding:30px;
-    border-radius:20px;
-    margin-top:20px;
-}
-
-.counter-section{
-    text-align:center;
-    border-top:1px solid #eee;
-    padding:30px 15px;
-    background:#1a1a1a;
-    border-radius:15px;
-    margin:40px 0;
-    color:#ffffff;
-    overflow:hidden;
-}
-
-.counter-section img{
-    max-width:100% !important;
-    height:auto !important;
-    display:inline-block;
-}
-
-.qr-code{
-    width:140px;
-    border:4px solid white;
-    border-radius:10px;
-    margin-top:10px;
-    transition:transform 0.3s;
-}
-
-.qr-code:hover{
-    transform:scale(1.05);
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    background:#051937;
-    color:white;
-    text-align:center;
-    padding:40px 20px;
-    margin-top:50px;
-}
-
-footer img{
-    width:60px;
-    margin-bottom:10px;
-}
-
-.footer-address{
-    font-size:14px;
-    color:#aaa;
-    margin-top:10px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:980px){
-
-    .main-layout{
+    .main-layout-wrap{
         flex-direction:column;
     }
 
-    .sidebar-left{
+    .left-news-sidebar{
         width:100%;
+        min-width:100%;
         position:relative;
         top:0;
     }
 
-    .hero{
-        min-height:180px;
-    }
-
-    .hero h1{
-        font-size:30px;
-    }
-
-    .article-card{
-        padding:20px;
+    .news-scroll-area{
+        max-height:none;
     }
 }
 </style>
-</head>
 
-<body>
+<!-- ===== START LAYOUT ===== -->
+<div class="main-layout-wrap">
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>BBC Church</h1>
-        <p>ข่าวสาร • บทความ • คำเทศนา • พระพรจากพระเจ้า</p>
-    </div>
-</section>
+    <!-- ===== SIDEBAR LEFT ===== -->
+    <aside class="left-news-sidebar">
 
-<!-- MAIN -->
-<div class="main-layout">
-
-    <!-- SIDEBAR LEFT -->
-    <aside class="sidebar-left">
-
-        <div class="sidebar-title">
+        <div class="sidebar-header">
             ข่าวสารคริสตจักร
         </div>
 
-        <div class="news-list">
+        <div id="churchNewsSidebar" class="news-scroll-area">
 
-            <a href="#" class="news-item">
-                <div class="news-date">
-                    20 พฤษภาคม 2026
-                </div>
-                <div class="news-text">
-                    นมัสการวันอาทิตย์ เวลา 09:00 น.
-                </div>
-            </a>
-
-            <a href="#" class="news-item">
-                <div class="news-date">
-                    18 พฤษภาคม 2026
-                </div>
-                <div class="news-text">
-                    เปิดรับสมัครเรียนพระคัมภีร์ออนไลน์
-                </div>
-            </a>
-
-            <a href="#" class="news-item">
-                <div class="news-date">
-                    15 พฤษภาคม 2026
-                </div>
-                <div class="news-text">
-                    กิจกรรมอธิษฐานเผื่อประเทศไทย
-                </div>
-            </a>
-
-            <a href="#" class="news-item">
-                <div class="news-date">
-                    10 พฤษภาคม 2026
-                </div>
-                <div class="news-text">
-                    ประกาศค่ายเยาวชนคริสเตียนประจำปี
-                </div>
-            </a>
-
-            <a href="#" class="news-item">
-                <div class="news-date">
-                    02 พฤษภาคม 2026
-                </div>
-                <div class="news-text">
-                    ถ่ายทอดสดคำเทศนาผ่าน YouTube ทุกสัปดาห์
-                </div>
-            </a>
+            <div style="padding:20px; text-align:center; color:#aaa;">
+                กำลังโหลดข่าวสาร...
+            </div>
 
         </div>
 
     </aside>
 
-    <!-- CONTENT -->
-    <div class="content-area">
+    <!-- ===== เนื้อหาเดิมของเว็บ ===== -->
+    <div class="main-page-content">
 
-        <div class="container">
+        <!--
+            ย้ายเนื้อหาเดิมทั้งหมดของหน้า
+            มาไว้ในนี้
 
-            <div style="margin-top:20px;">
-                <a href="index.html" style="color:var(--primary); text-decoration:none; font-family:'Prompt';">
-                    ← กลับหน้าหลัก
-                </a>
-            </div>
+            ตัวอย่าง:
+            article-card
+            comments
+            forms
+            footer
+            ฯลฯ
+        -->
 
-            <article class="article-card">
 
-                <div id="catDisp" style="color:var(--primary); font-family:'Prompt'; font-weight:bold; margin-bottom:5px;"></div>
 
-                <h1 id="artTitle">กำลังโหลดเนื้อหา...</h1>
-
-                <div id="artRatingHeader" style="color:#f1c40f; font-family:'Prompt'; margin-bottom:15px;">
-                    ☆☆☆☆☆ (0)
-                </div>
-
-                <div id="artMeta" class="article-meta"></div>
-
-                <div id="topDisplay"></div>
-
-                <div id="artBody" class="content-text"></div>
-
-                <div id="detailsDisplay"></div>
-
-                <div class="comment-display-area" id="commentList"></div>
-
-            </article>
-
-            <!-- ฟอร์มให้คะแนน -->
-            <div class="rating-form">
-
-                <h3 style="font-family:'Prompt'; color:white; margin-bottom:10px;">
-                    ⭐️ ให้คะแนนและแบ่งปันพระพร
-                </h3>
-
-                <select id="uStars" class="u-input" style="color:#f1c40f;">
-                    <option value="5">⭐⭐⭐⭐⭐ (ยอดเยี่ยม)</option>
-                    <option value="4">⭐⭐⭐⭐ (ดีมาก)</option>
-                    <option value="3">⭐⭐⭐ (ดี)</option>
-                    <option value="2">⭐⭐ (พอใช้)</option>
-                    <option value="1">⭐ (ควรปรับปรุง)</option>
-                </select>
-
-                <input type="text" id="uName" class="u-input" placeholder="ชื่อของคุณ">
-
-                <textarea id="uMsg" class="u-input" rows="3" placeholder="เขียนความประทับใจของคุณ..."></textarea>
-
-                <button id="submitRatingBtn" class="btn-submit-rating">
-                    ส่งความคิดเห็น
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<!-- ===== ปิด main-page-content ===== -->
 </div>
 
-<footer>
+<!-- ===== ปิด main-layout-wrap ===== -->
+</div>
 
-    <div class="footer-info">
+<script type="module">
 
-        <img src="logo.png">
+/* =========================================================
+   IMPORT FIREBASE เพิ่ม query orderBy limit
+========================================================= */
 
-        <br>
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
-        <strong style="font-family:'Prompt'; font-size:18px;">
-            คริสตจักรแบ๊บติสต์บางเขน
-        </strong>
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    orderBy,
+    limit,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        <div style="margin-top:10px; color:#4dabff; font-weight:bold;">
-            🕒 นมัสการ: วันอาทิตย์ 09.00 - 12.00 น.
-        </div>
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
-        <div class="footer-address">
-            2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
-            <br>
-            📞 โทร: 02-5798764
-        </div>
+const firebaseConfig = {
+    apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+    authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+    projectId: "bbcchurch-6ffc3",
+    storageBucket: "bbcchurch-6ffc3.appspot.com",
+    appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+};
 
-    </div>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-</footer>
+/* =========================================================
+   โหลดข่าวสารคริสตจักร
+========================================================= */
 
-</body>
-</html>
+async function loadChurchNewsSidebar(){
+
+    const wrap = document.getElementById("churchNewsSidebar");
+
+    try{
+
+        /* ==============================
+           โหลดเฉพาะหมวด ข่าวสารคริสตจักร
+        ============================== */
+
+        const q = query(
+            collection(db,"articles"),
+            where("category","==","ข่าวสารคริสตจักร"),
+            orderBy("createdAt","desc"),
+            limit(30)
+        );
+
+        const snapshot = await getDocs(q);
+
+        if(snapshot.empty){
+
+            wrap.innerHTML = `
+                <div style="
+                    padding:25px;
+                    text-align:center;
+                    color:#999;
+                    line-height:1.8;
+                ">
+                    ยังไม่มีข่าวสารคริสตจักร
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = "";
+
+        snapshot.forEach((doc)=>{
+
+            const data = doc.data();
+
+            const id = doc.id;
+
+            const title = data.title || "ไม่มีหัวข้อ";
+
+            const content = data.content || "";
+
+            const date =
+                data.displayDate ||
+                "-";
+
+            const thumb =
+                data.thumbUrl ||
+                data.contentImg1 ||
+                "";
+
+            /* ==============================
+               ตรวจ path ปัจจุบัน
+            ============================== */
+
+            let targetPage = "article.html";
+
+            if(location.pathname.includes("testimony")){
+                targetPage = "article.html";
+            }
+
+            if(location.pathname.includes("sermon")){
+                targetPage = "article.html";
+            }
+
+            html += `
+
+            <div class="news-item">
+
+                <a class="news-link"
+                   href="${targetPage}?id=${id}">
+
+                    <div class="news-date">
+                        📅 ${date}
+                    </div>
+
+                    <div class="news-title">
+                        ${title}
+                    </div>
+
+                    <div class="news-content">
+                        ${content}
+                    </div>
+
+                    ${
+                        thumb
+                        ?
+                        `
+                        <img
+                            src="${thumb}"
+                            class="news-thumb"
+                            loading="lazy"
+                            onerror="this.style.display='none';"
+                        >
+                        `
+                        :
+                        ""
+                    }
+
+                </a>
+
+            </div>
+
+            `;
+
+        });
+
+        wrap.innerHTML = html;
+
+    }catch(err){
+
+        console.error(err);
+
+        wrap.innerHTML = `
+            <div style="
+                padding:25px;
+                text-align:center;
+                color:#ff7675;
+                line-height:1.8;
+            ">
+                โหลดข่าวสารไม่สำเร็จ
+            </div>
+        `;
+    }
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+loadChurchNewsSidebar();
+
+</script>
