@@ -35,16 +35,16 @@ body{
     line-height:1.6;
 }
 
-/* =========================
-   Layout
-========================= */
-
 .container{
     width:100%;
     max-width:1400px;
-    margin:20px auto;
-    padding:0 15px;
+    margin:auto;
+    padding:20px;
 }
+
+/* =========================
+   MAIN LAYOUT
+========================= */
 
 .main-layout{
     display:flex;
@@ -53,12 +53,12 @@ body{
 }
 
 /* =========================
-   Sidebar
+   SIDEBAR
 ========================= */
 
 .left-sidebar{
-    width:280px;
-    min-width:280px;
+    width:320px;
+    min-width:320px;
     background:#1a1a1a;
     border:1px solid #333;
     border-radius:15px;
@@ -70,7 +70,7 @@ body{
 .sidebar-title{
     font-family:'Prompt';
     color:var(--primary);
-    font-size:20px;
+    font-size:22px;
     margin-bottom:15px;
     border-bottom:1px solid #333;
     padding-bottom:10px;
@@ -84,13 +84,12 @@ body{
     border-radius:10px;
     margin-bottom:10px;
     background:#252525;
-    transition:.3s;
+    transition:0.3s;
     border-left:4px solid var(--primary);
 }
 
 .news-item:hover{
     background:#303030;
-    transform:translateX(3px);
 }
 
 .news-date{
@@ -105,7 +104,7 @@ body{
 }
 
 /* =========================
-   Content
+   CONTENT AREA
 ========================= */
 
 .content-area{
@@ -122,10 +121,9 @@ body{
 
 h1{
     font-family:'Prompt';
-    color:#fff;
+    color:white;
     font-size:28px;
     margin-bottom:10px;
-    line-height:1.4;
 }
 
 .article-meta{
@@ -140,18 +138,22 @@ h1{
     color:var(--primary);
 }
 
-/* =========================
-   Media
-========================= */
-
 .media-full-width{
     width:100%;
     max-width:100%;
     height:auto;
-    object-fit:contain;
     border-radius:10px;
     margin-bottom:20px;
     display:block;
+}
+
+.content-text{
+    line-height:1.8;
+    font-size:17px;
+    white-space:pre-wrap;
+    color:#eee;
+    margin:25px 0;
+    word-break:break-word;
 }
 
 .video-container{
@@ -172,23 +174,6 @@ h1{
     width:100%;
     height:100%;
 }
-
-/* =========================
-   Content Text
-========================= */
-
-.content-text{
-    line-height:1.9;
-    font-size:17px;
-    white-space:pre-wrap;
-    color:#eee;
-    margin:25px 0;
-    word-wrap:break-word;
-}
-
-/* =========================
-   Comments
-========================= */
 
 .comment-display-area{
     margin-top:30px;
@@ -217,7 +202,7 @@ h1{
 }
 
 /* =========================
-   Rating Form
+   RATING FORM
 ========================= */
 
 .rating-form{
@@ -250,24 +235,19 @@ h1{
 }
 
 /* =========================
-   Contact
+   CONTACT
 ========================= */
 
 .contact-section{
-    background:#fff;
+    background:#ffffff;
     color:#333;
     padding:30px;
     border-radius:20px;
     margin-top:20px;
 }
 
-.contact-section input,
-.contact-section textarea{
-    font-family:'Sarabun',sans-serif;
-}
-
 /* =========================
-   Counter
+   COUNTER
 ========================= */
 
 .counter-section{
@@ -277,34 +257,29 @@ h1{
     background:#1a1a1a;
     border-radius:15px;
     margin:40px 0;
-    color:#fff;
+    color:#ffffff;
     overflow:hidden;
 }
 
 .counter-section img{
-    max-width:100% !important;
-    height:auto !important;
+    max-width:100%;
+    height:auto;
 }
 
 .qr-code{
     width:140px;
-    border:4px solid #fff;
+    border:4px solid white;
     border-radius:10px;
     margin-top:10px;
-    transition:.3s;
-}
-
-.qr-code:hover{
-    transform:scale(1.05);
 }
 
 /* =========================
-   Footer
+   FOOTER
 ========================= */
 
 footer{
     background:#051937;
-    color:#fff;
+    color:white;
     text-align:center;
     padding:40px 20px;
     margin-top:50px;
@@ -322,7 +297,7 @@ footer img{
 }
 
 /* =========================
-   Mobile
+   MOBILE
 ========================= */
 
 @media(max-width:980px){
@@ -338,36 +313,17 @@ footer img{
         top:0;
     }
 
+    .container{
+        padding:12px;
+    }
+
     .article-card{
         padding:20px;
     }
 
     h1{
         font-size:24px;
-    }
-
-    .contact-section{
-        padding:20px;
-    }
-
-}
-
-@media(max-width:600px){
-
-    .container{
-        padding:0 10px;
-    }
-
-    .article-card{
-        padding:15px;
-    }
-
-    h1{
-        font-size:22px;
-    }
-
-    .content-text{
-        font-size:16px;
+        line-height:1.4;
     }
 
 }
@@ -387,7 +343,7 @@ footer img{
 
     <div class="main-layout">
 
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="left-sidebar">
 
             <div class="sidebar-title">
@@ -411,7 +367,7 @@ footer img{
 
         </aside>
 
-        <!-- Content -->
+        <!-- CONTENT -->
         <div class="content-area">
 
             <article class="article-card">
@@ -438,22 +394,19 @@ footer img{
 
             </article>
 
-            <!-- Rating Form -->
-
+            <!-- FORM -->
             <div class="rating-form">
 
                 <h3 style="font-family:'Prompt'; color:white; margin-bottom:10px;">
                     ⭐️ ให้คะแนนและแบ่งปันพระพร
                 </h3>
 
-                <select id="uStars" class="u-input" style="color:#f1c40f;">
-
+                <select id="uStars" class="u-input">
                     <option value="5">⭐⭐⭐⭐⭐ (ยอดเยี่ยม)</option>
                     <option value="4">⭐⭐⭐⭐ (ดีมาก)</option>
                     <option value="3">⭐⭐⭐ (ดี)</option>
                     <option value="2">⭐⭐ (พอใช้)</option>
                     <option value="1">⭐ (ควรปรับปรุง)</option>
-
                 </select>
 
                 <input type="text" id="uName" class="u-input" placeholder="ชื่อของคุณ">
@@ -466,160 +419,11 @@ footer img{
 
             </div>
 
-            <!-- Contact -->
-
-            <div class="contact-section">
-
-                <div style="text-align:center; margin-bottom:20px;">
-
-                    <h2 style="color:#2c3e50; font-family:'Prompt';">
-                        ติดต่อเรา / สนใจรับข้อมูล
-                    </h2>
-
-                </div>
-
-                <form id="contactForm">
-
-                    <div style="margin-bottom:15px;">
-
-                        <label style="display:block; margin-bottom:5px; font-weight:bold;">
-                            ชื่อ-นามสกุล
-                        </label>
-
-                        <input type="text" id="contactName" required placeholder="ระบุชื่อของคุณ"
-                        style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">
-
-                    </div>
-
-                    <div style="margin-bottom:15px;">
-
-                        <label style="display:block; margin-bottom:5px; font-weight:bold;">
-                            เบอร์โทรศัพท์
-                        </label>
-
-                        <input type="tel" id="contactPhone" required placeholder="08X-XXX-XXXX"
-                        style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">
-
-                    </div>
-
-                    <div style="margin-bottom:15px; background:#f9f9f9; padding:15px; border-radius:12px;">
-
-                        <label style="font-weight:bold;">
-                            ความต้องการ
-                        </label>
-
-                        <br>
-
-                        <input type="checkbox" name="opt" value="ต้องการไปโบสถ์" id="opt1">
-                        <label for="opt1">ต้องการไปร่วมโบสถ์</label>
-
-                        <br>
-
-                        <input type="checkbox" name="opt" value="ศึกษาที่บ้าน" id="opt2">
-                        <label for="opt2">ต้องการศึกษาที่บ้าน</label>
-
-                    </div>
-
-                    <div id="addressBox" style="display:none; margin-bottom:15px;">
-
-                        <label style="font-weight:bold;">
-                            ที่อยู่สำหรับส่งเอกสาร
-                        </label>
-
-                        <textarea id="contactAddress" rows="3"
-                        style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;"></textarea>
-
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-
-                        <label style="font-weight:bold;">
-                            ข้อความเพิ่มเติม
-                        </label>
-
-                        <textarea id="contactNote" rows="3"
-                        style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;"></textarea>
-
-                    </div>
-
-                    <button type="submit" id="sendBtn"
-                    style="width:100%; padding:16px; background:#27ae60; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
-
-                        ส่งข้อมูล
-
-                    </button>
-
-                </form>
-
-            </div>
-
-            <!-- Counter -->
-
-            <div class="counter-section">
-
-                <div style="margin-bottom:30px;">
-
-                    <h3 style="font-family:'Prompt'; margin-bottom:15px;">
-                        ติดต่อเราผ่าน LINE
-                    </h3>
-
-                    <a href="https://lin.ee/NhFf2Rf" target="_blank">
-
-                        <img src="https://qr-official.line.me/gs/M_082xyooj_BW.png?oat_สารบัญ"
-                        alt="LINE"
-                        class="qr-code">
-
-                    </a>
-
-                </div>
-
-                <h3 style="margin-bottom:15px; font-family:'Prompt';">
-                    สถิติผู้เยี่ยมชม
-                </h3>
-
-                <a href="https://info.flagcounter.com/iWY4">
-
-                    <img src="https://s01.flagcounter.com/countxl/iWY4/bg_FFFFFF/txt_000000/border_CCCCCC/columns_5/maxflags_20/viewers_0/labels_1/pageviews_1/flags_0/percent_0/"
-                    alt="Flag Counter">
-
-                </a>
-
-            </div>
-
         </div>
 
     </div>
 
 </div>
-
-<footer>
-
-    <div class="footer-info">
-
-        <img src="logo.png"
-        onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
-
-        <br>
-
-        <strong style="font-family:'Prompt'; font-size:18px;">
-            คริสตจักรแบ๊บติสต์บางเขน
-        </strong>
-
-        <div style="margin-top:10px; color:#4dabff; font-weight:bold;">
-            🕒 นมัสการ: วันอาทิตย์ 09.00 - 12.00 น.
-        </div>
-
-        <div class="footer-address">
-
-            2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900
-            <br>
-            📞 โทร: 02-5798764
-
-        </div>
-
-    </div>
-
-</footer>
 
 </body>
 </html>
