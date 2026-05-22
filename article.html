@@ -66,7 +66,7 @@
     <a href="article.html?view=เทศนา" id="menu-เทศนา">🎙️ คำเทศนา</a>
     <a href="article.html?view=บทความ" id="menu-บทความ">📖 บทความ</a>
     <a href="article.html?view=คำพยาน" id="menu-คำพยาน">🙏 คำพยาน</a>
-    <a href="article.html?view=ข่าวสาร" id="menu-ข่าวสาร">📢 ข่าวสาร</a>
+    <a href="article.html?view=ข่าวสาร" id="menu-ข่าวสาร">📢 ข่ายสาร</a>
 </nav>
 
 <div class="container">
@@ -116,7 +116,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, query, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -129,7 +129,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ฟังก์ชันสกัด ID วีดีโอ YouTube ออกมาทำเป็นภาพปกสำรอง
     function getYoutubeThumb(url) {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -137,7 +136,6 @@
         return (match && match[2].length === 11) ? `https://img.youtube.com/vi/${match[2]}/mqdefault.jpg` : null;
     }
 
-    // ฟังก์ชันแปลงลิงก์ YouTube ให้กลายเป็นรูปแบบฝัง Embed เล่นบนเว็บได้
     function getYoutubeEmbed(url) {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -145,13 +143,12 @@
         return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}?autoplay=1&mute=1` : null;
     }
 
-    // ระบบอ่านค่าพารามิเตอร์ของ URL (?id=... หรือ ?view=...)
     const urlParams = new URLSearchParams(window.location.search);
     const articleId = urlParams.get('id');
     const viewCategory = urlParams.get('view');
 
     if (articleId) {
-        // --- ส่วนการโหลดแสดงผลหน้าอ่านบทความเดี่ยวแบบละเอียด ---
+        // --- ส่วนแสดงรายละเอียดเนื้อหารายชิ้น ---
         document.getElementById('full-article-view').style.display = 'block';
         
         getDoc(doc(db, "articles", articleId)).then((docSnap) => {
@@ -162,14 +159,13 @@
                 document.getElementById('det-date').innerText = data.displayDate || '';
                 document.getElementById('det-author').innerText = data.authorName || data.author || 'คริสตจักร';
                 
-                // ปรับแต่งคำนำหน้าให้ตรงประเภทเนื้อหา
-                const cat = data.category || "";
+                // ตรวจสอบฟิลด์หมวดหมู่ รองรับทั้งตัวเล็กและตัวใหญ่
+                const cat = data.category || data.Category || "";
                 let prefix = "ผู้เขียน:";
                 if (cat.includes("เทศนา")) prefix = "ผู้เทศนา:";
                 else if (cat.includes("พยาน")) prefix = "เจ้าของคำพยาน:";
                 document.getElementById('det-author-prefix').innerText = prefix;
 
-                // ซ่อน/แสดงข้อมูลเสริมเฉพาะเรื่อง
                 if (data.series) {
                     document.getElementById('det-series').innerText = data.series;
                 } else {
@@ -182,14 +178,12 @@
                     document.getElementById('det-bible-box').style.display = 'none';
                 }
 
-                // จัดการเรื่องวีดีโอ YouTube
                 const embedUrl = getYoutubeEmbed(data.youtubeUrl);
                 if (embedUrl) {
                     document.getElementById('det-iframe').src = embedUrl;
                     document.getElementById('det-video-box').style.display = 'block';
                 }
 
-                // จัดการภาพปกหลัก
                 const thumb = data.thumbUrl || getYoutubeThumb(data.youtubeUrl) || 'logo.png';
                 document.getElementById('det-cover').src = thumb;
             } else {
@@ -202,15 +196,14 @@
         });
 
     } else if (viewCategory) {
-        // --- ส่วนการค้นหาแยกประเภทหมวดหมู่ (คำเทศนา / บทความ / คำพยาน / ข่าวสาร) ---
+        // --- ส่วนการโหลดแยกหมวดหมู่ (แก้ไขให้ค้นหาฉลาดขึ้นดึงข้อมูลข้าม Case-sensitive ได้) ---
         document.getElementById('category-list-view').style.display = 'block';
         document.getElementById('category-page-title').innerText = `📋 รายการในหมวดหมู่: ${viewCategory}`;
         
-        // ไฮไลต์ปุ่มเมนูที่กำลังเลือกอยู่ให้เห็นชัดเจน
         const activeMenu = document.getElementById(`menu-${viewCategory}`);
         if (activeMenu) activeMenu.classList.add('active');
 
-        // ทำการคิวรีข้อมูลทั้งหมดมาทำการฟิลเตอร์ตัดคำตรวจสอบเพื่อกันปัญหาพิมพ์คำขาดคำเกิน
+        // ดึงข้อมูลทั้งหมดของคอลเลกชัน articles มาจัดระเบียบเรียงตามวันที่ล่าสุด
         const qAll = query(collection(db, "articles"), orderBy("displayDate", "desc"));
         
         getDocs(qAll).then((snap) => {
@@ -220,17 +213,18 @@
 
             snap.forEach((doc) => {
                 const d = doc.data();
-                const currentCat = d.category || "";
+                // อ่านข้อมูลจากฟิลด์ category (รองรับทั้งพิมพ์เล็ก c และพิมพ์ใหญ่ C เพื่อความปลอดภัย)
+                const currentCat = d.category || d.Category || "";
 
-                // ตรวจหาคำสำคัญ เช่น ถ้าเลือก view=เทศนา แล้วข้อมูลจริงคำว่า "คำเทศนาประจำสัปดาห์" ก็ให้ดึงมาแสดงผลได้ถูกต้อง
-                if (currentCat.includes(viewCategory)) {
+                // เช็คคำค้นหาแบบยืดหยุ่น เช่น ขอแค่มีคำว่า "เทศนา" แฝงอยู่ก็นับมาแสดงทันที
+                if (currentCat.indexOf(viewCategory) !== -1) {
                     count++;
                     const finalThumb = d.thumbUrl || getYoutubeThumb(d.youtubeUrl) || 'logo.png';
                     const rawAuthor = d.authorName || d.author || "คริสตจักร";
                     
                     let prefix = "ผู้เขียน: ";
-                    if (currentCat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
-                    else if (currentCat.includes("พยาน")) prefix = "เจ้าของคำพยาน: ";
+                    if (currentCat.indexOf("เทศนา") !== -1) prefix = "ผู้เทศนา: ";
+                    else if (currentCat.indexOf("พยาน") !== -1) prefix = "เจ้าของคำพยาน: ";
 
                     const seriesHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
                     const bibleHtml = d.bibleRef ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef}</div>` : '';
@@ -260,10 +254,9 @@
             }
         }).catch(err => {
             console.error(err);
-            document.getElementById('category-grid').innerHTML = "<p style='color:red;'>เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล</p>";
+            document.getElementById('category-grid').innerHTML = "<p style='color:red; text-align:center; padding: 20px;'>เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณาลองใหม่อีกครั้ง</p>";
         });
     } else {
-        // หากเข้าหน้าเว็บลอยๆ โดยไม่มีพารามิเตอร์ ให้ดีดกลับหน้าหลักออโต้เพื่อกันข้อผิดพลาด
         location.href = 'index.html';
     }
 </script>
