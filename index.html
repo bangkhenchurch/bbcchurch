@@ -113,11 +113,11 @@
 
 <nav class="horizontal-menu">
     <a href="index.html">🏠 หน้าแรก</a>
-    <a href="sermons.html">🎙️ คำเทศนา</a>
-    <a href="blogs.html">📖 บทความ</a>
-    <a href="testimony.html">🙏 คำพยาน</a>
-    <a href="news.html">📢 ข่าวสาร</a>
-    <a href="contact.html">📞 ติดต่อเรา</a>
+    <a href="article.html?view=เทศนา">🎙️ คำเทศนา</a>
+    <a href="article.html?view=บทความ">📖 บทความ</a>
+    <a href="article.html?view=คำพยาน">🙏 คำพยาน</a>
+    <a href="article.html?view=ข่าวสาร">📢 ข่าวสาร</a>
+    <a href="article.html?view=ติดต่อ">📞 ติดต่อเรา</a>
 </nav>
 
 <div class="container">
@@ -162,8 +162,8 @@
             </div>
             <div style="margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 12px;">
                 <label style="font-weight: bold;">ความต้องการ</label><br>
-                <input type="checkbox" name="opt" value="ต้องการไปโบสถ์" id="opt1"> <label for="opt1">ต้องการไปร่วมโบสถ์</label><br>
-                <input type="checkbox" name="opt" value="ศึกษาที่บ้าน" id="opt2"> <label for="opt2">ต้องการศึกษาที่บ้าน</label>
+                <input type="checkbox" name="opt" value="ต้องการไปโบสถ์" id="opt1"> <label for="opt1" style="color:#333;">ต้องการไปร่วมโบสถ์</label><br>
+                <input type="checkbox" name="opt" value="ศึกษาที่บ้าน" id="opt2"> <label for="opt2" style="color:#333;">ต้องการศึกษาที่บ้าน</label>
             </div>
             <div id="addressBox" style="display:none; margin-bottom: 15px;">
                 <label style="font-weight: bold;">ที่อยู่สำหรับส่งเอกสาร</label>
@@ -203,7 +203,6 @@
 </footer>
 
 <script>
-    // ซ่อมระบบเปิด-ปิด กล่องที่อยู่เมื่อเลือกปุ่ม "ต้องการศึกษาที่บ้าน" (opt2) ให้ผูกเข้าด้วยกันอย่างสมบูรณ์
     document.addEventListener("DOMContentLoaded", () => {
         const checkboxOpt2 = document.getElementById('opt2');
         if (checkboxOpt2) {
@@ -225,7 +224,7 @@
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
         projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        storageBucket: "bbcchurch-6ffc3.firebasestorage.app", // อัปเดตโครงสร้าง Storage ล่าสุดของ Firebase ให้สมบูรณ์แบบ
         appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
@@ -242,7 +241,6 @@
         return null;
     }
 
-    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate)
     const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
 
     onSnapshot(q, (snap) => {
@@ -263,11 +261,9 @@
         snap.forEach(doc => {
             const d = doc.data();
             
-            // --- จัดการรูปภาพ ---
-            const ytThumb = getYoutubeThumb(d.youtubeUrl);
+            const ytThumb = getYoutubeThumb(d.youtubeUrl || d.yt1 || d.yt2);
             const finalThumb = d.thumbUrl || ytThumb || 'logo.png'; 
 
-            // --- จัดการชื่อผู้แต่ง/ผู้เทศนา ---
             const rawAuthor = d.authorName || d.author || "คริสตจักร";
             const cat = d.category || "";
             
@@ -279,6 +275,7 @@
             const seriesHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
             const bibleHtml = d.bibleRef ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef}</div>` : '';
 
+            // ปรับลิงก์การกดการ์ดให้อ้างอิงไปยังไฟล์ 'article.html?id=...' ชนิดตัวพิมพ์เล็กทั้งหมด
             const card = `
             <div class="card" onclick="location.href='article.html?id=${doc.id}'">
                 <img src="${finalThumb}" alt="${d.title}" onerror="this.src='logo.png'">
@@ -303,7 +300,6 @@
         });
     });
 
-    // ส่งฟอร์มติดต่อเข้าสู่กูเกิ้ลชีตตามสคริปต์เดิมของคุณ
     document.getElementById('contactForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
@@ -333,7 +329,6 @@
         }
     };
 
-    // Slide Show ภาพหัวเว็บสลับเปลี่ยนทุก 5 วินาที
     let cur = 0;
     setInterval(() => {
         const slides = document.querySelectorAll('.slide');
