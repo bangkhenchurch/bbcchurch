@@ -19,6 +19,7 @@
         input[type="file"] { padding: 8px; background: #222; }
         .author-input-group { display: flex; gap: 5px; }
         .btn-add-inline { background: var(--primary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; font-size: 20px; }
+        .btn-delete-inline { background: #c0392b; color: white; border: none; padding: 0 12px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
         .preview-box { background: #000; border-radius: 8px; padding: 10px; margin-top: 8px; text-align: center; min-height: 50px; border: 1px dashed #444; overflow: hidden;}
         .preview-box img { max-height: 100px; max-width: 100%; border-radius: 5px; object-fit: contain; }
         .btn-save { width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
@@ -84,8 +85,9 @@
                 <div>
                     <label>ผู้เขียน/ผู้เทศนา</label>
                     <div class="author-input-group">
-                        <select id="authorName"><option value="คริสตจักร">คริสตจักร</option></select>
-                        <button type="button" class="btn-add-inline" id="btnAddAuthor">+</button>
+                        <select id="authorName"><option value="คริสตจักร" data-id="default">คริสตจักร</option></select>
+                        <button type="button" class="btn-add-inline" id="btnAddAuthor" title="เพิ่มรายชื่อใหม่">+</button>
+                        <button type="button" class="btn-delete-inline" id="btnDelAuthor" title="ลบรายชื่อที่เลือกอยู่">🗑️</button>
                     </div>
                 </div>
             </div>
@@ -290,14 +292,14 @@ setupLocalPreview("arc2File", "pre3");
 // =========================
 onSnapshot(collection(db, "authors"), (snap)=>{
     const select = document.getElementById("authorName");
-    select.innerHTML = `<option value="คริสตจักร">คริสตจักร</option>`;
+    select.innerHTML = `<option value="คริสตจักร" data-id="default">คริสตจักร</option>`;
     snap.forEach((d)=>{
         const data = d.data();
-        select.innerHTML += `<option value="${data.name}">${data.name}</option>`;
+        select.innerHTML += `<option value="${data.name}" data-id="${d.id}">${data.name}</option>`;
     });
 });
 
-// ผูกฟังก์ชันเพิ่มผู้แต่งผ่านระบบ Event Listener แทนเพื่อหลีกเลี่ยงปัญหาบนโมบายล์เบราว์เซอร์
+// เพิ่มรายชื่อใหม่
 document.getElementById("btnAddAuthor").addEventListener("click", async () => {
     const name = prompt("กรุณากรอกชื่อผู้แต่ง / ผู้เทศนาคนใหม่:");
     if(!name || name.trim() === "") return;
@@ -309,6 +311,28 @@ document.getElementById("btnAddAuthor").addEventListener("click", async () => {
         alert("✅ เพิ่มรายชื่อผู้แต่งสำเร็จ");
     } catch (err) {
         alert("❌ ไม่สามารถเพิ่มผู้แต่งได้: " + err.message);
+    }
+});
+
+// ลบรายชื่อที่พิมพ์ผิดหรือเลือกอยู่
+document.getElementById("btnDelAuthor").addEventListener("click", async () => {
+    const select = document.getElementById("authorName");
+    const selectedOption = select.options[select.selectedIndex];
+    const authorId = selectedOption.getAttribute("data-id");
+    const authorName = selectedOption.value;
+
+    if (!authorId || authorId === "default") {
+        alert("❌ ไม่สามารถลบรายชื่อเริ่มต้น 'คริสตจักร' ได้ครับ");
+        return;
+    }
+
+    if (confirm(`คุณต้องการลบรายชื่อ "${authorName}" ออกจากระบบใช่หรือไม่?`)) {
+        try {
+            await deleteDoc(doc(db, "authors", authorId));
+            alert(`🗑️ ลบรายชื่อ "${authorName}" เรียบร้อยแล้ว`);
+        } catch (err) {
+            alert("❌ ไม่สามารถลบรายชื่อได้: " + err.message);
+        }
     }
 });
 
