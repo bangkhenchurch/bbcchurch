@@ -44,7 +44,7 @@
         .info-label { color: #4dabff; font-weight: bold; }
         .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
 
-        .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; scroll-margin-top: 80px; }
+        .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; }
         footer { background: #0a2c6d; text-align: center; padding: 40px 20px; margin-top: 40px; }
         footer img { width: 50px; border-radius: 50%; margin-bottom: 10px; }
 
@@ -67,7 +67,7 @@
     <a href="article.html?view=บทความ" id="menu-บทความ">📖 บทความ</a>
     <a href="article.html?view=คำพยาน" id="menu-คำพยาน">🙏 คำพยาน</a>
     <a href="article.html?view=ข่าวสาร" id="menu-ข่าวสาร">📢 ข่าวสาร</a>
-    <a onclick="scrollToContact()" id="menu-ติดต่อ">📞 ติดต่อเรา</a>
+    <a href="index.html#contact-section" id="menu-ติดต่อ">📞 ติดต่อเรา</a>
 </nav>
 
 <div class="container">
@@ -95,7 +95,7 @@
         <div id="category-grid" class="grid-container">กำลังโหลดรายการ...</div>
     </div>
 
-    <div class="counter-section" id="contact-zone">
+    <div class="counter-section">
         <div style="margin-bottom: 30px;">
             <h3 style="font-family: 'Prompt'; margin-bottom: 15px;">ติดต่อเราผ่าน LINE</h3>
             <a href="https://lin.ee/NhFf2Rf" target="_blank">
@@ -114,16 +114,6 @@
     <strong style="font-family:'Prompt'; font-size:18px;">คริสตจักรแบ๊บติสต์บางเขน</strong>
     <div style="margin-top: 5px; font-size:13px; color:#aaa;">2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900</div>
 </footer>
-
-<script>
-    // ฟังก์ชันสั่งให้เลื่อนหน้าจอลงมาด้านล่างสุดตรงโซนติดต่อทันทีเมื่อกดปุ่มเมนู
-    function scrollToContact() {
-        const zone = document.getElementById('contact-zone');
-        if(zone) {
-            zone.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-</script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -147,7 +137,6 @@
         return (match && match[2].length === 11) ? `https://img.youtube.com/vi/${match[2]}/mqdefault.jpg` : null;
     }
 
-    // ฟังก์ชันแปลงลิงก์สำหรับการเล่นแบบฝัง
     function getYoutubeEmbed(url) {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -160,7 +149,6 @@
     const viewCategory = urlParams.get('view');
 
     if (articleId) {
-        // --- ส่วนแสดงรายละเอียดเนื้อหารายชิ้น ---
         document.getElementById('full-article-view').style.display = 'block';
         
         getDoc(doc(db, "articles", articleId)).then((docSnap) => {
@@ -207,7 +195,6 @@
         });
 
     } else if (viewCategory) {
-        // --- ส่วนการโหลดแยกหมวดหมู่กลุ่มกลุ่มข้อมูล ---
         document.getElementById('category-list-view').style.display = 'block';
         document.getElementById('category-page-title').innerText = `📋 รายการในหมวดหมู่: ${viewCategory}`;
         
