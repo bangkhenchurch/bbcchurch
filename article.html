@@ -57,6 +57,10 @@
         .meta-item { display: flex; align-items: center; gap: 5px; }
         .meta-label { color: #4dabff; font-weight: bold; }
         .detail-banner { width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; display: block; background: #2a2a2a; border: 1px solid #333; }
+        
+        /* สไตล์สำหรับรูปภาพรายละเอียดเพิ่มเติมด้านในบล็อกข้อความ */
+        .detail-additional-img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 12px; margin: 15px 0; display: block; border: 1px solid #3d3d3d; }
+        
         .detail-content { font-size: 16px; color: #ddd; white-space: pre-line; margin-bottom: 30px; text-align: justify; word-break: break-word; }
         
         /* Video Container */
@@ -171,7 +175,10 @@
                     <iframe id="det-iframe" src="" title="YouTube player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
-                <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover">
+                <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover" onerror="this.src='logo.png'">
+                
+                <div id="det-additional-img-box"></div>
+                
                 <div id="det-content" class="detail-content">กำลังโหลดเนื้อหา...</div>
             </div>
         </div>
@@ -363,26 +370,7 @@
         if(count === 0) { gridContainer.innerHTML = "<p style='color:#aaa; text-align:center; padding:30px; grid-column:1/-1;'>ไม่พบข้อมูล</p>"; }
     }
 
-    // เรียกดึงข้อมูลหลักจากฐานข้อมูล
-    const qAll = query(collection(db, "articles"), orderBy("displayDate", "desc"));
-    getDocs(qAll).then((snap) => {
-        snap.forEach(doc => {
-            allArticlesList.push({ id: doc.id, ...doc.data() });
-        });
-        
-        buildSidebarTree(allArticlesList);
-
-        if (articleId) {
-            renderFullArticle(articleId);
-        } else if (viewCategory) {
-            renderCategoryGrid(viewCategory);
-        } else {
-            document.getElementById('category-list-view').style.display = 'block';
-        }
-    }).catch(err => {
-        console.error("Firestore Error:", err);
-    });
-
+    // ฟังก์ชันจัดการแสดงผลบทความเดี่ยวตัวเต็ม (ดึงโดยตรงจากไอดีเพื่อให้โหลดเร็วและสมบูรณ์)
     function renderFullArticle(id) {
         document.getElementById('category-list-view').style.display = 'none';
         document.getElementById('full-article-view').style.display = 'block';
@@ -392,6 +380,7 @@
                 const data = snap.data();
                 document.getElementById('det-title').innerText = data.title || data.Title || 'ไม่มีหัวข้อ';
                 
+                // แก้ปัญหาเรื่องฟิลด์รายละเอียดไม่แสดงผล โดยจับเช็คทุกประเภทฟิลด์ที่อาจถูกบันทึกไว้
                 const mainContent = data.detail || data.Detail || data.content || data.Content || data.body || 'ไม่มีเนื้อหารายละเอียดระบุไว้ในฐานข้อมูล';
                 document.getElementById('det-content').innerText = mainContent;
                 
@@ -427,15 +416,31 @@
                     document.getElementById('det-bible-box').style.display = 'none'; 
                 }
 
-                const embedUrl = getYoutubeEmbed(data.youtubeUrl || data.youtube);
+                const embedUrl = getYoutubeEmbed(data.youtubeUrl || data.youtube || data.yt1);
                 if (embedUrl) {
                     document.getElementById('det-iframe').src = embedUrl;
                     document.getElementById('det-video-box').style.display = 'block';
                 } else {
                     document.getElementById('det-video-box').style.display = 'none';
                 }
-                document.getElementById('det-cover').src = data.thumbUrl || data.thumbnail || getYoutubeThumb(data.youtubeUrl || data.youtube) || 'logo.png';
+                
+                const finalThumb = data.thumbUrl || data.thumbnail || getYoutubeThumb(data.youtubeUrl || data.youtube || data.yt1) || 'logo.png';
+                document.getElementById('det-cover').src = finalThumb;
+
+                // ตรวจสอบและดึงภาพรายละเอียดเพิ่มเติม (ถ้ามีและไม่ซ้ำกับภาพหน้าปก)
+                const detailImgUrl = data.detailImg || data.contentImg || data.img || data.imageUrl || null;
+                const imgBox = document.getElementById('det-additional-img-box');
+                if (detailImgUrl && detailImgUrl !== finalThumb) {
+                    imgBox.innerHTML = `<img src="${detailImgUrl}" class="detail-additional-img" onerror="this.style.display='none'">`;
+                } else {
+                    imgBox.innerHTML = "";
+                }
+            } else {
+                document.getElementById('det-title').innerText = "ไม่พบเนื้อหา";
+                document.getElementById('det-content').innerText = "ขออภัย ไม่พบรายการข้อมูลที่ท่านเลือกในฐานข้อมูลคริสตจักร";
             }
+        }).catch(err => {
+            console.error("Error fetching doc details:", err);
         });
     }
 
@@ -454,10 +459,9 @@
         allArticlesList.forEach(d => {
             const currentCat = (d.category || d.Category || "").toString();
             
-            // ตรวจสอบความถูกต้องของหมวดหมู่เพื่อแยกข่าวสารและบทความอย่างชัดเจน
             if (currentCat === category || currentCat.includes(category) || category.includes(currentCat)) {
                 count++;
-                const finalThumb = d.thumbUrl || d.thumbnail || getYoutubeThumb(d.youtubeUrl || d.youtube) || 'logo.png';
+                const finalThumb = d.thumbUrl || d.thumbnail || getYoutubeThumb(d.youtubeUrl || d.youtube || d.yt1) || 'logo.png';
                 const rawAuthor = d.authorName || d.author || "คริสตจักร";
                 let prefix = "ผู้เขียน: ";
                 if (currentCat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
@@ -488,6 +492,28 @@
             gridContainer.innerHTML = `<p style='color:#aaa; text-align:center; padding: 40px 0; grid-column: 1/-1;'>🙏 ขณะนี้ยังไม่มีเนื้อหาในหมวดหมู่ ${category} บันทึกอยู่ในระบบ</p>`; 
         }
     }
+
+    // เรียกทำงานดึงข้อมูลหลักจากฐานข้อมูล
+    const qAll = query(collection(db, "articles"), orderBy("displayDate", "desc"));
+    getDocs(qAll).then((snap) => {
+        allArticlesList = []; // เคลียร์อาเรย์เพื่อป้องกันค่าซ้ำ
+        snap.forEach(doc => {
+            allArticlesList.push({ id: doc.id, ...doc.data() });
+        });
+        
+        buildSidebarTree(allArticlesList);
+
+        // จัดการเปิดหน้าจอหลังได้ชุดอาเรย์จาก Firebase สมบูรณ์แล้ว
+        if (articleId) {
+            renderFullArticle(articleId);
+        } else if (viewCategory) {
+            renderCategoryGrid(viewCategory);
+        } else {
+            document.getElementById('category-list-view').style.display = 'block';
+        }
+    }).catch(err => {
+        console.error("Firestore Error:", err);
+    });
 </script>
 </body>
 </html>
