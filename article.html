@@ -347,9 +347,7 @@ footer img{
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     getFirestore,
     doc,
@@ -360,269 +358,209 @@ import {
     onSnapshot,
     addDoc,
     serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-
     apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-
     authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-
     projectId: "bbcchurch-6ffc3",
-
     storageBucket: "bbcchurch-6ffc3.appspot.com",
-
     appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
+// 🔥 FIX: กัน null + debug
 const artId = new URLSearchParams(window.location.search).get('id');
 
-function createMediaHTML(url){
+console.log("ARTICLE ID =", artId);
 
-    if(!url || url === "undefined") return "";
+// toggle address
+document.getElementById('opt2').onchange = function () {
+    document.getElementById('addressBox').style.display = this.checked ? 'block' : 'none';
+};
 
-    const yid = (
-        url.match(
-            /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/
-        ) || []
-    )[1];
+// contact form
+document.getElementById('contactForm').onsubmit = async (e) => {
+    e.preventDefault();
 
-    if(yid){
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    btn.innerText = "กำลังส่ง...";
 
+    const options = Array.from(
+        document.querySelectorAll('input[name="opt"]:checked')
+    ).map(cb => cb.value);
+
+    try {
+        await addDoc(collection(db, "contacts"), {
+            articleId: artId || "general",
+            name: document.getElementById('contactName').value,
+            phone: document.getElementById('contactPhone').value,
+            needs: options,
+            address: document.getElementById('contactAddress').value,
+            note: document.getElementById('contactNote').value,
+            createdAt: serverTimestamp()
+        });
+
+        alert("ส่งข้อมูลแล้ว");
+        document.getElementById('contactForm').reset();
+        document.getElementById('addressBox').style.display = 'none';
+
+    } catch (err) {
+        console.log(err);
+        alert("ส่งไม่สำเร็จ");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "ส่งข้อมูล";
+    }
+};
+
+// media
+function createMediaHTML(url) {
+    if (!url) return "";
+
+    const yid = (url.match(
+        /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/
+    ) || [])[1];
+
+    if (yid) {
         return `
         <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/${yid}"
-                frameborder="0"
-                allowfullscreen>
-            </iframe>
+            <iframe src="https://www.youtube.com/embed/${yid}" allowfullscreen></iframe>
         </div>`;
     }
 
-    return `
-    <img
-        src="${url}"
-        class="media-full-width"
-        onerror="this.style.display='none';">
-    `;
+    return `<img src="${url}" class="media-full-width">`;
 }
 
-async function loadContent(){
+// 🔥 LOAD ARTICLE (FIXED)
+async function loadContent() {
 
-    if(!artId){
-
-        document.getElementById('artTitle').innerText =
-            "ไม่พบบทความ";
-
+    if (!artId) {
+        document.getElementById('artTitle').innerText = "❌ ไม่มี ID บทความใน URL";
         return;
     }
 
-    try{
+    try {
+        const ref = doc(db, "articles", artId);
+        const snap = await getDoc(ref);
 
-        const snap = await getDoc(doc(db,"articles",artId));
+        console.log("EXISTS =", snap.exists());
 
-        if(!snap.exists()){
-
-            document.getElementById('artTitle').innerText =
-                "ไม่พบบทความนี้";
-
+        if (!snap.exists()) {
+            document.getElementById('artTitle').innerText = "❌ ไม่พบบทความใน Firebase";
             return;
         }
 
         const r = snap.data();
 
         document.title = r.title || "BBC Church";
-
-        document.getElementById('artTitle').innerText =
-            r.title || "-";
+        document.getElementById('artTitle').innerText = r.title || "-";
 
         let prefix = "ผู้แต่ง: ";
+        if ((r.category || "").includes("เทศนา")) prefix = "ผู้เทศนา: ";
+        else if ((r.category || "").includes("คำพยาน")) prefix = "เจ้าของคำพยาน: ";
 
-        const category = r.category || "";
-
-        if(category.includes("เทศนา")){
-
-            prefix = "ผู้เทศนา: ";
-
-        }else if(category.includes("คำพยาน")){
-
-            prefix = "เจ้าของคำพยาน: ";
-
-        }else if(category.includes("ประกาศ")){
-
-            prefix = "เจ้าหน้าที่คริสตจักร: ";
-        }
-
-        let finalName =
-            r.author ||
-            r.authorName ||
-            "คริสตจักร";
-
-        document.getElementById('catDisp').innerText =
-            "☀️ " + category;
-
+        document.getElementById('catDisp').innerText = r.category || "";
         document.getElementById('artMeta').innerHTML =
-            `${prefix}<b>${finalName}</b> | วันที่: <b>${r.displayDate || '-'}</b>`;
+            `${prefix}<b>${r.author || "คริสตจักร"}</b> | ${r.displayDate || "-"}`;
 
         let topHtml = "";
+        if (r.thumbUrl) topHtml += createMediaHTML(r.thumbUrl);
+        if (r.youtubeUrl) topHtml += createMediaHTML(r.youtubeUrl);
 
-        if(r.thumbUrl){
-            topHtml += createMediaHTML(r.thumbUrl);
-        }
+        document.getElementById('topDisplay').innerHTML = topHtml;
+        document.getElementById('artBody').innerText = r.content || "";
 
-        if(r.youtubeUrl){
-            topHtml += createMediaHTML(r.youtubeUrl);
-        }
+        let details = "";
+        [r.arc1, r.arc2, r.arc3, r.contentImg1, r.contentImg2]
+            .forEach(u => {
+                if (u) details += createMediaHTML(u);
+            });
 
-        document.getElementById('topDisplay').innerHTML =
-            topHtml;
-
-        document.getElementById('artBody').innerText =
-            r.content || "";
-
-        let detailsHtml = "";
-
-        const imgs = [
-            r.arc1,
-            r.contentImg1,
-            r.arc2,
-            r.contentImg2,
-            r.arc3,
-            r.archiveUrl
-        ];
-
-        imgs.forEach(url => {
-
-            if(url){
-                detailsHtml += createMediaHTML(url);
-            }
-
-        });
-
-        document.getElementById('detailsDisplay').innerHTML =
-            detailsHtml;
+        document.getElementById('detailsDisplay').innerHTML = details;
 
         loadRatings();
 
-    }catch(err){
-
-        console.error(err);
-
-        document.getElementById('artTitle').innerText =
-            "เกิดข้อผิดพลาดในการโหลดบทความ";
+    } catch (err) {
+        console.log(err);
+        document.getElementById('artTitle').innerText = "❌ โหลดบทความล้มเหลว";
     }
 }
 
-function loadRatings(){
+// ratings
+function loadRatings() {
+
+    if (!artId) return;
 
     const q = query(
-        collection(db,"ratings"),
-        where("articleId","==",artId),
-        where("approved","==",true)
+        collection(db, "ratings"),
+        where("articleId", "==", artId),
+        where("approved", "==", true)
     );
 
-    onSnapshot(q,(snapshot)=>{
+    onSnapshot(q, (snapshot) => {
 
-        let html =
-        `<h3 style="font-family:'Prompt'; font-size:18px; margin-bottom:15px; color:white;">
-            ความคิดเห็นจากพี่น้อง
-        </h3>`;
+        let html = "<h3>ความคิดเห็น</h3>";
 
-        let totalStars = 0;
+        let total = 0;
 
-        if(snapshot.empty){
-
-            html += `<div style="color:#aaa;">ยังไม่มีความคิดเห็น</div>`;
-
-            document.getElementById('commentList').innerHTML = html;
-
+        if (snapshot.empty) {
+            document.getElementById('commentList').innerHTML =
+                html + "<div>ยังไม่มีความคิดเห็น</div>";
             return;
         }
 
-        snapshot.forEach((d)=>{
-
+        snapshot.forEach(d => {
             const data = d.data();
-
-            totalStars += Number(data.rating || 0);
+            total += data.rating || 0;
 
             html += `
             <div class="comment-item">
-
                 <div class="comment-user">
-                    ${data.userName} - ${'⭐'.repeat(data.rating)}
+                    ${data.userName} - ${"⭐".repeat(data.rating || 0)}
                 </div>
-
-                <div class="comment-text">
-                    ${data.comment}
-                </div>
-
+                <div class="comment-text">${data.comment}</div>
             </div>`;
         });
 
-        document.getElementById('commentList').innerHTML =
-            html;
+        const avg = (total / snapshot.size).toFixed(1);
 
-        const avg =
-            (totalStars / snapshot.size).toFixed(1);
-
+        document.getElementById('commentList').innerHTML = html;
         document.getElementById('artRatingHeader').innerText =
-            `${'⭐'.repeat(Math.round(avg))} (${avg}/5 จาก ${snapshot.size} คน)`;
+            `⭐ ${avg}/5 (${snapshot.size})`;
 
     });
 }
 
-document.getElementById('submitRatingBtn').onclick =
-async ()=>{
+// rating submit
+document.getElementById('submitRatingBtn').onclick = async () => {
 
-    const name =
-        document.getElementById('uName').value.trim();
+    const name = document.getElementById('uName').value.trim();
+    const msg = document.getElementById('uMsg').value.trim();
+    const stars = parseInt(document.getElementById('uStars').value);
 
-    const msg =
-        document.getElementById('uMsg').value.trim();
+    if (!name || !msg) return alert("กรอกข้อมูลให้ครบ");
 
-    const stars =
-        parseInt(document.getElementById('uStars').value);
-
-    if(!name || !msg){
-
-        alert("กรุณากรอกชื่อและข้อความ");
-
-        return;
-    }
-
-    try{
-
-        await addDoc(collection(db,"ratings"),{
-
+    try {
+        await addDoc(collection(db, "ratings"), {
             articleId: artId,
-
             userName: name,
-
             comment: msg,
-
             rating: stars,
-
             approved: true,
-
             createdAt: serverTimestamp()
         });
 
-        alert("ขอบคุณสำหรับคำหนุนใจครับ!");
-
+        alert("ส่งแล้ว");
         document.getElementById('uName').value = "";
-
         document.getElementById('uMsg').value = "";
 
-    }catch(e){
-
-        console.error(e);
-
-        alert("เกิดข้อผิดพลาด");
+    } catch (e) {
+        console.log(e);
+        alert("error");
     }
 };
 
