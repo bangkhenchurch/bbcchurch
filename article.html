@@ -88,37 +88,6 @@
             .detail-title { font-size: 22px; }
             .detail-box { padding: 15px; }
         }
-
-        /* =========================
-   DETAIL GALLERY
-========================= */
-
-.detail-gallery {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-}
-
-.detail-extra-image {
-    width: calc(50% - 8px);
-    border-radius: 12px;
-    object-fit: cover;
-    border: 1px solid #333;
-    background: #1a1a1a;
-}
-
-.detail-extra-image:hover {
-    border-color: #4dabff;
-}
-
-@media (max-width: 768px) {
-
-    .detail-extra-image {
-        width: 100%;
-    }
-
-}
     </style>
 </head>
 <body>
@@ -203,26 +172,9 @@
                 </div>
 
                 <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover">
-
-<!-- รูปประกอบเพิ่มเติม -->
-<div id="detail-gallery" class="detail-gallery" style="display:none;">
-
-    <img id="det-image1"
-         class="detail-extra-image"
-         src=""
-         alt="รูปประกอบ 1">
-
-    <img id="det-image2"
-         class="detail-extra-image"
-         src=""
-         alt="รูปประกอบ 2">
-
-</div>
-
-<div id="det-content" class="detail-content">
-    กำลังโหลดเนื้อหา...
-</div>
-        
+                <div id="det-content" class="detail-content">กำลังโหลดเนื้อหา...</div>
+            </div>
+        </div>
 
         <div id="category-list-view" style="display: none;">
             <h2 id="category-page-title" class="section-title">รายการบทความ</h2>
@@ -483,50 +435,6 @@
                     document.getElementById('det-video-box').style.display = 'none';
                 }
                 document.getElementById('det-cover').src = data.thumbUrl || data.thumbnail || getYoutubeThumb(data.youtubeUrl || data.youtube) || 'logo.png';
-           /* =========================
-   รูปประกอบเพิ่มเติม
-========================= */
-
-const image1 =
-    data.image1 ||
-    data.imageUrl1 ||
-    data.extraImage1 ||
-    "";
-
-const image2 =
-    data.image2 ||
-    data.imageUrl2 ||
-    data.extraImage2 ||
-    "";
-
-const gallery = document.getElementById('detail-gallery');
-
-const img1 = document.getElementById('det-image1');
-const img2 = document.getElementById('det-image2');
-
-let hasGallery = false;
-
-/* รูปที่ 1 */
-if (image1) {
-    img1.src = image1;
-    img1.style.display = 'block';
-    hasGallery = true;
-} else {
-    img1.style.display = 'none';
-}
-
-/* รูปที่ 2 */
-if (image2) {
-    img2.src = image2;
-    img2.style.display = 'block';
-    hasGallery = true;
-} else {
-    img2.style.display = 'none';
-}
-
-/* เปิด/ปิด gallery */
-gallery.style.display =
-    hasGallery ? 'flex' : 'none';
             }
         });
     }
