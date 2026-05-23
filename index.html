@@ -3,309 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คริสตจักรแบ๊บติสต์บางเขน - bbcchurch</title>
-    <!-- ใช้ Tailwind CSS สำหรับการจัดเลย์เอาต์ที่รองรับโมบายล์อย่างสมบูรณ์ -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- แท็บบาร์เบราเซอร์ -->
+    <title>คริสตจักรแบ๊บติสต์บางเขน | bbcchurch</title>
+
+    <!-- ================================================================= -->
+    <!-- [ZONE 1] ส่วนของ CSS (สไตล์และการจัดเลย์เอาต์พื้นหลังสีดำ) -->
+    <!-- ================================================================= -->
     <style>
-        /* สไตล์เพิ่มเติมสำหรับระบบสไลด์และเอฟเฟกต์ */
+        /* ตั้งค่าพื้นฐาน: ทุกเพจพื้นหลังสีดำ ตัวอักษรสีขาว */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        a {
+            color: #4da6ff;
+            text-decoration: none;
+        }
+
+        /* 1. แท็บบันสุด (Top Bar) พื้นสีน้ำเงิน */
+        .top-navbar {
+            background-color: #0033aa;
+            color: #ffffff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .top-navbar .logo {
+            background-color: #ffffff;
+            color: #0033aa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* 2. Hero Slide */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            background-color: #111;
+        }
         .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            position: absolute;
-            inset: 0;
+            background-size: cover;
+            background-position: center;
         }
         .hero-slide.active {
             opacity: 1;
         }
-        /* เมนูเลื่อนตามเมาส์ (Sticky Navigation) */
+
+        /* 3. เมนู (Sticky Menu) เลื่อนตามเมาส์เมื่อสกรอลล์ */
         .sticky-menu {
+            background-color: #111111;
+            border-bottom: 2px solid #0033aa;
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
-            z-index: 50;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        .sticky-menu a {
+            color: #ffffff;
+            padding: 10px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .sticky-menu a:hover {
+            background-color: #0033aa;
+            border-radius: 4px;
+        }
+
+        /* โครงสร้างหน้าหลักแบ่งเป็นสองคอลัมน์ (Sidebar + Content) */
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            gap: 20px;
+        }
+
+        /* 4. Left Sidebar (แถบด้านซ้าย) */
+        .left-sidebar {
+            flex: 1;
+            min-width: 250px;
+            background-color: #111111;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #222222;
+            align-self: flex-start;
+        }
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        .sidebar-section h3 {
+            color: #4da6ff;
+            border-bottom: 1px solid #0033aa;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .sidebar-section ul {
+            list-style: none;
+        }
+        .sidebar-section ul li {
+            padding: 6px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.95rem;
+        }
+
+        /* 5. Main Content Area (เนื้อหาหลักด้านขวา) */
+        .content-area {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* ช่องใส่วิดีโอใต้เมนู */
+        .video-box {
+            background-color: #111111;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #222222;
+            text-align: center;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* อัตราส่วน 16:9 */
+            height: 0;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 4px;
+        }
+
+        /* การจัดเรียงหมวดหมู่เนื้อหา */
+        .content-card {
+            background-color: #111111;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #222222;
+        }
+        .content-card h2 {
+            color: #4da6ff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            border-left: 4px solid #0033aa;
+            padding-left: 10px;
+        }
+        .post-item {
+            background-color: #1a1a1a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #333;
+        }
+        .post-date {
+            font-size: 0.8rem;
+            color: #888888;
+            margin-bottom: 4px;
+        }
+
+        /* 6 & 7. พื้นที่ส่วนล่างเนื้อหา (QR Code & Flag Counter) */
+        .widgets-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .widget-box {
+            background-color: #111111;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #222222;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        .widget-box h4 {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+        .qr-placeholder {
+            width: 130px;
+            height: 130px;
+            background-color: #fff;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        /* 8. Footer ส่วนท้ายเพจ */
+        footer {
+            background-color: #111111;
+            border-top: 1px solid #222222;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #aaaaaa;
+        }
+        footer p {
+            margin-bottom: 6px;
+        }
+
+        /* รองรับการแสดงผลบนหน้าจอมือถือ */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .left-sidebar {
+                width: 100%;
+            }
+            .hero-container {
+                height: 200px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body>
 
-    <!-- 1. แท็บบนสุด: แถบพื้นสีน้ำเงิน ชื่อคริสตจักร -->
-    <div class="bg-blue-900 text-white text-center py-3 px-4 shadow-md">
-        <h1 class="text-xl md:text-2xl font-bold tracking-wide">คริสตจักรแบ๊บติสต์บางเขน</h1>
+    <!-- ================================================================= -->
+    <!-- [ZONE 2] ส่วนของ HTML (โครงสร้างหน้าเว็บ) -->
+    <!-- ================================================================= -->
+
+    <!-- 1. แท็บบนสุดและชื่อคริสตจักร -->
+    <div class="top-navbar">
+        <span class="logo">โลโก้</span>
+        <span>คริสตจักรแบ๊บติสต์บางเขน</span>
     </div>
 
-    <!-- 2. Hero Slide: เปลี่ยนรูปภาพทุกๆ 8 วินาที -->
-    <div class="relative h-64 md:h-96 bg-gray-900 overflow-hidden shadow-inner">
-        <div class="hero-slide active bg-cover bg-center" style="background-image: url('hero01.jpg');">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h2 class="text-white text-2xl md:text-4xl font-bold drop-shadow-md">ยินดีต้อนรับสู่ครอบครัวของพระเจ้า</h2></div>
-        </div>
-        <div class="hero-slide bg-cover bg-center" style="background-image: url('hero02.jpg');">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h2 class="text-white text-2xl md:text-4xl font-bold drop-shadow-md">ร่วมใจโมทนาพระคุณและนมัสการ</h2></div>
-        </div>
-        <div class="hero-slide bg-cover bg-center" style="background-image: url('hero03.jpg');">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h2 class="text-white text-2xl md:text-4xl font-bold drop-shadow-md">เติบโตในพระคำและพันธกิจ</h2></div>
-        </div>
+    <!-- 2. Hero Slide (เปลี่ยนรูปภาพทุก 8 วินาทีผ่าน JS) -->
+    <div class="hero-container">
+        <!-- ใส่ URL รูปภาพของคุณใน style background-image -->
+        <div class="hero-slide active" style="background-image: url('hero01.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('hero02.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('hero03.jpg');"></div>
     </div>
 
-    <!-- 3. เมนู หน้าแรก และหน้าการติดต่อ (เลื่อนตามเมาส์ ไว้ใต้ Hero) -->
-    <nav id="mainNav" class="sticky-menu bg-white border-b border-gray-200 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex space-x-1">
-                <button onclick="switchPage('home')" id="btn-home" class="py-4 px-6 text-blue-900 font-bold border-b-2 border-blue-900 focus:outline-none transition-colors">
-                    หน้าแรก
-                </button>
-                <button onclick="switchPage('contact')" id="btn-contact" class="py-4 px-6 text-gray-600 font-medium hover:text-blue-900 focus:outline-none transition-colors">
-                    ติดต่อเรา
-                </button>
-            </div>
-        </div>
+    <!-- 3. เมนูหลัก หน้าแรก และหน้าการติดต่อ (เลื่อนตามเมาส์ Sticky) -->
+    <nav class="sticky-menu">
+        <a href="#home">หน้าแรก</a>
+        <a href="#contact">หน้าการติดต่อ</a>
     </nav>
 
-    <!-- พื้นที่เนื้อหาหลักแยกโครงสร้าง Left Sidebar และ Main Content -->
-    <div class="max-w-7xl mx-auto px-4 py-6">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <!-- พื้นที่แสดงผลสองฝั่ง Main Container -->
+    <div class="main-container">
+
+        <!-- 4. Left Sidebar (แผนผังรายการ จัดหมวดหมู่จัดกลุ่ม) -->
+        <aside class="left-sidebar">
+            <div class="sidebar-section">
+                <h3>📅 เรียง เดือน และ ปี</h3>
+                <ul>
+                    <li><a href="#">พฤษภาคม 2026</a></li>
+                    <li><a href="#">เมษายน 2026</a></li>
+                </ul>
+            </div>
             
-            <!-- 4. Left Sidebar: แผนผัง รายการ หมวดหมู่ -->
-            <aside class="lg:col-span-1 bg-white p-5 rounded-xl shadow-sm border border-gray-100 h-fit space-y-6">
-                <div>
-                    <h3 class="text-lg font-bold text-blue-900 border-b-2 border-blue-100 pb-2 mb-3">📋 แผนผังรายการ</h3>
-                    
-                    <!-- เรียง เดือน และ ปี -->
-                    <div class="mb-4">
-                        <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">📅 เรียง เดือน และ ปี</span>
-                        <ul class="mt-1 space-y-1 text-sm pl-2 border-l border-gray-200" id="filter-date">
-                            <li><a href="#" class="text-blue-600 hover:underline block py-0.5">พฤษภาคม 2026</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">เมษายน 2026</a></li>
-                        </ul>
-                    </div>
+            <div class="sidebar-section">
+                <h3>📚 เรียง ซีรีย์</h3>
+                <ul>
+                    <li><a href="#">ซีรีย์การดำเนินชีวิตด้วยความเชื่อ</a></li>
+                    <li><a href="#">ซีรีย์พระโขนงแห่งพระพร</a></li>
+                </ul>
+            </div>
 
-                    <!-- เรียง ซีรีย์ -->
-                    <div class="mb-4">
-                        <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">📚 เรียง ซีรีย์คำเทศนา</span>
-                        <ul class="mt-1 space-y-1 text-sm pl-2 border-l border-gray-200" id="filter-series">
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">ซีรีย์: ดำเนินชีวิตด้วยความเชื่อ</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">ซีรีย์: พระคุณซ้อนพระคุณ</a></li>
-                        </ul>
-                    </div>
+            <div class="sidebar-section">
+                <h3>🏷️ เรียงหมวดหมู่</h3>
+                <ul>
+                    <li><a href="#">บทความสร้างชีพ</a></li>
+                    <li><a href="#">คำเทศนาประจำสัปดาห์</a></li>
+                    <li><a href="#">คำพยานชีวิต</a></li>
+                </ul>
+            </div>
 
-                    <!-- เรียง หมวดหมู่ -->
-                    <div class="mb-4">
-                        <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">🗂️ เรียงหมวดหมู่</span>
-                        <ul class="mt-1 space-y-1 text-sm pl-2 border-l border-gray-200">
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">บทความหนุนใจ</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">คำพยานชีวิต</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">คำเทศนาประจำสัปดาห์</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">ข่าวสารคริสตจักร</a></li>
-                        </ul>
-                    </div>
+            <div class="sidebar-section">
+                <h3>👤 รายชื่อผู้เขียน/ผู้พูด</h3>
+                <ul>
+                    <li><a href="#">ผู้เทศนา ศจ.สมชาย</a></li>
+                    <li><a href="#">ผู้เป็นพยาน พี่สมศรี</a></li>
+                </ul>
+            </div>
+        </aside>
 
-                    <!-- เรียงรายชื่อ ผู้แต่ง ผู้เทศนา ผู้เป็นพยาน -->
-                    <div class="mb-2">
-                        <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">👤 รายชื่อผู้เขียน/ผู้พูด</span>
-                        <ul class="mt-1 space-y-1 text-sm pl-2 border-l border-gray-200" id="filter-authors">
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">ศจ. ดร. สมชาย (ผู้เทศนา)</a></li>
-                            <li><a href="#" class="text-gray-600 hover:underline block py-0.5">มน. สมศรี (ผู้เป็นพยาน)</a></li>
-                        </ul>
-                    </div>
+        <!-- ส่วนเนื้อหาหลักด้านขวา -->
+        <main class="content-area">
+            
+            <!-- วีดีโอ ใต้เมนู -->
+            <div class="video-box">
+                <p>🎥 วีดีโอล่าสุด / ถ่ายทอดสด</p>
+                <div class="video-wrapper">
+                    <!-- เปลี่ยน URL วิดีโอของคุณที่นี่ -->
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
                 </div>
-            </aside>
+            </div>
 
-            <!-- 5. ส่วนเนื้อหาหลัก (Main Content Area) -->
-            <main class="lg:col-span-3 space-y-6">
+            <!-- 5. เนื้อหาแยกตามหมวดหมู่ (จัดเรียงตามวันที่ ปัจจุบันขึ้นก่อน) -->
+            <section class="content-card">
+                <h2>📢 หมวดหมู่ข่าวสาร & บทความล่าสุด</h2>
                 
-                <!-- หน้าแรก: แสดงบทความ หมวดหมู่ต่างๆ -->
-                <div id="page-home" class="page-content space-y-6">
-                    <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-                        <h2 class="text-xl font-bold text-gray-800">📖 รายการอัปเดตล่าสุด</h2>
-                        <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-medium">เรียงจากปัจจุบันก่อน</span>
-                    </div>
-                    
-                    <!-- ส่วนแสดงการ์ดเนื้อหา (จะถูก Render โดยระบบ Center Script) -->
-                    <div id="content-display" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-4 bg-white rounded-lg shadow-sm animate-pulse">กำลังโหลดข้อมูลพระคำ...</div>
-                    </div>
+                <div class="post-item">
+                    <div class="post-date">23 พฤษภาคม 2026</div>
+                    <p><strong>ข่าวสาร:</strong> ประชาสัมพันธ์ตารางกิจกรรมกลุ่มแคร์ประจำสัปดาห์นี้</p>
+                </div>
+                
+                <div class="post-item">
+                    <div class="post-date">17 พฤษภาคม 2026</div>
+                    <p><strong>คำเทศนา:</strong> รับกำลังใหม่จากพระเจ้า โดย ศจ.สมชาย</p>
                 </div>
 
-                <!-- หน้าการติดต่อ (Contact Page) -->
-                <div id="page-contact" class="page-content hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
-                    <h2 class="text-2xl font-bold text-blue-900 border-b pb-2">📍 ข้อมูลการติดต่อ</h2>
-                    <p class="text-gray-700"><strong>คริสตจักรแบ๊บติสต์บางเขน</strong></p>
-                    <p class="text-gray-600">ที่อยู่และการเดินทางมาร่วมเปิดนมัสการในวันอาทิตย์</p>
-                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <p class="font-medium">เวลาทำการนมัสการ:</p>
-                        <p class="text-sm text-gray-600">รอบที่ 1: อาทิตย์ เวลา 09:30 น. - 11:30 น.</p>
-                    </div>
+                <div class="post-item">
+                    <div class="post-date">10 พฤษภาคม 2026</div>
+                    <p><strong>คำพยาน:</strong> พระคุณพระเจ้าในยามเจ็บป่วย โดย พี่สมศรี</p>
+                </div>
+            </section>
+
+            <!-- พื้นที่ด้านใต้เนื้อหา: QR Code และ Flag Counter -->
+            <div class="widgets-section">
+                <!-- 6. QR Code Line -->
+                <div class="widget-box">
+                    <h4>📱 LINE Official Account</h4>
+                    <!-- ใส่รูปคิวอาร์โค้ดจริงของคุณตรงนี้ -->
+                    <div class="qr-placeholder">QR CODE LINE</div>
                 </div>
 
-                <!-- 6. ใส่ QR Code Line (ไว้ใต้เนื้อหาหลัก) -->
-                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div class="space-y-1 text-center sm:text-left">
-                        <h4 class="text-emerald-900 font-bold text-lg">🟢 ติดต่อเราผ่าน LINE Official</h4>
-                        <p class="text-emerald-700 text-sm">สแกน QR Code เพื่อรับข่าวสาร สารวิงวอนอธิษฐาน และบทเรียนหนุนใจประจำวัน</p>
-                    </div>
-                    <div class="bg-white p-2 rounded-lg shadow-sm border border-emerald-100">
-                        <!-- เปลี่ยนเป็น path รูปภาพ QR Code ของคริสตจักรจริงได้ที่นี่ -->
-                        <img src="line-qrcode.png" alt="LINE QR Code" class="w-28 h-28 object-contain" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me';">
+                <!-- 7. Flag Counter -->
+                <div class="widget-box">
+                    <h4>📊 สถิติผู้เยี่ยมชม (Flag Counter)</h4>
+                    <!-- แทนที่โค้ด Flag Counter สำเร็จรูปของคุณที่นี่ -->
+                    <div style="padding:10px; background:#1a1a1a; border-radius:4px;">
+                        <img src="https://s11.flagcounter.com/mini/tYn/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/" alt="Flag Counter" border="0">
                     </div>
                 </div>
+            </div>
 
-                <!-- 7. ใส่ Flag Counter Widget -->
-                <div class="flex justify-center p-4 rounded-xl border border-yellow-200 shadow-sm" style="background-color: #fefef0;">
-                    <!-- ตัวนับธงเข้าชมผู้ใช้งานภายนอก ปรับเป็นธีมสีเหลืองอ่อนตามที่คุณตั้งค่าไว้ -->
-                    <a href="https://info.flagcounter.com/bbcchurch">
-                        <img src="https://s11.flagcounter.com/count2/bbcchurch/bg_fefef0/txt_000000/border_cccccc/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
-                    </a>
-                </div>
-
-            </main>
-        </div>
+        </main>
     </div>
 
-    <!-- 8. Footer ท้ายเพจ -->
-    <footer class="bg-gray-900 text-gray-400 text-center py-6 mt-12 border-t border-gray-800 text-sm">
-        <p>© 2026 คริสตจักรแบ๊บติสต์บางเขน (bbcchurch). All Rights Reserved.</p>
-        <p class="text-xs text-gray-600 mt-1">มุ่งมั่นประกาศพระกิตติคุณและสร้างสาวกของพระเยซูคริสต์</p>
+    <!-- 8. Footer ส่วนท้ายแสดงข้อมูลที่อยู่คริสตจักร -->
+    <footer>
+        <p><strong>คริสตจักรแบ๊บติสต์บางเขน</strong></p>
+        <p>ที่อยู่: 2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900</p>
+        <p>📞 เบอร์โทรศัพท์: 02-5798764</p>
+        <p style="margin-top:15px; font-size:0.75rem; color:#555;">&copy; 2026 bbcchurch. All Rights Reserved.</p>
     </footer>
 
-
     <!-- ================================================================= -->
-    <!-- CENTER SCRIPT: ศูนย์กลางควบคุมระบบ ดึงข้อมูล แตกหนาเพจ และส่งค่าต่อ -->
+    <!-- [ZONE 3] ส่วนของ JS (ทำงานอัตโนมัติเรื่อง Slide และ Center Script) -->
     <!-- ================================================================= -->
-    <script type="module">
-        // เรียกใช้งาน Firebase Web SDK v9+ (Modular) ตามชุด Config ที่เตรียมไว้ให้
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-        // คอนฟิกูเรชัน Firebase ของบีบีซีเชิร์ช
-        const firebaseConfig = {
-            apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3Q",
-            authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-            projectId: "bbcchurch-6ffc3",
-            storageBucket: "bbcchurch-6ffc3.firebasestorage.app",
-            messagingSenderId: "1007626508012",
-            appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-        };
-
-        // เริ่มต้นการเชื่อมต่อระบบ
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // --------------------------------------------------
-        // ส่วนควบคุมระบบแท็บเลื่อนหน้าเมนู SPA (Single Page Application)
-        // --------------------------------------------------
-        window.switchPage = function(pageId) {
-            // ซ่อนทุกหน้าเพจเนื้อหา
-            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-            // ดึงหน้าเพจที่เลือกออกมาแสดง
-            document.getElementById(`page-${pageId}`).classList.remove('hidden');
-
-            // อัปเดตสถานะปุ่มเมนูให้ดูสวยงาม
-            const btnHome = document.getElementById('btn-home');
-            const btnContact = document.getElementById('btn-contact');
-            
-            if (pageId === 'home') {
-                btnHome.className = "py-4 px-6 text-blue-900 font-bold border-b-2 border-blue-900 focus:outline-none";
-                btnContact.className = "py-4 px-6 text-gray-600 font-medium hover:text-blue-900 focus:outline-none";
-            } else {
-                btnContact.className = "py-4 px-6 text-blue-900 font-bold border-b-2 border-blue-900 focus:outline-none";
-                btnHome.className = "py-4 px-6 text-gray-600 font-medium hover:text-blue-900 focus:outline-none";
-            }
-            
-            // สกรอลล์กลับไปที่ตำแหน่งเริ่มเนื้อหาใต้สไลด์
-            document.getElementById('mainNav').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        // --------------------------------------------------
-        // ส่วนควบคุมระบบเปลี่ยนภาพ Hero Slide อัตโนมัติ (ทุก 8 วินาที)
-        // --------------------------------------------------
+    <script>
+        // --- ระบบสลับภาพ Hero Slide ทุกๆ 8 วินาที ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
-        
+        const slideInterval = 8000; // 8000 มิลลิวินาที = 8 วินาที
+
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }
-        setInterval(nextSlide, 8000); // ทำงานทุกๆ 8000 มิลลิวินาที (8 วินาที)
+        setInterval(nextSlide, slideInterval);
 
-        // --------------------------------------------------
-        // CENTER DATA INJECTOR: สคริปต์กลางในการจัดการฐานข้อมูลและ Render หน้าเพจ
-        // --------------------------------------------------
-        async function loadChurchContent() {
-            const displayArea = document.getElementById('content-display');
-            
-            try {
-                // ตัวอย่างรูปแบบคำสั่งดึงข้อมูลจริงจากฐานข้อมูล Firestore ของคุณ (จัดระเบียบตามวันเวลาล่าสุดจากปัจจุบัน)
-                // const q = query(collection(db, "contents"), orderBy("date", "desc"));
-                // const querySnapshot = await getDocs(q);
-                
-                // สำหรับเป็นต้นแบบตั้งต้นระบบที่ทำงานทันที (Mockup Data โครงสร้างแบบปัจจุบันอยู่ก่อน)
-                const mockContents = [
-                    {
-                        title: "พระคุณนำหน้าชีวิตประจำวัน",
-                        category: "หมวดหมู่คำเทศนา",
-                        author: "ศจ. ดร. สมชาย",
-                        dateStr: "22 พ.ค. 2026",
-                        detail: "หนุนใจพี่น้องในการยึดมั่นและพึ่งพาพระคุณพระเจ้าในสภาวะเศรษฐกิจปัจจุบัน..."
-                    },
-                    {
-                        title: "พระเจ้าเยียวยารักษาโรคภัยให้หายขาด",
-                        category: "หมวดหมู่คำพยาน",
-                        author: "มน. สมศรี",
-                        dateStr: "18 พ.ค. 2026",
-                        detail: "คำพยานชีวิตจริงจากการอธิษฐานวิงวอนร่วมกันของคริสตจักรจนผ่านพ้นวิกฤตสุขภาพมาได้..."
-                    },
-                    {
-                        title: "ประกาศตารางกิจกรรมค่ายฟื้นฟูประจำปี",
-                        category: "หมวดหมู่ข่าวสาร",
-                        author: "กองงานคริสตจักร",
-                        dateStr: "15 พ.ค. 2026",
-                        detail: "ขอเรียนเชิญพี่น้องสมาชิกทุกท่านเข้าร่วมลงทะเบียนค่ายเพื่อเสริมสร้างชีวิตฝ่ายวิญญาณ..."
-                    },
-                    {
-                        title: "การดำเนินชีวิตคริสเตียนที่สมดุล",
-                        category: "หมวดหมู่บทความ",
-                        author: "ทีมงานศิษยาภิบาล",
-                        dateStr: "10 พ.ค. 2026",
-                        detail: "บทความสั้นประจำสัปดาห์ที่จะพาเราเจาะลึกพระคัมภีร์เพื่อปรับประยุกต์ใช้ในการทำงาน..."
-                    }
-                ];
 
-                // เคลียร์พื้นที่โหลดแล้วเอาเนื้อหาใส่เข้าไป
-                displayArea.innerHTML = '';
-                
-                mockContents.forEach(item => {
-                    let badgeColor = "bg-blue-100 text-blue-800";
-                    if(item.category === "หมวดหมู่คำเทศนา") badgeColor = "bg-purple-100 text-purple-800";
-                    if(item.category === "หมวดหมู่คำพยาน") badgeColor = "bg-emerald-100 text-emerald-800";
-                    if(item.category === "หมวดหมู่ข่าวสาร") badgeColor = "bg-amber-100 text-amber-800";
-
-                    const cardHTML = `
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col justify-between">
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${badgeColor}">${item.category}</span>
-                                    <span class="text-xs text-gray-400 font-medium">${item.dateStr}</span>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-900 hover:text-blue-900 cursor-pointer">${item.title}</h3>
-                                <p class="text-gray-600 text-sm line-clamp-3">${item.detail}</p>
-                            </div>
-                            <div class="pt-4 mt-4 border-t border-gray-50 flex justify-between items-center text-xs text-gray-400">
-                                <span>ผู้เขียน/ผู้พูด: <strong>${item.author}</strong></span>
-                                <button class="text-blue-600 hover:underline font-medium">อ่านเพิ่มเติม →</button>
-                            </div>
-                        </div>
-                    `;
-                    displayArea.innerHTML += cardHTML;
-                });
-
-            } catch (error) {
-                console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล:", error);
-                displayArea.innerHTML = `<div class="text-red-500 text-sm p-4 col-span-2">ไม่สามารถโหลดข้อมูลจาก Firebase ได้ โปรดตรวจสอบโครงสร้าง Collection</div>`;
+        // --- Center Script (ตัวกลางส่งต่อข้อมูลพารามิเตอร์ไปยังหน้าเพจย่อย) ---
+        const bbcCenterScript = {
+            config: {
+                churchName: "คริสตจักรแบ๊บติสต์บางเขน",
+                themeColor: "#000000",
+                primaryActive: "#0033aa"
+            },
+            // ฟังก์ชันส่วนกลางที่หน้าเพจอื่นดึงไปเรียกใช้ได้ทันที
+            initPage: function(pageTitle) {
+                console.log(`[bbcchurch System] กำลังโหลดหน้า: ${pageTitle}`);
+                // คุณสามารถใส่คำสั่งกระจายข้อมูลหรือซิงค์สเตตระหว่างเพจตรงนี้ได้ในอนาคต
             }
-        }
+        };
 
-        // สั่งรันฟังก์ชันดึงข้อมูลทันทีเมื่อเพจ Center สคริปต์ตัวนี้โหลดเสร็จ
-        document.addEventListener('DOMContentLoaded', loadChurchContent());
+        // เรียกใช้งานเริ่มต้นระบุหน้าปัจจุบัน
+        bbcCenterScript.initPage("หน้าหลักระบบใหม่");
     </script>
+
+    <!-- ================================================================= -->
+    <!-- [ZONE 4] ส่วนของ FIREBASE (ระบบฐานข้อมูลหลังบ้าน) -->
+    <!-- ================================================================= -->
+    <script type="module">
+        // Import Functions ที่จำเป็นจาก Firebase SDK ผ่าน CDN (เหมาะกับการรันบนเว็บโดยตรง)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        // หากต้องการใช้ Firestore ในอนาคต ให้เอาคอมเมนต์ออก:
+        // import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // คอนฟิกูเรชันแอปพลิเคชันเว็บ Firebase ของคุณ
+        const firebaseConfig = {
+          apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3Q",
+          authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+          projectId: "bbcchurch-6ffc3",
+          storageBucket: "bbcchurch-6ffc3.firebasestorage.app",
+          messagingSenderId: "1007626508012",
+          appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+        };
+
+        // เริ่มต้นทำงานโปรเจกต์ Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log("Firebase เชื่อมต่อสำเร็จสำหรับบอร์ด bbcchurch แล้ว!");
+    </script>
+
 </body>
 </html>
