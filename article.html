@@ -24,27 +24,25 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 html,body{
     width:100%;
     overflow-x:hidden;
-    background:#0f0f0f;
+    background:#121212;
     color:#eee;
     font-family:'Sarabun',sans-serif;
-    line-height:1.7;
+    line-height:1.6;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* ===== NAVBAR ===== */
 
 .navbar{
     width:100%;
     background:#0a2c6d;
-    padding:14px 16px;
+    padding:12px 5%;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     position:sticky;
     top:0;
     z-index:9999;
-    box-shadow:0 2px 12px rgba(0,0,0,.45);
+    box-shadow:0 2px 12px rgba(0,0,0,.5);
 }
 
 .nav-brand{
@@ -54,57 +52,55 @@ html,body{
 }
 
 .navbar img{
-    width:44px;
-    height:44px;
+    width:42px;
+    height:42px;
     border-radius:50%;
     object-fit:cover;
 }
 
 .navbar span{
-    color:#fff;
-    font-size:15px;
-    font-weight:700;
     font-family:'Prompt';
+    font-size:15px;
+    font-weight:600;
+    color:#fff;
 }
 
 .sidebar-toggle{
     border:none;
     background:#ff6b6b;
     color:#fff;
-    padding:10px 16px;
-    border-radius:14px;
+    padding:10px 14px;
+    border-radius:12px;
     cursor:pointer;
-    font-size:13px;
-    font-weight:700;
     font-family:'Prompt';
-    box-shadow:0 6px 18px rgba(255,107,107,.35);
+    font-weight:600;
+    font-size:14px;
+    box-shadow:0 5px 15px rgba(255,107,107,.4);
 }
 
-/* =========================
-   MENU
-========================= */
+/* ===== MENU ===== */
 
 .horizontal-menu{
-    margin:20px auto;
     max-width:1200px;
-    background:#1b1b1b;
+    margin:20px auto;
+    background:#1d1d1d;
     border:1px solid #333;
-    border-radius:28px;
+    border-radius:30px;
     display:flex;
-    justify-content:center;
     flex-wrap:wrap;
+    justify-content:center;
     gap:10px;
-    padding:14px;
+    padding:12px;
 }
 
 .horizontal-menu a{
-    color:#cfcfcf;
+    color:#ccc;
     text-decoration:none;
-    padding:10px 16px;
-    border-radius:20px;
-    font-size:14px;
+    padding:10px 18px;
+    border-radius:25px;
     transition:.25s;
     font-family:'Prompt';
+    font-size:14px;
 }
 
 .horizontal-menu a:hover,
@@ -113,48 +109,45 @@ html,body{
     color:#fff;
 }
 
-/* =========================
-   LAYOUT
-========================= */
+/* ===== LAYOUT ===== */
 
 .main-layout{
     max-width:1200px;
     margin:auto;
-    padding:16px;
+    padding:15px;
     display:flex;
-    gap:24px;
+    gap:25px;
     align-items:flex-start;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
+/* ===== SIDEBAR ===== */
 
 .sidebar-left{
     width:280px;
     flex-shrink:0;
-    background:#181818;
+    background:#1a1a1a;
     border:1px solid #333;
-    border-radius:20px;
+    border-radius:18px;
     padding:20px;
     position:sticky;
     top:90px;
+    height:fit-content;
 }
 
 .sidebar-title{
     color:#ffbc42;
-    font-size:16px;
     font-family:'Prompt';
-    font-weight:700;
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:20px;
     border-bottom:2px solid #ffbc42;
     padding-bottom:10px;
-    margin-bottom:20px;
 }
 
 .tree-category{
     background:#222;
-    border-radius:16px;
-    padding:14px;
+    border-radius:14px;
+    padding:12px;
     margin-bottom:18px;
 }
 
@@ -171,15 +164,15 @@ html,body{
 }
 
 .tree-cat-title{
-    color:#fff;
     font-family:'Prompt';
     font-size:14px;
-    font-weight:700;
-    margin-bottom:12px;
+    font-weight:600;
+    margin-bottom:10px;
+    color:#fff;
 }
 
 .tree-sub{
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
 .tree-sub-title{
@@ -201,11 +194,11 @@ html,body{
     display:block;
     background:#2d2d2d;
     color:#ddd;
-    text-decoration:none;
     padding:7px 10px;
     border-radius:8px;
-    transition:.2s;
     font-size:13px;
+    text-decoration:none;
+    transition:.2s;
     cursor:pointer;
 }
 
@@ -214,9 +207,7 @@ html,body{
     color:#fff;
 }
 
-/* =========================
-   CONTENT
-========================= */
+/* ===== CONTENT ===== */
 
 .content-area{
     flex:1;
@@ -224,46 +215,44 @@ html,body{
 }
 
 .section-title{
-    color:#4dabff;
-    font-size:24px;
     font-family:'Prompt';
+    font-size:24px;
+    color:#4dabff;
     border-left:5px solid #4dabff;
-    padding-left:14px;
+    padding-left:15px;
     margin-bottom:25px;
 }
 
-/* =========================
-   DETAIL BOX
-========================= */
+/* ===== DETAIL ===== */
 
 .detail-box{
-    background:#1b1b1b;
+    background:#1e1e1e;
     border:1px solid #333;
-    border-radius:24px;
-    padding:28px;
-    overflow:hidden;
+    border-radius:20px;
+    padding:25px;
     margin-bottom:30px;
+    overflow:hidden;
 }
 
 .detail-title{
-    font-size:34px;
     font-family:'Prompt';
-    font-weight:700;
+    font-size:30px;
+    font-weight:600;
     color:#fff;
-    line-height:1.4;
-    margin-bottom:22px;
+    margin-bottom:20px;
+    line-height:1.5;
     word-break:break-word;
 }
 
 .detail-meta{
     display:flex;
     flex-wrap:wrap;
-    gap:18px;
-    padding-bottom:18px;
-    margin-bottom:28px;
+    gap:15px;
     border-bottom:1px solid #333;
+    padding-bottom:18px;
+    margin-bottom:25px;
     color:#aaa;
-    font-size:15px;
+    font-size:14px;
 }
 
 .meta-item{
@@ -280,27 +269,26 @@ html,body{
 .detail-banner{
     width:100%;
     max-width:100%;
+    height:auto;
     display:block;
-    border-radius:18px;
-    margin-bottom:24px;
-    border:1px solid #444;
+    border-radius:16px;
+    margin-bottom:25px;
+    border:1px solid #333;
+    background:#2a2a2a;
     object-fit:cover;
-    background:#222;
 }
 
 .detail-content{
+    font-size:16px;
+    line-height:1.9;
     color:#ddd;
-    font-size:17px;
-    line-height:2;
     white-space:pre-line;
     word-break:break-word;
     overflow-wrap:break-word;
-    margin-bottom:24px;
+    margin-bottom:30px;
 }
 
-/* =========================
-   VIDEO
-========================= */
+/* ===== VIDEO ===== */
 
 .video-wrapper{
     position:relative;
@@ -308,8 +296,8 @@ html,body{
     padding-bottom:56.25%;
     height:0;
     overflow:hidden;
-    border-radius:18px;
-    margin-bottom:24px;
+    border-radius:16px;
+    margin-bottom:25px;
 }
 
 .video-wrapper iframe{
@@ -320,24 +308,20 @@ html,body{
     top:0;
 }
 
-/* =========================
-   GRID
-========================= */
+/* ===== GRID ===== */
 
 .grid-container{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:24px;
+    gap:25px;
 }
 
-/* =========================
-   CARD
-========================= */
+/* ===== CARD ===== */
 
 .card{
-    background:#1b1b1b;
+    background:#1e1e1e;
     border:1px solid #333;
-    border-radius:18px;
+    border-radius:16px;
     overflow:hidden;
     transition:.25s;
     cursor:pointer;
@@ -353,21 +337,23 @@ html,body{
 
 .card img{
     width:100%;
+    max-width:100%;
+    height:auto;
     display:block;
     object-fit:cover;
 }
 
 .card-content{
-    padding:16px;
+    padding:15px;
     display:flex;
     flex-direction:column;
     flex:1;
 }
 
 .card-title{
-    font-size:18px;
-    color:#fff;
     font-family:'Prompt';
+    font-size:17px;
+    color:#fff;
     margin-bottom:10px;
     line-height:1.5;
 }
@@ -375,8 +361,8 @@ html,body{
 .card-info{
     font-size:13px;
     color:#bbb;
+    margin-bottom:12px;
     flex:1;
-    margin-bottom:14px;
 }
 
 .info-label{
@@ -387,19 +373,18 @@ html,body{
 .card-meta{
     border-top:1px solid #333;
     padding-top:10px;
+    margin-top:auto;
     display:flex;
     justify-content:space-between;
     color:#888;
     font-size:12px;
 }
 
-/* =========================
-   COUNTER
-========================= */
+/* ===== COUNTER ===== */
 
 .counter-section{
     text-align:center;
-    padding:45px 20px;
+    padding:40px 20px;
     border-top:1px solid #333;
 }
 
@@ -407,9 +392,7 @@ html,body{
     max-width:100%;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* ===== FOOTER ===== */
 
 footer{
     background:#0a2c6d;
@@ -418,16 +401,14 @@ footer{
 }
 
 footer img{
-    width:60px;
-    height:60px;
+    width:55px;
+    height:55px;
     border-radius:50%;
     object-fit:cover;
-    margin-bottom:12px;
+    margin-bottom:10px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* ===== MOBILE ===== */
 
 @media(max-width:992px){
 
@@ -437,8 +418,8 @@ footer img{
 
     .sidebar-left{
         position:fixed;
-        left:-320px;
         top:0;
+        left:-320px;
         width:280px;
         height:100%;
         overflow-y:auto;
@@ -457,70 +438,56 @@ footer img{
 @media(max-width:768px){
 
     .navbar{
-        padding:12px 14px;
-    }
-
-    .navbar img{
-        width:40px;
-        height:40px;
+        padding:12px 15px;
     }
 
     .navbar span{
-        font-size:13px;
+        font-size:14px;
     }
 
     .sidebar-toggle{
+        font-size:13px;
         padding:8px 12px;
-        font-size:12px;
     }
 
     .horizontal-menu{
         margin:15px;
-        gap:6px;
         padding:10px;
-        border-radius:22px;
+        border-radius:24px;
     }
 
     .horizontal-menu a{
-        font-size:12px;
+        font-size:13px;
         padding:8px 12px;
     }
 
     .main-layout{
-        padding:14px;
+        padding:15px;
     }
 
     .detail-box{
         padding:20px;
-        border-radius:20px;
     }
 
     .detail-title{
         font-size:22px;
-        margin-bottom:18px;
     }
 
     .detail-meta{
-        gap:12px;
+        gap:10px;
         font-size:13px;
     }
 
     .detail-content{
         font-size:15px;
-        line-height:1.9;
     }
 
 }
 
 </style>
-
 </head>
 
 <body>
-
-<!-- =========================
-     NAVBAR
-========================= -->
 
 <nav class="navbar">
 
@@ -533,40 +500,29 @@ onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
 
 </div>
 
-<button class="sidebar-toggle"
-onclick="toggleSidebar()">
-
+<button class="sidebar-toggle" onclick="toggleSidebar()">
 📂 แผนผังเมนู
-
 </button>
 
 </nav>
-
-<!-- =========================
-     MENU
-========================= -->
 
 <nav class="horizontal-menu">
 
 <a href="index.html">🏠 หน้าแรก</a>
 
-<a href="article.html?view=เทศนา"
-id="menu-เทศนา">
+<a href="article.html?view=เทศนา" id="menu-เทศนา">
 🎙️ คำเทศนา
 </a>
 
-<a href="article.html?view=บทความ"
-id="menu-บทความ">
+<a href="article.html?view=บทความ" id="menu-บทความ">
 📖 บทความ
 </a>
 
-<a href="article.html?view=คำพยาน"
-id="menu-คำพยาน">
+<a href="article.html?view=คำพยาน" id="menu-คำพยาน">
 🙏 คำพยาน
 </a>
 
-<a href="article.html?view=ข่าวสาร"
-id="menu-ข่าวสาร">
+<a href="article.html?view=ข่าวสาร" id="menu-ข่าวสาร">
 📢 ข่าวสาร
 </a>
 
@@ -576,16 +532,9 @@ id="menu-ข่าวสาร">
 
 </nav>
 
-<!-- =========================
-     MAIN
-========================= -->
-
 <div class="main-layout">
 
-<!-- SIDEBAR -->
-
-<aside class="sidebar-left"
-id="sidebarMenu">
+<aside class="sidebar-left" id="sidebarMenu">
 
 <div class="sidebar-title">
 🗂️ แผนผังคลังข้อมูลคริสตจักร
@@ -593,186 +542,29 @@ id="sidebarMenu">
 
 <div class="tree-category article-border">
 
-<div class="tree-cat-title"
-style="color:#4dabff">
-
+<div class="tree-cat-title" style="color:#4dabff">
 📖 แผนผังบทความ
-
 </div>
 
 <div class="tree-sub">
-
-<div class="tree-sub-title">
-📅 ประจำเดือน/ปี
-</div>
-
-<ul class="tree-list"
-id="article-date-tree">
-
+<div class="tree-sub-title">📅 ประจำเดือน/ปี</div>
+<ul class="tree-list" id="article-date-tree">
 <li>กำลังโหลด...</li>
-
 </ul>
-
 </div>
 
 <div class="tree-sub">
-
-<div class="tree-sub-title">
-🔖 เรียงตามซีรีย์
-</div>
-
-<ul class="tree-list"
-id="article-series-tree">
-
+<div class="tree-sub-title">🔖 เรียงตามซีรีย์</div>
+<ul class="tree-list" id="article-series-tree">
 <li>กำลังโหลด...</li>
-
 </ul>
-
 </div>
 
 <div class="tree-sub">
-
-<div class="tree-sub-title">
-✍️ เรียงตามผู้แต่ง
-</div>
-
-<ul class="tree-list"
-id="article-author-tree">
-
+<div class="tree-sub-title">✍️ เรียงตามผู้แต่ง</div>
+<ul class="tree-list" id="article-author-tree">
 <li>กำลังโหลด...</li>
-
 </ul>
-
 </div>
 
 </div>
-
-</aside>
-
-<!-- CONTENT -->
-
-<main class="content-area">
-
-<div id="full-article-view">
-
-<div class="detail-box">
-
-<h1 id="det-title"
-class="detail-title">
-
-จริงใจทั้งต่อหน้าและลับหลัง
-
-</h1>
-
-<div class="detail-meta">
-
-<span class="meta-item">
-<span class="meta-label">ผู้เขียน:</span>
-คุณอุทุมพร ศรีสถิตยันรากูร
-</span>
-
-<span class="meta-item">
-<span class="meta-label">ซีรีย์:</span>
-รับใช้ผู้อื่น
-</span>
-
-<span class="meta-item">
-<span class="meta-label">ข้อพระธรรม:</span>
-เอเฟซัส 6:5-9
-</span>
-
-<span class="meta-item">
-📅 2026-05-23
-</span>
-
-</div>
-
-<img class="detail-banner"
-src="https://i.imgur.com/6Iej2c3.jpeg">
-
-<div class="detail-content">
-
-ไม่มีรายละเอียด
-
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-</div>
-
-<!-- =========================
-     COUNTER
-========================= -->
-
-<div class="counter-section">
-
-<h3 style="
-margin-bottom:15px;
-font-family:'Prompt';
-font-size:18px;">
-
-สถิติผู้เยี่ยมชม
-
-</h3>
-
-<a href="https://info.flagcounter.com/iWY4">
-
-<img src="https://s01.flagcounter.com/countxl/iWY4/bg_FFFFFF/txt_000000/border_CCCCCC/columns_5/maxflags_20/viewers_0/labels_1/pageviews_1/flags_0/percent_0/">
-
-</a>
-
-</div>
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-<img src="logo.png"
-onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
-
-<br>
-
-<strong style="
-font-family:'Prompt';
-font-size:20px;">
-
-คริสตจักรแบ๊บติสต์บางเขน
-
-</strong>
-
-<div style="
-margin-top:8px;
-font-size:13px;
-color:#ccc;">
-
-© คริสตจักรแบ๊บติสต์บางเขน
-
-</div>
-
-</footer>
-
-<!-- =========================
-     SCRIPT
-========================= -->
-
-<script>
-
-function toggleSidebar(){
-
-    document
-    .getElementById('sidebarMenu')
-    .classList
-    .toggle('open');
-
-}
-
-</script>
-
-</body>
-</html>
