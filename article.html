@@ -157,24 +157,30 @@
 
     <main class="content-area">
         
-        <div id="full-article-view" style="display: none;">
-            <div class="detail-box">
-                <h1 id="det-title" class="detail-title">กำลังโหลดหัวข้อ...</h1>
-                <div class="detail-meta">
-                    <span class="meta-item"><span class="meta-label" id="det-author-prefix">ผู้เขียน:</span> <span id="det-author">...</span></span>
-                    <span class="meta-item" id="det-series-box"><span class="meta-label">ซีรีย์:</span> <span id="det-series">...</span></span>
-                    <span class="meta-item" id="det-bible-box"><span class="meta-label">ข้อพระธรรม:</span> <span id="det-bible">...</span></span>
-                    <span class="meta-item">📅 <span id="det-date">...</span></span>
-                </div>
-                
-                <div id="det-video-box" class="video-wrapper" style="display: none;">
-                    <iframe id="det-iframe" src="" title="YouTube player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-
-                <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover">
-                <div id="det-content" class="detail-content">กำลังโหลดเนื้อหา...</div>
-            </div>
+        <!-- ค้นหาบล็อกนี้ในโค้ดของคุณ -->
+<div id="full-article-view" style="display: none;">
+    <div class="detail-box">
+        <h1 id="det-title" class="detail-title">กำลังโหลดหัวข้อ...</h1>
+        <div class="detail-meta">
+            <span class="meta-item"><span class="meta-label" id="det-author-prefix">ผู้เขียน:</span> <span id="det-author">...</span></span>
+            <span class="meta-item" id="det-series-box"><span class="meta-label">ซีรีย์:</span> <span id="det-series">...</span></span>
+            <span class="meta-item" id="det-bible-box"><span class="meta-label">ข้อพระธรรม:</span> <span id="det-bible">...</span></span>
+            <span class="meta-item">📅 <span id="det-date">...</span></span>
         </div>
+        
+        <div id="det-video-box" class="video-wrapper" style="display: none;">
+            <iframe id="det-iframe" src="" title="YouTube player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <!-- รูปที่ 1 (ของเดิม) -->
+        <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover 1">
+        
+        <div id="det-content" class="detail-content">กำลังโหลดเนื้อหา...</div>
+
+        <!-- ⭐️ เพิ่มรูปที่ 2 ตรงนี้ (แสดงต่อท้ายเนื้อหา หรือจะย้ายไว้ก่อนเนื้อหาก็ได้) -->
+        <img id="det-cover2" class="detail-banner" src="" alt="Cover 2" style="display: none;">
+    </div>
+</div>
 
         <div id="category-list-view" style="display: none;">
             <h2 id="category-page-title" class="section-title">รายการบทความ</h2>
