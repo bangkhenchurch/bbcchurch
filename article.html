@@ -318,56 +318,63 @@
     }
 
     function filterContentFromTree(category, filterType, targetValue) {
-        document.getElementById('full-article-view').style.display = 'none';
-        document.getElementById('category-list-view').style.display = 'block';
-        document.getElementById('category-page-title').innerText = `📋 กรอง: ${category} (${targetValue})`;
-        
-        document.querySelectorAll('.horizontal-menu a').forEach(el => el.classList.remove('active'));
+    document.getElementById('full-article-view').style.display = 'none';
+    document.getElementById('category-list-view').style.display = 'block';
+    document.getElementById('category-page-title').innerText = `📋 กรอง: ${category} (${targetValue})`;
+    
+    document.querySelectorAll('.horizontal-menu a').forEach(el => el.classList.remove('active'));
 
-        const gridContainer = document.getElementById('category-grid');
-        gridContainer.innerHTML = "";
-        let count = 0;
+    const gridContainer = document.getElementById('category-grid');
+    gridContainer.innerHTML = "";
+    let count = 0;
 
-        allArticlesList.forEach(d => {
-            const currentCat = (d.category || d.Category || "").toString();
-            if (currentCat.includes(category)) {
-                let match = false;
-                if (filterType === 'date' && parseMonthYear(d.displayDate || d.date) === targetValue) match = true;
-                if (filterType === 'series' && d.series === targetValue) match = true;
-                if (filterType === 'author' && (d.authorName === targetValue || d.author === targetValue)) match = true;
+    allArticlesList.forEach(d => {
+        const currentCat = (d.category || d.Category || "").toString();
+        if (currentCat.includes(category)) {
+            let match = false;
+            if (filterType === 'date' && parseMonthYear(d.displayDate || d.date) === targetValue) match = true;
+            if (filterType === 'series' && d.series === targetValue) match = true;
+            if (filterType === 'author' && (d.authorName === targetValue || d.author === targetValue)) match = true;
 
-                if (match) {
-                    count++;
-                    const finalThumb = d.thumbUrl || d.thumbnail || getYoutubeThumb(d.youtubeUrl || d.youtube) || 'logo.png';
-                    const rawAuthor = d.authorName || d.author || "คริสตจักร";
-                    let prefix = "ผู้เขียน: ";
-                    if (currentCat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
-                    else if (currentCat.includes("พยาน")) prefix = "เจ้าของคำพยาน: ";
+            if (match) {
+                count++;
+                const finalThumb = d.thumbUrl || d.thumbnail || getYoutubeThumb(d.youtubeUrl || d.youtube) || 'logo.png';
+                
+                // ⭐️ ดึงรูปภาพที่ 2 มาเตรียมไว้สำหรับการ์ด (ถ้ามี)
+                const finalThumb2 = d.thumbUrl2 || d.thumbnail2 || d.imageUrl || d.image2;
+                const cardImg2Html = finalThumb2 ? `<img src="${finalThumb2}" style="height:120px; object-fit:cover; border-top:1px solid #333;" onerror="this.style.display='none'">` : '';
 
-                    const sHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
-                    const bHtml = (d.bibleRef || d.bible) ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef || d.bible}</div>` : '';
+                const rawAuthor = d.authorName || d.author || "คริสตจักร";
+                let prefix = "ผู้เขียน: ";
+                if (currentCat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
+                else if (currentCat.includes("พยาน")) prefix = "เจ้าของคำพยาน: ";
 
-                    const card = `
-                    <div class="card" onclick="window.location.href='article.html?id=${d.id}'">
-                        <img src="${finalThumb}" onerror="this.src='logo.png'">
-                        <div class="card-content">
-                            <h4 class="card-title">${d.title || d.Title || 'ไม่มีหัวข้อ'}</h4>
-                            <div class="card-info">
-                                <div><span class="info-label">${prefix}</span> ${rawAuthor}</div>
-                                ${sHtml} ${bHtml}
-                            </div>
-                            <div class="card-meta">
-                                <span>📅 ${d.displayDate || d.date || ''}</span>
-                                <span style="color:#4dabff">อ่านต่อ...</span>
-                            </div>
+                const sHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
+                const bHtml = (d.bibleRef || d.bible) ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef || d.bible}</div>` : '';
+
+                const card = `
+                <div class="card" onclick="window.location.href='article.html?id=${d.id}'">
+                    <img src="${finalThumb}" onerror="this.src='logo.png'">
+                    <div class="card-content">
+                        <h4 class="card-title">${d.title || d.Title || 'ไม่มีหัวข้อ'}</h4>
+                        <div class="card-info">
+                            <div><span class="info-label">${prefix}</span> ${rawAuthor}</div>
+                            ${sHtml} ${bHtml}
                         </div>
-                    </div>`;
-                    gridContainer.insertAdjacentHTML('beforeend', card);
-                }
+                        <!-- ⭐️ แสดงพรีวิวรูปที่ 2 ขนาดเล็กด้านล่างข้อมูลการ์ด (ถ้ามี) -->
+                        ${cardImg2Html}
+                        <div class="card-meta">
+                            <span>📅 ${d.displayDate || d.date || ''}</span>
+                            <span style="color:#4dabff">อ่านต่อ...</span>
+                        </div>
+                    </div>
+                </div>`;
+                gridContainer.insertAdjacentHTML('beforeend', card);
             }
-        });
-        if(count === 0) { gridContainer.innerHTML = "<p style='color:#aaa; text-align:center; padding:30px; grid-column:1/-1;'>ไม่พบข้อมูล</p>"; }
-    }
+        }
+    });
+    if(count === 0) { gridContainer.innerHTML = "<p style='color:#aaa; text-align:center; padding:30px; grid-column:1/-1;'>ไม่พบข้อมูล</p>"; }
+}
 
     // เรียกดึงข้อมูลหลักจากฐานข้อมูล
     const qAll = query(collection(db, "articles"), orderBy("displayDate", "desc"));
