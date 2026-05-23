@@ -486,6 +486,50 @@
                     document.getElementById('det-video-box').style.display = 'none';
                 }
                 document.getElementById('det-cover').src = data.thumbUrl || data.thumbnail || getYoutubeThumb(data.youtubeUrl || data.youtube) || 'logo.png';
+           /* =========================
+   รูปประกอบเพิ่มเติม
+========================= */
+
+const image1 =
+    data.image1 ||
+    data.imageUrl1 ||
+    data.extraImage1 ||
+    "";
+
+const image2 =
+    data.image2 ||
+    data.imageUrl2 ||
+    data.extraImage2 ||
+    "";
+
+const gallery = document.getElementById('detail-gallery');
+
+const img1 = document.getElementById('det-image1');
+const img2 = document.getElementById('det-image2');
+
+let hasGallery = false;
+
+/* รูปที่ 1 */
+if (image1) {
+    img1.src = image1;
+    img1.style.display = 'block';
+    hasGallery = true;
+} else {
+    img1.style.display = 'none';
+}
+
+/* รูปที่ 2 */
+if (image2) {
+    img2.src = image2;
+    img2.style.display = 'block';
+    hasGallery = true;
+} else {
+    img2.style.display = 'none';
+}
+
+/* เปิด/ปิด gallery */
+gallery.style.display =
+    hasGallery ? 'flex' : 'none';
             }
         });
     }
