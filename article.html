@@ -88,6 +88,37 @@
             .detail-title { font-size: 22px; }
             .detail-box { padding: 15px; }
         }
+
+        /* =========================
+   DETAIL GALLERY
+========================= */
+
+.detail-gallery {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.detail-extra-image {
+    width: calc(50% - 8px);
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid #333;
+    background: #1a1a1a;
+}
+
+.detail-extra-image:hover {
+    border-color: #4dabff;
+}
+
+@media (max-width: 768px) {
+
+    .detail-extra-image {
+        width: 100%;
+    }
+
+}
     </style>
 </head>
 <body>
@@ -172,8 +203,25 @@
                 </div>
 
                 <img id="det-cover" class="detail-banner" src="logo.png" alt="Cover">
-                <div id="det-content" class="detail-content">กำลังโหลดเนื้อหา...</div>
-            </div>
+
+<!-- รูปประกอบเพิ่มเติม -->
+<div id="detail-gallery" class="detail-gallery" style="display:none;">
+
+    <img id="det-image1"
+         class="detail-extra-image"
+         src=""
+         alt="รูปประกอบ 1">
+
+    <img id="det-image2"
+         class="detail-extra-image"
+         src=""
+         alt="รูปประกอบ 2">
+
+</div>
+
+<div id="det-content" class="detail-content">
+    กำลังโหลดเนื้อหา...
+</div>
         </div>
 
         <div id="category-list-view" style="display: none;">
