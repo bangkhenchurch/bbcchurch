@@ -7,39 +7,52 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: 'Sarabun', sans-serif; margin: 0; padding: 20px; }
-        .footer { text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 30px; }
-        .footer img { max-width: 80px; margin-bottom: 10px; } /* ส่วนแสดงโลโก้ */
-        .counter-box { margin-top: 15px; }
+        body { background: #000; color: #fff; font-family: 'Sarabun', sans-serif; margin: 0; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: #1a1a1a; border-radius: 10px; overflow: hidden; border: 1px solid #333; }
+        .card img { width: 100%; height: 180px; object-fit: cover; }
+        .card-body { padding: 15px; }
+        .footer { text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <header><h1>คริสตจักรแบ๊บติสต์บางเขน</h1></header>
-    <div id="content"></div>
+    <header style="padding: 20px; text-align: center;"><h1>คริสตจักรแบ๊บติสต์บางเขน</h1></header>
+
+    <div id="content-grid" class="grid-container">
+        </div>
 
     <footer class="footer">
-        <img src="logo.png" alt="Church Logo"> 
-        
-        <p>คริสตจักรแบ๊บติสต์บางเขน<br>
-        2172/145-147 ซอยพหลโยธิน 36 ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900<br>
-        โทร. 02-5798764 | @bbcchurch 2026</p>
-
-        <div class="counter-box">
-            <a href="https://info.flagcounter.com/XXXX">
-                <img src="https://s11.flagcounter.com/count/XXXX/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_1/pageviews_1/flags_0/" alt="Flag Counter" border="0">
-            </a>
-        </div>
+        <p>2172/145-147 ซอยพหลโยธิน 36 กทม. 10900 | โทร. 02-5798764</p>
     </footer>
 
     <script>
-        // อย่าลืมตรวจสอบ Firebase Config ให้ตรงกับของคุณ
         const firebaseConfig = {
             apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
             projectId: "bbcchurch-6ffc3",
             storageBucket: "bbcchurch-6ffc3.firebasestorage.app"
         };
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // ดึงข้อมูลจากคอลเลกชัน 'articles'
+        db.collection("articles").orderBy("displayDate", "desc").onSnapshot((snap) => {
+            const grid = document.getElementById("content-grid");
+            grid.innerHTML = "";
+            snap.forEach((doc) => {
+                const data = doc.data();
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${data.thumbUrl || 'logo.png'}">
+                        <div class="card-body">
+                            <h3>${data.title}</h3>
+                            <p>${data.category} | ${data.authorName}</p>
+                            <p>${data.mainContent.substring(0, 100)}...</p>
+                        </div>
+                    </div>
+                `;
+            });
+        });
     </script>
 </body>
 </html>
