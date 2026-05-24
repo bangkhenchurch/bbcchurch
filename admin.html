@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Restore Original)</title>
+    <title>BBC Church - Admin Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
@@ -22,6 +22,7 @@
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .badge-pending { background: #e67e22; color: white; }
         .badge-approved { background: #27ae60; color: white; }
+        .btn-act { padding: 5px 10px; cursor: pointer; border-radius: 4px; border: none; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -71,7 +72,7 @@
 
     const db = getFirestore(initializeApp(firebaseConfig));
 
-    // บันทึกบทความเดิม
+    // บันทึกบทความ
     document.getElementById("postForm").onsubmit = async (e) => {
         e.preventDefault();
         await addDoc(collection(db, "articles"), {
@@ -84,12 +85,13 @@
         alert("บันทึกเรียบร้อย!");
     };
 
-    // ระบบจัดการความคิดเห็น (ที่เพิ่มเข้ามา)
+    // แสดงและจัดการความคิดเห็น
     onSnapshot(collection(db, "comments"), (snap) => {
         const tbody = document.getElementById("commentTableBody");
         tbody.innerHTML = "";
         snap.forEach((d) => {
             const c = d.data();
+            const id = d.id;
             tbody.innerHTML += `<tr>
                 <td>${c.articleTitle || "-"}</td>
                 <td>${c.visitorName || "-"}</td>
@@ -97,15 +99,26 @@
                 <td>${c.text || "-"}</td>
                 <td><span class="badge ${c.status === 'approved' ? 'badge-approved' : 'badge-pending'}">${c.status || 'pending'}</span></td>
                 <td>
-                    ${c.status !== 'approved' ? `<button onclick="approveComment('${d.id}')">อนุมัติ</button>` : ''}
-                    <button onclick="deleteComment('${d.id}')">ลบ</button>
+                    ${c.status !== 'approved' ? `<button class="btn-act" style="background:#27ae60; color:white;" onclick="approveComment('${id}')">อนุมัติ</button>` : ''}
+                    <button class="btn-act" style="background:#c0392b; color:white;" onclick="deleteComment('${id}')">ลบ</button>
                 </td>
             </tr>`;
         });
     });
 
-    window.approveComment = async (id) => { await updateDoc(doc(db, "comments", id), { status: "approved" }); };
-    window.deleteComment = async (id) => { await deleteDoc(doc(db, "comments", id)); };
+    // ฟังก์ชันสำหรับเรียกผ่านปุ่มใน HTML
+    window.approveComment = async (id) => {
+        try {
+            await updateDoc(doc(db, "comments", id), { status: "approved" });
+            alert("อนุมัติสำเร็จ!");
+        } catch (e) { alert("เกิดข้อผิดพลาด: " + e.message); }
+    };
+
+    window.deleteComment = async (id) => {
+        if(confirm("ยืนยันการลบความคิดเห็น?")) {
+            await deleteDoc(doc(db, "comments", id));
+        }
+    };
 </script>
 </body>
 </html>
