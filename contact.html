@@ -21,10 +21,17 @@
         .horizontal-menu a:hover, .horizontal-menu a.active { color: #fff; background: #4dabff; }
 
         /* Contact Details Card */
-        .contact-box { background: #1e1e1e; border: 1px solid #333; border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .contact-box { background: #1e1e1e; border: 1px solid #333; border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 30px; }
         .contact-item { margin-bottom: 25px; font-size: 16px; color: #ddd; }
         .contact-label { font-family: 'Prompt'; font-size: 18px; color: #4dabff; margin-bottom: 5px; font-weight: 600; }
         
+        /* Contact Form Styles */
+        .contact-form-box { background: #1a1a1a; padding: 30px; border-radius: 15px; border: 1px dashed #444; margin-bottom: 30px; }
+        .u-input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 15px; font-family: 'Sarabun', sans-serif; font-size: 15px; resize: vertical; }
+        .btn-submit { width: 100%; padding: 15px; background: #4dabff; color: white; border: none; border-radius: 8px; cursor: pointer; font-family: 'Prompt'; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn-submit:hover { background: #3593e6; }
+        .btn-submit:disabled { background: #555; cursor: not-allowed; }
+
         /* Map and Image Wrapper */
         .map-wrapper { width: 100%; height: 350px; border-radius: 12px; overflow: hidden; margin-top: 20px; border: 1px solid #333; }
         .map-wrapper iframe { width: 100%; height: 100%; border: 0; }
@@ -34,6 +41,7 @@
 
         footer { background: #0a2c6d; text-align: center; padding: 40px 20px; margin-top: 60px; }
         footer img { width: 50px; border-radius: 50%; margin-bottom: 10px; }
+        .footer-address { font-size: 14px; color: #aaa; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -45,10 +53,10 @@
 
 <nav class="horizontal-menu">
     <a href="index.html">🏠 หน้าแรก</a>
-    <a href="article.html?view=เทศนา">🎙️ คำเทศนา</a>
-    <a href="article.html?view=บทความ">📖 บทความ</a>
-    <a href="article.html?view=คำพยาน">🙏 คำพยาน</a>
-    <a href="article.html?view=ข่าวสาร">📢 ข่าวสาร</a>
+    <a href="sermons.html">🎙️ คำเทศนา</a>
+    <a href="blogs.html">📖 บทความ</a>
+    <a href="testimony.html">🙏 คำพยาน</a>
+    <a href="news.html">📢 ข่าวสาร</a>
     <a href="contact.html" class="active">📞 ติดต่อเรา</a>
 </nav>
 
@@ -62,6 +70,11 @@
         </div>
 
         <div class="contact-item">
+            <div class="contact-label">📞 เบอร์โทรศัพท์</div>
+            <p><a href="tel:025798764" style="color: #4dabff; text-decoration: none; font-weight: bold;">02-579-8764</a></p>
+        </div>
+
+        <div class="contact-item">
             <div class="contact-label">💬 LINE Official Account</div>
             <a href="https://lin.ee/NhFf2Rf" target="_blank">
                 <img src="https://qr-official.line.me/gs/M_082xyooj_BW.png?oat_สารบัญ" alt="LINE QR Code" class="qr-code">
@@ -72,9 +85,19 @@
         <div class="contact-item">
             <div class="contact-label">🗺️ แผนที่ Google Maps</div>
             <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3874.3312015383506!2d100.5721111!3d13.8341667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d06efdcd77b%3A0xe67db50df36fa7c5!2z4LiE4Lij4Li04Liq4LiV4LiI4Lix4LiB4Lij4LmB4Lia4LmH4Lia4LiV4Li04Liq4LiV4Lia4Liy4LiH4LmA4LiC4LiZ!5e0!3m2!1sth!2sth!4v1716382000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m3!1d3874.3216839958315!2d100.5746777!3d13.8197171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d7999999999%3A0xe530514945b63df0!2z4LiE4Lij4Li04Liq4LiV4LiI4Lix4LiB4Lij4LmB4LiL4LmC4LiV4Li04Liq4LiV4Lia4Liy4LiH4LmA4LiZ!5e0!3m2!1sth!2sth!4v1716500000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
+    </div>
+
+    <div class="contact-form-box">
+        <h3 style="font-family: 'Prompt'; color: white; margin-bottom: 15px; font-size: 20px;">📬 ส่งข้อความติดต่อหรือขอคำอธิษฐาน</h3>
+        <form id="directContactForm">
+            <input type="text" id="senderName" class="u-input" placeholder="ชื่อของคุณ" required>
+            <input type="tel" id="senderPhone" class="u-input" placeholder="เบอร์โทรศัพท์ติดต่อกลับ" required>
+            <textarea id="senderMessage" class="u-input" rows="4" placeholder="เขียนรายละเอียดเรื่องที่ต้องการสอบถาม หรือเรื่องที่ต้องการให้เราอธิษฐานเผื่อ..." required></textarea>
+            <button type="submit" id="btnSubmitForm" class="btn-submit">ส่งข้อมูลติดต่อ</button>
+        </form>
     </div>
 </div>
 
@@ -88,6 +111,58 @@
         </div>
     </div>
 </footer>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ใช้ Config ตัวเดียวกันกับหน้าอื่นๆ ของคริสตจักร
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ระบบส่งฟอร์มข้อมูลติดต่อเข้า Firebase
+    document.getElementById('directContactForm').onsubmit = async (e) => {
+        e.preventDefault();
+
+        const btn = document.getElementById('btnSubmitForm');
+        btn.disabled = true;
+        btn.innerText = "กำลังส่งข้อมูล...";
+
+        const name = document.getElementById('senderName').value.trim();
+        const phone = document.getElementById('senderPhone').value.trim();
+        const message = document.getElementById('senderMessage').value.trim();
+
+        try {
+            await addDoc(collection(db, "contacts"), {
+                articleId: "general_contact", // เครื่องหมายบอกว่ามาจากหน้าติดต่อโดยตรง
+                name: name,
+                phone: phone,
+                needs: ["ติดต่อจากหน้าเว็บหลัก"],
+                address: "",
+                note: message,
+                createdAt: serverTimestamp()
+            });
+
+            alert("ส่งข้อมูลไปยังคริสตจักรเรียบร้อยแล้ว ขอพระเจ้าอวยพระพรครับ");
+            document.getElementById('directContactForm').reset();
+
+        } catch (err) {
+            console.error("Error sending message: ", err);
+            alert("เกิดข้อผิดพลาด ไม่สามารถส่งข้อมูลได้ในขณะนี้");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "ส่งข้อมูลติดต่อ";
+        }
+    };
+</script>
 
 </body>
 </html>
