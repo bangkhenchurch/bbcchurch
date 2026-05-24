@@ -85,7 +85,7 @@
                 <div>
                     <label>ผู้เขียน/ผู้เทศนา</label>
                     <div class="author-input-group">
-                        <select id="authorName"><option value="คริสตจักร" data-id="default">คริสตจักร</option></select>
+                        <select id="authorName"><option value="คริสตจักร" data-id="default" data-type="ผู้เขียน">คริสตจักร (ผู้เขียน)</option></select>
                         <button type="button" class="btn-add-inline" id="btnAddAuthor" title="เพิ่มรายชื่อใหม่">+</button>
                         <button type="button" class="btn-delete-inline" id="btnDelAuthor" title="ลบรายชื่อที่เลือกอยู่">🗑️</button>
                     </div>
@@ -292,29 +292,38 @@ setupLocalPreview("arc2File", "pre3");
 // =========================
 onSnapshot(collection(db, "authors"), (snap)=>{
     const select = document.getElementById("authorName");
-    select.innerHTML = `<option value="คริสตจักร" data-id="default">คริสตจักร</option>`;
+    select.innerHTML = `<option value="คริสตจักร" data-id="default" data-type="ผู้เขียน">คริสตจักร (ผู้เขียน)</option>`;
     snap.forEach((d)=>{
         const data = d.data();
-        select.innerHTML += `<option value="${data.name}" data-id="${d.id}">${data.name}</option>`;
+        const typeLabel = data.type || "ผู้เขียน";
+        select.innerHTML += `<option value="${data.name}" data-id="${d.id}" data-type="${typeLabel}">${data.name} (${typeLabel})</option>`;
     });
 });
 
-// เพิ่มรายชื่อใหม่
+// เพิ่มรายชื่อใหม่ (เลือกประเภท ผู้เขียน หรือ ผู้เทศนา)
 document.getElementById("btnAddAuthor").addEventListener("click", async () => {
     const name = prompt("กรุณากรอกชื่อผู้แต่ง / ผู้เทศนาคนใหม่:");
     if(!name || name.trim() === "") return;
+    
+    const typeChoice = prompt("กรุณาระบุประเภทบทบาทของผู้ใช้รายนี้:\nพิมพ์เลข 1 : สำหรับ 'ผู้เขียน'\nพิมพ์เลข 2 : สำหรับ 'ผู้เทศนา'");
+    let authorType = "ผู้เขียน";
+    if(typeChoice === "2") {
+        authorType = "ผู้เทศนา";
+    }
+
     try {
         await addDoc(collection(db, "authors"), { 
-            name: name.trim(), 
+            name: name.trim(),
+            type: authorType,
             createdAt: serverTimestamp() 
         });
-        alert("✅ เพิ่มรายชื่อผู้แต่งสำเร็จ");
+        alert(`✅ เพิ่มรายชื่อ "${name.trim()}" เป็น [${authorType}] สำเร็จ`);
     } catch (err) {
         alert("❌ ไม่สามารถเพิ่มผู้แต่งได้: " + err.message);
     }
 });
 
-// ลบรายชื่อที่พิมพ์ผิดหรือเลือกอยู่
+// ลบรายชื่อ
 document.getElementById("btnDelAuthor").addEventListener("click", async () => {
     const select = document.getElementById("authorName");
     const selectedOption = select.options[select.selectedIndex];
@@ -348,7 +357,7 @@ onSnapshot(collection(db, "articles"), (snap)=>{
 });
 
 // =========================
-// Render Articles (แยกหมวดหมู่ชัดเจน)
+// Render Articles
 // =========================
 window.renderArticlesByCategories = () => {
     const categories = {
@@ -470,6 +479,10 @@ document.getElementById("postForm").onsubmit = async (e)=>{
         const arc1 = await uploadImageHelper("arc1File", "arc1", "pre2");
         const arc2 = await uploadImageHelper("arc2File", "arc2", "pre3");
         const id = document.getElementById("editId").value;
+        
+        const selectAuthor = document.getElementById("authorName");
+        const selectedAuthorOption = selectAuthor.options[selectAuthor.selectedIndex];
+        const authorType = selectedAuthorOption.getAttribute("data-type") || "ผู้เขียน";
 
         const data = {
             displayDate: document.getElementById("customDate").value,
@@ -477,7 +490,8 @@ document.getElementById("postForm").onsubmit = async (e)=>{
             series: document.getElementById("series").value,
             bibleRef: document.getElementById("bibleRef").value,
             category: document.getElementById("category").value,
-            authorName: document.getElementById("authorName").value,
+            authorName: selectAuthor.value,
+            authorType: authorType, // บันทึกประเภทเพื่อส่งให้หน้าแสดงผลใช้งานต่อได้แม่นยำ
             status: "published", 
             thumbUrl,
             arc1,
