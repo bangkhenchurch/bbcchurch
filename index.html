@@ -3,52 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>คริสตจักรแบ๊บติสต์บางเขน</title>
+    <title>Bangkhen Baptist Church</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body { background-color: #000; color: #fff; font-family: 'Sarabun', sans-serif; margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
-        .header { display: flex; align-items: center; padding: 10px; background: #111; width: 100%; }
-        .header img { width: 35px; margin-right: 10px; }
-        .menu-bar { display: flex; justify-content: space-around; background: #222; padding: 10px 5px; width: 100%; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #333; }
-        .menu-bar a { color: #fff; text-decoration: none; font-size: 13px; white-space: nowrap; padding: 0 5px; }
-        .hero { width: 100%; height: 200px; background: #333; }
-        .hero img { width: 100%; height: 100%; object-fit: cover; }
-        .container { width: 100%; padding: 10px; }
-        .box { background: #1a1a1a; padding: 15px; margin-bottom: 15px; border: 1px solid #333; width: 100%; }
-        .footer { background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; font-size: 12px; }
+        /* พื้นฐาน */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; width: 100%; }
+        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
+
+        /* Navbar */
+        .navbar { width: 100%; background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .navbar img { width: 35px; border-radius: 50%; }
+
+        /* Hero Slideshow */
+        .hero-container { width: 100%; background: #000; position: relative; overflow: hidden; }
+        .slide { width: 100%; display: none; animation: fade 1.5s; }
+        .slide.active { display: block; }
+        .slide img { width: 100%; height: 400px; object-fit: cover; opacity: 0.8; }
+        @keyframes fade { from {opacity: .4} to {opacity: 1} }
+
+        /* Layout & Grid */
+        .container { padding: 20px 5%; width: 100%; max-width: 1200px; margin: auto; overflow: hidden; }
+        .section-title { font-family: 'Prompt'; font-size: 24px; margin: 40px 0 20px 0; color: #4dabff; border-left: 5px solid #4dabff; padding-left: 15px; }
+        
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 20px;
+        }
+
+        /* Card Design */
+        .card { 
+            background: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #333; 
+            transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%;
+            position: relative;
+        }
+        .card:hover { transform: translateY(-5px); border-color: #4dabff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .card img { width: 100%; height: 180px; object-fit: cover; background: #2a2a2a; }
+        
+        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
+        
+        /* สไตล์ส่วนข้อมูลเพิ่มเติมใน Card */
+        .card-info { font-size: 13px; color: #bbb; margin-bottom: 10px; flex-grow: 1; }
+        .card-info div { margin-bottom: 2px; display: flex; align-items: flex-start; gap: 5px; }
+        .info-label { color: #4dabff; font-weight: bold; min-width: fit-content; }
+
+        .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
+        
+        /* Footer & Counter */
+        .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
+        .counter-section img { max-width: 100%; height: auto; }
+        footer { background: #0a2c6d; color: white; text-align: center; padding: 60px 20px; width: 100%; }
+        footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
+
+        @media (max-width: 768px) {
+            .slide img { height: 250px; }
+            .section-title { font-size: 20px; }
+        }
+
+       /* ปรับแต่งกรอบเมนูให้ยาวและอยู่กึ่งกลาง */
+.horizontal-menu { 
+    background: #1e1e1e; /* สีพื้นหลังเข้ม */
+    padding: 10px 5%; 
+    display: flex; 
+    justify-content: center; /* จัดให้อยู่กึ่งกลางแนวนอน */
+    align-items: center;
+    gap: 10px; 
+    flex-wrap: wrap; /* ถ้าจอมือถือเล็กจะตัดขึ้นแถวใหม่ */
+    
+    /* การใส่กรอบยาวให้สวยงาม */
+    border: 1px solid #333; /* เส้นขอบบางๆ */
+    max-width: 1200px; /* จำกัดความกว้างไม่ให้แผ่จนเกินไปบนจอใหญ่ */
+    margin: 20px auto; /* จัดกึ่งกลางหน้าจอ และเว้นระยะบน-ล่าง */
+    border-radius: 50px; /* ทำมุมโค้งมนแบบแคปซูล (เปลี่ยนเป็น 10px ถ้าชอบเหลี่ยม) */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* ใส่เงาให้นูนดูมีมิติ */
+}
+
+/* ปรับแต่งปุ่มเมนู */
+.horizontal-menu a { 
+    padding: 10px 20px; 
+    color: #ccc; 
+    text-decoration: none; 
+    font-family: 'Prompt', sans-serif; 
+    font-size: 15px;
+    border-radius: 25px; /* ความโค้งของไฮไลท์เวลาเอาเมาส์ไปชี้ */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
+.horizontal-menu a:hover { 
+    color: #fff; 
+    background: #2c2c2c; /* เปลี่ยนพื้นหลังปุ่มเมื่อชี้ */
+    transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อย */
+}
+
+/* หน้าจอเล็ก (มือถือ) */
+@media (max-width: 768px) {
+    .horizontal-menu {
+        margin: 10px; /* ลดระยะขอบบนมือถือ */
+        border-radius: 15px; /* ลดความโค้งบนมือถือให้ดูดีขึ้น */
+        padding: 15px;
+    }
+    .horizontal-menu a {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="logo.png" alt="Logo">
-        <strong>คริสตจักรแบ๊บติสต์บางเขน</strong>
-    </div>
-    <div class="menu-bar">
-        <a href="#">หน้าแรก</a><a href="#">บทความ</a><a href="#">คำพยาน</a>
-        <a href="#">คำเทศนา</a><a href="#">ข่าวสาร</a><a href="#">ติดต่อ</a>
-    </div>
-    <div class="hero">
-        <img src="hero_01.png" alt="Hero">
-    </div>
-    <div class="container">
-        <div class="box"><h3>🗂️ คลังบทความ</h3></div>
-        <div class="box"><h3>เนื้อหาหลัก</h3></div>
-        <div class="box" style="text-align:center;">
-            <p>ให้คะแนนและแสดงความคิดเห็น</p>
-            <img src="line-qr.png" style="width:120px;"><br>
-            <a href="https://lin.ee/oBnmElM">LINE: @881mreke</a>
-            <div style="margin-top: 20px;">
-                <a href="https://info.flagcounter.com/W1Ud">
-                    <img src="https://s05.flagcounter.com/count2/W1Ud/bg_000000/txt_FFFFFF/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0">
-                </a>
-            </div>
+
+<nav class="navbar">
+    <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <span style="font-family:'Prompt'; font-weight: 600;">Bangkhen Baptist Church</span>
+</nav>
+
+<div class="hero-container">
+    <div class="slide active"><img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'"></div>
+    <div class="slide"><img src="hero_02.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
+    <div class="slide"><img src="hero_03.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
+</div>
+
+<div class="featured-video-container" style="background: #121212; padding: 40px 20px;">
+    <div style="max-width: 900px; margin: auto;">
+        <h2 style="font-family: 'Prompt'; color: white; border-left: 5px solid #4dabff; padding-left: 15px; margin-bottom: 20px;">
+            📽️ รับชมวีดีโอ สร้างโลก 
+        </h2>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/Vytt_r-k7Ck?autoplay=1&mute=1&rel=0&si=s0Rh5bN011KbyWYd" 
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+            </iframe>
         </div>
     </div>
-    <footer class="footer">
-        <img src="logo.png" alt="Church Logo" style="width: 80px; display: block; margin: 0 auto 10px;">
-        <p>คริสตจักรแบ๊บติสต์บางเขน<br>
-        2172/145-147 ซอยพหลโยธิน 36 ถ.พหลโยธิน<br> แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900<br>
-        โทร.02-5798764<br>@bbcchurch 2026</p>
-    </footer>
+</div>
+
+<div class="marquee-box">
+    <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานประบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอหืน 3 : 16 
+    </marquee>
+</div>
+<nav class="horizontal-menu">
+    <a href="index.html">🏠 หน้าแรก</a>
+    <a href="sermons.html">🎙️ คำเทศนา</a>
+    <a href="blogs.html">📖 บทความ</a>
+    <a href="testimony.html">🙏 คำพยาน</a>
+    <a href="news.html">📢 ข่าวสาร</a>
+    <a href="contact.html">� ติดต่อเรา</a>
+</nav>
+
+<div class="container">
+    <h2 class="section-title">📢 ข่าวสารและประกาศ</h2>
+    <div id="list-news" class="grid-container">กำลังโหลด...</div>
+    
+    <h2 class="section-title">🙏 คำพยานชีวิต</h2>
+    <div id="list-testimony" class="grid-container">กำลังโหลด...</div>
+    
+    <h2 class="section-title">📖 บทความหนุนใจ</h2>
+    <div id="list-article" class="grid-container">กำลังโหลด...</div>
+    
+    <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
+    <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
+</div>
+
+<script src="footer.js"></script>
+
+
+<script>
+    function toggleAddress(chk) {
+        const addressBox = document.getElementById('addressBox');
+        if(addressBox) addressBox.style.display = chk.checked ? 'block' : 'none';
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, query, onSnapshot, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
+        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
+        projectId: "bbcchurch-6ffc3",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
+        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function getYoutubeThumb(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        if (match && match[2].length === 11) {
+            return `https://img.youtube.com/vi/${match[2]}/mqdefault.jpg`;
+        }
+        return null;
+    }
+
+    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate) หรือ วันที่สร้าง (createdAt)
+    const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
+
+    onSnapshot(q, (snap) => {
+        const lists = {
+            news: document.getElementById('list-news'),
+            testimony: document.getElementById('list-testimony'),
+            article: document.getElementById('list-article'),
+            sermon: document.getElementById('list-sermon')
+        };
+        
+        Object.values(lists).forEach(l => { if(l) l.innerHTML = ""; });
+
+        if (snap.empty) {
+            Object.values(lists).forEach(l => { if(l) l.innerHTML = "<p style='color:#666;'>รอการอัปเดตเนื้อหาเร็วๆ นี้</p>"; });
+            return;
+        }
+
+        snap.forEach(doc => {
+            const d = doc.data();
+            
+            // --- จัดการรูปภาพ ---
+            const ytThumb = getYoutubeThumb(d.youtubeUrl);
+            const finalThumb = d.thumbUrl || ytThumb || 'logo.png'; 
+
+            // --- จัดการชื่อผู้แต่ง/ผู้เทศนา ---
+            const rawAuthor = d.authorName || d.author || "คริสตจักร";
+            const cat = d.category || "";
+            
+            let prefix = "ผู้เขียน: ";
+            if (cat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
+            else if (cat.includes("พยาน")) prefix = "เจ้าของคำพยาน: ";
+            
+            const authorHtml = `<div><span class="info-label">${prefix}</span> ${rawAuthor}</div>`;
+            const seriesHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
+            const bibleHtml = d.bibleRef ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef}</div>` : '';
+
+            const card = `
+            <div class="card" onclick="location.href='article.html?id=${doc.id}'">
+                <img src="${finalThumb}" alt="${d.title}" onerror="this.src='logo.png'">
+                <div class="card-content">
+                    <h4 class="card-title">${d.title || 'ไม่มีหัวข้อ'}</h4>
+                    <div class="card-info">
+                        ${authorHtml}
+                        ${seriesHtml}
+                        ${bibleHtml}
+                    </div>
+                    <div class="card-meta">
+                        <span>📅 ${d.displayDate || ''}</span>
+                        <span style="color:#4dabff">อ่านต่อ...</span>
+                    </div>
+                </div>
+            </div>`;
+            
+            if (cat.includes("ข่าวสาร")) lists.news.insertAdjacentHTML('beforeend', card);
+            if (cat.includes("พยาน")) lists.testimony.insertAdjacentHTML('beforeend', card);
+            if (cat.includes("บทความ")) lists.article.insertAdjacentHTML('beforeend', card);
+            if (cat.includes("เทศนา")) lists.sermon.insertAdjacentHTML('beforeend', card);
+        });
+    });
+
+    // ส่งฟอร์มติดต่อ
+    document.getElementById('contactForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('sendBtn');
+        const scriptURL = "https://script.google.com/macros/s/AKfycby7yhA-MxALu0dTrXNKe9f4LQXMiKMpMBLxB4Zm2AiGDujYoykVx2vHwYt9_FVAtbmt7Q/exec";
+        btn.disabled = true; 
+        btn.innerText = "กำลังส่งข้อมูล...";
+        
+        const payload = {
+            name: document.getElementById('contactName').value,
+            phone: document.getElementById('contactPhone').value,
+            options: Array.from(document.querySelectorAll('input[name="opt"]:checked')).map(el => el.value).join(", "),
+            address: document.getElementById('contactAddress').value,
+            note: document.getElementById('contactNote').value
+        };
+
+        try {
+            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            alert("ขอบพระเจ้าอวยพระพร ระบบได้รับข้อมูลของท่านแล้ว");
+            document.getElementById('contactForm').reset();
+        } catch (err) { 
+            alert("ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"); 
+        } finally { 
+            btn.disabled = false; 
+            btn.innerText = "ส่งข้อมูล"; 
+        }
+    };
+
+    // Slide Show
+    let cur = 0;
+    setInterval(() => {
+        const slides = document.querySelectorAll('.slide');
+        if(slides.length < 2) return;
+        slides[cur].classList.remove('active');
+        cur = (cur + 1) % slides.length;
+        slides[cur].classList.add('active');
+    }, 5000);
+</script>
 </body>
 </html>
