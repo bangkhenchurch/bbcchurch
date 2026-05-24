@@ -77,6 +77,10 @@
         .video-box { width: 100%; padding-bottom: 56.25%; height: 0; position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #333; margin: 25px 0; }
         .video-box iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
 
+        /* Error/Status Box Style */
+        .status-box { background: #1a1a1a; border: 1px solid #333; padding: 40px; border-radius: 15px; text-align: center; margin-bottom: 30px; }
+        .status-box h2 { font-family: 'Prompt'; font-size: 22px; margin-bottom: 15px; }
+
         footer { background: #0a2c6d; color: white; text-align: center; padding: 50px 20px; margin-top: 60px; }
         footer img { width: 50px; border-radius: 50%; margin-bottom: 10px; }
 
@@ -294,6 +298,7 @@
 
         buildUnifiedSidebarTree(listItems);
 
+        // ตรวจสอบเช็ค ID ก่อนทำการ Query เพื่อป้องกันอาการค้างหน้าโหลด
         if(currentId) {
             renderSinglePost(currentId);
         } else {
@@ -303,6 +308,16 @@
 
     async function renderSinglePost(id) {
         const holder = document.getElementById('dynamicContentHolder');
+        if(!id || id.trim() === "" || id === "null") {
+            holder.innerHTML = `
+            <div class="status-box">
+                <h2 style="color:#ff6b6b;">❌ ไม่มี ID บทความใน URL</h2>
+                <p style="color:#aaa; margin-bottom: 20px;">ไม่สามารถดึงข้อมูลได้เนื่องจาก Link ไม่ระบุรหัสประจำตัวบทความ</p>
+                <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
+            </div>`;
+            return;
+        }
+
         try {
             const docRef = doc(db, "articles", id);
             const docSnap = await getDoc(docRef);
@@ -313,8 +328,8 @@
                 const authorDisplay = item.authorName || item.author || "คริสตจักร";
                 const yId = getYoutubeId(item.youtubeUrl);
                 
-                // ค้นหาเนื้อหาแบบครอบคลุมทุกชื่อฟิลด์ที่เป็นไปได้ในระบบฐานข้อมูล
-                const mainBodyText = item.content || item.body || item.detail || item.description || 'ไม่มีรายละเอียดเนื้อหา';
+                // ค้นหาเนื้อหาแบบเพิ่มชื่อฟิลด์ทางเลือกอื่นๆ (เช่น text, message, details) เผื่อแผงควบคุมใช้คำอื่นบันทึกลง Database
+                const mainBodyText = item.content || item.body || item.detail || item.description || item.text || item.message || item.details || 'ไม่มีรายละเอียดเนื้อหา';
                 
                 let mediaHtml = "";
                 if(yId) {
@@ -339,10 +354,20 @@
                     <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
                 </div>`;
             } else {
-                holder.innerHTML = "<p style='color:red;'>ไม่พบเนื้อหาข้อเขียนรายการนี้</p>";
+                holder.innerHTML = `
+                <div class="status-box">
+                    <h2 style="color:#ff6b6b;">❌ ไม่พบเนื้อหาข้อเขียนรายการนี้</h2>
+                    <p style="color:#aaa; margin-bottom: 20px;">ข้อมูลนี้อาจถูกลบออกไปจากคลังระบบคริสตจักรแล้ว</p>
+                    <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
+                </div>`;
             }
         } catch(e) {
-            holder.innerHTML = "<p style='color:red;'>ระบบขัดข้องไม่สามารถดึงข้อมูลได้</p>";
+            holder.innerHTML = `
+            <div class="status-box">
+                <h2 style="color:#ffbc42;">⚠️ ระบบขัดข้องไม่สามารถดึงข้อมูลได้</h2>
+                <p style="color:#aaa; margin-bottom: 20px;">เกิดความผิดพลาดในการเชื่อมต่อกับฐานข้อมูลคริสตจักร</p>
+                <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
+            </div>`;
         }
     }
 
@@ -390,8 +415,7 @@
                 const yId = getYoutubeId(item.youtubeUrl);
                 const thumb = item.thumbUrl || (yId ? `https://img.youtube.com/vi/${yId}/mqdefault.jpg` : 'logo.png');
                 
-                // แก้ไขการคัดย่อคำให้ทำงานดึงจากฟิลด์ทางเลือกได้ เพื่อให้แสดงรายละเอียดสั้นใต้หัวข้อการ์ดได้สมบูรณ์
-                const snippet = item.content || item.body || item.detail || item.description || "";
+                const snippet = item.content || item.body || item.detail || item.description || item.text || item.message || item.details || "";
                 const seriesDisplay = item.series ? ` | ซีรีย์: ${item.series}` : "";
 
                 html += `
