@@ -53,10 +53,10 @@
 
 <nav class="horizontal-menu">
     <a href="index.html">🏠 หน้าแรก</a>
-    <a href="sermons.html">🎙️ คำเทศนา</a>
-    <a href="blogs.html">📖 บทความ</a>
-    <a href="testimony.html">🙏 คำพยาน</a>
-    <a href="news.html">📢 ข่าวสาร</a>
+    <a href="article.html?view=sermons">🎙️ คำเทศนา</a>
+    <a href="article.html?view=blogs">📖 บทความ</a>
+    <a href="article.html?view=testimony">🙏 คำพยาน</a>
+    <a href="article.html?view=news">📢 ข่าวสาร</a>
     <a href="contact.html" class="active">📞 ติดต่อเรา</a>
 </nav>
 
@@ -85,7 +85,7 @@
         <div class="contact-item">
             <div class="contact-label">🗺️ แผนที่ Google Maps</div>
             <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m3!1d3874.3216839958315!2d100.5746777!3d13.8197171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d7999999999%3A0xe530514945b63df0!2z4LiE4Lij4Li04Liq4LiV4LiI4Lix4LiB4Lij4LmB4LiL4LmC4LiV4Li04Liq4LiV4Lia4Liy4LiH4LmA4LiZ!5e0!3m2!1sth!2sth!4v1716500000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3874.3168804683057!2d100.57321047603774!3d13.819932095697669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d7941df2a1d%3A0xe6bf4bbcf9080c3c!2z4LiE4Lij4Li04Liq4LiV4LiI4Lix4LiB4Lia4LmH4Lia4LiV4Li04Liq4LiV4LmM4Lia4Liy4LiH4LmA4LiC4LiZ!5e03m2!1sth!2sth!4v1716540000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
@@ -116,7 +116,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // ใช้ Config ตัวเดียวกันกับหน้าอื่นๆ ของคริสตจักร
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
@@ -128,10 +127,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ระบบส่งฟอร์มข้อมูลติดต่อเข้า Firebase
     document.getElementById('directContactForm').onsubmit = async (e) => {
         e.preventDefault();
-
         const btn = document.getElementById('btnSubmitForm');
         btn.disabled = true;
         btn.innerText = "กำลังส่งข้อมูล...";
@@ -142,7 +139,7 @@
 
         try {
             await addDoc(collection(db, "contacts"), {
-                articleId: "general_contact", // เครื่องหมายบอกว่ามาจากหน้าติดต่อโดยตรง
+                articleId: "general_contact",
                 name: name,
                 phone: phone,
                 needs: ["ติดต่อจากหน้าเว็บหลัก"],
@@ -153,9 +150,8 @@
 
             alert("ส่งข้อมูลไปยังคริสตจักรเรียบร้อยแล้ว ขอพระเจ้าอวยพระพรครับ");
             document.getElementById('directContactForm').reset();
-
         } catch (err) {
-            console.error("Error sending message: ", err);
+            console.error("Error: ", err);
             alert("เกิดข้อผิดพลาด ไม่สามารถส่งข้อมูลได้ในขณะนี้");
         } finally {
             btn.disabled = false;
@@ -163,6 +159,5 @@
         }
     };
 </script>
-
 </body>
 </html>
