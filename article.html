@@ -2,446 +2,244 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>คลังข้อมูลบทความ - Bangkhen Baptist Church</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght=300;400;700&family=Prompt:wght=400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียด - Bangkhen Baptist Church</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { overflow-x: hidden; width: 100%; }
-        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
-        .section-title { font-family: 'Prompt'; font-size: 24px; margin: 20px 0; color: #4dabff; border-left: 5px solid #4dabff; padding-left: 15px; }
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --primary-blue: #2196F3;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --accent-red: #ff4444;
+        }
 
-        /* Navigation */
-        .navbar { width: 100%; background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .nav-brand { display: flex; align-items: center; gap: 12px; }
-        .navbar img { width: 35px; border-radius: 50%; }
-        .navbar span { font-family: 'Prompt'; font-weight: 600; font-size: 16px; color: #fff; }
-        .sidebar-toggle { background: #ff6b6b; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-family: 'Prompt'; font-size: 14px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 10px rgba(255,107,107,0.4); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', sans-serif;
+        }
 
-        /* Horizontal Menu */
-        .horizontal-menu { background: #1e1e1e; padding: 10px 20px; display: flex; justify-content: flex-start; align-items: center; gap: 8px; overflow-x: auto; white-space: nowrap; border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); -webkit-overflow-scrolling: touch; }
-        .horizontal-menu::-webkit-scrollbar { height: 4px; }
-        .horizontal-menu::-webkit-scrollbar-thumb { background: #4dabff; border-radius: 10px; }
-        .horizontal-menu a { padding: 8px 16px; color: #ccc; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 14px; border-radius: 25px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; }
-        .horizontal-menu a:hover, .horizontal-menu a.active { color: #fff; background: #4dabff; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* Main Structural Layout */
-        .main-layout { display: flex; max-width: 1200px; margin: auto; padding: 0 5%; gap: 25px; position: relative; }
-        
-        .sidebar-left { width: 300px; flex-shrink: 0; background: #1a1a1a; border: 1px solid #333; border-radius: 15px; padding: 20px; height: fit-content; position: sticky; top: 90px; max-height: calc(100vh - 120px); overflow-y: auto; }
-        .sidebar-title { font-family: 'Prompt'; font-size: 16px; color: #ffbc42; border-bottom: 2px solid #ffbc42; padding-bottom: 8px; margin-bottom: 15px; font-weight: 600; }
-        
-        .tree-category { margin-bottom: 18px; background: #222; border-radius: 10px; padding: 12px; border-left: 4px solid #4dabff; }
-        .tree-category.date-border { border-left-color: #4dabff; }
-        .tree-category.author-border { border-left-color: #2ecc71; }
-        .tree-category.series-border { border-left-color: #e74c3c; }
-        .tree-cat-title { font-family: 'Prompt'; font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 8px; }
-        
-        .tree-sub { margin-left: 5px; margin-bottom: 12px; }
-        .tree-sub-title { font-size: 12px; color: #ffbc42; font-weight: bold; margin: 8px 0 4px 0; font-family: 'Prompt'; border-bottom: 1px dashed #444; padding-bottom: 2px; }
-        .tree-author-name { font-size: 13px; color: #fff; font-weight: bold; margin-top: 8px; font-family: 'Prompt'; background: #333; padding: 3px 8px; border-radius: 4px; }
-        
-        .tree-list { list-style: none; padding-left: 5px; }
-        .tree-list li { margin: 4px 0; }
-        .tree-list a { color: #ddd; text-decoration: none; font-size: 12px; display: block; padding: 5px 8px; border-radius: 6px; background: #2d2d2d; transition: 0.2s; cursor: pointer; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-        .tree-list a:hover { background: #4dabff; color: #fff; }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
 
-        .content-area { flex-grow: 1; width: calc(100% - 325px); }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
 
-        /* Cards Layout */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-bottom: 35px; }
-        .card { background: #1e1e1e; border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: 0.3s; cursor: pointer; display: flex; flex-direction: column; height: 100%; position: relative; }
-        .card:hover { transform: translateY(-5px); border-color: #4dabff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        
-        .card-tag-badge { position: absolute; top: 10px; left: 10px; background: rgba(10, 44, 109, 0.85); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-family: 'Prompt'; font-weight: bold; border: 1px solid #4dabff; backdrop-filter: blur(4px); z-index: 10; }
-        .card-main-thumb { width: 100%; height: 160px; object-fit: cover; background: #2a2a2a; border-bottom: 1px solid #2d2d2d; }
-        
-        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-family: 'Prompt'; font-size: 16px; margin-bottom: 8px; color: #fff; line-height: 1.4; font-weight: 600; }
-        .card-snippet { font-size: 13px; color: #bbb; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; text-align: justify; }
-        
-        .card-info { font-size: 12px; color: #aaa; margin-bottom: 10px; margin-top: auto; background: #252525; padding: 8px; border-radius: 6px; border-left: 3px solid #4dabff; }
-        .card-info div { margin-bottom: 2px; display: flex; align-items: flex-start; gap: 5px; }
-        .info-label { color: #4dabff; font-weight: bold; min-width: fit-content; }
-        .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .error-box {
+            text-align: center;
+            padding: 30px 10px;
+        }
 
-        /* Full Reading Post Area View */
-        .post-container { background: #1a1a1a; border: 1px solid #333; padding: 35px 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); margin-bottom: 30px; }
-        .post-header { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 25px; }
-        .post-title { font-family: 'Prompt'; font-size: 28px; color: #fff; line-height: 1.4; margin-bottom: 15px; }
-        .post-meta-strip { display: flex; flex-wrap: wrap; gap: 15px; font-size: 13px; color: #aaa; background: #222; padding: 10px 15px; border-radius: 8px; border-left: 4px solid #4dabff; }
-        .post-meta-strip span strong { color: #4dabff; }
-        
-        .post-body { font-size: 16px; color: #ddd; text-align: justify; white-space: pre-wrap; margin-bottom: 30px; }
-        .video-box { width: 100%; padding-bottom: 56.25%; height: 0; position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #333; margin: 25px 0; }
-        .video-box iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
+        .error-icon {
+            color: var(--accent-red);
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
 
-        /* Error/Status Box Style */
-        .status-box { background: #1a1a1a; border: 1px solid #333; padding: 40px; border-radius: 15px; text-align: center; margin-bottom: 30px; }
-        .status-box h2 { font-family: 'Prompt'; font-size: 22px; margin-bottom: 15px; }
+        .article-title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
 
-        footer { background: #0a2c6d; color: white; text-align: center; padding: 50px 20px; margin-top: 60px; }
-        footer img { width: 50px; border-radius: 50%; margin-bottom: 10px; }
+        .meta-box {
+            background-color: rgba(255,255,255,0.05);
+            border-left: 4px solid var(--primary-blue);
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
 
-        @media (max-width: 992px) {
-            .sidebar-left { display: none; position: fixed; top: 0; left: -320px; width: 300px; height: 100%; z-index: 2000; background: #151515; overflow-y: auto; transition: 0.3s; box-shadow: 5px 0 15px rgba(0,0,0,0.7); }
-            .sidebar-left.open { display: block; left: 0; top: 0; padding-top: 30px; }
-            .content-area { width: 100%; }
+        .meta-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .meta-item strong {
+            color: var(--text-color);
+            margin-right: 5px;
+        }
+
+        .meta-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .article-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap; /* เพื่อให้เว้นบรรทัดตามข้อมูลที่พิมพ์มา */
+            margin-bottom: 20px;
+        }
+
+        .loading-status {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 0;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-brand">
-        <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
-        <span onclick="window.location.href='index.html'" style="cursor:pointer;">Bangkhen Baptist Church</span>
+    <div class="container">
+        <a href="index.html" class="btn-back">← กลับหน้าหลัก</a>
+
+        <div id="loading" class="loading-status">
+            กำลังโหลดเนื้อหา...
+        </div>
+
+        <div id="error-view" class="error-box" style="display: none;">
+            <div class="error-icon">❌</div>
+            <h2 id="error-message">ไม่มี ID บทความใน URL</h2>
+        </div>
+
+        <div id="article-view" style="display: none;">
+            <h1 id="title" class="article-title"></h1>
+            
+            <div class="meta-box">
+                <div class="meta-item">📁 <strong>หมวดหมู่:</strong> <span id="category"></span></div>
+                <div class="meta-item">👤 <strong>ผู้เขียน/ผู้เทศนา:</strong> <span id="author"></span></div>
+                <div class="meta-item">📅 <strong>วันที่:</strong> <span id="date"></span></div>
+                <div class="meta-item">🔖 <strong>ซีรีย์:</strong> <span id="series"></span></div>
+            </div>
+
+            <img id="cover-image" class="article-image" src="" alt="ภาพประกอบบทความ" style="display: none;">
+
+            <div id="content" class="article-content"></div>
+        </div>
     </div>
-    <button class="sidebar-toggle" onclick="toggleSidebar()">📂 แผนผังเมนู</button>
-</nav>
 
-<div style="max-width: 1200px; margin: 20px auto; padding: 0 5%;">
-    <nav class="horizontal-menu" id="mainNavMenu">
-        <a href="index.html">🏠 หน้าแรก</a>
-        <a href="article.html?view=sermons" id="link-sermons">🎙️ คำเทศนา</a>
-        <a href="article.html?view=blogs" id="link-blogs">📖 บทความ</a>
-        <a href="article.html?view=testimony" id="link-testimony">🙏 คำพยาน</a>
-        <a href="article.html?view=news" id="link-news">📢 ข่าวสาร</a>
-        <a href="contact.html">📞 ติดต่อเรา</a>
-    </nav>
-</div>
-
-<div class="main-layout">
-    <aside class="sidebar-left" id="sidebarMenu">
-        <div class="sidebar-title">🗂️ แผนผังคลังข้อมูลคริสตจักร</div>
-        
-        <div class="tree-category date-border">
-            <div class="tree-cat-title" style="color:#4dabff">📅 เรียงตามเดือนและปี</div>
-            <div class="tree-sub">
-                <div class="tree-sub-title">📖 บทความ</div>
-                <ul class="tree-list" id="tree-date-blogs"><li>กำลังโหลด...</li></ul>
-            </div>
-            <div class="tree-sub">
-                <div class="tree-sub-title">🎙️ คำเทศนา</div>
-                <ul class="tree-list" id="tree-date-sermons"><li>กำลังโหลด...</li></ul>
-            </div>
-            <div class="tree-sub">
-                <div class="tree-sub-title">🙏 คำพยาน</div>
-                <ul class="tree-list" id="tree-date-testimony"><li>กำลังโหลด...</li></ul>
-            </div>
-            <div class="tree-sub">
-                <div class="tree-sub-title">📢 ข่าวสาร</div>
-                <ul class="tree-list" id="tree-date-news"><li>กำลังโหลด...</li></ul>
-            </div>
-        </div>
-
-        <div class="tree-category author-border">
-            <div class="tree-cat-title" style="color:#2ecc71">👤 เรียงตามรายชื่อผู้เขียน</div>
-            <div id="tree-author-container">กำลังโหลด...</div>
-        </div>
-
-        <div class="tree-category series-border">
-            <div class="tree-cat-title" style="color:#e74c3c">🔖 เรียงตามซีรีย์บทความ</div>
-            <ul class="tree-list" id="tree-series-list"><li>กำลังโหลด...</li></ul>
-        </div>
-    </aside>
-
-    <main class="content-area" id="dynamicContentHolder">
-        กำลังประมวลผลข้อมูลคลังบทความ...
-    </main>
-</div>
-
-<footer>
-    <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'"><br>
-    <strong style="font-family:'Prompt'; font-size:16px;">คริสตจักรแบ๊บติสต์บางเขน</strong>
-    <p style="font-size:12px; color:#aaa; margin-top:5px;">2172/145-147 ซอยพหลโยธิน 36 แขวงลาดยาว เขตจตุจักร กรุงเทพฯ 10900</p>
-</footer>
-
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebarMenu');
-        sidebar.classList.toggle('open');
-    }
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-        projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.appspot.com",
-        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentId = urlParams.get('id');
-    const currentView = urlParams.get('view') || 'blogs'; 
-    const currentSearch = urlParams.get('search'); 
-
-    if(!currentId && currentView) {
-        const activeMenuBtn = document.getElementById(`link-${currentView}`);
-        if(activeMenuBtn) activeMenuBtn.classList.add('active');
-    }
-
-    function getYoutubeId(url) {
-        if (!url) return null;
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
-    }
-
-    function parseMonthYear(dateStr) {
-        if(!dateStr) return "ไม่ระบุวันที่";
-        const parts = dateStr.split(/[-/]/);
-        if(parts.length >= 2) {
-            let year = parts[0].length === 4 ? parts[0] : parts[2];
-            let month = parts[1];
-            const monthNames = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
-            const mIndex = parseInt(month, 10) - 1;
-            return (mIndex >= 0 && mIndex < 12) ? `${monthNames[mIndex]} ${year}` : "ไม่ระบุเดือน";
+    <script>
+        // 1. ฟังก์ชันดึงค่า Parameter จาก URL
+        function getArticleIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id'); // ดึงค่าจาก ?id=xxxx
         }
-        return "ทั่วไป";
-    }
 
-    function buildUnifiedSidebarTree(items) {
-        const dateGroups = { blogs: new Set(), sermons: new Set(), testimony: new Set(), news: new Set() };
-        const authorGroups = {};
-        const seriesSet = new Set();
+        // 2. ฟังก์ชันหลักในการทำงานเมื่อโหลดหน้าเว็บ
+        async function loadArticle() {
+            const articleId = getArticleIdFromURL();
+            const loadingEl = document.getElementById('loading');
+            const errorViewEl = document.getElementById('error-view');
+            const errorMessageEl = document.getElementById('error-message');
+            const articleViewEl = document.getElementById('article-view');
 
-        items.forEach(item => {
-            const cat = (item.category || "").toString();
-            let viewType = "";
-            if (cat.includes("บทความ")) viewType = "blogs";
-            else if (cat.includes("เทศนา")) viewType = "sermons";
-            else if (cat.includes("พยาน")) viewType = "testimony";
-            else if (cat.includes("ข่าวสาร")) viewType = "news";
-
-            if (viewType) {
-                const mYear = parseMonthYear(item.displayDate || item.date);
-                dateGroups[viewType].add(mYear);
+            // ตรวจสอบว่ามี ID ใน URL หรือไม่
+            if (!articleId) {
+                loadingEl.style.display = 'none';
+                errorMessageEl.innerText = 'ไม่มี ID บทความใน URL';
+                errorViewEl.style.style.display = 'block';
+                return;
             }
 
-            if (viewType && viewType !== "news") {
-                const author = item.authorName || item.author || "คริสตจักร";
-                if (!authorGroups[author]) {
-                    authorGroups[author] = { blogs: [], sermons: [], testimony: [] };
-                }
-                authorGroups[author][viewType].push(item);
-            }
-
-            if (viewType === "blogs" && item.series) {
-                seriesSet.add(item.series);
-            }
-        });
-
-        renderDateNodes("tree-date-blogs", dateGroups.blogs, "blogs");
-        renderDateNodes("tree-date-sermons", dateGroups.sermons, "sermons");
-        renderDateNodes("tree-date-testimony", dateGroups.testimony, "testimony");
-        renderDateNodes("tree-date-news", dateGroups.news, "news");
-
-        const seriesUl = document.getElementById("tree-series-list");
-        if(seriesUl) {
-            seriesUl.innerHTML = "";
-            if(seriesSet.size === 0) seriesUl.innerHTML = "<li>ไม่มีข้อมูลซีรีย์</li>";
-            seriesSet.forEach(s => {
-                seriesUl.insertAdjacentHTML('beforeend', `<li><a href="article.html?view=blogs&search=${encodeURIComponent(s)}">📂 ${s}</a></li>`);
-            });
-        }
-
-        const authorContainer = document.getElementById("tree-author-container");
-        if(authorContainer) {
-            authorContainer.innerHTML = "";
-            const authors = Object.keys(authorGroups).sort();
-            authors.forEach(author => {
-                let authorHtml = `<div class="tree-author-box"><div class="tree-author-name">👤 <a href="article.html?view=${currentView}&search=${encodeURIComponent(author)}" style="color:#2ecc71; text-decoration:none;">${author}</a></div><ul class="tree-list" style="padding-left: 10px; margin-top: 5px;">`;
-                authorGroups[author].blogs.forEach(b => {
-                    authorHtml += `<li><a href="article.html?id=${b.id}&view=blogs">📖 [บทความ] ${b.title}</a></li>`;
-                });
-                authorGroups[author].sermons.forEach(s => {
-                    authorHtml += `<li><a href="article.html?id=${s.id}&view=sermons">🎙️ [คำเทศนา] ${s.title}</a></li>`;
-                });
-                authorGroups[author].testimony.forEach(t => {
-                    authorHtml += `<li><a href="article.html?id=${t.id}&view=testimony">🙏 [คำพยาน] ${t.title}</a></li>`;
-                });
-                authorHtml += `</ul></div>`;
-                authorContainer.insertAdjacentHTML('beforeend', authorHtml);
-            });
-        }
-    }
-
-    function renderDateNodes(elementId, dataset, viewParam) {
-        const ul = document.getElementById(elementId);
-        if(!ul) return;
-        ul.innerHTML = "";
-        if(dataset.size === 0) { ul.innerHTML = "<li>ไม่มีข้อมูล</li>"; return; }
-        dataset.forEach(val => {
-            ul.insertAdjacentHTML('beforeend', `<li><a href="article.html?view=${viewParam}&search=${encodeURIComponent(val)}">• ${val}</a></li>`);
-        });
-    }
-
-    const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
-    
-    onSnapshot(q, (snap) => {
-        const listItems = [];
-        snap.forEach(doc => {
-            const data = doc.data();
-            data.id = doc.id;
-            listItems.push(data);
-        });
-
-        buildUnifiedSidebarTree(listItems);
-
-        // ตรวจสอบเช็ค ID ก่อนทำการ Query เพื่อป้องกันอาการค้างหน้าโหลด
-        if(currentId) {
-            renderSinglePost(currentId);
-        } else {
-            renderBoardGrid(listItems, currentView, currentSearch);
-        }
-    });
-
-    async function renderSinglePost(id) {
-        const holder = document.getElementById('dynamicContentHolder');
-        if(!id || id.trim() === "" || id === "null") {
-            holder.innerHTML = `
-            <div class="status-box">
-                <h2 style="color:#ff6b6b;">❌ ไม่มี ID บทความใน URL</h2>
-                <p style="color:#aaa; margin-bottom: 20px;">ไม่สามารถดึงข้อมูลได้เนื่องจาก Link ไม่ระบุรหัสประจำตัวบทความ</p>
-                <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
-            </div>`;
-            return;
-        }
-
-        try {
-            const docRef = doc(db, "articles", id);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists()) {
-                const item = docSnap.data();
-                const cat = item.category || "บทความ";
-                const authorDisplay = item.authorName || item.author || "คริสตจักร";
-                const yId = getYoutubeId(item.youtubeUrl);
+            try {
+                /* [คำแนะนำการเชื่อมต่อข้อมูล]
+                  หากคุณใช้ไฟล์ JSON ในคลัง (Repository) ให้เปลี่ยน URL ด้านล่างเป็นไฟล์ของคุณ เช่น:
+                  const response = await fetch('blogs.json');
+                  const data = await response.json();
+                  const article = data.find(item => item.id === articleId);
+                */
                 
-                // ค้นหาเนื้อหาแบบเพิ่มชื่อฟิลด์ทางเลือกอื่นๆ (เช่น text, message, details) เผื่อแผงควบคุมใช้คำอื่นบันทึกลง Database
-                const mainBodyText = item.content || item.body || item.detail || item.description || item.text || item.message || item.details || 'ไม่มีรายละเอียดเนื้อหา';
-                
-                let mediaHtml = "";
-                if(yId) {
-                    mediaHtml = `<div class="video-box"><iframe src="https://www.youtube.com/embed/${yId}?autoplay=1" frameborder="0" allowfullscreen></iframe></div>`;
-                } else if(item.thumbUrl) {
-                    mediaHtml = `<img src="${item.thumbUrl}" style="width:100%; max-height:450px; object-fit:cover; border-radius:12px; margin:20px 0; border:1px solid #333;">`;
+                // ตัวอย่างจำลองข้อมูลจริงเพื่อเช็คการแสดงผล (ให้แทนที่ด้วยโค้ดดึงข้อมูลจาก Firebase หรือ JSON ของคุณ)
+                const article = await fetchArticleFromSource(articleId); 
+
+                if (!article) {
+                    loadingEl.style.display = 'none';
+                    errorMessageEl.innerText = 'ไม่พบเนื้อหาบทความที่ระบุ';
+                    errorViewEl.style.display = 'block';
+                    return;
                 }
 
-                holder.innerHTML = `
-                <div class="post-container">
-                    <div class="post-header">
-                        <h1 class="post-title">${item.title || 'ไม่มีชื่อเรื่อง'}</h1>
-                        <div class="post-meta-strip">
-                            <span><strong>🏷️ หมวดหมู่:</strong> ${cat}</span>
-                            <span><strong>👤 ผู้เขียน/ผู้เทศนา:</strong> ${authorDisplay}</span>
-                            <span><strong>📅 วันที่:</strong> ${item.displayDate || ''}</span>
-                            ${item.series ? `<span><strong>🔖 ซีรีย์:</strong> ${item.series}</span>` : ''}
-                        </div>
-                    </div>
-                    ${mediaHtml}
-                    <div class="post-body">${mainBodyText}</div>
-                    <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
-                </div>`;
-            } else {
-                holder.innerHTML = `
-                <div class="status-box">
-                    <h2 style="color:#ff6b6b;">❌ ไม่พบเนื้อหาข้อเขียนรายการนี้</h2>
-                    <p style="color:#aaa; margin-bottom: 20px;">ข้อมูลนี้อาจถูกลบออกไปจากคลังระบบคริสตจักรแล้ว</p>
-                    <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
-                </div>`;
+                // นำข้อมูลไปใส่ใน HTML elements
+                document.getElementById('title').innerText = article.title || 'ไม่มีชื่อหัวข้อ';
+                document.getElementById('category').innerText = article.category || 'ทั่วไป';
+                document.getElementById('author').innerText = article.author || 'ไม่ระบุผู้เขียน';
+                document.getElementById('date').innerText = article.date || '-';
+                document.getElementById('series').innerText = article.series || '-';
+                
+                // ตรวจสอบฟิลด์เนื้อหาหลัก (เช็คชื่อฟิลด์ให้ตรงกับ Database เช่น content หรือ detail)
+                const mainContent = article.content || article.detail || article.description;
+                if (mainContent) {
+                    document.getElementById('content').innerHTML = mainContent;
+                } else {
+                    document.getElementById('content').innerText = 'ไม่มีรายละเอียดเนื้อหา';
+                }
+
+                // จัดการรูปภาพหน้าปก
+                const imgEl = document.getElementById('cover-image');
+                if (article.image || article.imageUrl) {
+                    imgEl.src = article.image || article.imageUrl;
+                    imgEl.style.display = 'block';
+                }
+
+                // ซ่อนสถานะโหลด แล้วแสดงเนื้อหาบทความ
+                loadingEl.style.display = 'none';
+                articleViewEl.style.display = 'block';
+
+            } catch (error) {
+                console.error("Error loading article:", error);
+                loadingEl.style.display = 'none';
+                errorMessageEl.innerText = 'เกิดข้อผิดพลาดในการโหลดข้อมูล';
+                errorViewEl.style.display = 'block';
             }
-        } catch(e) {
-            holder.innerHTML = `
-            <div class="status-box">
-                <h2 style="color:#ffbc42;">⚠️ ระบบขัดข้องไม่สามารถดึงข้อมูลได้</h2>
-                <p style="color:#aaa; margin-bottom: 20px;">เกิดความผิดพลาดในการเชื่อมต่อกับฐานข้อมูลคริสตจักร</p>
-                <button onclick="window.location.href='article.html?view=${currentView}'" style="padding: 10px 20px; background:#333; color:white; border:none; border-radius:6px; cursor:pointer; font-family:'Prompt';">↩️ ย้อนกลับไปหน้ารวม</button>
-            </div>`;
-        }
-    }
-
-    function renderBoardGrid(items, viewType, searchKeyword) {
-        const holder = document.getElementById('dynamicContentHolder');
-        let titleLabel = "📖 คลังข้อมูลคริสตจักร";
-        
-        if(viewType === "blogs") titleLabel = "📖 คลังบทความหนุนใจ";
-        else if(viewType === "sermons") titleLabel = "🎙️ คลังคำเทศนาประจำสัปดาห์";
-        else if(viewType === "testimony") titleLabel = "🙏 คลังคำพยานชีวิต";
-        else if(viewType === "news") titleLabel = "📢 ประกาศข่าวสารและกิจกรรม";
-
-        if(searchKeyword) {
-            titleLabel += ` <span style="font-size:16px; color:#ffbc42;">(คัดกรองเฉพาะ: "${searchKeyword}")</span>`;
         }
 
-        let html = `<h2 class="section-title">${titleLabel}</h2><div class="grid-container">`;
-        let count = 0;
-
-        items.forEach(item => {
-            const cat = (item.category || "").toString();
-            let matchedCategory = false;
-            
-            if (viewType === "blogs" && cat.includes("บทความ")) matchedCategory = true;
-            else if (viewType === "sermons" && cat.includes("เทศนา")) matchedCategory = true;
-            else if (viewType === "testimony" && cat.includes("พยาน")) matchedCategory = true;
-            else if (viewType === "news" && cat.includes("ข่าวสาร")) matchedCategory = true;
-
-            if(searchKeyword) {
-                const mYear = parseMonthYear(item.displayDate || item.date);
-                const author = item.authorName || item.author || "คริสตจักร";
-                const series = item.series || "";
-                
-                if(!mYear.includes(searchKeyword) && !author.includes(searchKeyword) && !series.includes(searchKeyword)) {
-                    return; 
+        // ฟังก์ชันจำลองโครงสร้างข้อมูลเพื่อทดสอบการทำงาน
+        async function fetchArticleFromSource(id) {
+            // ในขั้นตอนใช้งานจริง ให้แก้ไขฟังก์ชันนี้เพื่อไปเชื่อมต่อ fetch() ดึงจากระบบข้อมูลหลักของคุณ
+            const mockData = {
+                "2026-05-21": {
+                    title: "รับใช้กันด้วยความรัก",
+                    category: "บทความทั่วไป",
+                    author: "คุณอรวรรณ บัวราช",
+                    date: "2026-05-21",
+                    series: "รับใช้ผู้อื่น",
+                    image: "hero_01.png",
+                    content: "กาลเทีย 5:13-17 ... ดูก่อนพี่น้องทั้งหลาย ที่ทรงเรียกท่านก็เพื่อให้มีเสรีภาพ แต่อย่าเอาเสรีภาพเป็นช่องทางเนื้อหนัง แต่จงรับใช้กันและกันด้วยความรักเถิด เพราะธรรมบัญญัติทั้งสิ้นนั้นสรุปได้เป็นคำเดียว คือว่าจงรักเพื่อนบ้านเหมือนรักตนเอง"
                 }
-                if(author.includes(searchKeyword)) {
-                    matchedCategory = true;
-                }
-            }
+            };
+            return mockData[id] || null;
+        }
 
-            if (matchedCategory) {
-                count++;
-                const authorDisplay = item.authorName || item.author || "คริสตจักร";
-                const yId = getYoutubeId(item.youtubeUrl);
-                const thumb = item.thumbUrl || (yId ? `https://img.youtube.com/vi/${yId}/mqdefault.jpg` : 'logo.png');
-                
-                const snippet = item.content || item.body || item.detail || item.description || item.text || item.message || item.details || "";
-                const seriesDisplay = item.series ? ` | ซีรีย์: ${item.series}` : "";
-
-                html += `
-                <div class="card" onclick="window.location.href='article.html?id=${item.id}&view=${viewType}'">
-                    <div class="card-tag-badge">🏷️ ${cat}</div>
-                    <img class="card-main-thumb" src="${thumb}" onerror="this.src='logo.png'">
-                    <div class="card-content">
-                        <h4 class="card-title">${item.title || 'ไม่มีหัวข้อ'}</h4>
-                        <p class="card-snippet">${snippet}</p>
-                        <div class="card-info">
-                            <div><span class="info-label">👤 ผู้แต่ง:</span> <span>${authorDisplay}</span></div>
-                            <div><span class="info-label">🗂️ หมวดหมู่:</span> <span>${cat}${seriesDisplay}</span></div>
-                        </div>
-                        <div class="card-meta">
-                            <span>📅 วันที่: ${item.displayDate || ''}</span>
-                            <span style="color:#4dabff; font-weight:bold;">อ่านต่อ...</span>
-                        </div>
-                    </div>
-                </div>`;
-            }
-        });
-
-        html += `</div>`;
-        if(count === 0) html = `<h2 class="section-title">${titleLabel}</h2><p style="color:#aaa; padding:20px;">ไม่พบข้อมูลรายการในหมวดหมู่นี้</p>`;
-        holder.innerHTML = html;
-    }
-</script>
+        // สั่งให้ฟังก์ชันทำงานทันทีที่หน้าเว็บโหลดเสร็จ
+        window.onload = loadArticle;
+    </script>
 </body>
 </html>
