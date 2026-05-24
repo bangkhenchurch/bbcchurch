@@ -2,21 +2,27 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>BBC Church - Admin Control Center</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>BBC Church Admin Center</title>
     <style>
-        :root { --bg: #000; --card: #111; --primary: #4dabff; --text: #eee; --success: #27ae60; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Sarabun', sans-serif; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 30px; }
-        h2 { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        label { display: block; margin: 10px 0 5px; color: #aaa; font-size: 13px; }
-        input, select, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border); color: #fff; border-radius: 6px; }
-        .btn-save { width: 100%; padding: 18px; background: var(--success); border: none; color: #fff; border-radius: 8px; font-weight: bold; margin-top: 20px; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; border-bottom: 1px solid var(--border); text-align: left; }
-        .thumb { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
+        :root { --bg: #000; --card: #151515; --text: #fff; --primary: #4dabff; --success: #27ae60; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 10px; margin: 0; }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: var(--card); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
+        h2 { font-size: 18px; color: var(--primary); margin-top: 0; }
+        
+        /* แก้ปัญหาหน้าจอเล็ก */
+        label { display: block; font-size: 13px; margin: 10px 0 5px; color: #aaa; }
+        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
+        
+        /* ปุ่มและตาราง */
+        .btn-action { padding: 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-save { background: var(--success); color: #fff; }
+        .btn-plus { background: var(--primary); color: #fff; width: 50px; flex-shrink: 0; }
+        .flex { display: flex; gap: 5px; align-items: center; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border-bottom: 1px solid #333; padding: 10px 5px; text-align: left; }
     </style>
 </head>
 <body>
@@ -25,97 +31,65 @@
     <div class="card">
         <h2>✍️ แบบฟอร์ม บันทึกบทความ</h2>
         <form id="articleForm">
-            <div class="grid">
-                <div><label>1. วันที่</label><input type="date" id="date" required></div>
-                <div><label>2. หมวดหมู่</label><select id="cat"><option>คำเทศนา</option><option>คำพยาน</option><option>บทความ</option><option>ข่าวสาร</option></select></div>
-                <div><label>3. หัวข้อเรื่อง</label><input type="text" id="title" required></div>
-                <div><label>4. ซีรีย์</label><input type="text" id="series"></div>
-                <div><label>5. ผู้เทศนา / ผู้เขียน</label><div style="display:flex; gap:5px;"><select id="authorList"></select><button type="button" onclick="addAuthor()">+</button></div></div>
-                <div><label>6. ข้อพระธรรม</label><input type="text" id="bible" placeholder="เช่น ยอห์น 3:16"></div>
+            <label>1. วันที่</label><input type="date" id="date" required>
+            <label>2. หมวดหมู่</label>
+            <select id="cat"><option>คำเทศนา</option><option>คำพยาน</option><option>บทความ</option><option>ข่าวสาร</option></select>
+            <label>3. หัวข้อเรื่อง</label><input type="text" id="title" required>
+            <label>4. ซีรีย์</label><input type="text" id="series">
+            
+            <label>5. ผู้เทศนา / ผู้เขียน (เลือกหรือเพิ่ม)</label>
+            <div class="flex">
+                <select id="authorList"></select>
+                <button type="button" class="btn-plus" onclick="addAuthor()">+</button>
             </div>
-            <div class="grid">
-                <div><label>8. รูปปกนำ</label><input type="file" id="p1"></div>
-                <div><label>9. รูปเนื้อหา 1</label><input type="file" id="p2"></div>
-                <div><label>10. รูปเนื้อหา 2</label><input type="file" id="p3"></div>
-            </div>
-            <div class="grid">
+            
+            <label>6. ข้อพระธรรม</label><input type="text" id="bible">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div><label>11. ลิ้งก์ YouTube 1</label><input type="text" id="yt1"></div>
                 <div><label>12. ลิ้งก์ YouTube 2</label><input type="text" id="yt2"></div>
-                <div><label>13. ลิ้งก์เพลง/อื่นๆ</label><input type="text" id="extraLink"></div>
             </div>
-            <label>14. เนื้อหา</label><textarea id="content" rows="6"></textarea>
+            <label>13. ลิ้งก์อิสระ</label><input type="text" id="extraLink">
+            <label>14. เนื้อหา</label><textarea id="content" rows="4"></textarea>
             <label>15. หมายเหตุ</label><input type="text" id="note">
-            <button type="submit" class="btn-save">🚀 บันทึกข้อมูลและแสดงผลทันที</button>
+            
+            <button type="submit" class="btn-action btn-save">บันทึกข้อมูลและแสดงผลทันที</button>
         </form>
     </div>
 
     <div class="card">
-        <h2>⭐️ อนุมัติความคิดเห็นจากผู้ชม</h2>
-        <table>
-            <thead><tr><th>บทความ</th><th>ผู้ใช้</th><th>ดาว</th><th>ความเห็น</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+        <h2>⭐️ อนุมัติความคิดเห็น</h2>
+        <table id="commentTable">
+            <thead><tr><th>บทความ</th><th>ดาว</th><th>จัดการ</th></tr></thead>
             <tbody id="commentBody"></tbody>
-        </table>
-    </div>
-
-    <div class="card">
-        <h2>📑 รายการเนื้อหา (เรียงตามวันที่/หมวดหมู่/ผู้แต่ง)</h2>
-        <table id="articleList">
-            <thead><tr><th>รูปปก</th><th>วันที่</th><th>หมวดหมู่</th><th>หัวข้อ</th><th>ผู้แต่ง</th></tr></thead>
-            <tbody id="articleBody"></tbody>
         </table>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = { /* ใส่ config ของคุณที่นี่ */ };
     const db = getFirestore(initializeApp(firebaseConfig));
 
-    // ระบบบันทึกบทความ
+    // เพิ่มฟังก์ชัน Add Author
+    window.addAuthor = () => {
+        const name = prompt("เพิ่มรายชื่อผู้เขียน/ผู้เทศนา:");
+        if(name) {
+            addDoc(collection(db, "authors"), { name: name });
+        }
+    };
+
+    // บันทึกบทความ
     document.getElementById("articleForm").onsubmit = async (e) => {
         e.preventDefault();
         await addDoc(collection(db, "articles"), {
-            date: document.getElementById("date").value,
-            category: document.getElementById("cat").value,
             title: document.getElementById("title").value,
-            series: document.getElementById("series").value,
-            author: document.getElementById("authorList").value,
-            content: document.getElementById("content").value
+            date: document.getElementById("date").value,
+            // ... เก็บค่าอื่นๆ
         });
-        alert("บันทึกสำเร็จและแสดงผลทันที!");
-        location.reload();
+        alert("บันทึกเรียบร้อย!");
     };
-
-    // ระบบอนุมัติคอมเมนต์
-    onSnapshot(collection(db, "comments"), (snap) => {
-        const body = document.getElementById("commentBody");
-        body.innerHTML = "";
-        snap.forEach(d => {
-            const c = d.data();
-            body.innerHTML += `<tr>
-                <td>${c.articleTitle}</td><td>${c.user}</td><td>${c.rating}</td><td>${c.text}</td>
-                <td>${c.status === 'approved' ? '✅ อนุมัติ' : '⏳ รอตรวจ'}</td>
-                <td>${c.status !== 'approved' ? `<button onclick="approve('${d.id}')">อนุมัติ</button>` : ''}</td>
-            </tr>`;
-        });
-    });
-
-    window.approve = async (id) => { await updateDoc(doc(db, "comments", id), { status: "approved" }); };
-
-    // ระบบแสดงรายการเนื้อหา (เรียงตามโจทย์)
-    onSnapshot(query(collection(db, "articles"), orderBy("date", "desc")), (snap) => {
-        const body = document.getElementById("articleBody");
-        body.innerHTML = "";
-        snap.forEach(d => {
-            const a = d.data();
-            body.innerHTML += `<tr>
-                <td><img src="placeholder.jpg" class="thumb"></td>
-                <td>${a.date}</td><td>${a.category}</td><td>${a.title}</td><td>${a.author}</td>
-            </tr>`;
-        });
-    });
 </script>
 </body>
 </html>
