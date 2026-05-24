@@ -301,10 +301,9 @@
         return "ทั่วไป";
     }
 
-    // ฟังก์ชันสร้างคลังข้อมูลแบบรวมตามเงื่อนไขใหม่ของคุณ
     function buildUnifiedSidebarTree(items) {
         const dateGroups = { blogs: new Set(), sermons: new Set(), testimony: new Set(), news: new Set() };
-        const authorGroups = {}; // เก็บโครงสร้าง { "ชื่อผู้เขียน": { blogs: [], sermons: [], testimony: [] } }
+        const authorGroups = {}; 
         const seriesSet = new Set();
 
         items.forEach(item => {
@@ -315,13 +314,11 @@
             else if (cat.includes("พยาน")) viewType = "testimony";
             else if (cat.includes("ข่าวสาร")) viewType = "news";
 
-            // 1. จัดกลุ่ม วันที่ (เดือน/ปี)
             if (viewType) {
                 const mYear = parseMonthYear(item.displayDate || item.date);
                 dateGroups[viewType].add(mYear);
             }
 
-            // 2. จัดกลุ่ม ตามรายชื่อผู้แต่ง (เอาทุกอย่างใส่ใต้ชื่อบุคคลนั้น)
             if (viewType && viewType !== "news") {
                 const author = item.authorName || item.author || "คริสตจักร";
                 if (!authorGroups[author]) {
@@ -330,19 +327,16 @@
                 authorGroups[author][viewType].push(item);
             }
 
-            // 3. จัดกลุ่ม ซีรีย์ (เฉพาะบทความ)
             if (viewType === "blogs" && item.series) {
                 seriesSet.add(item.series);
             }
         });
 
-        // เรนเดอร์กลุ่ม วันที่
         renderDateNodes("tree-date-blogs", dateGroups.blogs, "blogs");
         renderDateNodes("tree-date-sermons", dateGroups.sermons, "sermons");
         renderDateNodes("tree-date-testimony", dateGroups.testimony, "testimony");
         renderDateNodes("tree-date-news", dateGroups.news, "news");
 
-        // เรนเดอร์กลุ่ม ซีรีย์
         const seriesUl = document.getElementById("tree-series-list");
         if(seriesUl) {
             seriesUl.innerHTML = "";
@@ -352,7 +346,6 @@
             });
         }
 
-        // เรนเดอร์กลุ่ม ผู้แต่ง (รวมบทความ คำพยาน คำเทศนา ของผู้เขียนคนนั้นๆ)
         const authorContainer = document.getElementById("tree-author-container");
         if(authorContainer) {
             authorContainer.innerHTML = "";
@@ -402,7 +395,7 @@
 
         snap.forEach(doc => {
             const d = doc.data();
-            d.id = doc.id; // พ่วง ID เข้าไปด้วย
+            d.id = doc.id;
             allArticles.push(d);
             
             const cat = d.category || "ทั่วไป";
@@ -443,7 +436,6 @@
         buildUnifiedSidebarTree(allArticles);
     });
 
-    // ส่วนส่งข้อมูลฟอร์ม
     document.getElementById('submitRatingBtn').onclick = async () => {
         const btn = document.getElementById('submitRatingBtn');
         const stars = document.getElementById('uStars').value;
