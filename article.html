@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>คลังข้อมูลบทความ - Bangkhen Baptist Church</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght=300;400;700&family=Prompt:wght=400;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { overflow-x: hidden; width: 100%; }
@@ -258,13 +258,13 @@
             authors.forEach(author => {
                 let authorHtml = `<div class="tree-author-box"><div class="tree-author-name">👤 <a href="article.html?view=${currentView}&search=${encodeURIComponent(author)}" style="color:#2ecc71; text-decoration:none;">${author}</a></div><ul class="tree-list" style="padding-left: 10px; margin-top: 5px;">`;
                 authorGroups[author].blogs.forEach(b => {
-                    authorHtml += `<li><a href="article.html?id=${b.id}">📖 [บทความ] ${b.title}</a></li>`;
+                    authorHtml += `<li><a href="article.html?id=${b.id}&view=blogs">📖 [บทความ] ${b.title}</a></li>`;
                 });
                 authorGroups[author].sermons.forEach(s => {
-                    authorHtml += `<li><a href="article.html?id=${s.id}">🎙️ [คำเทศนา] ${s.title}</a></li>`;
+                    authorHtml += `<li><a href="article.html?id=${s.id}&view=sermons">🎙️ [คำเทศนา] ${s.title}</a></li>`;
                 });
                 authorGroups[author].testimony.forEach(t => {
-                    authorHtml += `<li><a href="article.html?id=${t.id}">🙏 [คำพยาน] ${t.title}</a></li>`;
+                    authorHtml += `<li><a href="article.html?id=${t.id}&view=testimony">🙏 [คำพยาน] ${t.title}</a></li>`;
                 });
                 authorHtml += `</ul></div>`;
                 authorContainer.insertAdjacentHTML('beforeend', authorHtml);
@@ -301,7 +301,6 @@
         }
     });
 
-    // แก้ไขฟังก์ชันดึงรายละเอียดให้ดึงค่าครอบคลุมทุกชื่อฟิลด์ที่เป็นไปได้
     async function renderSinglePost(id) {
         const holder = document.getElementById('dynamicContentHolder');
         try {
@@ -314,7 +313,7 @@
                 const authorDisplay = item.authorName || item.author || "คริสตจักร";
                 const yId = getYoutubeId(item.youtubeUrl);
                 
-                // ดึงค่าเนื้อหาจากทุกฟิลด์ที่มีโอกาสเป็นไปได้ใน Firestore
+                // ค้นหาเนื้อหาแบบครอบคลุมทุกชื่อฟิลด์ที่เป็นไปได้ในระบบฐานข้อมูล
                 const mainBodyText = item.content || item.body || item.detail || item.description || 'ไม่มีรายละเอียดเนื้อหา';
                 
                 let mediaHtml = "";
@@ -330,7 +329,7 @@
                         <h1 class="post-title">${item.title || 'ไม่มีชื่อเรื่อง'}</h1>
                         <div class="post-meta-strip">
                             <span><strong>🏷️ หมวดหมู่:</strong> ${cat}</span>
-                            <span><strong>👤 ผู้เขียน/ผู้พูด:</strong> ${authorDisplay}</span>
+                            <span><strong>👤 ผู้เขียน/ผู้เทศนา:</strong> ${authorDisplay}</span>
                             <span><strong>📅 วันที่:</strong> ${item.displayDate || ''}</span>
                             ${item.series ? `<span><strong>🔖 ซีรีย์:</strong> ${item.series}</span>` : ''}
                         </div>
@@ -391,12 +390,12 @@
                 const yId = getYoutubeId(item.youtubeUrl);
                 const thumb = item.thumbUrl || (yId ? `https://img.youtube.com/vi/${yId}/mqdefault.jpg` : 'logo.png');
                 
-                // คัดย่อข้อความสั้นสำหรับการ์ดจอแสดงผล
+                // แก้ไขการคัดย่อคำให้ทำงานดึงจากฟิลด์ทางเลือกได้ เพื่อให้แสดงรายละเอียดสั้นใต้หัวข้อการ์ดได้สมบูรณ์
                 const snippet = item.content || item.body || item.detail || item.description || "";
                 const seriesDisplay = item.series ? ` | ซีรีย์: ${item.series}` : "";
 
                 html += `
-                <div class="card" onclick="window.location.href='article.html?id=${item.id}'">
+                <div class="card" onclick="window.location.href='article.html?id=${item.id}&view=${viewType}'">
                     <div class="card-tag-badge">🏷️ ${cat}</div>
                     <img class="card-main-thumb" src="${thumb}" onerror="this.src='logo.png'">
                     <div class="card-content">
