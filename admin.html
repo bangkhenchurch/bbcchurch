@@ -2,59 +2,64 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>BBC Church - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBC Church - Admin Center (Restore Original)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000; --card: #111; --primary: #4dabff; --border: #333; --text: #fff; --success: #27ae60; --danger: #e74c3c; }
-        body { background: var(--bg); color: var(--text); font-family: 'Sarabun', sans-serif; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 30px; }
-        h2 { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border); color: #fff; border-radius: 6px; margin-top: 5px; }
-        button { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-save { background: var(--success); color: white; width: 100%; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid var(--border); padding: 12px; text-align: left; }
-        .badge { padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --accent: #0a2c6d; --danger: #e67e22; --success: #27ae60; }
+        * { box-sizing: border-box; }
+        body { background: var(--dark-bg); color: #e0e0e0; font-family: 'Sarabun', sans-serif; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; }
+        .form-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border-top: 4px solid var(--primary); margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { font-family: 'Prompt'; color: white; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .full-width { grid-column: 1 / -1; margin-top: 10px; }
+        label { display: block; font-size: 14px; color: var(--primary); margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; }
+        .btn-save { width: 100%; padding: 20px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .comment-table { width: 100%; border-collapse: collapse; background: #222; text-align: left; font-size: 14px; }
+        .comment-table th, .comment-table td { padding: 12px; border: 1px solid #333; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-pending { background: #e67e22; color: white; }
+        .badge-approved { background: #27ae60; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card">
-        <h2>✍️ บันทึกบทความ</h2>
-        <form id="mainForm">
-            <div class="grid">
-                <div><label>วันที่</label><input type="date" id="date" required></div>
-                <div><label>หมวดหมู่</label><select id="cat"><option>คำเทศนา</option><option>คำพยาน</option><option>บทความ</option><option>ข่าวสาร</option></select></div>
-            </div>
-            <label>หัวข้อเรื่อง</label><input type="text" id="title" required>
-            <div class="grid">
+    <div class="form-card">
+        <h2 id="formHeader">✍️ จัดการเนื้อหา</h2>
+        <form id="postForm">
+            <div class="form-grid">
+                <div><label>วันที่</label><input type="date" id="customDate" required></div>
+                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
                 <div><label>ซีรีย์</label><input type="text" id="series"></div>
-                <div><label>ผู้แต่ง/ผู้เทศนา</label><select id="authorList"></select></div>
+                <div><label>ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
             </div>
-            <label>เนื้อหา</label><textarea id="content" rows="5"></textarea>
-            <button type="submit" class="btn-save">บันทึกและแสดงผลทันที</button>
+            <div class="full-width">
+                <label>เนื้อหาหลัก</label>
+                <textarea id="mainContent" rows="6"></textarea>
+            </div>
+            <button type="submit" class="btn-save" id="btnSubmit">🚀 บันทึกข้อมูลและแสดงผลทันที</button>
         </form>
     </div>
 
-    <div class="card">
-        <h2>💬 อนุมัติความคิดเห็น</h2>
-        <table>
-            <thead><tr><th>บทความ</th><th>ผู้ใช้</th><th>ดาว</th><th>ความเห็น</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
-            <tbody id="commentBody"></tbody>
-        </table>
-    </div>
-
-    <div class="card">
-        <h2>📑 รายการเนื้อหาทั้งหมด</h2>
-        <div id="articleList"></div>
+    <div class="form-card">
+        <h2>⭐️ ศูนย์คัดกรองความคิดเห็น</h2>
+        <div class="comment-table-container">
+            <table class="comment-table">
+                <thead>
+                    <tr><th>บทความ</th><th>ผู้ใช้</th><th>ดาว</th><th>ข้อความ</th><th>สถานะ</th><th>จัดการ</th></tr>
+                </thead>
+                <tbody id="commentTableBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -66,49 +71,41 @@
 
     const db = getFirestore(initializeApp(firebaseConfig));
 
-    // บันทึกบทความ
-    document.getElementById("mainForm").onsubmit = async (e) => {
+    // บันทึกบทความเดิม
+    document.getElementById("postForm").onsubmit = async (e) => {
         e.preventDefault();
         await addDoc(collection(db, "articles"), {
-            date: document.getElementById("date").value,
-            category: document.getElementById("cat").value,
+            displayDate: document.getElementById("customDate").value,
             title: document.getElementById("title").value,
             series: document.getElementById("series").value,
-            author: document.getElementById("authorList").value,
-            content: document.getElementById("content").value
+            bibleRef: document.getElementById("bibleRef").value,
+            mainContent: document.getElementById("mainContent").value
         });
-        alert("บันทึกสำเร็จ!");
+        alert("บันทึกเรียบร้อย!");
     };
 
-    // โหลดความเห็น
+    // ระบบจัดการความคิดเห็น (ที่เพิ่มเข้ามา)
     onSnapshot(collection(db, "comments"), (snap) => {
-        const body = document.getElementById("commentBody");
-        body.innerHTML = "";
-        snap.forEach(d => {
+        const tbody = document.getElementById("commentTableBody");
+        tbody.innerHTML = "";
+        snap.forEach((d) => {
             const c = d.data();
-            body.innerHTML += `<tr>
-                <td>${c.articleTitle}</td><td>${c.user}</td><td>${c.rating}</td><td>${c.text}</td>
-                <td><span class="badge" style="background:${c.status=='approved'?'#27ae60':'#e67e22'}">${c.status}</span></td>
-                <td>${c.status!='approved' ? `<button onclick="approve('${d.id}')">อนุมัติ</button>` : 'เรียบร้อย'}</td>
+            tbody.innerHTML += `<tr>
+                <td>${c.articleTitle || "-"}</td>
+                <td>${c.visitorName || "-"}</td>
+                <td>⭐ ${c.rating || 0}</td>
+                <td>${c.text || "-"}</td>
+                <td><span class="badge ${c.status === 'approved' ? 'badge-approved' : 'badge-pending'}">${c.status || 'pending'}</span></td>
+                <td>
+                    ${c.status !== 'approved' ? `<button onclick="approveComment('${d.id}')">อนุมัติ</button>` : ''}
+                    <button onclick="deleteComment('${d.id}')">ลบ</button>
+                </td>
             </tr>`;
         });
     });
 
-    window.approve = async (id) => {
-        await updateDoc(doc(db, "comments", id), { status: "approved" });
-    };
-
-    // โหลดบทความแสดงผลด้านล่าง
-    onSnapshot(collection(db, "articles"), (snap) => {
-        const list = document.getElementById("articleList");
-        list.innerHTML = "";
-        snap.forEach(d => {
-            const a = d.data();
-            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #333;">
-                <strong>${a.title}</strong> | หมวด: ${a.category} | ผู้แต่ง: ${a.author}
-            </div>`;
-        });
-    });
+    window.approveComment = async (id) => { await updateDoc(doc(db, "comments", id), { status: "approved" }); };
+    window.deleteComment = async (id) => { await deleteDoc(doc(db, "comments", id)); };
 </script>
 </body>
 </html>
