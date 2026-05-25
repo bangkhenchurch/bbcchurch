@@ -3,156 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Modern Black)</title>
+    <title>อ่านเนื้อหา - Bangkhen Baptist Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #4dabff; --bg-black: #000000; --card-bg: #111111; 
-            --input-bg: #1a1a1a; --border: #333333; --text-main: #ffffff;
-            --success: #27ae60; --danger: #e74c3c;
-        }
-        * { box-sizing: border-box; }
-        body { background: var(--bg-black); color: var(--text-main); font-family: 'Sarabun', sans-serif; margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        .admin-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        h2 { font-family: 'Prompt'; color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: inline-block; }
-        .form-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .full-width { grid-column: 1 / -1; }
-        label { display: block; font-size: 14px; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
-        input, textarea, select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border); color: white; border-radius: 8px; font-size: 15px; }
-        .author-group { display: flex; gap: 10px; }
-        .btn-mini { background: var(--primary); border: none; color: white; padding: 0 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn-mini.del { background: var(--danger); }
-        .preview-box { background: #080808; height: 120px; border: 1px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; }
-        .preview-box img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-save { width: 100%; padding: 18px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; font-family: 'Prompt'; }
+        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
+        body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.8; margin: 0; padding-bottom: 50px; }
         
-        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .article-card { background: #1a1a1a; border-radius: 12px; padding: 15px; border: 1px solid #333; }
-        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .card-title { font-size: 18px; font-weight: bold; color: #fff; margin: 5px 0; }
-        .card-meta { font-size: 14px; color: #ccc; margin: 3px 0; }
-        .card-actions { margin-top: 15px; display: flex; gap: 10px; }
+        .navbar { background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .container { padding: 20px 5%; max-width: 800px; margin: auto; }
+        .content-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid #333; }
+        .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-family: 'Prompt'; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+        h1 { font-family: 'Prompt'; font-size: 26px; margin: 0 0 20px 0; color: #fff; line-height: 1.4; }
+        .meta-info { background: #2a2a2a; padding: 10px 15px; border-radius: 8px; font-size: 13px; margin-bottom: 25px; display: flex; gap: 20px; color: #aaa; }
+        
+        .thumb-img, .archive-img { width: 100%; border-radius: 10px; margin-bottom: 15px; display: block; }
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; }
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .main-text { font-size: 18px; color: #ddd; margin-bottom: 30px; }
+        .btn-back { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; transition: 0.3s; }
+        .btn-back:hover { background: #555; }
     </style>
 </head>
 <body>
 
+<nav class="navbar">
+    <img src="logo.png" style="width:40px; border-radius:50%;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <span style="font-family:'Prompt'; font-weight: 600; font-size: 1.2rem;">Bangkhen Baptist Church</span>
+</nav>
+
 <div class="container">
-    <div class="admin-card">
-        <h2>✍️ แบบฟอร์ม บันทึกบทความ</h2>
-        <form id="articleForm">
-            <input type="hidden" id="editId">
-            <div class="form-section">
-                <div><label>1. วันที่</label><input type="date" id="customDate" required></div>
-                <div><label>2. หมวดหมู่</label><select id="category"><option value="🎙️ คำเทศนา">🎙️ คำเทศนา</option><option value="🌟 คำพยาน">🌟 คำพยาน</option><option value="📖 บทความ">📖 บทความ</option><option value="📢 ข่าวสาร">📢 ข่าวสาร</option></select></div>
-                <div class="full-width"><label>3. หัวข้อเรื่อง</label><input type="text" id="title" required></div>
-                <div><label>4. ซีรีย์</label><input type="text" id="series"></div>
-                <div><label>5. ผู้แต่ง</label><div class="author-group"><select id="authorSelect"></select><button type="button" class="btn-mini" id="addAuthorBtn">+</button><button type="button" class="btn-mini del" id="delAuthorBtn">🗑️</button></div></div>
-                <div><label>6. ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
-            </div>
-            
-            <div class="form-section">
-                <div><label>ลิงก์ YouTube 1</label><input type="text" id="yt1" placeholder="ใส่ลิงก์ YouTube"></div>
-                <div><label>ลิงก์ YouTube 2</label><input type="text" id="yt2" placeholder="ใส่ลิงก์ YouTube"></div>
-            </div>
+    <article class="content-card">
+        <div id="displaySeries" class="series-tag">กำลังโหลด...</div>
+        <h1 id="displayTitle">กำลังโหลด...</h1>
+        
+        <div class="meta-info">
+            <span id="displayDate">📅 -</span>
+            <span id="displayAuthor">👤 -</span>
+        </div>
 
-            <div class="form-section">
-                <div><label>รูปปกนำ</label><input type="file" id="fileThumb" accept="image/*"><input type="hidden" id="valThumb"><div class="preview-box" id="preThumb">พรีวิว</div></div>
-            </div>
-            <div class="full-width"><label>14. เนื้อหา</label><textarea id="mainContent" rows="8"></textarea></div>
-            <button type="submit" class="btn-save" id="saveBtn">🚀 บันทึกข้อมูล</button>
-        </form>
-    </div>
+        <div id="displayThumb"></div>
+        <div id="archiveContent"></div>
+        <div id="displayBody" class="main-text"></div>
+        <div id="videoContent"></div>
 
-    <div class="admin-card">
-        <h2>📑 รายการเนื้อหา</h2>
-        <div id="articleTableBody" class="article-grid"></div>
-    </div>
+        <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
+    </article>
 </div>
+
+    <script src="footer.js"></script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         authDomain: "bbcchurch-6ffc3.firebaseapp.com",
         projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.firebasestorage.app",
+        storageBucket: "bbcchurch-6ffc3.appspot.com",
         appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
-    onSnapshot(collection(db, "authors"), (snap) => {
-        const select = document.getElementById("authorSelect");
-        select.innerHTML = '<option value="">-- เลือกผู้แต่ง --</option>';
-        snap.forEach(d => { const auth = d.data(); select.innerHTML += `<option value="${auth.name}" data-id="${d.id}">${auth.name}</option>`; });
-    });
-
-    async function uploadFile(fileInput, hiddenInputId) {
-        const file = fileInput.files[0];
-        if (!file) return document.getElementById(hiddenInputId).value;
-        const snapshot = await uploadBytesResumable(ref(storage, 'articles/' + Date.now()), file);
-        return await getDownloadURL(snapshot.ref);
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    document.getElementById("articleForm").onsubmit = async (e) => {
-        e.preventDefault();
-        const id = document.getElementById("editId").value;
-        const data = {
-            displayDate: document.getElementById("customDate").value,
-            category: document.getElementById("category").value,
-            title: document.getElementById("title").value,
-            series: document.getElementById("series").value,
-            authorName: document.getElementById("authorSelect").value,
-            yt1: document.getElementById("yt1").value,
-            yt2: document.getElementById("yt2").value,
-            mainContent: document.getElementById("mainContent").value,
-            thumbUrl: await uploadFile(document.getElementById("fileThumb"), "valThumb"),
-            updatedAt: serverTimestamp()
-        };
-        if (id) await updateDoc(doc(db, "articles", id), data);
-        else await addDoc(collection(db, "articles"), { ...data, createdAt: serverTimestamp() });
-        window.location.reload();
-    };
+    async function loadData() {
+        const id = new URLSearchParams(window.location.search).get('id');
+        if (!id) return;
 
-    window.editArt = async (id) => {
-        const d = (await getDoc(doc(db, "articles", id))).data();
-        document.getElementById("editId").value = id;
-        document.getElementById("title").value = d.title;
-        document.getElementById("customDate").value = d.displayDate;
-        document.getElementById("yt1").value = d.yt1 || "";
-        document.getElementById("yt2").value = d.yt2 || "";
-        document.getElementById("mainContent").value = d.mainContent;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+        try {
+            const snap = await getDoc(doc(db, "articles", id));
+            if (snap.exists()) {
+                const d = snap.data();
+                
+                document.getElementById('displayTitle').innerText = d.title || "ไม่มีหัวข้อ";
+                document.getElementById('displaySeries').innerText = d.series || d.category || 'ทั่วไป';
+                document.getElementById('displayDate').innerText = `📅 ${d.displayDate || 'ไม่ระบุวันที่'}`;
+                document.getElementById('displayAuthor').innerText = `👤 ${d.authorName || d.preacher || 'คริสตจักร'}`;
+                
+                if (d.thumbUrl) {
+                    document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img" loading="lazy">`;
+                }
 
-    window.deleteArt = async (id) => { if (confirm("ลบ?")) await deleteDoc(doc(db, "articles", id)); };
+                let arcHtml = "";
+                [d.arc1, d.arc2, d.arc3].forEach(img => {
+                    if (img) arcHtml += `<img src="${img}" class="archive-img" loading="lazy">`;
+                });
+                document.getElementById('archiveContent').innerHTML = arcHtml;
 
-    onSnapshot(collection(db, "articles"), (snap) => {
-        const container = document.getElementById("articleTableBody");
-        container.innerHTML = "";
-        snap.forEach(d => {
-            const item = d.data();
-            container.innerHTML += `
-                <div class="article-card">
-                    <img src="${item.thumbUrl || 'https://placehold.co/600x400'}" class="card-img">
-                    <div style="color:var(--primary); font-size:12px; font-weight:bold;">${item.category}</div>
-                    <div class="card-title">${item.title}</div>
-                    <div class="card-meta">📅 ${item.displayDate}</div>
-                    <div class="card-meta">🔗 YT1: ${item.yt1 ? '✅' : '❌'} | YT2: ${item.yt2 ? '✅' : '❌'}</div>
-                    <div class="card-actions">
-                        <button onclick="editArt('${d.id}')" style="flex:1; padding:8px; border-radius:5px; border:none; background:#4dabff; color:black; font-weight:bold;">แก้ไข</button>
-                        <button onclick="deleteArt('${d.id}')" style="flex:1; padding:8px; border-radius:5px; border:none; background:#e74c3c; color:white; font-weight:bold;">ลบ</button>
-                    </div>
-                </div>`;
-        });
-    });
+                // ใช้ innerHTML เพื่อให้รองรับการจัด Format ข้อความหากมี
+                document.getElementById('displayBody').innerHTML = d.mainContent ? d.mainContent.replace(/\n/g, '<br>') : "";
+
+                let vdoHtml = "";
+                [d.yt1, d.yt2].forEach(link => {
+                    const vid = getYoutubeId(link);
+                    if (vid) vdoHtml += `<div class="video-box"><iframe src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe></div>`;
+                });
+                document.getElementById('videoContent').innerHTML = vdoHtml;
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            document.getElementById('displayTitle').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
+        }
+    }
+    loadData();
 </script>
-
 </body>
-</html>
+</html>   
+
