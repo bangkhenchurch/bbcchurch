@@ -7,121 +7,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary: #4dabff; 
-            --bg-black: #000000; 
-            --card-bg: #111111; 
-            --input-bg: #1a1a1a;
-            --border: #333333;
-            --text-main: #ffffff;
-            --text-dim: #bbbbbb;
-            --success: #27ae60;
-            --danger: #e74c3c;
+            --primary: #4dabff; --bg-black: #000000; --card-bg: #111111; 
+            --input-bg: #1a1a1a; --border: #333333; --text-main: #ffffff;
+            --success: #27ae60; --danger: #e74c3c;
         }
-
         * { box-sizing: border-box; }
-        body { 
-            background: var(--bg-black); 
-            color: var(--text-main); 
-            font-family: 'Sarabun', sans-serif; 
-            margin: 0;
-            padding: 20px;
-        }
-
+        body { background: var(--bg-black); color: var(--text-main); font-family: 'Sarabun', sans-serif; margin: 0; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
-        
-        .admin-card { 
-            background: var(--card-bg); 
-            padding: 30px; 
-            border-radius: 15px; 
-            border: 1px solid var(--border);
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-
-        h2 { 
-            font-family: 'Prompt'; 
-            color: var(--primary); 
-            margin-top: 0;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        .form-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
+        .admin-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        h2 { font-family: 'Prompt'; color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: inline-block; }
+        .form-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
         .full-width { grid-column: 1 / -1; }
-
-        label { 
-            display: block; 
-            font-size: 14px; 
-            margin-bottom: 8px; 
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        input, textarea, select { 
-            width: 100%; 
-            padding: 12px; 
-            background: var(--input-bg); 
-            border: 1px solid var(--border); 
-            color: white; 
-            border-radius: 8px;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-
-        input:focus { border-color: var(--primary); outline: none; }
-
+        label { display: block; font-size: 14px; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
+        input, textarea, select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border); color: white; border-radius: 8px; font-size: 15px; }
         .author-group { display: flex; gap: 10px; }
-        .btn-mini { 
-            background: var(--primary); 
-            border: none; color: white; 
-            padding: 0 15px; border-radius: 8px; 
-            cursor: pointer; font-weight: bold;
-        }
+        .btn-mini { background: var(--primary); border: none; color: white; padding: 0 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .btn-mini.del { background: var(--danger); }
-
-        .preview-box {
-            background: #080808;
-            height: 120px;
-            border: 1px dashed var(--border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-top: 5px;
-        }
+        .preview-box { background: #080808; height: 120px; border: 1px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 5px; }
         .preview-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .btn-save { 
-            width: 100%; padding: 18px; 
-            background: var(--success); 
-            color: white; border: none; 
-            border-radius: 10px; font-weight: bold; 
-            font-size: 18px; cursor: pointer;
-            font-family: 'Prompt';
-        }
-        .btn-save:hover { filter: brightness(1.2); }
-
-        .table-container { 
-            overflow-x: auto; 
-            background: var(--card-bg); 
-            border-radius: 15px;
-            border: 1px solid var(--border);
-        }
-        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px;}
-        th { background: #1a1a1a; color: var(--primary); padding: 15px; border-bottom: 2px solid var(--border); }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
-        tr:hover { background: #151515; }
-
-        .thumb-small { width: 80px; height: 50px; border-radius: 5px; object-fit: cover; background: #000; }
-        .badge { padding: 4px 8px; border-radius: 5px; font-size: 11px; background: #333; }
+        .btn-save { width: 100%; padding: 18px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; font-family: 'Prompt'; }
+        
+        /* Card Layout */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .article-card { background: #1a1a1a; border-radius: 12px; padding: 15px; border: 1px solid #333; transition: 0.3s; }
+        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .card-title { font-size: 18px; font-weight: bold; color: #fff; margin: 5px 0; }
+        .card-meta { font-size: 14px; color: #ccc; margin: 3px 0; }
+        .card-actions { margin-top: 15px; display: flex; gap: 10px; }
     </style>
 </head>
 <body>
@@ -131,105 +43,27 @@
         <h2>✍️ แบบฟอร์ม บันทึกบทความ</h2>
         <form id="articleForm">
             <input type="hidden" id="editId">
-            
             <div class="form-section">
-                <div>
-                    <label>1. วันที่</label>
-                    <input type="date" id="customDate" required>
-                </div>
-                <div>
-                    <label>2. หมวดหมู่</label>
-                    <select id="category">
-                        <option value="🎙️ คำเทศนา">🎙️ คำเทศนา</option>
-                        <option value="🌟 คำพยาน">🌟 คำพยาน</option>
-                        <option value="📖 บทความ">📖 บทความ</option>
-                        <option value="📢 ข่าวสาร">📢 ข่าวสาร</option>
-                    </select>
-                </div>
-                <div class="full-width">
-                    <label>3. หัวข้อเรื่อง</label>
-                    <input type="text" id="title" placeholder="ใส่ชื่อหัวข้อหลัก..." required>
-                </div>
-                <div>
-                    <label>4. ซีรีย์ (ถ้ามี)</label>
-                    <input type="text" id="series" placeholder="ชื่อซีรีย์เนื้อหา...">
-                </div>
-                <div>
-                    <label>5. ผู้เทศนา / ผู้แต่ง</label>
-                    <div class="author-group">
-                        <select id="authorSelect"></select>
-                        <button type="button" class="btn-mini" id="addAuthorBtn">+</button>
-                        <button type="button" class="btn-mini del" id="delAuthorBtn">🗑️</button>
-                    </div>
-                </div>
-                <div>
-                    <label>6. ข้อพระธรรม</label>
-                    <input type="text" id="bibleRef" placeholder="เช่น ยอห์น 3:16 (ฉบับ 1971)">
-                </div>
+                <div><label>1. วันที่</label><input type="date" id="customDate" required></div>
+                <div><label>2. หมวดหมู่</label><select id="category"><option value="🎙️ คำเทศนา">🎙️ คำเทศนา</option><option value="🌟 คำพยาน">🌟 คำพยาน</option><option value="📖 บทความ">📖 บทความ</option><option value="📢 ข่าวสาร">📢 ข่าวสาร</option></select></div>
+                <div class="full-width"><label>3. หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+                <div><label>4. ซีรีย์</label><input type="text" id="series"></div>
+                <div><label>5. ผู้แต่ง</label><div class="author-group"><select id="authorSelect"></select><button type="button" class="btn-mini" id="addAuthorBtn">+</button><button type="button" class="btn-mini del" id="delAuthorBtn">🗑️</button></div></div>
+                <div><label>6. ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
             </div>
-
             <div class="form-section">
-                <div class="full-width"><label style="color:#aaa">📷 ส่วนจัดการภาพประกอบ</label></div>
-                <div>
-                    <label>8. รูปปกนำ</label>
-                    <input type="file" id="fileThumb" accept="image/*">
-                    <input type="hidden" id="valThumb">
-                    <div class="preview-box" id="preThumb">พรีวิวรูปปก</div>
-                </div>
-                <div>
-                    <label>9. รูปเนื้อหา 1</label>
-                    <input type="file" id="filePic1" accept="image/*">
-                    <input type="hidden" id="valPic1">
-                    <div class="preview-box" id="prePic1">พรีวิวรูป 1</div>
-                </div>
-                <div>
-                    <label>10. รูปเนื้อหา 2</label>
-                    <input type="file" id="filePic2" accept="image/*">
-                    <input type="hidden" id="valPic2">
-                    <div class="preview-box" id="prePic2">พรีวิวรูป 2</div>
-                </div>
+                <div><label>รูปปกนำ</label><input type="file" id="fileThumb" accept="image/*"><input type="hidden" id="valThumb"><div class="preview-box" id="preThumb">พรีวิว</div></div>
+                <div><label>รูปเนื้อหา 1</label><input type="file" id="filePic1" accept="image/*"><input type="hidden" id="valPic1"><div class="preview-box" id="prePic1">พรีวิว</div></div>
+                <div><label>รูปเนื้อหา 2</label><input type="file" id="filePic2" accept="image/*"><input type="hidden" id="valPic2"><div class="preview-box" id="prePic2">พรีวิว</div></div>
             </div>
-
-            <div class="form-section">
-                <div class="full-width"><label style="color:#aaa">🔗 ส่วนจัดการวิดีโอและลิงก์</label></div>
-                <div>
-                    <label>11. ลิ้งก์ ยูทูบ 1</label>
-                    <input type="text" id="yt1" placeholder="https://www.youtube.com/...">
-                </div>
-                <div>
-                    <label>12. ลิ้งก์ ยูทูบ 2</label>
-                    <input type="text" id="yt2" placeholder="https://www.youtube.com/...">
-                </div>
-                <div>
-                    <label>13. ลิ้งก์เพลง / ลิ้งก์อิสระ</label>
-                    <input type="text" id="extraLink" placeholder="ใส่ลิงก์เสริมอื่นๆ...">
-                </div>
-            </div>
-
-            <div class="full-width">
-                <label>14. เนื้อหา (รายละเอียด)</label>
-                <textarea id="mainContent" rows="8" placeholder="เขียนเนื้อหาอิสระที่นี่..."></textarea>
-            </div>
-            
-            <div class="full-width" style="margin-top:15px;">
-                <label>15. หมายเหตุ</label>
-                <input type="text" id="note" placeholder="บันทึกช่วยจำ...">
-            </div>
-
-            <button type="submit" class="btn-save" id="saveBtn" style="margin-top:25px;">🚀 บันทึกข้อมูลและแสดงผลทันที</button>
+            <div class="full-width"><label>14. เนื้อหา</label><textarea id="mainContent" rows="8"></textarea></div>
+            <button type="submit" class="btn-save" id="saveBtn">🚀 บันทึกข้อมูล</button>
         </form>
     </div>
 
     <div class="admin-card">
         <h2>📑 รายการเนื้อหา</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>รูปปก</th><th>วันที่</th><th>หมวดหมู่</th><th>หัวข้อ</th><th>ผู้แต่ง</th><th>จัดการ</th></tr>
-                </thead>
-                <tbody id="articleTableBody"></tbody>
-            </table>
-        </div>
+        <div id="articleTableBody" class="article-grid"></div>
     </div>
 </div>
 
@@ -250,54 +84,23 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    // Load Authors
     onSnapshot(collection(db, "authors"), (snap) => {
         const select = document.getElementById("authorSelect");
         select.innerHTML = '<option value="">-- เลือกผู้แต่ง --</option>';
-        snap.forEach(d => {
-            const auth = d.data();
-            select.innerHTML += `<option value="${auth.name}" data-id="${d.id}">${auth.name}</option>`;
-        });
+        snap.forEach(d => { const auth = d.data(); select.innerHTML += `<option value="${auth.name}" data-id="${d.id}">${auth.name}</option>`; });
     });
 
-    document.getElementById("addAuthorBtn").onclick = async () => {
-        const name = prompt("ระบุชื่อผู้เทศนา / ผู้แต่งบทความ ใหม่:");
-        if (name) await addDoc(collection(db, "authors"), { name });
-    };
-
-    document.getElementById("delAuthorBtn").onclick = async () => {
-        const select = document.getElementById("authorSelect");
-        const id = select.options[select.selectedIndex].dataset.id;
-        if (id && confirm("ลบรายชื่อนี้?")) await deleteDoc(doc(db, "authors", id));
-    };
-
-    async function uploadFile(fileInput, previewId, hiddenInputId) {
+    // Upload & Preview
+    async function uploadFile(fileInput, hiddenInputId) {
         const file = fileInput.files[0];
         if (!file) return document.getElementById(hiddenInputId).value;
-        const storageRef = ref(storage, 'articles/' + Date.now() + "_" + file.name);
-        const snapshot = await uploadBytesResumable(storageRef, file);
+        const snapshot = await uploadBytesResumable(ref(storage, 'articles/' + Date.now()), file);
         return await getDownloadURL(snapshot.ref);
     }
 
-    function setupPreview(inputId, preId) {
-        document.getElementById(inputId).onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (ev) => document.getElementById(preId).innerHTML = `<img src="${ev.target.result}">`;
-                reader.readAsDataURL(file);
-            }
-        };
-    }
-    setupPreview("fileThumb", "preThumb");
-    setupPreview("filePic1", "prePic1");
-    setupPreview("filePic2", "prePic2");
-
     document.getElementById("articleForm").onsubmit = async (e) => {
         e.preventDefault();
-        const btn = document.getElementById("saveBtn");
-        btn.disabled = true;
-        btn.innerText = "⏳ กำลังดำเนินการ...";
-
         const id = document.getElementById("editId").value;
         const data = {
             displayDate: document.getElementById("customDate").value,
@@ -305,82 +108,43 @@
             title: document.getElementById("title").value,
             series: document.getElementById("series").value,
             authorName: document.getElementById("authorSelect").value,
-            bibleRef: document.getElementById("bibleRef").value,
-            thumbUrl: await uploadFile(document.getElementById("fileThumb"), "preThumb", "valThumb"),
-            pic1Url: await uploadFile(document.getElementById("filePic1"), "prePic1", "valPic1"),
-            pic2Url: await uploadFile(document.getElementById("filePic2"), "prePic2", "valPic2"),
-            yt1: document.getElementById("yt1").value,
-            yt2: document.getElementById("yt2").value,
-            extraLink: document.getElementById("extraLink").value,
             mainContent: document.getElementById("mainContent").value,
-            note: document.getElementById("note").value,
+            thumbUrl: await uploadFile(document.getElementById("fileThumb"), "valThumb"),
             updatedAt: serverTimestamp()
         };
-
-        try {
-            if (id) {
-                await updateDoc(doc(db, "articles", id), data);
-                alert("✅ แก้ไขข้อมูลเรียบร้อย!");
-            } else {
-                data.createdAt = serverTimestamp();
-                await addDoc(collection(db, "articles"), data);
-                alert("🚀 บันทึกเรียบร้อย!");
-            }
-            window.location.reload();
-        } catch (err) {
-            alert("Error: " + err.message);
-            btn.disabled = false;
-        }
+        if (id) await updateDoc(doc(db, "articles", id), data);
+        else await addDoc(collection(db, "articles"), { ...data, createdAt: serverTimestamp() });
+        window.location.reload();
     };
 
     window.editArt = async (id) => {
-        const docSnap = await getDoc(doc(db, "articles", id));
-        if (docSnap.exists()) {
-            const d = docSnap.data();
-            document.getElementById("editId").value = id;
-            document.getElementById("customDate").value = d.displayDate || "";
-            document.getElementById("category").value = d.category || "";
-            document.getElementById("title").value = d.title || "";
-            document.getElementById("series").value = d.series || "";
-            document.getElementById("authorSelect").value = d.authorName || "";
-            document.getElementById("bibleRef").value = d.bibleRef || "";
-            document.getElementById("valThumb").value = d.thumbUrl || "";
-            document.getElementById("preThumb").innerHTML = d.thumbUrl ? `<img src="${d.thumbUrl}">` : "รูปปก";
-            document.getElementById("valPic1").value = d.pic1Url || "";
-            document.getElementById("prePic1").innerHTML = d.pic1Url ? `<img src="${d.pic1Url}">` : "รูป 1";
-            document.getElementById("valPic2").value = d.pic2Url || "";
-            document.getElementById("prePic2").innerHTML = d.pic2Url ? `<img src="${d.pic2Url}">` : "รูป 2";
-            document.getElementById("yt1").value = d.yt1 || "";
-            document.getElementById("yt2").value = d.yt2 || "";
-            document.getElementById("extraLink").value = d.extraLink || "";
-            document.getElementById("mainContent").value = d.mainContent || "";
-            document.getElementById("note").value = d.note || "";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        const d = (await getDoc(doc(db, "articles", id))).data();
+        document.getElementById("editId").value = id;
+        document.getElementById("title").value = d.title;
+        document.getElementById("customDate").value = d.displayDate;
+        document.getElementById("mainContent").value = d.mainContent;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.deleteArt = async (id) => {
-        if (confirm("ยืนยันการลบ?")) await deleteDoc(doc(db, "articles", id));
-    };
+    window.deleteArt = async (id) => { if (confirm("ลบ?")) await deleteDoc(doc(db, "articles", id)); };
 
     onSnapshot(collection(db, "articles"), (snap) => {
-        const tbody = document.getElementById("articleTableBody");
-        tbody.innerHTML = "";
+        const container = document.getElementById("articleTableBody");
+        container.innerHTML = "";
         snap.forEach(d => {
             const item = d.data();
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td><img src="${item.thumbUrl || 'https://placehold.co/80x50?text=No'}" class="thumb-small"></td>
-                <td>${item.displayDate}</td>
-                <td><span class="badge">${item.category}</span></td>
-                <td><strong>${item.title}</strong></td>
-                <td>${item.authorName}</td>
-                <td>
-                    <button onclick="editArt('${d.id}')" style="cursor:pointer; background:none; border:1px solid #4dabff; color:#4dabff; border-radius:4px; padding:3px 8px;">แก้ไข</button>
-                    <button onclick="deleteArt('${d.id}')" style="cursor:pointer; background:none; border:1px solid #e74c3c; color:#e74c3c; border-radius:4px; padding:3px 8px;">ลบ</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+            container.innerHTML += `
+                <div class="article-card">
+                    <img src="${item.thumbUrl || 'https://placehold.co/600x400'}" class="card-img">
+                    <div style="color:var(--primary); font-size:12px; font-weight:bold;">${item.category}</div>
+                    <div class="card-title">${item.title}</div>
+                    <div class="card-meta">📅 ${item.displayDate}</div>
+                    <div class="card-meta">👤 ${item.authorName}</div>
+                    <div class="card-actions">
+                        <button onclick="editArt('${d.id}')" style="flex:1; padding:8px; border-radius:5px; border:none; background:#4dabff; color:black; font-weight:bold;">แก้ไข</button>
+                        <button onclick="deleteArt('${d.id}')" style="flex:1; padding:8px; border-radius:5px; border:none; background:#e74c3c; color:white; font-weight:bold;">ลบ</button>
+                    </div>
+                </div>`;
         });
     });
 </script>
