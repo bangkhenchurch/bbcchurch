@@ -19,6 +19,7 @@
         .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
         .article-card { background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px solid #333; }
         .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .meta-info { font-size: 12px; color: #aaa; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -66,10 +67,9 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-    // Firebase Config
     const db = getFirestore(initializeApp({
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
         projectId: "bbcchurch-6ffc3",
@@ -78,7 +78,7 @@
     }));
     const storage = getStorage();
 
-    // --- ระบบจัดการผู้แต่ง (Authors) ---
+    // ระบบจัดการผู้แต่ง
     const updateAuthorDropdown = () => {
         const authors = JSON.parse(localStorage.getItem('authors') || '["ศิษยาภิบาล", "ทีมงาน BBC"]');
         const select = document.getElementById('authorSelect');
@@ -104,11 +104,9 @@
             updateAuthorDropdown();
         }
     };
-
-    // Initialize Authors
     updateAuthorDropdown();
 
-    // --- ส่วนการบันทึก ---
+    // บันทึกข้อมูล
     async function uploadFile(file) {
         if (!file) return null;
         const res = await uploadBytesResumable(ref(storage, 'arts/'+Date.now()), file);
@@ -136,7 +134,7 @@
         window.location.reload();
     };
 
-    // --- แสดงรายการ ---
+    // แสดงรายการ
     onSnapshot(collection(db, "articles"), (snap) => {
         const container = document.getElementById("articleContainer");
         container.innerHTML = "";
@@ -145,8 +143,10 @@
             container.innerHTML += `
                 <div class="article-card">
                     <img src="${i.thumbUrl || 'https://placehold.co/600x400'}" class="card-img">
-                    <div style="font-weight:bold; font-size:18px;">${i.title}</div>
-                    <div style="font-size:12px; margin-bottom:10px;">📅 ${i.displayDate} | 📖 ${i.bibleRef || '-'}</div>
+                    <div style="font-weight:bold; font-size:18px; margin-bottom:5px;">${i.title}</div>
+                    <div class="meta-info">📅 ${i.displayDate} | 📖 ${i.bibleRef || '-'}</div>
+                    <div class="meta-info">📁 ซีรีย์: ${i.series || '-'}</div>
+                    <div class="meta-info" style="margin-bottom:10px;">✍️ ผู้แต่ง: ${i.authorName || '-'}</div>
                     <button onclick="deleteArt('${d.id}')" class="btn-mini del">ลบ</button>
                 </div>`;
         });
