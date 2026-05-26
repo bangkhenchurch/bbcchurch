@@ -30,14 +30,23 @@
             <input type="hidden" id="editId">
             <div class="form-section">
                 <div><label>วันที่</label><input type="date" id="customDate" required></div>
-                <div><label>หมวดหมู่</label><select id="category"><option>🎙️ คำเทศนา</option><option>🌟 คำพยาน</option><option>📖 บทความ</option><option>📢 ข่าวสาร</option></select></div>
-                <div class="full-width"><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+                <div><label>หมวดหมู่</label>
+                    <select id="category">
+                        <option>🎙️ คำเทศนา</option>
+                        <option>🌟 คำพยาน</option>
+                        <option>📖 บทความ</option>
+                        <option>📢 ข่าวสาร</option>
+                    </select>
+                </div>
+                <div><label>ซีรีย์</label><input type="text" id="series"></div>
+                <div><label>หัวข้อเรื่อง</label><input type="text" id="title" required></div>
+                <div><label>ข้อพระธรรม</label><input type="text" id="bibleRef"></div>
                 <div><label>ผู้แต่ง</label>
-                    <div style="display:flex; gap:5px;">
-                        <select id="authorSelect"></select>
-                        <button type="button" class="btn-mini" id="addAuthorBtn">+</button>
-                        <button type="button" class="btn-mini del" id="delAuthorBtn">🗑️</button>
-                    </div>
+                    <select id="authorSelect">
+                        <option value="ศิษยาภิบาล">ศิษยาภิบาล</option>
+                        <option value="ทีมงาน BBC">ทีมงาน BBC</option>
+                        <option value="รับเชิญ">รับเชิญ</option>
+                    </select>
                 </div>
                 <div><label>รูปปกนำ</label><input type="file" id="fileThumb" accept="image/*"></div>
                 <div><label>รูปเนื้อหา 1</label><input type="file" id="filePic1" accept="image/*"></div>
@@ -57,7 +66,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
     const db = getFirestore(initializeApp({
@@ -68,19 +77,19 @@
     }));
     const storage = getStorage();
 
-    // Helper: Upload
     async function uploadFile(file) {
         if (!file) return null;
         const res = await uploadBytesResumable(ref(storage, 'arts/'+Date.now()), file);
         return await getDownloadURL(res.ref);
     }
 
-    // บันทึกข้อมูล
     document.getElementById("articleForm").onsubmit = async (e) => {
         e.preventDefault();
         const data = {
             displayDate: document.getElementById("customDate").value,
+            series: document.getElementById("series").value,
             category: document.getElementById("category").value,
+            bibleRef: document.getElementById("bibleRef").value,
             title: document.getElementById("title").value,
             authorName: document.getElementById("authorSelect").value,
             yt1: document.getElementById("yt1").value,
@@ -96,7 +105,6 @@
         window.location.reload();
     };
 
-    // แสดงรายการ
     onSnapshot(collection(db, "articles"), (snap) => {
         const container = document.getElementById("articleContainer");
         container.innerHTML = "";
@@ -105,15 +113,18 @@
             container.innerHTML += `
                 <div class="article-card">
                     <img src="${i.thumbUrl || 'https://placehold.co/600x400'}" class="card-img">
-                    <div class="card-title">${i.title}</div>
-                    <div style="font-size:12px; margin-bottom:10px;">📅 ${i.displayDate}</div>
-                    <button onclick="editArt('${d.id}')" class="btn-mini">แก้ไข</button>
+                    <div class="card-title" style="font-weight:bold; font-size:18px;">${i.title}</div>
+                    <div style="font-size:12px; margin-bottom:10px;">📅 ${i.displayDate} | 📖 ${i.bibleRef || '-'}</div>
                     <button onclick="deleteArt('${d.id}')" class="btn-mini del">ลบ</button>
                 </div>`;
         });
     });
 
-    window.deleteArt = (id) => deleteDoc(doc(db, "articles", id));
+    window.deleteArt = (id) => {
+        if(confirm('ยืนยันการลบบทความนี้?')) {
+            deleteDoc(doc(db, "articles", id));
+        }
+    };
 </script>
 </body>
 </html>
