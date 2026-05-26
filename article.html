@@ -22,8 +22,9 @@
         .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
-        /* ส่วนนี้สำคัญ: บังคับให้การเว้นบรรทัดแสดงผล */
-        .main-text { font-size: 16px; color: #e0e0e0; margin-bottom: 30px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.8; }
+        /* สไตล์เนื้อหา */
+        .main-text { font-size: 16px; color: #e0e0e0; margin-bottom: 30px; white-space: pre-wrap; word-wrap: break-word; }
+        .content-section { margin-bottom: 15px; }
         
         .btn-back { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; transition: 0.3s; width: 100%; text-align: center; }
     </style>
@@ -92,9 +93,13 @@
                     document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img">`;
                 }
 
-                // ปรับปรุง: พยายามดึงเนื้อหาจากหลายฟิลด์ที่อาจเป็นไปได้
-                const content = d.mainContent || d.content || d.detail || d.text || "";
-                document.getElementById('displayBody').textContent = content;
+                // รวมเนื้อหาจากหลายฟิลด์เข้าด้วยกัน (รองรับกรณีแยกเนื้อหาเป็นส่วนๆ)
+                let fullContent = d.mainContent || "";
+                if (d.mainContent1) fullContent += "\n\n" + d.mainContent1;
+                if (d.mainContent2) fullContent += "\n\n" + d.mainContent2;
+                if (d.mainContent3) fullContent += "\n\n" + d.mainContent3;
+                
+                document.getElementById('displayBody').textContent = fullContent || "ไม่พบรายละเอียดเนื้อหา";
 
                 let vdoHtml = "";
                 [d.yt1, d.yt2].forEach(link => {
@@ -104,7 +109,7 @@
                 document.getElementById('videoContent').innerHTML = vdoHtml;
             }
         } catch (err) {
-            document.getElementById('displayTitle').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
+            document.getElementById('displayTitle').innerText = "โหลดข้อมูลผิดพลาด";
         }
     }
     loadData();
