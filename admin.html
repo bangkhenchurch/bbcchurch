@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBC Church - Admin Center (Complete)</title>
+    <title>BBC Church - Admin Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #4dabff; --bg-black: #000; --card-bg: #111; --success: #27ae60; --danger: #e74c3c; }
@@ -16,8 +16,6 @@
         .btn-mini { background: var(--primary); border: none; color: white; padding: 5px 15px; border-radius: 8px; cursor: pointer; }
         .btn-mini.del { background: var(--danger); }
         .btn-save { width: 100%; padding: 15px; background: var(--success); border: none; color: white; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        
-        /* Card Layout */
         .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
         .article-card { background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px solid #333; }
         .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
@@ -41,8 +39,9 @@
                         <button type="button" class="btn-mini del" id="delAuthorBtn">🗑️</button>
                     </div>
                 </div>
-                <div><label>รูปปก</label><input type="file" id="fileThumb" accept="image/*"></div>
-                <input type="hidden" id="valThumb">
+                <div><label>รูปปกนำ</label><input type="file" id="fileThumb" accept="image/*"></div>
+                <div><label>รูปเนื้อหา 1</label><input type="file" id="filePic1" accept="image/*"></div>
+                <div><label>รูปเนื้อหา 2</label><input type="file" id="filePic2" accept="image/*"></div>
                 <div><label>YouTube 1</label><input type="text" id="yt1"></div>
                 <div><label>YouTube 2</label><input type="text" id="yt2"></div>
             </div>
@@ -69,29 +68,16 @@
     }));
     const storage = getStorage();
 
-    // ระบบผู้แต่ง
-    onSnapshot(collection(db, "authors"), (snap) => {
-        const select = document.getElementById("authorSelect");
-        select.innerHTML = '<option value="">-- เลือกผู้แต่ง --</option>';
-        snap.forEach(d => select.innerHTML += `<option value="${d.data().name}" data-id="${d.id}">${d.data().name}</option>`);
-    });
-
-    document.getElementById("addAuthorBtn").onclick = async () => { const n = prompt("ชื่อผู้แต่ง:"); if(n) await addDoc(collection(db, "authors"), { name: n }); };
-    document.getElementById("delAuthorBtn").onclick = async () => { 
-        const sel = document.getElementById("authorSelect");
-        const id = sel.options[sel.selectedIndex]?.dataset.id;
-        if(id) await deleteDoc(doc(db, "authors", id));
-    };
+    // Helper: Upload
+    async function uploadFile(file) {
+        if (!file) return null;
+        const res = await uploadBytesResumable(ref(storage, 'arts/'+Date.now()), file);
+        return await getDownloadURL(res.ref);
+    }
 
     // บันทึกข้อมูล
     document.getElementById("articleForm").onsubmit = async (e) => {
         e.preventDefault();
-        const file = document.getElementById("fileThumb").files[0];
-        let thumbUrl = document.getElementById("valThumb").value;
-        if (file) {
-            const res = await uploadBytesResumable(ref(storage, 'arts/'+Date.now()), file);
-            thumbUrl = await getDownloadURL(res.ref);
-        }
         const data = {
             displayDate: document.getElementById("customDate").value,
             category: document.getElementById("category").value,
@@ -99,8 +85,10 @@
             authorName: document.getElementById("authorSelect").value,
             yt1: document.getElementById("yt1").value,
             yt2: document.getElementById("yt2").value,
-            thumbUrl: thumbUrl,
-            mainContent: document.getElementById("mainContent").value
+            mainContent: document.getElementById("mainContent").value,
+            thumbUrl: await uploadFile(document.getElementById("fileThumb").files[0]),
+            pic1: await uploadFile(document.getElementById("filePic1").files[0]),
+            pic2: await uploadFile(document.getElementById("filePic2").files[0])
         };
         const id = document.getElementById("editId").value;
         if (id) await updateDoc(doc(db, "articles", id), data);
@@ -118,23 +106,13 @@
                 <div class="article-card">
                     <img src="${i.thumbUrl || 'https://placehold.co/600x400'}" class="card-img">
                     <div class="card-title">${i.title}</div>
-                    <div style="font-size:12px; margin-bottom:10px;">📅 ${i.displayDate} | 👤 ${i.authorName}</div>
+                    <div style="font-size:12px; margin-bottom:10px;">📅 ${i.displayDate}</div>
                     <button onclick="editArt('${d.id}')" class="btn-mini">แก้ไข</button>
                     <button onclick="deleteArt('${d.id}')" class="btn-mini del">ลบ</button>
                 </div>`;
         });
     });
 
-    window.editArt = async (id) => {
-        const d = (await getDoc(doc(db, "articles", id))).data();
-        document.getElementById("editId").value = id;
-        document.getElementById("title").value = d.title;
-        document.getElementById("customDate").value = d.displayDate;
-        document.getElementById("yt1").value = d.yt1 || "";
-        document.getElementById("yt2").value = d.yt2 || "";
-        document.getElementById("valThumb").value = d.thumbUrl || "";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
     window.deleteArt = (id) => deleteDoc(doc(db, "articles", id));
 </script>
 </body>
