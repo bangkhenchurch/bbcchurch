@@ -2,31 +2,48 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>อ่านเนื้อหา - Bangkhen Baptist Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
-        body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; margin: 0; padding-bottom: 50px; }
-        .navbar { background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; padding-bottom: 50px; }
+
+        /* เมนูแนวนอน */
+        .horizontal-menu { 
+            background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center;
+            gap: 15px; flex-wrap: wrap; border: 1px solid #333; margin: 10px auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .horizontal-menu a { 
+            padding: 8px 15px; color: #eeeeee; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 14px;
+            border-radius: 8px; transition: all 0.3s ease; white-space: nowrap;
+        }
+        .horizontal-menu a:hover { color: #4dabff; background: #2a2a2a; }
+
+        /* ส่วนเนื้อหา */
         .container { padding: 15px; max-width: 800px; margin: auto; }
-        .content-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        .content-card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; }
         .thumb-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
-        .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 10px; }
+        .series-tag { background: #4dabff; color: #000; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 10px; }
         .main-text { font-size: 16px; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; margin-top: 20px; line-height: 1.8; }
         .btn-back { display: block; padding: 12px; background: #333; color: #fff; text-align: center; border-radius: 8px; margin-top: 30px; text-decoration: none; }
     </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <span style="font-family:'Prompt'; font-weight: 600;">Bangkhen Baptist Church</span>
+<nav class="horizontal-menu">
+    <a href="index.html">🏠 หน้าแรก</a>
+    <a href="sermons.html">🎙️ คำเทศนา</a>
+    <a href="blogs.html">📖 บทความ</a>
+    <a href="testimony.html">🙏 คำพยาน</a>
+    <a href="news.html">📢 ข่าวสาร</a>
+    <a href="contact.html">📞 ติดต่อเรา</a>
 </nav>
 
 <div class="container">
     <article class="content-card">
         <div id="displaySeries" class="series-tag">กำลังโหลด...</div>
-        <h1 id="displayTitle" style="font-size: 22px;">กำลังโหลด...</h1>
+        <h1 id="displayTitle" style="font-size: 22px; margin-bottom: 10px;">กำลังโหลด...</h1>
         <div id="displayThumb"></div>
         <div id="displayBody" class="main-text">กำลังโหลดเนื้อหา...</div>
         <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
@@ -56,37 +73,20 @@
             const snap = await getDoc(doc(db, "articles", id));
             if (snap.exists()) {
                 const d = snap.data();
-                
-                // Debug ข้อมูลใน Console เพื่อเช็คชื่อฟิลด์ที่แท้จริง
-                console.log("ข้อมูลที่ดึงได้จาก Firestore:", d);
-
                 document.getElementById('displayTitle').innerText = d.title || "ไม่มีหัวข้อ";
                 document.getElementById('displaySeries').innerText = d.series || d.category || 'ทั่วไป';
                 if (d.thumbUrl) document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img">`;
 
-                // การดึงเนื้อหาแบบยืดหยุ่น:
-                // ตรวจสอบชื่อฟิลด์ที่นิยมใช้เก็บเนื้อหา และถ้าไม่เจอจะวนหาฟิลด์ที่มีข้อมูลยาวๆ
-                const possibleNames = ['mainContent', 'content', 'detail', 'body', 'text', 'message', 'description'];
-                let contentToShow = "";
-
-                for (let name of possibleNames) {
-                    if (d[name]) {
-                        contentToShow = d[name];
-                        break;
-                    }
+                // ค้นหาเนื้อหาจากฟิลด์ต่างๆ อัตโนมัติ
+                const fields = ['mainContent', 'content', 'detail', 'body', 'text', 'message', 'description'];
+                let content = fields.find(f => d[f]) ? d[fields.find(f => d[f])] : "";
+                
+                if (!content) {
+                    content = Object.values(d).filter(v => typeof v === 'string' && v.length > 20).join("\n\n");
                 }
-
-                // ถ้ายังหาไม่เจอ ให้แสดงค่าทุกอย่างที่อยู่ใน object นี้ที่เป็นข้อความ
-                if (!contentToShow) {
-                    contentToShow = Object.values(d).filter(v => typeof v === 'string' && v.length > 20).join("\n\n");
-                }
-
-                document.getElementById('displayBody').textContent = contentToShow || "ไม่พบรายละเอียดเนื้อหา";
-            } else {
-                document.getElementById('displayBody').innerText = "ไม่พบข้อมูลบทความนี้";
+                document.getElementById('displayBody').textContent = content || "ไม่พบรายละเอียดเนื้อหา";
             }
         } catch (err) {
-            console.error(err);
             document.getElementById('displayBody').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
         }
     }
