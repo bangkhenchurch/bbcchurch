@@ -13,7 +13,7 @@
         .content-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #333; }
         .thumb-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
         .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 10px; }
-        .main-text { font-size: 16px; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; margin-top: 20px; }
+        .main-text { font-size: 16px; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; margin-top: 20px; line-height: 1.8; }
         .btn-back { display: block; padding: 12px; background: #333; color: #fff; text-align: center; border-radius: 8px; margin-top: 30px; text-decoration: none; }
     </style>
 </head>
@@ -28,7 +28,7 @@
         <div id="displaySeries" class="series-tag">กำลังโหลด...</div>
         <h1 id="displayTitle" style="font-size: 22px;">กำลังโหลด...</h1>
         <div id="displayThumb"></div>
-        <div id="displayBody" class="main-text"></div>
+        <div id="displayBody" class="main-text">กำลังโหลดเนื้อหา...</div>
         <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
     </article>
 </div>
@@ -56,17 +56,37 @@
             const snap = await getDoc(doc(db, "articles", id));
             if (snap.exists()) {
                 const d = snap.data();
+                
+                // Debug ข้อมูลใน Console เพื่อเช็คชื่อฟิลด์ที่แท้จริง
+                console.log("ข้อมูลที่ดึงได้จาก Firestore:", d);
+
                 document.getElementById('displayTitle').innerText = d.title || "ไม่มีหัวข้อ";
                 document.getElementById('displaySeries').innerText = d.series || d.category || 'ทั่วไป';
                 if (d.thumbUrl) document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img">`;
 
-                // --- แก้ไข: ดึงข้อมูลจากฟิลด์ใดก็ได้ที่มีข้อความยาวๆ ---
-                // ระบบจะไล่หาฟิลด์ที่น่าจะเป็นเนื้อหาให้โดยอัตโนมัติ
-                const content = d.mainContent || d.content || d.detail || d.text || d.description || d.body || Object.values(d).find(val => typeof val === 'string' && val.length > 50) || "ไม่พบรายละเอียดเนื้อหา";
-                
-                document.getElementById('displayBody').textContent = content;
+                // การดึงเนื้อหาแบบยืดหยุ่น:
+                // ตรวจสอบชื่อฟิลด์ที่นิยมใช้เก็บเนื้อหา และถ้าไม่เจอจะวนหาฟิลด์ที่มีข้อมูลยาวๆ
+                const possibleNames = ['mainContent', 'content', 'detail', 'body', 'text', 'message', 'description'];
+                let contentToShow = "";
+
+                for (let name of possibleNames) {
+                    if (d[name]) {
+                        contentToShow = d[name];
+                        break;
+                    }
+                }
+
+                // ถ้ายังหาไม่เจอ ให้แสดงค่าทุกอย่างที่อยู่ใน object นี้ที่เป็นข้อความ
+                if (!contentToShow) {
+                    contentToShow = Object.values(d).filter(v => typeof v === 'string' && v.length > 20).join("\n\n");
+                }
+
+                document.getElementById('displayBody').textContent = contentToShow || "ไม่พบรายละเอียดเนื้อหา";
+            } else {
+                document.getElementById('displayBody').innerText = "ไม่พบข้อมูลบทความนี้";
             }
         } catch (err) {
+            console.error(err);
             document.getElementById('displayBody').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
         }
     }
