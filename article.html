@@ -13,7 +13,6 @@
         .container { padding: 15px; max-width: 800px; margin: auto; }
         .content-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #333; }
         
-        /* แก้ปัญหาภาพ Hero ให้พอดีและสวยงาม */
         .thumb-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; display: block; }
         
         .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-family: 'Prompt'; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 10px; }
@@ -23,8 +22,8 @@
         .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
-        /* แก้ปัญหาเนื้อหาให้แสดงผลเว้นบรรทัดได้ */
-        .main-text { font-size: 16px; color: #e0e0e0; margin-bottom: 30px; white-space: pre-wrap; word-wrap: break-word; }
+        /* ส่วนนี้สำคัญ: บังคับให้การเว้นบรรทัดแสดงผล */
+        .main-text { font-size: 16px; color: #e0e0e0; margin-bottom: 30px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.8; }
         
         .btn-back { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; transition: 0.3s; width: 100%; text-align: center; }
     </style>
@@ -93,9 +92,9 @@
                     document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img">`;
                 }
 
-                // ปรับปรุง: ใช้ textContent แทน และตรวจสอบค่า null/undefined เพื่อให้แสดงผลข้อความได้แน่นอน
-                const bodyText = d.mainContent || "";
-                document.getElementById('displayBody').textContent = bodyText;
+                // ปรับปรุง: พยายามดึงเนื้อหาจากหลายฟิลด์ที่อาจเป็นไปได้
+                const content = d.mainContent || d.content || d.detail || d.text || "";
+                document.getElementById('displayBody').textContent = content;
 
                 let vdoHtml = "";
                 [d.yt1, d.yt2].forEach(link => {
@@ -103,12 +102,9 @@
                     if (vid) vdoHtml += `<div class="video-box"><iframe src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe></div>`;
                 });
                 document.getElementById('videoContent').innerHTML = vdoHtml;
-            } else {
-                document.getElementById('displayTitle').innerText = "ไม่พบข้อมูลบทความนี้";
             }
         } catch (err) {
-            console.error("Error loading document: ", err);
-            document.getElementById('displayTitle').innerText = "โหลดข้อมูลผิดพลาด";
+            document.getElementById('displayTitle').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
         }
     }
     loadData();
