@@ -2,53 +2,106 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>อ่านเนื้อหา - Bangkhen Baptist Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; padding-bottom: 50px; }
-
-        /* เมนูแนวนอน */
-        .horizontal-menu { 
-            background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center;
-            gap: 15px; flex-wrap: wrap; border: 1px solid #333; margin: 10px auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .horizontal-menu a { 
-            padding: 8px 15px; color: #eeeeee; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 14px;
-            border-radius: 8px; transition: all 0.3s ease; white-space: nowrap;
-        }
-        .horizontal-menu a:hover { color: #4dabff; background: #2a2a2a; }
-
-        /* ส่วนเนื้อหา */
-        .container { padding: 15px; max-width: 800px; margin: auto; }
-        .content-card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; }
-        .thumb-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
-        .series-tag { background: #4dabff; color: #000; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 10px; }
-        .main-text { font-size: 16px; color: #e0e0e0; white-space: pre-wrap; word-wrap: break-word; margin-top: 20px; line-height: 1.8; }
-        .btn-back { display: block; padding: 12px; background: #333; color: #fff; text-align: center; border-radius: 8px; margin-top: 30px; text-decoration: none; }
+        :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
+        body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.8; margin: 0; padding-bottom: 50px; }
+        
+        /* Navbar */
+        .navbar { background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        
+        .container { padding: 20px 5%; max-width: 800px; margin: auto; }
+        .content-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid #333; }
+        
+        .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-family: 'Prompt'; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+        
+        h1 { font-family: 'Prompt'; font-size: 26px; margin: 0 0 20px 0; color: #fff; line-height: 1.4; }
+        
+        .meta-info { background: #2a2a2a; padding: 10px 15px; border-radius: 8px; font-size: 13px; margin-bottom: 25px; display: flex; gap: 20px; color: #aaa; }
+        
+        .thumb-img { width: 100%; border-radius: 10px; margin-bottom: 25px; }
+        .archive-img { width: 100%; border-radius: 8px; margin-bottom: 15px; }
+        
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; }
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .main-text { font-size: 18px; white-space: pre-wrap; color: #ddd; margin-bottom: 30px; }
+        .btn-back { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; transition: 0.3s; }
+        .btn-back:hover { background: #555; }
     </style>
 </head>
 <body>
 
-<nav class="horizontal-menu">
-    <a href="index.html">🏠 หน้าแรก</a>
-    <a href="sermons.html">🎙️ คำเทศนา</a>
-    <a href="blogs.html">📖 บทความ</a>
-    <a href="testimony.html">🙏 คำพยาน</a>
-    <a href="news.html">📢 ข่าวสาร</a>
-    <a href="contact.html">📞 ติดต่อเรา</a>
+<!-- ส่วนประกอบใหม่ที่เพิ่มเข้ามา -->
+
+<!-- 1. Navbar -->
+<nav class="navbar">
+    <img src="logo.png" style="width:40px; border-radius:50%;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <span style="font-family:'Prompt'; font-weight: 600; font-size: 1.2rem;">Bangkhen Baptist Church</span>
 </nav>
+
+<!-- 2. Hero Slider -->
+<div class="hero-container">
+    <div class="slide active"><img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'"></div>
+</div>
+
+<!-- 3. Marquee (พระคัมภีร์) -->
+<div class="marquee-box" style="background: #1a1a1a; padding: 10px 0; border-top: 1px solid #333; border-bottom: 1px solid #333;">
+    <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt'; font-size: 16px;">
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ — ยอห์น 3 : 16
+    </marquee>
+</div>
+
+<!-- 4. Horizontal Menu -->
+<nav class="horizontal-menu" style="display: flex; justify-content: center; gap: 20px; padding: 20px; background: #1e1e1e; flex-wrap: wrap;">
+    <a href="index.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">🏠 หน้าแรก</a>
+    <a href="sermons.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">🎙️ คำเทศนา</a>
+    <a href="blogs.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">📖 บทความ</a>
+    <a href="testimony.html" style="color: #4dabff; text-decoration: none; font-family: 'Prompt'; font-weight: bold;">🙏 คำพยานชีวิต</a>
+    <a href="news.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">📢 ข่าวสาร</a>
+    <a href="contact.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">📞 ติดต่อเรา</a>
+</nav>
+
+<!-- 5. Featured Video -->
+<div class="featured-video-container" style="background: #121212; padding: 40px 20px;">
+    <div style="max-width: 900px; margin: auto;">
+        <h2 style="font-family: 'Prompt'; color: white; border-left: 5px solid #4dabff; padding-left: 15px; margin-bottom: 20px;">
+            📽️ รับชมวีดีโอ สร้างโลก 
+        </h2>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/Vytt_r-k7Ck?autoplay=1&mute=1&rel=0" 
+                frameborder="0" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<!-- จากนั้นตามด้วย <div class="container"> ที่เป็นเนื้อหาหลักของคุณ -->
 
 <div class="container">
     <article class="content-card">
         <div id="displaySeries" class="series-tag">กำลังโหลด...</div>
-        <h1 id="displayTitle" style="font-size: 22px; margin-bottom: 10px;">กำลังโหลด...</h1>
+        <h1 id="displayTitle">รอโหลดข้อมูล...</h1>
+        
+        <div class="meta-info">
+            <span id="displayDate">📅 -</span>
+            <span id="displayAuthor">👤 -</span>
+        </div>
+
         <div id="displayThumb"></div>
-        <div id="displayBody" class="main-text">กำลังโหลดเนื้อหา...</div>
+        <div id="archiveContent"></div>
+        <div id="displayBody" class="main-text"></div>
+        <div id="videoContent"></div>
+
         <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
     </article>
 </div>
+
+<script src="footer.js"></script>
+
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -65,6 +118,13 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
     async function loadData() {
         const id = new URLSearchParams(window.location.search).get('id');
         if (!id) return;
@@ -73,21 +133,32 @@
             const snap = await getDoc(doc(db, "articles", id));
             if (snap.exists()) {
                 const d = snap.data();
+                
                 document.getElementById('displayTitle').innerText = d.title || "ไม่มีหัวข้อ";
                 document.getElementById('displaySeries').innerText = d.series || d.category || 'ทั่วไป';
+                document.getElementById('displayDate').innerText = `📅 ${d.displayDate || 'ไม่ระบุวันที่'}`;
+                document.getElementById('displayAuthor').innerText = `👤 ${d.authorName || d.preacher || 'คริสตจักร'}`;
+                
                 if (d.thumbUrl) document.getElementById('displayThumb').innerHTML = `<img src="${d.thumbUrl}" class="thumb-img">`;
 
-                // ค้นหาเนื้อหาจากฟิลด์ต่างๆ อัตโนมัติ
-                const fields = ['mainContent', 'content', 'detail', 'body', 'text', 'message', 'description'];
-                let content = fields.find(f => d[f]) ? d[fields.find(f => d[f])] : "";
-                
-                if (!content) {
-                    content = Object.values(d).filter(v => typeof v === 'string' && v.length > 20).join("\n\n");
-                }
-                document.getElementById('displayBody').textContent = content || "ไม่พบรายละเอียดเนื้อหา";
+                let arcHtml = "";
+                [d.arc1, d.arc2, d.arc3].forEach(img => {
+                    if (img) arcHtml += `<img src="${img}" class="archive-img">`;
+                });
+                document.getElementById('archiveContent').innerHTML = arcHtml;
+
+                document.getElementById('displayBody').innerText = d.mainContent || "";
+
+                let vdoHtml = "";
+                [d.yt1, d.yt2].forEach(link => {
+                    const vid = getYoutubeId(link);
+                    if (vid) vdoHtml += `<div class="video-box"><iframe src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe></div>`;
+                });
+                document.getElementById('videoContent').innerHTML = vdoHtml;
             }
         } catch (err) {
-            document.getElementById('displayBody').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
+            console.error("Error loading data:", err);
+            document.getElementById('displayTitle').innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
         }
     }
     loadData();
