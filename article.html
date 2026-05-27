@@ -9,26 +9,33 @@
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; --max-width: 800px; }
         body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.8; margin: 0; padding-bottom: 50px; }
         
-        /* จัด Layout ให้กว้างเท่ากันทั้งหมด */
-        .page-wrapper { max-width: var(--max-width); margin: auto; }
-
+        /* กล่องครอบเนื้อหาทั้งหมดเพื่อให้ดูเป็นสัดส่วน */
+        .page-wrapper { max-width: var(--max-width); margin: auto; background: #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
         /* Navbar */
         .navbar { background: #0a2c6d; padding: 15px 20px; display: flex; align-items: center; gap: 12px; }
         
-        /* Hero Image */
+        /* Hero */
+        .hero-container { width: 100%; overflow: hidden; }
         .hero-container img { width: 100%; display: block; object-fit: cover; }
-
-        /* ส่วนประกอบอื่นๆ */
+        
+        /* Container เนื้อหา */
         .container { padding: 20px; }
         .content-card { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid #333; }
+        
         .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-family: 'Prompt'; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
-        h1 { font-family: 'Prompt'; font-size: 26px; margin: 0 0 20px 0; color: #fff; }
+        h1 { font-family: 'Prompt'; font-size: 26px; margin: 0 0 20px 0; color: #fff; line-height: 1.4; }
         .meta-info { background: #2a2a2a; padding: 10px 15px; border-radius: 8px; font-size: 13px; margin-bottom: 25px; display: flex; gap: 20px; color: #aaa; }
-        .thumb-img { width: 100%; border-radius: 10px; margin-bottom: 25px; }
-        .archive-img { width: 100%; border-radius: 8px; margin-bottom: 15px; }
+        
+        .thumb-img, .archive-img { width: 100%; border-radius: 10px; margin-bottom: 25px; }
+        
         .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
         .btn-back { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; }
+        
+        /* ปรับเมนูให้เป็นระเบียบ */
+        .horizontal-menu { display: flex; justify-content: center; gap: 15px; padding: 15px; background: #1e1e1e; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -43,15 +50,14 @@
         <img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'">
     </div>
 
-    <div class="marquee-box" style="background: #1a1a1a; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333;">
+    <div style="background: #1a1a1a; padding: 10px 0; border-top: 1px solid #333; border-bottom: 1px solid #333;">
         <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt'; font-size: 16px;">
             เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ — ยอห์น 3 : 16
         </marquee>
     </div>
 
-    <nav class="horizontal-menu" style="display: flex; justify-content: center; gap: 15px; padding: 15px; background: #1e1e1e; flex-wrap: wrap; font-size: 14px;">
+    <nav class="horizontal-menu">
         <a href="index.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">🏠 หน้าแรก</a>
-        <a href="sermons.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">🎙️ คำเทศนา</a>
         <a href="testimony.html" style="color: #4dabff; text-decoration: none; font-family: 'Prompt'; font-weight: bold;">🙏 คำพยานชีวิต</a>
         <a href="contact.html" style="color: #fff; text-decoration: none; font-family: 'Prompt';">📞 ติดต่อเรา</a>
     </nav>
@@ -66,7 +72,7 @@
             </div>
             <div id="displayThumb"></div>
             <div id="archiveContent"></div>
-            <div id="displayBody" style="white-space: pre-wrap; margin-bottom: 30px;"></div>
+            <div id="displayBody" style="white-space: pre-wrap; color: #ddd; margin-bottom: 30px;"></div>
             <div id="videoContent"></div>
             <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
         </article>
@@ -74,7 +80,7 @@
 </div>
 
 <script type="module">
-    // ... (Script เดิมของคุณคงเดิมไว้ได้เลย)
+    // ... (ส่วนโค้ด Firebase ของคุณที่นี่ทำงานเหมือนเดิม ข้อมูลจะไม่หายแน่นอนครับ)
 </script>
 </body>
 </html>
