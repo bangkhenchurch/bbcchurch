@@ -6,6 +6,32 @@
     <title>อ่านเนื้อหา - Bangkhen Baptist Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
+
+        <style>
+    /* ปรับปรุงส่วนนี้ใน <style> เดิมของคุณ */
+    
+    /* จำกัดความกว้าง Hero ให้เท่ากับเนื้อหาด้านล่าง */
+    .hero-container {
+        max-width: 800px;
+        margin: 20px auto; /* จัดกึ่งกลาง */
+        padding: 0 5%;    /* ให้มีระยะขอบเท่ากับเนื้อหา */
+    }
+
+    /* ปรับรูปให้เป็นสัดส่วนที่เหมาะสมและไม่สูงจนเกินไป */
+    .hero-container img {
+        width: 100%;
+        height: 200px; /* ปรับความสูงให้พอดี ไม่สูงเกินหน้าจอ */
+        object-fit: cover; /* จัดการภาพให้เต็มพื้นที่โดยไม่ผิดสัดส่วน */
+        border-radius: 15px;
+        display: block;
+    }
+</style>
+
+<div class="hero-container">
+    <div class="slide active">
+        <img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'">
+    </div>
+</div>
         :root { --primary: #4dabff; --dark-bg: #121212; --card-bg: #1e1e1e; }
         body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.8; margin: 0; padding-bottom: 50px; }
         
