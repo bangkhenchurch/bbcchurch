@@ -66,20 +66,18 @@
 
         /* ปรับแต่งกรอบเมนูให้ยาวและอยู่กึ่งกลาง */
         .horizontal-menu { 
-            background: #1e1e1e; /* สีพื้นหลังเข้ม */
+            background: #1e1e1e; 
             padding: 10px 5%; 
             display: flex; 
-            justify-content: center; /* จัดให้อยู่กึ่งกลางแนวนอน */
+            justify-content: center; 
             align-items: center;
             gap: 10px; 
-            flex-wrap: wrap; /* ถ้าจอมือถือเล็กจะตัดขึ้นแถวใหม่ */
-            
-            /* การใส่กรอบยาวให้สวยงาม */
-            border: 1px solid #333; /* เส้นขอบบางๆ */
-            max-width: 1200px; /* จำกัดความกว้างไม่ให้แผ่จนเกินไปบนจอใหญ่ */
-            margin: 20px auto; /* จัดกึ่งกลางหน้าจอ และเว้นระยะบน-ล่าง */
-            border-radius: 50px; /* ทำมุมโค้งมนแบบแคปซูล (เปลี่ยนเป็น 10px ถ้าชอบเหลี่ยม) */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* ใส่เงาให้นูนดูมีมิติ */
+            flex-wrap: wrap; 
+            border: 1px solid #333; 
+            max-width: 1200px; 
+            margin: 20px auto; 
+            border-radius: 50px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
         }
 
         /* ปรับแต่งปุ่มเมนู */
@@ -89,7 +87,7 @@
             text-decoration: none; 
             font-family: 'Prompt', sans-serif; 
             font-size: 15px;
-            border-radius: 25px; /* ความโค้งของไฮไลท์เวลาเอาเมาส์ไปชี้ */
+            border-radius: 25px; 
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -99,11 +97,11 @@
         /* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
         .horizontal-menu a:hover { 
             color: #fff; 
-            background: #2c2c2c; /* เปลี่ยนพื้นหลังปุ่มเมื่อชี้ */
-            transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อย */
+            background: #2c2c2c; 
+            transform: translateY(-2px); 
         }
 
-        /* ปุ่มพิเศษสำหรับสุ่มโฆษณา (แต่งสีให้เด่นขึ้นนิดหน่อย) */
+        /* ปุ่มพิเศษสำหรับสุ่มโฆษณา */
         .horizontal-menu a.ads-btn {
             color: #ffcc00;
             border: 1px dashed #ffcc00;
@@ -116,8 +114,8 @@
         /* หน้าจอเล็ก (มือถือ) */
         @media (max-width: 768px) {
             .horizontal-menu {
-                margin: 10px; /* ลดระยะขอบบนมือถือ */
-                border-radius: 15px; /* ลดความโค้งบนมือถือให้ดูดีขึ้น */
+                margin: 10px; 
+                border-radius: 15px; 
                 padding: 15px;
             }
             .horizontal-menu a {
@@ -156,7 +154,7 @@
 
 <div class="marquee-box">
     <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
-        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานประบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอหัน 3 : 16 
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ - ยอห์น 3:16
     </marquee>
 </div>
 
@@ -196,21 +194,18 @@
     // ฟังก์ชันสำหรับสุ่มลิงก์โฆษณาจาก ACCESSTRADE
     // =======================================================
     function openRandomAds(event) {
-        event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บกระตุกเลื่อนขึ้น
+        event.preventDefault(); 
         
-        // นำลิงก์จากหน้า ACCESSTRADE มาใส่ในกล่องสี่เหลี่ยมด้านล่างนี้ (ใส่กี่ลิงก์ก็ได้ คั่นด้วยเครื่องหมายจุลภาค ,)
+        // อย่าลืมสลับสับเปลี่ยนลิงก์จริงของคุณแทนข้อความสมมุติตรงนี้ครับ
         const adsLinks = [
-            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx1", // เปลี่ยนเป็นลิ้งแคมเปญ Kept
-            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx2", // เปลี่ยนเป็นลิ้งแคมเปญตัวที่ 2
-            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx3"  // เปลี่ยนเป็นลิ้งแคมเปญตัวที่ 3
+            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx1", 
+            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx2", 
+            "https://click.accesstrade.in.th/adv.php?rk=xxxxxxxxx3" 
         ];
         
         if (adsLinks.length > 0) {
-            // สุ่มตำแหน่งข้อมูลใน Array
             const randomIndex = Math.floor(Math.random() * adsLinks.length);
             const targetLink = adsLinks[randomIndex];
-            
-            // สั่งเปิดลิงก์ที่สุ่มได้ในแท็บใหม่ (ผู้ใช้จะได้ไม่หลุดออกจากหน้าเว็บโบสถ์)
             window.open(targetLink, '_blank');
         }
     }
@@ -241,7 +236,6 @@
         return null;
     }
 
-    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate) หรือ วันที่สร้าง (createdAt)
     const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
 
     onSnapshot(q, (snap) => {
@@ -261,12 +255,9 @@
 
         snap.forEach(doc => {
             const d = doc.data();
-            
-            // --- จัดการรูปภาพ ---
             const ytThumb = getYoutubeThumb(d.youtubeUrl);
             const finalThumb = d.thumbUrl || ytThumb || 'logo.png'; 
 
-            // --- จัดการชื่อผู้แต่ง/ผู้เทศนา ---
             const rawAuthor = d.authorName || d.author || "คริสตจักร";
             const cat = d.category || "";
             
@@ -302,7 +293,7 @@
         });
     });
 
-    // ส่งฟอร์มติดต่อ
+    // ตรวจสอบความปลอดภัยกรณีไม่มีหน้าฟอร์มกรอกข้อมูลในหน้าแรก
     const contactForm = document.getElementById('contactForm');
     if(contactForm) {
         contactForm.onsubmit = async (e) => {
