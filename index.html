@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bangkhen Baptist Church</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght=300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* พื้นฐาน */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,79 +46,70 @@
         .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title { font-family: 'Prompt'; font-size: 18px; margin-bottom: 8px; color: #fff; line-height: 1.4; }
         
-        /* สไตล์ส่วนข้อมูลเพิ่มเติมใน Card */
         .card-info { font-size: 13px; color: #bbb; margin-bottom: 10px; flex-grow: 1; }
         .card-info div { margin-bottom: 2px; display: flex; align-items: flex-start; gap: 5px; }
         .info-label { color: #4dabff; font-weight: bold; min-width: fit-content; }
 
         .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
         
-        /* Footer & Counter */
-        .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
-        .counter-section img { max-width: 100%; height: auto; }
+        /* Footer */
         footer { background: #0a2c6d; color: white; text-align: center; padding: 60px 20px; width: 100%; }
         footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
+
+        /* เมนูด้านล่างสไลด์ */
+        .horizontal-menu { 
+            background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        }
+        .horizontal-menu a { padding: 10px 20px; color: #ccc; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 15px; border-radius: 25px; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px; }
+        .horizontal-menu a:hover { color: #fff; background: #2c2c2c; transform: translateY(-2px); }
+        .horizontal-menu a.ads-btn { color: #ffcc00; border: 1px dashed #ffcc00; cursor: pointer; }
+        .horizontal-menu a.ads-btn:hover { background: #ffcc00; color: #121212; }
+
+        /* ============================================== */
+        /* 🚨 สไตล์ของหน้าต่างโฆษณา POPUP (MODAL BOX) */
+        /* ============================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-box {
+            background: #1e1e1e; width: 100%; max-width: 500px; 
+            border-radius: 16px; border: 1px solid #444; padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7); position: relative;
+            transform: translateY(-20px); transition: transform 0.3s ease;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .modal-title { font-family: 'Prompt'; font-size: 18px; color: #ffcc00; }
+        .modal-close { background: none; border: none; color: #aaa; font-size: 24px; cursor: pointer; }
+        .modal-close:hover { color: #fff; }
+
+        /* รายการโฆษณาใน Popup */
+        .ads-list { display: flex; flex-direction: column; gap: 12px; }
+        .ads-item {
+            display: flex; align-items: center; background: #252525; 
+            padding: 12px; border-radius: 10px; border: 1px solid #333;
+            text-decoration: none; color: #fff; transition: 0.2s; gap: 15px;
+        }
+        .ads-item:hover { background: #2d2d2d; border-color: #4dabff; transform: scale(1.02); }
+        .ads-item img { width: 50px; height: 50px; object-fit: contain; background: #fff; border-radius: 8px; padding: 3px; }
+        .ads-info { flex-grow: 1; }
+        .ads-name { font-family: 'Prompt'; font-size: 15px; font-weight: 600; color: #fff; }
+        .ads-desc { font-size: 12px; color: #aaa; margin-top: 2px; }
+        .ads-go { color: #4dabff; font-size: 14px; font-weight: bold; }
 
         @media (max-width: 768px) {
             .slide img { height: 250px; }
             .section-title { font-size: 20px; }
-        }
-
-        /* เมนูด้านล่างสไลด์ */
-        .horizontal-menu { 
-            background: #1e1e1e; 
-            padding: 10px 5%; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            gap: 10px; 
-            flex-wrap: wrap; 
-            border: 1px solid #333; 
-            max-width: 1200px; 
-            margin: 20px auto; 
-            border-radius: 50px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-        }
-
-        .horizontal-menu a { 
-            padding: 10px 20px; 
-            color: #ccc; 
-            text-decoration: none; 
-            font-family: 'Prompt', sans-serif; 
-            font-size: 15px;
-            border-radius: 25px; 
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .horizontal-menu a:hover { 
-            color: #fff; 
-            background: #2c2c2c; 
-            transform: translateY(-2px); 
-        }
-
-        /* ปุ่มสนับสนุนเรา (ปุ่มโฆษณาที่ลิงก์จะเปลี่ยนตามหลังบ้าน) */
-        .horizontal-menu a.ads-btn {
-            color: #ffcc00;
-            border: 1px dashed #ffcc00;
-        }
-        .horizontal-menu a.ads-btn:hover {
-            background: #ffcc00;
-            color: #121212;
-        }
-
-        @media (max-width: 768px) {
-            .horizontal-menu {
-                margin: 10px; 
-                border-radius: 15px; 
-                padding: 15px;
-            }
-            .horizontal-menu a {
-                font-size: 14px;
-                padding: 8px 12px;
-            }
+            .horizontal-menu { margin: 10px; border-radius: 15px; padding: 15px; }
+            .horizontal-menu a { font-size: 14px; padding: 8px 12px; }
         }
     </style>
 </head>
@@ -161,7 +152,7 @@
     <a href="blogs.html">📖 บทความ</a>
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
-    <a href="#" class="ads-btn" onclick="goToAdsPage(event)">🎁 สนับสนุนเรา</a>
+    <a class="ads-btn" onclick="toggleAdsModal(true)">🎁 สนับสนุนเรา</a>
 </nav>
 
 <div class="container">
@@ -178,120 +169,60 @@
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 </div>
 
+<div class="modal-overlay" id="adsModal" onclick="toggleAdsModal(false)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 class="modal-title">🎁 เลือกช่องทางสนับสนุนคริสตจักร</h3>
+            <button class="modal-close" onclick="toggleAdsModal(false)">&times;</button>
+        </div>
+        <div class="ads-list">
+            
+            <a href="https://atth.me/00d9uk0029y3" target="_blank" class="ads-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-m_1-RzC0_C1kI3ZzZ2uF7U9j-uK05wW8A&s" alt="Kept">
+                <div class="ads-info">
+                    <div class="ads-name">Kept by Krungsri</div>
+                    <div class="ads-desc">แอปออมเงินอัจฉริยะ ดอกเบี้ยสูง</div>
+                </div>
+                <div class="ads-go">คลิก ➔</div>
+            </a>
+
+            <a href="https://atth.me/00dayn0029y3" target="_blank" class="ads-item">
+                <img src="https://cdn.krungsricard.com/KrungsriCard/media/Product/Credit%20Card/Card%20Face/KCC_Lady_Titanium_740x465px.png" alt="Krungsri Lady">
+                <div class="ads-info">
+                    <div class="ads-name">บัตรเครดิต Krungsri Lady</div>
+                    <div class="ads-desc">รับเครดิตเงินคืนและสิทธิประโยชน์เพียบ</div>
+                </div>
+                <div class="ads-go">คลิก ➔</div>
+            </a>
+
+            <a href="https://atth.me/000bl60029y3" target="_blank" class="ads-item">
+                <img src="https://ติดต่อออฟฟิศเมท.com/wp-content/uploads/2021/08/officemate-logo.png" alt="OfficeMate">
+                <div class="ads-info">
+                    <div class="ads-name">OfficeMate Online</div>
+                    <div class="ads-desc">ช้อปเครื่องเขียน เฟอร์นิเจอร์ และอุปกรณ์สำนักงาน</div>
+                </div>
+                <div class="ads-go">คลิก ➔</div>
+            </a>
+
+            <a href="https://atth.me/000bqk0029y3" target="_blank" class="ads-item">
+                <img src="https://www.msig-thai.com/themes/custom/msig/logo.png" alt="MSIG">
+                <div class="ads-info">
+                    <div class="ads-name">MSIG ประกันภัยการเดินทาง</div>
+                    <div class="ads-desc">Travel Easy Plus เดินทางอุ่นใจทั่วโลก</div>
+                </div>
+                <div class="ads-go">คลิก ➔</div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
 <script src="footer.js"></script>
 
 <script>
-    // ตัวแปรเก็บลิงก์โฆษณาปัจจุบัน (ถ้าดึงจาก Firebase ไม่สำเร็จ จะใช้ลิงก์ Kept ของพี่เป็นค่าเริ่มต้น)
-    let globalAffiliateUrl = "https://atth.me/00d9uk0029y3"; 
-
-    function goToAdsPage(event) {
-        event.preventDefault(); 
-        window.open(globalAffiliateUrl, '_blank');
-    }
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
-        authDomain: "bbcchurch-6ffc3.firebaseapp.com",
-        projectId: "bbcchurch-6ffc3",
-        storageBucket: "bbcchurch-6ffc3.appspot.com",
-        appId: "1:1007626508012:web:b936b62bf0ea69b31877c9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // =================================================================
-    // ระบบดึงลิงก์กลางควบคุมระยะไกล (Realtime Sync จาก Firebase)
-    // คอยตรวจจับว่าพี่เปลี่ยนลิงก์ใน Firebase หรือไม่ ถ้าเปลี่ยนจะอัปเดตทันที
-    // =================================================================
-    onSnapshot(doc(db, "system_settings", "ads"), (docSnap) => {
-        if (docSnap.exists() && docSnap.data().url) {
-            globalAffiliateUrl = docSnap.data().url;
-            console.log("ลิงก์สนับสนุนหลักอัปเดตเป็น: ", globalAffiliateUrl);
-        }
-    });
-
-    function getYoutubeThumb(url) {
-        if (!url) return null;
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        if (match && match[2].length === 11) {
-            return `https://img.youtube.com/vi/${match[2]}/mqdefault.jpg`;
-        }
-        return null;
-    }
-
-    const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
-
-    onSnapshot(q, (snap) => {
-        const lists = {
-            news: document.getElementById('list-news'),
-            testimony: document.getElementById('list-testimony'),
-            article: document.getElementById('list-article'),
-            sermon: document.getElementById('list-sermon')
-        };
-        
-        Object.values(lists).forEach(l => { if(l) l.innerHTML = ""; });
-
-        if (snap.empty) {
-            Object.values(lists).forEach(l => { if(l) l.innerHTML = "<p style='color:#666;'>รอการอัปเดตเนื้อหาเร็วๆ นี้</p>"; });
-            return;
-        }
-
-        snap.forEach(doc => {
-            const d = doc.data();
-            const ytThumb = getYoutubeThumb(d.youtubeUrl);
-            const finalThumb = d.thumbUrl || ytThumb || 'logo.png'; 
-
-            const rawAuthor = d.authorName || d.author || "คริสตจักร";
-            const cat = d.category || "";
-            
-            let prefix = "ผู้เขียน: ";
-            if (cat.includes("เทศนา")) prefix = "ผู้เทศนา: ";
-            else if (cat.includes("พยาน")) prefix = "เจ้าของคำพยาน: ";
-            
-            const authorHtml = `<div><span class="info-label">${prefix}</span> ${rawAuthor}</div>`;
-            const seriesHtml = d.series ? `<div><span class="info-label">ซีรีย์:</span> ${d.series}</div>` : '';
-            const bibleHtml = d.bibleRef ? `<div><span class="info-label">ข้อพระธรรม:</span> ${d.bibleRef}</div>` : '';
-
-            const card = `
-            <div class="card" onclick="location.href='article.html?id=${doc.id}'">
-                <img src="${finalThumb}" alt="${d.title}" onerror="this.src='logo.png'">
-                <div class="card-content">
-                    <h4 class="card-title">${d.title || 'ไม่มีหัวข้อ'}</h4>
-                    <div class="card-info">
-                        ${authorHtml}
-                        ${seriesHtml}
-                        ${bibleHtml}
-                    </div>
-                    <div class="card-meta">
-                        <span>📅 ${d.displayDate || ''}</span>
-                        <span style="color:#4dabff">อ่านต่อ...</span>
-                    </div>
-                </div>
-            </div>`;
-            
-            if (cat.includes("ข่าวสาร")) lists.news.insertAdjacentHTML('beforeend', card);
-            if (cat.includes("พยาน")) lists.testimony.insertAdjacentHTML('beforeend', card);
-            if (cat.includes("บทความ")) lists.article.insertAdjacentHTML('beforeend', card);
-            if (cat.includes("เทศนา")) lists.sermon.insertAdjacentHTML('beforeend', card);
-        });
-    });
-
-    // Slide Show
-    let cur = 0;
-    setInterval(() => {
-        const slides = document.querySelectorAll('.slide');
-        if(slides.length < 2) return;
-        slides[cur].classList.remove('active');
-        cur = (cur + 1) % slides.length;
-        slides[cur].classList.add('active');
-    }, 5000);
-</script>
-</body>
-</html>
+    // ฟังก์ชัน เปิด-ปิด หน้าต่างโฆษณา Popup
+    function toggleAdsModal(show) {
+        const modal = document.getElementById('adsModal');
+        if (show) {
+            modal.classList.add('active');
+        } else
