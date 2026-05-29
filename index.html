@@ -94,7 +94,6 @@
             gap: 5px;
         }
 
-        /* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
         .horizontal-menu a:hover { 
             color: #fff; 
             background: #2c2c2c; 
@@ -111,7 +110,6 @@
             color: #121212;
         }
 
-        /* หน้าจอเล็ก (มือถือ) */
         @media (max-width: 768px) {
             .horizontal-menu {
                 margin: 10px; 
@@ -165,7 +163,7 @@
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
     <a href="contact.html">📞 ติดต่อเรา</a>
-    <a href="#" class="ads-btn" onclick="goToSupportPage(event)">🎁 สนับสนุนเรา</a>
+    <a href="contact.html" class="ads-btn">🎁 สนับสนุนเรา</a>
 </nav>
 
 <div class="container">
@@ -188,16 +186,6 @@
     function toggleAddress(chk) {
         const addressBox = document.getElementById('addressBox');
         if(addressBox) addressBox.style.display = chk.checked ? 'block' : 'none';
-    }
-
-    // =======================================================
-    // ฟังก์ชันสำหรับลิงก์ไปหน้าแคมเปญของ ACCESSTRADE โดยตรง
-    // =======================================================
-    function goToSupportPage(event) {
-        event.preventDefault(); 
-        // เปลี่ยนมาใช้โครงสร้างลิงก์สำหรับหน้าแนะนำรวมที่ผูกกับบัญชีเว็บของพี่โดยตรง ไม่ติด 404 ครับ
-        const targetUrl = "https://pub.accesstrade.in.th/recommend/index.html";
-        window.open(targetUrl, '_blank');
     }
 </script>
 
