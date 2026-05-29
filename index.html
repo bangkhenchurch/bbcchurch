@@ -53,6 +53,37 @@
 
         .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
         
+        /* โซนแสดงโฆษณา Banner */
+        .ads-banner-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 5%;
+            text-align: center;
+        }
+        .ads-box {
+            background: #1e1e1e;
+            border: 2px dashed #ffcc00;
+            border-radius: 12px;
+            padding: 15px;
+            display: inline-block;
+            width: 100%;
+            max-width: 728px; /* ขนาดป้ายมาตรฐาน */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .ads-box p {
+            font-family: 'Prompt';
+            font-size: 13px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .ads-box iframe {
+            width: 100%;
+            border: none;
+            display: block;
+            margin: 0 auto;
+        }
+
         /* Footer & Counter */
         .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
         .counter-section img { max-width: 100%; height: auto; }
@@ -94,24 +125,12 @@
             gap: 5px;
         }
 
-        /* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
         .horizontal-menu a:hover { 
             color: #fff; 
             background: #2c2c2c; 
             transform: translateY(-2px); 
         }
 
-        /* ปุ่มพิเศษสำหรับสุ่มโฆษณา */
-        .horizontal-menu a.ads-btn {
-            color: #ffcc00;
-            border: 1px dashed #ffcc00;
-        }
-        .horizontal-menu a.ads-btn:hover {
-            background: #ffcc00;
-            color: #121212;
-        }
-
-        /* หน้าจอเล็ก (มือถือ) */
         @media (max-width: 768px) {
             .horizontal-menu {
                 margin: 10px; 
@@ -154,7 +173,7 @@
 
 <div class="marquee-box">
     <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
-        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ - ยоห์น 3:16
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ - ยอห์น 3:16
     </marquee>
 </div>
 
@@ -165,8 +184,14 @@
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
     <a href="contact.html">📞 ติดต่อเรา</a>
-    <a href="#" class="ads-btn" onclick="openRandomAds(event)">🎁 สนับสนุนเรา</a>
 </nav>
+
+<div class="ads-banner-container">
+    <div class="ads-box">
+        <p>🎁 ผู้สนับสนุนคริสตจักร (คลิกเพื่อร่วมสนับสนุน)</p>
+        <iframe src="https://click.accesstrade.in.th/adv.php?rk=0044ol0013ep" height="90" scrolling="no" frameborder="0"></iframe>
+    </div>
+</div>
 
 <div class="container">
     <h2 class="section-title">📢 ข่าวสารและประกาศ</h2>
@@ -188,26 +213,6 @@
     function toggleAddress(chk) {
         const addressBox = document.getElementById('addressBox');
         if(addressBox) addressBox.style.display = chk.checked ? 'block' : 'none';
-    }
-
-    // =======================================================
-    // ฟังก์ชันสำหรับสุ่มลิงก์โฆษณาจาก ACCESSTRADE
-    // =======================================================
-    function openRandomAds(event) {
-        event.preventDefault(); 
-        
-        // ผมนำลิงก์จริงของแคมเปญ Kept และตัวอื่นๆ มาใส่แทนที่ xxxxxxxxx ให้เรียบร้อยแล้วครับ 
-        const adsLinks = [
-            "https://click.accesstrade.in.th/adv.php?rk=0044ol0013ep", // ลิงก์ที่ 1: แคมเปญ Kept
-            "https://click.accesstrade.in.th/adv.php?rk=003z4x0013ep", // ลิงก์ที่ 2: แคมเปญที่สองของคุณ
-            "https://click.accesstrade.in.th/adv.php?rk=001w2o0013ep"  // ลิงก์ที่ 3: แคมเปญที่สามของคุณ
-        ];
-        
-        if (adsLinks.length > 0) {
-            const randomIndex = Math.floor(Math.random() * adsLinks.length);
-            const targetLink = adsLinks[randomIndex];
-            window.open(targetLink, '_blank');
-        }
     }
 </script>
 
