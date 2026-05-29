@@ -182,20 +182,18 @@
 <script src="footer.js"></script>
 
 <script>
-    // =======================================================
-    // ฟังก์ชันยิงตรงเข้าหน้าโฆษณาแคมเปญ Kept (ACCESSTRADE) 
-    // =======================================================
+    // ตัวแปรส่วนกลางสำหรับเก็บลิงก์โฆษณาที่ดึงมาจาก Firebase
+    let dynamicAdsUrl = "https://atth.me/00d9uk0029y3"; // ตั้งค่าเริ่มต้นเป็น Kept ไว้ก่อนเพื่อความปลอดภัย
+
     function goToAdsPage(event) {
         event.preventDefault(); 
-        // ลิงก์ยิงตรงเข้าแคมเปญ Kept ที่ผูกกับรหัสเว็บของพี่อย่างถูกต้อง ไม่ 404 แน่นอนครับ!
-        const targetUrl = "https://intertwine.accesstrade.in.th/?at_id=1&k_id=10332&db_id=Bangkhen_church";
-        window.open(targetUrl, '_blank');
+        window.open(dynamicAdsUrl, '_blank');
     }
 </script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, onSnapshot, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -207,6 +205,18 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    // =================================================================
+    // ระบบดึงลิงก์โฆษณาแบบ Realtime จากคอลเลกชันระบบ
+    // พี่สามารถไปสร้างคอลเลกชันชื่อ "system_settings" และสร้างเอกสารรหัส "ads" 
+    // โดยเก็บฟิลด์ชื่อ "url" ไว้ได้เลยครับ
+    // =================================================================
+    onSnapshot(doc(db, "system_settings", "ads"), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().url) {
+            dynamicAdsUrl = docSnap.data().url;
+            console.log("อัปเดตลิงก์โฆษณาปัจจุบันแล้วเป็น: ", dynamicAdsUrl);
+        }
+    });
 
     function getYoutubeThumb(url) {
         if (!url) return null;
