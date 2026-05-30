@@ -154,33 +154,42 @@
         }
         .btn-line-link:hover { background: #20ba5a; }
 
-        /* 👑 ปรับแต่งโซนโฆษณา (รูปหนังสือ) ตามภาพบรีฟล่าสุด */
+        /* 👑 เซ็ตพื้นที่ควบคุมและจำกัดขนาดกล่องแบนเนอร์ให้เป็น 728x90 (หรือ 729x90 ยืดหยุ่นตามหน้าจอมือถือ) */
         .footer-support-section {
             background: #121212;
             border-top: 1px solid #252525;
-            padding: 40px 20px;
-            text-align: center;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
         }
-        .btn-footer-ads {
-            display: inline-flex;
+        .banner-ads-link {
+            display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 12px;
             background: #ffcc00;
             color: #121212;
-            padding: 14px 35px;
-            font-family: 'Prompt';
-            font-size: 18px;
+            
+            /* ควบคุมขนาดสัดส่วนป้ายโฆษณาตรงนี้ครับ */
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            
+            font-family: 'Prompt', sans-serif;
+            font-size: 22px;
             font-weight: bold;
             text-decoration: none;
-            border-radius: 35px;
-            box-shadow: 0 4px 20px rgba(255, 204, 0, 0.25);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
             transition: 0.3s ease;
+            padding: 0 20px;
         }
-        .btn-footer-ads:hover {
-            transform: translateY(-3px);
+        .banner-ads-link:hover {
             background: #ffe066;
-            box-shadow: 0 6px 25px rgba(255, 204, 0, 0.45);
+            transform: scale(1.01);
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.35);
         }
 
         /* ตัวนับสถิติ */
@@ -200,13 +209,16 @@
             padding-top: 15px;
         }
 
+        /* รองรับ Mobile Responsive ให้สัดส่วนความสูงปรับอัตโนมัติไม่ตกขอบหน้าจอ */
         @media (max-width: 768px) {
             .slide img { height: 250px; }
             .section-title { font-size: 20px; }
             .horizontal-menu { margin: 10px; border-radius: 15px; padding: 15px; }
             .horizontal-menu a { font-size: 14px; padding: 8px 12px; }
             .action-grid { grid-template-columns: 1fr; gap: 20px; }
-            .btn-footer-ads { font-size: 16px; padding: 12px 28px; }
+            
+            /* หน้าจอมือถือเล็ก ปล่อยความกว้างเต็มที่และหดความสูงลงเพื่อความสมดุล */
+            .banner-ads-link { font-size: 18px; height: 60px; }
         }
     </style>
 </head>
@@ -260,7 +272,7 @@
     <h2 class="section-title">🙏 คำพยานชีวิต</h2>
     <div id="list-testimony" class="grid-container">กำลังโหลด...</div>
     
-    <h2 class="section-title">📖 บทความหนุนใจ</h2>
+    <h2 class="section-title">📖 บทความหนใจ</h2>
     <div id="list-article" class="grid-container">กำลังโหลด...</div>
     
     <h2 class="section-title">🎙️ คำเทศนาประจำสัปดาห์</h2>
@@ -299,9 +311,9 @@
 </div>
 
 <div class="footer-support-section">
-    <div style="max-width: 600px; margin: auto;">
-        <a href="ads.html" class="btn-footer-ads">📖 โฆษณา</a>
-    </div>
+    <a href="ads.html" class="banner-ads-link">
+        📖 โฆษณา
+    </a>
 </div>
 
 <div class="counter-section">
