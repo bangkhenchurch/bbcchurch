@@ -44,9 +44,28 @@
         .horizontal-menu a { color: #fff; text-decoration: none; font-family: 'Prompt'; font-size: 14px; white-space: nowrap; transition: 0.2s; }
         .horizontal-menu a:hover { color: var(--primary); }
 
-        /* ============================================== */
-        /* 🚨 สไตล์ "กรอบสนับสนุนคริสตจักร" (ลิงก์ตรงไปหน้า ads.html) */
-        /* ============================================== */
+        /* Banner Carousel Component */
+        .banner-carousel { position: relative; width: 100%; overflow: hidden; border-radius: 12px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .banner-track { display: flex; transition: transform 0.5s ease-in-out; width: 100%; }
+        .banner-slide { min-width: 100%; width: 100%; display: block; }
+        .banner-slide img { width: 100%; height: auto; display: block; border-radius: 12px; }
+
+        /* Bank Transfer Donation Box */
+        .bank-transfer-box {
+            background: linear-gradient(135deg, #0d2b61 0%, #061633 100%);
+            border: 1px solid #1e4282;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .bank-logo { width: 55px; height: auto; margin-bottom: 12px; border-radius: 8px; }
+        .bank-title { font-family: 'Prompt'; font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+        .bank-detail-text { font-size: 15px; color: #ddd; margin-bottom: 5px; }
+        .bank-account-number { font-family: 'Prompt'; font-size: 22px; font-weight: 700; color: var(--accent-yellow); letter-spacing: 1px; margin: 10px 0; }
+
+        /* Sponsor Partner Link Section */
         .support-banner-box {
             display: block;
             text-decoration: none;
@@ -55,7 +74,7 @@
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            margin: 35px 0 25px 0;
+            margin: 25px 0;
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -66,53 +85,14 @@
             border-color: #fff;
             box-shadow: 0 6px 20px rgba(255, 204, 0, 0.2);
         }
-        .support-banner-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-            animation: heartBeat 2s infinite;
-        }
-        .support-banner-title {
-            font-family: 'Prompt';
-            color: var(--accent-yellow);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .support-banner-desc {
-            font-size: 14px;
-            color: #ccc;
-            line-height: 1.4;
-        }
-        .support-banner-action {
-            display: inline-block;
-            margin-top: 12px;
-            font-family: 'Prompt';
-            font-size: 13px;
-            color: var(--primary);
-            font-weight: bold;
-        }
+        .support-banner-icon { font-size: 32px; margin-bottom: 8px; animation: heartBeat 2s infinite; }
+        .support-banner-title { font-family: 'Prompt'; color: var(--accent-yellow); font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .support-banner-desc { font-size: 14px; color: #ccc; line-height: 1.4; }
+        .support-banner-action { display: inline-block; margin-top: 12px; font-family: 'Prompt'; font-size: 13px; color: var(--primary); font-weight: bold; }
 
-        /* แผงปุ่มนำทางด้านล่าง */
-        .navigation-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .btn-action {
-            display: block;
-            padding: 12px 10px;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-family: 'Prompt';
-            font-size: 14px;
-            font-weight: 600;
-            text-align: center;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
+        /* Navigation Grid Buttons */
+        .navigation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
+        .btn-action { display: block; padding: 12px 10px; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Prompt'; font-size: 14px; font-weight: 600; text-align: center; transition: 0.3s; border: none; cursor: pointer; }
         .btn-back-main { background: #0a2c6d; border: 1px solid #1a3c7d; }
         .btn-back-main:hover { background: #0e3785; }
         .btn-back-history { background: #333; border: 1px solid #444; }
@@ -129,8 +109,8 @@
         @media (min-width: 480px) {
             h1 { font-size: 26px; }
             .content-card { padding: 30px; }
-            .support-banner-box { padding: 25px 30px; }
-            .support-banner-title { font-size: 20px; }
+            .support-banner-box, .bank-transfer-box { padding: 25px 30px; }
+            .support-banner-title, .bank-title { font-size: 20px; }
         }
     </style>
 </head>
@@ -186,9 +166,25 @@
         <div id="displayBody" class="main-text"></div>
         <div id="videoContent"></div>
 
+        <div class="banner-carousel">
+            <div class="banner-track" id="bannerTrack">
+                <a href="ads.html" class="banner-slide"><img src="banner01.png" alt="หนังสือและสื่อเพลงคริสเตียน 1"></a>
+                <a href="ads.html" class="banner-slide"><img src="banner02.png" alt="หนังสือและสื่อเพลงคริสเตียน 2"></a>
+            </div>
+        </div>
+
+        <div class="bank-transfer-box">
+            <img src="bbk_church.png" class="bank-logo" alt="ธนาคารกรุงเทพ" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2830/2830284.png'">
+            <div class="bank-title">ร่วมสนับสนุนหรือรับใช้ผ่านการถวายทรัพย์</div>
+            <div class="bank-detail-text">ธนาคารกรุงเทพ สาขาบางเขน</div>
+            <div class="bank-detail-text">ประเภทบัญชี: บัญชีออมทรัพย์</div>
+            <div class="bank-account-number">161-5-36894-9</div>
+            <div class="bank-detail-text" style="font-weight: 600; color: #fff;">ชื่อบัญชี: คริสตจักรแบ๊พติสต์บางเขน</div>
+        </div>
+
         <a href="ads.html" class="support-banner-box">
             <div class="support-banner-icon">🎁</div>
-            <div class="support-banner-title">ร่วมสนับสนุนพันธกิจ</div>
+            <div class="support-banner-title">ร่วมสนับสนุนพันธกิจผ่านระบบพาร์ทเนอร์</div>
             <div class="support-banner-desc">คุณสามารถร่วมสนับสนุนเราได้ง่ายๆ เพียงคลิกเลือกชมหรือสมัครบริการจากพาร์ทเนอร์ของเรา (เปิดหน้าต่างรวมโฆษณา)</div>
             <div class="support-banner-action">คลิกเพื่อเปิดหน้าต่างสนับสนุน ➔</div>
         </a>
@@ -217,6 +213,19 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    // ระบบสไลด์แบนเนอร์อัตโนมัติ
+    let currentSlide = 0;
+    const track = document.getElementById('bannerTrack');
+    const totalSlides = 2; 
+
+    function rotateBanners() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        if(track) {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+    }
+    setInterval(rotateBanners, 4000);
 
     function getYoutubeId(url) {
         if (!url) return null;
