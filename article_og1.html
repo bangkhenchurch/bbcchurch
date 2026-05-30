@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>อ่านเนื้อหา - Bangkhen Baptist Church</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -13,197 +13,131 @@
             --accent-yellow: #ffcc00;
         }
         
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { overflow-x: hidden; width: 100%; }
+        body { background: var(--dark-bg); color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.8; padding-bottom: 50px; }
+        
+        /* Navbar Responsive */
+        .navbar { background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 100%; }
+        .navbar img { width: 40px; height: 40px; border-radius: 50%; }
+        
+        /* Layout Container Support for Mobile Screens */
+        .container { padding: 15px; max-width: 800px; margin: auto; width: 100%; }
+        .content-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #333; word-wrap: break-word; overflow-wrap: break-word; }
+        
+        .series-tag { background: #add8e6; color: #000; padding: 4px 12px; border-radius: 5px; font-family: 'Prompt'; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+        
+        h1 { font-family: 'Prompt'; font-size: 22px; margin: 0 0 20px 0; color: #fff; line-height: 1.4; }
+        
+        .meta-info { background: #2a2a2a; padding: 10px 15px; border-radius: 8px; font-size: 13px; margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 15px; color: #aaa; }
+        
+        .thumb-img, .archive-img { width: 100%; height: auto; border-radius: 10px; margin-bottom: 25px; display: block; }
+        
+        /* Fluid Video Frame */
+        .video-box, .featured-video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; margin: 20px 0; width: 100%; }
+        .video-box iframe, .featured-video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .main-text { font-size: 17px; white-space: pre-wrap; color: #ddd; margin-bottom: 30px; }
 
-        body { 
-            background: var(--dark-bg); 
-            color: #eeeeee; 
-            font-family: 'Sarabun', sans-serif; 
-            line-height: 1.7; 
-            margin: 0; 
-            padding-bottom: 40px; 
-            overflow-x: hidden;
-        }
-        
-        /* Navbar */
-        .navbar { 
-            background: #0a2c6d; 
-            padding: 12px 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3); 
-        }
-        
-        /* Container & Layout Fluid Support for Mobile */
-        .container { 
-            padding: 15px; 
-            max-width: 800px; 
-            margin: auto; 
-            width: 100%;
-        }
+        /* Horizontal Menu */
+        .horizontal-menu { display: flex; justify-content: center; gap: 15px; padding: 15px 5%; background: #1e1e1e; flex-wrap: wrap; border-bottom: 1px solid #333; }
+        .horizontal-menu a { color: #fff; text-decoration: none; font-family: 'Prompt'; font-size: 14px; white-space: nowrap; transition: 0.2s; }
+        .horizontal-menu a:hover { color: var(--primary); }
 
-        .content-card { 
-            background: var(--card-bg); 
-            padding: 20px; 
-            border-radius: 15px; 
-            border: 1px solid #333; 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        .series-tag { 
-            background: #add8e6; 
-            color: #000; 
-            padding: 4px 12px; 
-            border-radius: 5px; 
-            font-family: 'Prompt'; 
-            font-weight: bold; 
-            font-size: 14px; 
-            display: inline-block; 
-            margin-bottom: 15px; 
-        }
-        
-        h1 { 
-            font-family: 'Prompt'; 
-            font-size: 22px; 
-            margin: 0 0 15px 0; 
-            color: #fff; 
-            line-height: 1.4; 
-        }
-        
-        .meta-info { 
-            background: #2a2a2a; 
-            padding: 10px; 
-            border-radius: 8px; 
-            font-size: 13px; 
-            margin-bottom: 20px; 
-            display: flex; 
-            flex-wrap: wrap;
-            gap: 15px; 
-            color: #aaa; 
-        }
-        
-        .thumb-img, .archive-img { 
-            width: 100%; 
-            height: auto;
-            border-radius: 10px; 
-            margin-bottom: 20px; 
+        /* ============================================== */
+        /* 🚨 สไตล์ "กรอบสนับสนุนคริสตจักร" (ลิงก์ตรงไปหน้า ads.html) */
+        /* ============================================== */
+        .support-banner-box {
             display: block;
-        }
-        
-        /* Video Container Fluid */
-        .video-box, .featured-video-box { 
-            position: relative; 
-            padding-bottom: 56.25%; 
-            height: 0; 
-            overflow: hidden; 
-            border-radius: 10px; 
-            background: #000; 
-            margin: 20px 0; 
-        }
-        .video-box iframe, .featured-video-box iframe { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            border: 0; 
-        }
-        
-        .main-text { 
-            font-size: 16px; 
-            white-space: pre-wrap; 
-            color: #ddd; 
-            margin-bottom: 30px; 
-        }
-
-        /* Horizontal Menu Responsive */
-        .horizontal-menu {
-            display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            padding: 15px; 
-            background: #1e1e1e; 
-            flex-wrap: wrap;
-        }
-        .horizontal-menu a {
-            color: #fff; 
-            text-decoration: none; 
-            font-family: 'Prompt';
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        /* Support Section Styles */
-        .support-container {
-            margin: 30px 0 20px 0;
-            padding: 20px;
-            background: #191919;
+            text-decoration: none;
+            background: linear-gradient(135deg, #1b2838 0%, #151f2c 100%);
             border: 2px dashed var(--accent-yellow);
+            padding: 20px;
             border-radius: 12px;
             text-align: center;
+            margin: 35px 0 25px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .support-title {
+        .support-banner-box:hover {
+            transform: translateY(-3px);
+            border-style: solid;
+            border-color: #fff;
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.2);
+        }
+        .support-banner-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            animation: heartBeat 2s infinite;
+        }
+        .support-banner-title {
             font-family: 'Prompt';
             color: var(--accent-yellow);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
-        .support-grid {
+        .support-banner-desc {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+        .support-banner-action {
+            display: inline-block;
+            margin-top: 12px;
+            font-family: 'Prompt';
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* แผงปุ่มนำทางด้านล่าง */
+        .navigation-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
         }
-        .btn-support {
+        .btn-action {
             display: block;
-            padding: 10px 5px;
-            background: #2a2a2a;
+            padding: 12px 10px;
             color: #fff;
             text-decoration: none;
             border-radius: 8px;
             font-family: 'Prompt';
-            font-size: 13px;
-            border: 1px solid #444;
-            transition: 0.2s;
-        }
-        .btn-support:hover {
-            background: #3a3a3a;
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-back { 
-            display: inline-block; 
-            padding: 10px 20px; 
-            background: #333; 
-            color: #fff; 
-            text-decoration: none; 
-            border-radius: 8px; 
-            font-family: 'Prompt'; 
-            transition: 0.3s; 
-            width: 100%;
+            font-size: 14px;
+            font-weight: 600;
             text-align: center;
-            margin-top: 10px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
-        @media(min-width: 480px) {
-            .btn-back { width: auto; }
+        .btn-back-main { background: #0a2c6d; border: 1px solid #1a3c7d; }
+        .btn-back-main:hover { background: #0e3785; }
+        .btn-back-history { background: #333; border: 1px solid #444; }
+        .btn-back-history:hover { background: #444; }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        @media (min-width: 480px) {
             h1 { font-size: 26px; }
             .content-card { padding: 30px; }
+            .support-banner-box { padding: 25px 30px; }
+            .support-banner-title { font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <img src="logo.png" style="width:40px; height:40px; border-radius:50%;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
     <span style="font-family:'Prompt'; font-weight: 600; font-size: 1.1rem;">Bangkhen Baptist Church</span>
 </nav>
 
@@ -252,18 +186,18 @@
         <div id="displayBody" class="main-text"></div>
         <div id="videoContent"></div>
 
-        <div class="support-container">
-            <div class="support-title">🎁 ผู้สนับสนุนคริสตจักร (คลิกเพื่อร่วมสนับสนุน)</div>
-            <div class="support-grid">
-                <a href="https://atth.me/go/9xmqrAB8" target="_blank" class="btn-support">🛒 OfficeMate</a>
-                <a href="https://atth.me/go/6VjjBP6f" target="_blank" class="btn-support">🛡️ SCB Protect</a>
-                <a href="https://atth.me/go/MdPZwOwq" target="_blank" class="btn-support">💳 Krungsri Lady</a>
-                <a href="https://atth.me/go/w6CoPV7L" target="_blank" class="btn-support">✈️ MSIG Travel</a>
-                <a href="https://atth.me/00d9uk0029y3" target="_blank" class="btn-support">🐷 Kept by Krungsri</a>
-            </div>
-        </div>
+        <a href="ads.html" class="support-banner-box">
+            <div class="support-banner-icon">🎁</div>
+            <div class="support-banner-title">ร่วมสนับสนุนพันธกิจ</div>
+            <div class="support-banner-desc">คุณสามารถร่วมสนับสนุนเราได้ง่ายๆ เพียงคลิกเลือกชมหรือสมัครบริการจากพาร์ทเนอร์ของเรา (เปิดหน้าต่างรวมโฆษณา)</div>
+            <div class="support-banner-action">คลิกเพื่อเปิดหน้าต่างสนับสนุน ➔</div>
+        </a>
 
-        <a href="javascript:history.back()" class="btn-back">⬅️ กลับหน้าหลัก</a>
+        <div class="navigation-grid">
+            <a href="index.html" class="btn-action btn-back-main">🏠 กลับไปหน้าแรก</a>
+            <a href="javascript:history.back()" class="btn-action btn-back-history">⬅️ ย้อนกลับ</a>
+        </div>
+        
     </article>
 </div>
 
