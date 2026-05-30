@@ -59,63 +59,73 @@
         footer { background: #0a2c6d; color: white; text-align: center; padding: 60px 20px; width: 100%; }
         footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
 
+        /* เมนูด้านล่างสไลด์ */
+        .horizontal-menu { 
+            background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        }
+
+        .horizontal-menu a { 
+            padding: 10px 20px; color: #ccc; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 15px; border-radius: 25px; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px; 
+        }
+
+        .horizontal-menu a:hover { 
+            color: #fff; background: #2c2c2c; transform: translateY(-2px); 
+        }
+
+        /* ปุ่มสนับสนุนเรา */
+        .horizontal-menu a.ads-btn {
+            color: #ffcc00; border: 1px dashed #ffcc00; cursor: pointer;
+        }
+        .horizontal-menu a.ads-btn:hover {
+            background: #ffcc00; color: #121212;
+        }
+
+        /* ============================================== */
+        /* 🚨 สไตล์ของหน้าต่างโฆษณา POPUP (MODAL BOX) */
+        /* ============================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-box {
+            background: #1e1e1e; width: 100%; max-width: 500px; 
+            border-radius: 16px; border: 1px solid #444; padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7); position: relative;
+            transform: translateY(-20px); transition: transform 0.3s ease;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 12px; }
+        .modal-title { font-family: 'Prompt'; font-size: 18px; color: #ffcc00; font-weight: 600; }
+        .modal-close { background: none; border: none; color: #aaa; font-size: 28px; cursor: pointer; line-height: 1; }
+        .modal-close:hover { color: #fff; }
+
+        /* รายการแผงโฆษณาใน Popup */
+        .ads-list { display: flex; flex-direction: column; gap: 12px; }
+        .ads-item {
+            display: flex; align-items: center; background: #252525; 
+            padding: 12px; border-radius: 12px; border: 1px solid #333;
+            text-decoration: none; color: #fff; transition: all 0.2s ease; gap: 15px;
+        }
+        .ads-item:hover { background: #2d2d2d; border-color: #4dabff; transform: scale(1.02); }
+        .ads-item img { width: 55px; height: 55px; object-fit: contain; background: #fff; border-radius: 10px; padding: 4px; flex-shrink: 0; }
+        .ads-info { flex-grow: 1; }
+        .ads-name { font-family: 'Prompt'; font-size: 15px; font-weight: 600; color: #fff; line-height: 1.3; }
+        .ads-desc { font-size: 12px; color: #aaa; margin-top: 3px; line-height: 1.4; }
+        .ads-go { color: #4dabff; font-size: 14px; font-weight: bold; flex-shrink: 0; }
+
         @media (max-width: 768px) {
             .slide img { height: 250px; }
             .section-title { font-size: 20px; }
+            .horizontal-menu { margin: 10px; border-radius: 15px; padding: 15px; }
+            .horizontal-menu a { font-size: 14px; padding: 8px 12px; }
         }
-
-       /* ปรับแต่งกรอบเมนูให้ยาวและอยู่กึ่งกลาง */
-.horizontal-menu { 
-    background: #1e1e1e; /* สีพื้นหลังเข้ม */
-    padding: 10px 5%; 
-    display: flex; 
-    justify-content: center; /* จัดให้อยู่กึ่งกลางแนวนอน */
-    align-items: center;
-    gap: 10px; 
-    flex-wrap: wrap; /* ถ้าจอมือถือเล็กจะตัดขึ้นแถวใหม่ */
-    
-    /* การใส่กรอบยาวให้สวยงาม */
-    border: 1px solid #333; /* เส้นขอบบางๆ */
-    max-width: 1200px; /* จำกัดความกว้างไม่ให้แผ่จนเกินไปบนจอใหญ่ */
-    margin: 20px auto; /* จัดกึ่งกลางหน้าจอ และเว้นระยะบน-ล่าง */
-    border-radius: 50px; /* ทำมุมโค้งมนแบบแคปซูล (เปลี่ยนเป็น 10px ถ้าชอบเหลี่ยม) */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* ใส่เงาให้นูนดูมีมิติ */
-}
-
-/* ปรับแต่งปุ่มเมนู */
-.horizontal-menu a { 
-    padding: 10px 20px; 
-    color: #ccc; 
-    text-decoration: none; 
-    font-family: 'Prompt', sans-serif; 
-    font-size: 15px;
-    border-radius: 25px; /* ความโค้งของไฮไลท์เวลาเอาเมาส์ไปชี้ */
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) */
-.horizontal-menu a:hover { 
-    color: #fff; 
-    background: #2c2c2c; /* เปลี่ยนพื้นหลังปุ่มเมื่อชี้ */
-    transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อย */
-}
-
-/* หน้าจอเล็ก (มือถือ) */
-@media (max-width: 768px) {
-    .horizontal-menu {
-        margin: 10px; /* ลดระยะขอบบนมือถือ */
-        border-radius: 15px; /* ลดความโค้งบนมือถือให้ดูดีขึ้น */
-        padding: 15px;
-    }
-    .horizontal-menu a {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
-
     </style>
 </head>
 <body>
@@ -147,16 +157,17 @@
 
 <div class="marquee-box">
     <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
-        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานประบุตรของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอหืน 3 : 16 
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ - ยอห์น 3:16
     </marquee>
 </div>
+
 <nav class="horizontal-menu">
     <a href="index.html">🏠 หน้าแรก</a>
     <a href="sermons.html">🎙️ คำเทศนา</a>
     <a href="blogs.html">📖 บทความ</a>
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
-    <a href="contact.html">� ติดต่อเรา</a>
+    <a class="ads-btn" onclick="toggleAdsModal(true)">🎁 สนับสนุนเรา</a>
 </nav>
 
 <div class="container">
@@ -173,19 +184,82 @@
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 </div>
 
+<div class="modal-overlay" id="adsModal" onclick="toggleAdsModal(false)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 class="modal-title">🎁 สนับสนุนคริสตจักรผ่านพาร์ทเนอร์</h3>
+            <button class="modal-close" onclick="toggleAdsModal(false)">&times;</button>
+        </div>
+        <div class="ads-list">
+            
+            <a href="https://atth.me/00d9uk0029y3" target="_blank" class="ads-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-m_1-RzC0_C1kI3ZzZ2uF7U9j-uK05wW8A&s" alt="Kept">
+                <div class="ads-info">
+                    <div class="ads-name">Kept by Krungsri</div>
+                    <div class="ads-desc">แอปออมเงินอัจฉริยะยุคดิจิทัล ออมง่ายได้ดอกเบี้ยสูง</div>
+                </div>
+                <div class="ads-go">เปิดเว็บ ➔</div>
+            </a>
+
+            <a href="https://atth.me/00dayn0029y3" target="_blank" class="ads-item">
+                <img src="https://cdn.krungsricard.com/KrungsriCard/media/Product/Credit%20Card/Card%20Face/KCC_Lady_Titanium_740x465px.png" alt="Krungsri Lady">
+                <div class="ads-info">
+                    <div class="ads-name">บัตรเครดิต Krungsri Lady</div>
+                    <div class="ads-desc">บัตรเพื่อผู้หญิงยุคใหม่ รับเครดิตเงินคืนและสิทธิพิเศษมากมาย</div>
+                </div>
+                <div class="ads-go">เปิดเว็บ ➔</div>
+            </a>
+
+            <a href="https://atth.me/000bl60029y3" target="_blank" class="ads-item">
+                <img src="https://ติดต่อออฟฟิศเมท.com/wp-content/uploads/2021/08/officemate-logo.png" alt="OfficeMate">
+                <div class="ads-info">
+                    <div class="ads-name">OfficeMate Online</div>
+                    <div class="ads-desc">แหล่งรวมอุปกรณ์สำนักงาน ไอที และเครื่องเขียนครบวงจร</div>
+                </div>
+                <div class="ads-go">เปิดเว็บ ➔</div>
+            </a>
+
+            <a href="https://atth.me/000bqk0029y3" target="_blank" class="ads-item">
+                <img src="https://www.msig-thai.com/themes/custom/msig/logo.png" alt="MSIG">
+                <div class="ads-info">
+                    <div class="ads-name">MSIG ประกันภัยการเดินทาง</div>
+                    <div class="ads-desc">Travel Easy Plus ประกันท่องเที่ยวต่างประเทศ อุ่นใจทุกทริป</div>
+                </div>
+                <div class="ads-go">เปิดเว็บ ➔</div>
+            </a>
+
+            <a href="https://atth.me/00de510029y3" target="_blank" class="ads-item">
+                <img src="https://www.centralthe1card.com/CentralThe1Card/media/Product/Card-Face/2021/t1-redz-cardface-740x465.png" alt="Central The 1 Card">
+                <div class="ads-info">
+                    <div class="ads-name">บัตรเครดิต เซ็นทรัล เดอะวัน</div>
+                    <div class="ads-desc">ช้อปสนุกในเครือเซ็นทรัล รับคะแนนสูงสุด 4 เท่า และส่วนลดพิเศษ</div>
+                </div>
+                <div class="ads-go">เปิดเว็บ ➔</div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
 <script src="footer.js"></script>
 
-
 <script>
-    function toggleAddress(chk) {
-        const addressBox = document.getElementById('addressBox');
-        if(addressBox) addressBox.style.display = chk.checked ? 'block' : 'none';
+    // ฟังก์ชันสำหรับ ควบคุมการเปิด-ปิด หน้าต่างโฆษณา Popup
+    function toggleAdsModal(show) {
+        const modal = document.getElementById('adsModal');
+        if (show) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // ล็อกหน้าจอเบื้องหลังไม่ให้เลื่อนขณะเปิดหน้าต่าง
+        } else {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // คืนค่าหน้าจอให้เลื่อนได้ปกติ
+        }
     }
 </script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, onSnapshot, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDw9PPAcnoQUcVnHpcndJ5OpBcmYYnMq3",
@@ -208,7 +282,6 @@
         return null;
     }
 
-    // ดึงข้อมูลเรียงลำดับจากวันที่แสดงผล (displayDate) หรือ วันที่สร้าง (createdAt)
     const q = query(collection(db, "articles"), orderBy("displayDate", "desc"));
 
     onSnapshot(q, (snap) => {
@@ -228,12 +301,9 @@
 
         snap.forEach(doc => {
             const d = doc.data();
-            
-            // --- จัดการรูปภาพ ---
             const ytThumb = getYoutubeThumb(d.youtubeUrl);
             const finalThumb = d.thumbUrl || ytThumb || 'logo.png'; 
 
-            // --- จัดการชื่อผู้แต่ง/ผู้เทศนา ---
             const rawAuthor = d.authorName || d.author || "คริสตจักร";
             const cat = d.category || "";
             
@@ -268,34 +338,6 @@
             if (cat.includes("เทศนา")) lists.sermon.insertAdjacentHTML('beforeend', card);
         });
     });
-
-    // ส่งฟอร์มติดต่อ
-    document.getElementById('contactForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('sendBtn');
-        const scriptURL = "https://script.google.com/macros/s/AKfycby7yhA-MxALu0dTrXNKe9f4LQXMiKMpMBLxB4Zm2AiGDujYoykVx2vHwYt9_FVAtbmt7Q/exec";
-        btn.disabled = true; 
-        btn.innerText = "กำลังส่งข้อมูล...";
-        
-        const payload = {
-            name: document.getElementById('contactName').value,
-            phone: document.getElementById('contactPhone').value,
-            options: Array.from(document.querySelectorAll('input[name="opt"]:checked')).map(el => el.value).join(", "),
-            address: document.getElementById('contactAddress').value,
-            note: document.getElementById('contactNote').value
-        };
-
-        try {
-            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("ขอบพระเจ้าอวยพระพร ระบบได้รับข้อมูลของท่านแล้ว");
-            document.getElementById('contactForm').reset();
-        } catch (err) { 
-            alert("ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"); 
-        } finally { 
-            btn.disabled = false; 
-            btn.innerText = "ส่งข้อมูล"; 
-        }
-    };
 
     // Slide Show
     let cur = 0;
