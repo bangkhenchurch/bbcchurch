@@ -53,35 +53,55 @@
 
         .card-meta { font-size: 12px; color: #777; border-top: 1px solid #333; padding-top: 10px; margin-top: auto; display: flex; justify-content: space-between; }
         
-        /* Footer & Counter */
-        .counter-section { text-align: center; padding: 40px 20px; background: #121212; border-top: 1px solid #333; width: 100%; }
-        .counter-section img { max-width: 100%; height: auto; }
-        footer { background: #0a2c6d; color: white; text-align: center; padding: 60px 20px; width: 100%; }
-        footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
-
-        /* เมนูด้านล่างสไลด์ */
+        /* เมนูด้านล่างสไลด์ (เพิ่มกลับมามี ติดต่อเรา) */
         .horizontal-menu { 
             background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
         }
-
         .horizontal-menu a { 
             padding: 10px 20px; color: #ccc; text-decoration: none; font-family: 'Prompt', sans-serif; font-size: 15px; border-radius: 25px; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px; 
         }
-
         .horizontal-menu a:hover { 
             color: #fff; background: #2c2c2c; transform: translateY(-2px); 
         }
 
-        /* ปุ่มสนับสนุนเรา */
-        .horizontal-menu a.ads-btn {
-            color: #ffcc00; border: 1px dashed #ffcc00; cursor: pointer;
+        /* Footer & ส่วนสนับสนุนแบบพ่วง Footer */
+        .footer-support-section {
+            background: #1a1a1a;
+            border-top: 1px solid #333;
+            padding: 30px 20px;
+            text-align: center;
+            width: 100%;
         }
-        .horizontal-menu a.ads-btn:hover {
-            background: #ffcc00; color: #121212;
+        .btn-footer-ads {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffcc00;
+            color: #121212;
+            padding: 12px 28px;
+            font-family: 'Prompt';
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+            transition: 0.3s ease;
+        }
+        .btn-footer-ads:hover {
+            transform: translateY(-3px);
+            background: #ffe066;
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5);
         }
 
+        .counter-section { text-align: center; padding: 30px 20px; background: #121212; border-top: 1px solid #252525; width: 100%; }
+        .counter-section img { max-width: 100%; height: auto; }
+        
+        footer { background: #0a2c6d; color: white; text-align: center; padding: 50px 20px; width: 100%; }
+        footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
+
         /* ============================================== */
-        /* 🚨 สไตล์ของหน้าต่างโฆษณา POPUP (MODAL BOX) */
+        /* สไตล์ของหน้าต่างโฆษณา POPUP (MODAL BOX) */
         /* ============================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -157,7 +177,7 @@
 
 <div class="marquee-box">
     <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
-        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ - ยอห์น 3:16
+        Because God so loved the world that he gave his only begotten Son, that whoever believes in him should not perish but have eternal life. - John 3:16
     </marquee>
 </div>
 
@@ -167,7 +187,7 @@
     <a href="blogs.html">📖 บทความ</a>
     <a href="testimony.html">🙏 คำพยาน</a>
     <a href="news.html">📢 ข่าวสาร</a>
-    <a class="ads-btn" onclick="toggleAdsModal(true)">🎁 สนับสนุนเรา</a>
+    <a href="contact.html">📞 ติดต่อเรา</a>
 </nav>
 
 <div class="container">
@@ -184,6 +204,22 @@
     <div id="list-sermon" class="grid-container">กำลังโหลด...</div>
 </div>
 
+<div class="footer-support-section">
+    <div style="max-width: 600px; margin: auto;">
+        <p style="font-size: 14px; color: #aaa; margin-bottom: 12px; font-family: 'Prompt';">ท่านสามารถร่วมเป็นส่วนหนึ่งในการสนับสนุนพันธกิจคริสตจักรผ่านระบบพาร์ทเนอร์</p>
+        <a class="btn-footer-ads" onclick="toggleAdsModal(true)">🎁 สนับสนุนคริสตจักรที่นี่</a>
+    </div>
+</div>
+
+<div class="counter-section">
+    </div>
+
+<footer>
+    <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <p style="font-family: 'Prompt'; font-size: 16px; font-weight: 600;">Bangkhen Baptist Church</p>
+    <p style="font-size: 13px; color: #ccc; margin-top: 5px;">© 2026 คริสตจักรแบ๊พติสต์บางเขน. All Rights Reserved.</p>
+</footer>
+
 <div class="modal-overlay" id="adsModal" onclick="toggleAdsModal(false)">
     <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-header">
@@ -192,6 +228,24 @@
         </div>
         <div class="ads-list">
             
+            <a href="https://s.lazada.co.th/s.ZhYyoh?cc" target="_blank" class="ads-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR08T9I-aN6_m8S8h6B20Rk2H0gYscU8-n_OQ&s" alt="Lazada" style="background:#00008b; padding:2px;">
+                <div class="ads-info">
+                    <div class="ads-name" style="color:#ffcc00;">ทางเข้าสั่งซื้อของผ่าน Lazada</div>
+                    <div class="ads-desc">คลิกเปิดแอปช้อปของใช้ หนังสือ หรือสินค้าใดๆ ได้ค่าคอมมิชชันทุกชิ้นสนับสนุนคริสตจักร</div>
+                </div>
+                <div class="ads-go">ช้อปเลย ➔</div>
+            </a>
+
+            <a href="#" target="_blank" class="ads-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_SshfS06_vA_DizwZ7Nf57S0P6X-VunQ0MQ&s" alt="Shopee">
+                <div class="ads-info">
+                    <div class="ads-name" style="color:#ffcc00;">ทางเข้าสั่งซื้อของผ่าน Shopee</div>
+                    <div class="ads-desc">ร่วมสนับสนุนพันธกิจคริสตจักรผ่านทางเข้าซื้อสินค้าทั่วไปทุกหมวดหมู่บน Shopee</div>
+                </div>
+                <div class="ads-go">ช้อปเลย ➔</div>
+            </a>
+
             <a href="https://atth.me/00d9uk0029y3" target="_blank" class="ads-item">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-m_1-RzC0_C1kI3ZzZ2uF7U9j-uK05wW8A&s" alt="Kept">
                 <div class="ads-info">
