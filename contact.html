@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ติดต่อเรา - Bangkhen Baptist Church</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* พื้นฐาน */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #121212; color: #eeeeee; font-family: 'Sarabun', sans-serif; line-height: 1.6; }
+        
+        /* Navbar */
+        .navbar { width: 100%; background: #0a2c6d; padding: 15px 5%; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .navbar img { width: 35px; border-radius: 50%; }
+
+        /* Hero Slider CSS - เพิ่มเติมส่วนที่ขาดหายไป */
+        .hero-slider { position: relative; width: 100%; height: 450px; overflow: hidden; background: #000; }
+        .hero-container { width: 100%; height: 100%; position: relative; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* ปุ่มกด Slide */
+        .prev, .next { 
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            background: rgba(0,0,0,0.5); color: white; padding: 15px; border: none; 
+            cursor: pointer; font-size: 20px; z-index: 10; border-radius: 50%; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+        }
+        .prev:hover, .next:hover { background: #4dabff; }
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        /* Menu */
+        .horizontal-menu { 
+            background: #1e1e1e; padding: 10px 5%; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; 
+            border: 1px solid #333; max-width: 1200px; margin: 20px auto; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        }
+        .horizontal-menu a { 
+            padding: 10px 20px; color: #ccc; text-decoration: none; font-family: 'Prompt'; font-size: 15px; border-radius: 25px; 
+            transition: all 0.3s; display: flex; align-items: center; gap: 5px; 
+        }
+        .horizontal-menu a:hover { color: #fff; background: #2c2c2c; }
+        .active-link { background: #0a2c6d !important; color: white !important; }
+
+        /* Layout */
+        .container { padding: 20px 5%; width: 100%; max-width: 1200px; margin: auto; }
+        .section-title { font-family: 'Prompt'; font-size: 24px; margin: 40px 0 20px 0; color: #4dabff; border-left: 5px solid #4dabff; padding-left: 15px; }
+
+        /* Contact Content */
+        .contact-content { 
+            max-width: 800px; margin: 20px auto; background: #1e1e1e; padding: 40px; border-radius: 20px; border: 1px solid #333; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .info-list { margin-bottom: 30px; }
+        .info-item { 
+            margin-bottom: 25px; display: flex; gap: 20px; align-items: center; border-bottom: 1px solid #2a2a2a; padding-bottom: 15px;
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-icon { font-size: 24px; background: #0a2c6d; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; }
+        .info-text h4 { font-family: 'Prompt'; color: #4dabff; font-size: 18px; margin-bottom: 5px; }
+        .info-text p { color: #ccc; font-size: 16px; }
+
+        /* Map */
+        .map-container { width: 100%; height: 350px; background: #333; border-radius: 15px; overflow: hidden; margin-top: 20px; border: 1px solid #444; }
+
+        @media (max-width: 768px) {
+            .hero-slider { height: 250px; }
+            .horizontal-menu { border-radius: 15px; margin: 10px; }
+            .contact-content { padding: 20px; }
+            .info-item { gap: 15px; }
+            .info-icon { width: 40px; height: 40px; font-size: 18px; }
+        }
+        
+        /* Marquee Custom */
+        .marquee-box { background: #1a1a1a; padding: 10px 0; border-top: 1px solid #333; border-bottom: 1px solid #333; }
+        
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3504/3504000.png'">
+    <span style="font-family:'Prompt'; font-weight: 600;">Bangkhen Baptist Church</span>
+</nav>
+
+<!-- Hero Slider Section -->
+<div class="hero-slider">
+    <div class="hero-container">
+        <div class="slide active"><img src="hero_01.png" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200'"></div>
+        <div class="slide"><img src="hero_02.png" onerror="this.src='https://images.unsplash.com/photo-1507692049790-de58290a4334?q=80&w=1200'"></div>
+        <div class="slide"><img src="hero_03.png" onerror="this.src='https://images.unsplash.com/photo-1544427928-c49cdca8a93d?q=80&w=1200'"></div>
+    </div>
+    <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="next" onclick="changeSlide(1)">&#10095;</button>
+</div>
+
+<!-- Video Section -->
+<div class="featured-video-container" style="background: #121212; padding: 40px 20px;">
+    <div style="max-width: 900px; margin: auto;">
+        <h2 style="font-family: 'Prompt'; color: white; border-left: 5px solid #4dabff; padding-left: 15px; margin-bottom: 20px;">
+            📽️ รับชมวีดีโอ สร้างโลก 
+        </h2>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/Vytt_r-k7Ck?autoplay=1&mute=1&rel=0&si=s0Rh5bN011KbyWYd" 
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<div class="marquee-box">
+    <marquee scrollamount="5" style="color: #4dabff; font-family: 'Prompt';">
+        เพราะว่าพระเจ้าทรงรักโลก จนได้ทรงประทานพระบุตรองค์เดียวของพระองค์ เพื่อทุกคนที่วางใจในพระบุตรนั้นจะไม่พินาศ แต่มีชีวิตนิรันดร์ ยอห์น 3 : 16 
+    </marquee>
+</div>
+
+<nav class="horizontal-menu">
+    <a href="index.html">🏠 หน้าแรก</a>
+    <a href="sermons.html">🎙️ คำเทศนา</a>
+    <a href="blogs.html">📖 บทความ</a>
+    <a href="testimony.html">🙏 คำพยาน</a>
+    <a href="news.html">📢 ข่าวสาร</a>
+    <a href="contact.html" class="active-link">📞 ติดต่อเรา</a>
+</nav>
+
+<div class="container">
+    <h2 class="section-title">📍 ติดต่อคริสตจักร</h2>
+    
+    <div class="contact-content">
+        <div class="info-list">
+            <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-text">
+                    <h4>สถานที่ตั้ง</h4>
+                    <p>2172/145-147 ซอยพหลโยธิน 36 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพ 10900</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">📞</div>
+                <div class="info-text">
+                    <h4>เบอร์โทรศัพท์</h4>
+                    <p>02-579-8764</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">🌐</div>
+                <div class="info-text">
+                    <h4>ช่องทางออนไลน์</h4>
+                    <p>Qr code Line : Bangkhen Baptist Church <br> Line: https://lin.ee/wZ0xxpl </p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">⏰</div>
+                <div class="info-text">
+                    <h4>เวลานมัสการ</h4>
+                    <p>วันอาทิตย์ เวลา 09:00 น. - 12:00 น.</p>
+                </div>
+            </div>
+        </div>
+
+        <h4 style="font-family: 'Prompt'; color: #4dabff; margin-bottom: 10px;">แผนที่คริสตจักร</h4>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3874.321!2d100.59!3d13.87!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d0f4d3a0001%3A0x6d90d7945d8b72f8!2z4LiE4Lij4Li04Liq4LiV4LiI4Lix4LiB4Lia4Liy4Lib4LiV4Li04Liq4LiV4LiZ4LmA4LiU4Li04Lin4Lia4Liy4LiH4LiX4Lij4Lix4LiZ!5e0!3m2!1sth!2sth!4v1715420000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ส่วนควบคุม Hero Slider
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[currentSlide].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+        showSlide(currentSlide + direction);
+    }
+
+    // สไลด์อัตโนมัติทุกๆ 5 วินาที
+    setInterval(() => {
+        changeSlide(1);
+    }, 5000);
+</script>
+
+<script src="footer.js"></script>
+
+</body>
+</html>
