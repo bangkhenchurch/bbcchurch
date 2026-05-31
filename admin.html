@@ -32,7 +32,6 @@
         .btn-save:hover { opacity: 0.9; }
         .btn-cancel { width: 100%; padding: 10px; background: #444; border: none; color: white; border-radius: 8px; font-family: 'Prompt'; margin-top: 10px; cursor: pointer; display: none; }
 
-        /* การจัดกลุ่มหมวดหมู่ */
         .category-block { margin-top: 25px; border-top: 1px dashed #333; padding-top: 20px; }
         .category-title { font-family: 'Prompt'; font-size: 18px; color: var(--accent-yellow, #ffcc00); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         
@@ -122,14 +121,14 @@
     }));
     const storage = getStorage();
 
-    // เก็บ URL เก่าเวลาจะเซฟอัปเดตเคสไม่ได้อัปโหลดไฟล์ใหม่
     let currentThumbUrl = "";
     let currentPic1Url = "";
     let currentPic2Url = "";
 
-    // ระบบจัดการผู้แต่งผ่าน LocalStorage
+    // ระบบจัดการผู้แต่ง (เรียง ก-ฮ)
     const updateAuthorDropdown = () => {
-        const authors = JSON.parse(localStorage.getItem('authors') || '["ศิษยาภิบาล", "ทีมงาน BBC"]');
+        let authors = JSON.parse(localStorage.getItem('authors') || '["ศิษยาภิบาล", "ทีมงาน BBC"]');
+        authors.sort((a, b) => a.localeCompare(b, 'th'));
         const select = document.getElementById('authorSelect');
         select.innerHTML = authors.map(a => `<option value="${a}">${a}</option>`).join('');
     };
@@ -137,10 +136,12 @@
     window.addAuthor = () => {
         const name = prompt("เพิ่มชื่อผู้แต่ง:");
         if (name && name.trim() !== "") {
-            const authors = JSON.parse(localStorage.getItem('authors') || '["ศิษยาภิบาล", "ทีมงาน BBC"]');
-            authors.push(name.trim());
-            localStorage.setItem('authors', JSON.stringify(authors));
-            updateAuthorDropdown();
+            let authors = JSON.parse(localStorage.getItem('authors') || '["ศิษยาภิบาล", "ทีมงาน BBC"]');
+            if (!authors.includes(name.trim())) {
+                authors.push(name.trim());
+                localStorage.setItem('authors', JSON.stringify(authors));
+                updateAuthorDropdown();
+            }
         }
     };
 
@@ -156,14 +157,12 @@
     };
     updateAuthorDropdown();
 
-    // ระบบอัปโหลดไฟล์ไปที่ Firebase Storage
     async function uploadFile(file) {
         if (!file) return null;
         const res = await uploadBytesResumable(ref(storage, 'arts/' + Date.now() + '_' + file.name), file);
         return await getDownloadURL(res.ref);
     }
 
-    // ฟังก์ชันยกเลิกโหมดแก้ไข กลับเป็นโหมดเพิ่มใหม่
     window.cancelEditMode = () => {
         document.getElementById("editId").value = "";
         document.getElementById("articleForm").reset();
@@ -179,18 +178,14 @@
         document.getElementById("txtPic2").innerText = "";
     };
 
-    // บันทึกฟอร์ม (รองรับทั้ง Add และ Edit)
     document.getElementById("articleForm").onsubmit = async (e) => {
         e.preventDefault();
-        
         const submitBtn = document.getElementById("btnSubmit");
         const originalText = submitBtn.innerText;
         submitBtn.disabled = true;
-        submitBtn.innerText = "⏳ กำลังบันทึกข้อมูล กรุณารอซักครู่...";
+        submitBtn.innerText = "⏳ กำลังบันทึกข้อมูล...";
 
         const editId = document.getElementById("editId").value;
-
-        // ตรวจเช็คไฟล์ใหม่ ถ้าไม่มีให้ใช้ค่า URL เดิมที่มีอยู่แล้ว
         const fileThumb = document.getElementById("fileThumb").files[0];
         const filePic1 = document.getElementById("filePic1").files[0];
         const filePic2 = document.getElementById("filePic2").files[0];
@@ -210,60 +205,41 @@
             yt2: document.getElementById("yt2").value || "",
             mainContent: document.getElementById("mainContent").value || "",
             thumbUrl: finalThumbUrl,
-            arc1: finalPic1Url, // แมปเข้าตัวแปรโค้ดอ่านเดิม arc1
-            arc2: finalPic2Url  // แมปเข้าตัวแปรโค้ดอ่านเดิม arc2
+            arc1: finalPic1Url,
+            arc2: finalPic2Url
         };
 
         try {
             if (editId) {
-                // โหมดแก้ไขอัปเดตข้อมูลเดิม
                 await updateDoc(doc(db, "articles", editId), data);
-                alert("แก้ไขข้อมูลบทความสำเร็จ!");
+                alert("แก้ไขข้อมูลสำเร็จ!");
             } else {
-                // โหมดเพิ่มใหม่ข้อมูลใหม่
                 await addDoc(collection(db, "articles"), data);
                 alert("บันทึกบทความใหม่สำเร็จ!");
             }
             cancelEditMode();
         } catch (error) {
-            console.error("Error saving documentation: ", error);
-            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+            alert("เกิดข้อผิดพลาด");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerText = originalText;
         }
     };
 
-    // โหลดฐานข้อมูลแบบ Realtime + จัดเรียงหมวดหมู่และวันที่ล่าสุด (เรียงจาก String Date)
     let allArticles = [];
     onSnapshot(collection(db, "articles"), (snap) => {
         allArticles = [];
-        snap.forEach(d => {
-            allArticles.push({ id: d.id, ...d.data() });
-        });
+        snap.forEach(d => { allArticles.push({ id: d.id, ...d.data() }); });
+        allArticles.sort((a, b) => (b.displayDate || "").localeCompare(a.displayDate || ""));
 
-        // 1. จัดเรียงวันที่จาก "ล่าสุดขึ้นก่อน" (เรียงจากมากไปน้อยตามข้อความสัญกรณ์ YYYY-MM-DD)
-        allArticles.sort((a, b) => {
-            const dateA = a.displayDate || "0000-00-00";
-            const dateB = b.displayDate || "0000-00-00";
-            return dateB.localeCompare(dateA);
-        });
-
-        // 2. จัดกลุ่มแยกตามหมวดหมู่หลัก
         const categories = ["🎙️ คำเทศนา", "🌟 คำพยาน", "📖 บทความ", "📢 ข่าวสาร"];
         const container = document.getElementById("categoryContainer");
         container.innerHTML = "";
 
         categories.forEach(cat => {
             const filtered = allArticles.filter(item => item.category === cat);
-            
             if (filtered.length > 0) {
-                let catBlockHtml = `
-                    <div class="category-block">
-                        <div class="category-title">${cat} (${filtered.length} รายการ)</div>
-                        <div class="article-grid">
-                `;
-
+                let catBlockHtml = `<div class="category-block"><div class="category-title">${cat} (${filtered.length} รายการ)</div><div class="article-grid">`;
                 filtered.forEach(i => {
                     catBlockHtml += `
                         <div class="article-card">
@@ -271,8 +247,6 @@
                                 <img src="${i.thumbUrl || 'https://placehold.co/600x400/222/fff?text=No+Image'}" class="card-img">
                                 <div class="card-title">${i.title}</div>
                                 <div class="meta-info">📅 วันที่: ${i.displayDate || '-'}</div>
-                                <div class="meta-info">📖 ข้อพระธรรม: ${i.bibleRef || '-'}</div>
-                                <div class="meta-info">📁 ซีรีย์: ${i.series || '-'}</div>
                                 <div class="meta-info">✍️ ผู้แต่ง: ${i.authorName || '-'}</div>
                             </div>
                             <div class="card-actions">
@@ -281,71 +255,38 @@
                             </div>
                         </div>`;
                 });
-
-                catBlockHtml += `</div></div>`;
-                container.innerHTML += catBlockHtml;
+                container.innerHTML += catBlockHtml + `</div></div>`;
             }
         });
-
-        if(allArticles.length === 0) {
-            container.innerHTML = `<p style="color:#888; text-align:center; padding: 20px;">ยังไม่มีข้อมูลบทความในระบบ</p>`;
-        }
     });
 
-    // ดึงค่าบทความมาใส่บนฟอร์มเพื่อเข้าสู่โหมดแก้ไข
     window.startEditArt = (id) => {
         const item = allArticles.find(a => a.id === id);
         if (!item) return;
-
-        // สลับหัวข้อและสถานะฟอร์ม
-        document.getElementById("formTitle").innerText = "✏️ กำลังแก้ไขบทความ: " + item.title;
+        document.getElementById("formTitle").innerText = "✏️ แก้ไข: " + item.title;
         document.getElementById("btnSubmit").innerText = "💾 อัปเดตข้อมูล";
         document.getElementById("btnCancelEdit").style.display = "block";
 
-        // ยัดค่าเก่าลงฟิลด์อินพุตต่างๆ
         document.getElementById("editId").value = item.id;
-        document.getElementById("customDate").value = item.displayDate || "";
-        document.getElementById("category").value = item.category || "🎙️ คำเทศนา";
-        document.getElementById("series").value = item.series || "";
-        document.getElementById("title").value = item.title || "";
-        document.getElementById("bibleRef").value = item.bibleRef || "";
-        document.getElementById("mainContent").value = item.mainContent || "";
-        document.getElementById("yt1").value = item.yt1 || "";
-        document.getElementById("yt2").value = item.yt2 || "";
-
-        // เลือกค่าผู้แต่งให้ตรงในดรอปดาวน์ (ถ้าไม่มีในรายการให้เพิ่มชั่วคราว)
-        const authorSelect = document.getElementById("authorSelect");
-        if (![...authorSelect.options].some(opt => opt.value === item.authorName)) {
-            const opt = document.createElement("option");
-            opt.value = item.authorName;
-            opt.text = item.authorName;
-            authorSelect.add(opt);
-        }
-        authorSelect.value = item.authorName;
-
-        // เก็บประวัติค่าลิ้งค์ไฟล์รูปภาพเดิมไว้ใช้หากไม่มีการอัปโหลดรูปใหม่ทับลงไป
-        currentThumbUrl = item.thumbUrl || "";
-        currentPic1Url = item.arc1 || item.pic1 || "";
-        currentPic2Url = item.arc2 || item.pic2 || "";
-
-        // แสดงสัญลักษณ์บอกสถานะไฟล์เดิม
-        document.getElementById("txtThumb").innerText = currentThumbUrl ? "มีไฟล์รูปปกเดิมอยู่แล้ว" : "ไม่มีไฟล์รูป";
-        document.getElementById("txtPic1").innerText = currentPic1Url ? "มีไฟล์รูปเนื้อหา 1 เดิมอยู่แล้ว" : "ไม่มีไฟล์รูป";
-        document.getElementById("txtPic2").innerText = currentPic2Url ? "มีไฟล์รูปเนื้อหา 2 เดิมอยู่แล้ว" : "ไม่มีไฟล์รูป";
-
-        // สกรอลล์จอมือถือกลับขึ้นมาที่ฟอร์มด้านบนสุดอัตโนมัติ
+        document.getElementById("customDate").value = item.displayDate;
+        document.getElementById("category").value = item.category;
+        document.getElementById("series").value = item.series;
+        document.getElementById("title").value = item.title;
+        document.getElementById("bibleRef").value = item.bibleRef;
+        document.getElementById("mainContent").value = item.mainContent;
+        document.getElementById("yt1").value = item.yt1;
+        document.getElementById("yt2").value = item.yt2;
+        
+        document.getElementById("authorSelect").value = item.authorName;
+        currentThumbUrl = item.thumbUrl;
+        currentPic1Url = item.arc1;
+        currentPic2Url = item.arc2;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // ลบบทความจาก Firestore
     window.deleteArt = (id) => {
-        if(confirm('🚨 คุณแน่ใจใช่ไหมว่าต้องการลบบทความนี้อย่างถาวร?')) {
-            deleteDoc(doc(db, "articles", id)).then(() => {
-                // ป้องกันบั๊กหากลบรายการขณะที่กำลังแก้ไขตัวมันเองอยู่พอดี
-                if(document.getElementById("editId").value === id) {
-                    cancelEditMode();
-                }
-            });
+        if(confirm('🚨 ยืนยันการลบบทความ?')) {
+            deleteDoc(doc(db, "articles", id));
         }
     };
 </script>
